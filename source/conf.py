@@ -63,7 +63,7 @@ html_theme_options = {
     "show_powered_by":False,
     "fixed_sidebar":False,
     "sidebarwidth":"10%",
-    "body_max_width":"85%",
+    "body_max_width":"80%",
     "page_width": "1080px",
     "description": "Techniques in Statistical Modeling",
     "font_family": "'-apple-system', 'BlinkMacSystemFont', 'Roboto', 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', sans-serif"
