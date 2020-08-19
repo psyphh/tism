@@ -39,6 +39,8 @@
 .. toctree::
    :maxdepth: 2
    :numbered:
+   :titlesonly:
+   :hidden:
 
    notebook/mathematics-prerequisite
    notebook/linear-regression

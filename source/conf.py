@@ -58,11 +58,13 @@ exclude_patterns = []
 #
 html_theme = 'alabaster'
 html_theme_options = {
+    "font_size": "18px",
+    "sidebar_includehidden": True,
     "show_powered_by":False,
     "fixed_sidebar":False,
-    #"sidebarwidth":"100px",
-    #"body_max_width":"900px",
-    #"page_width": "1000px",
+    "sidebarwidth":"0%",
+    "body_max_width":"100%",
+    "page_width": "1080px",
     "description": "Techniques in Statistical Modeling",
     "font_family": "'-apple-system', 'BlinkMacSystemFont', 'Roboto', 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', sans-serif"
 }
