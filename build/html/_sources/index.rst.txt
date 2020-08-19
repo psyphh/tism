@@ -1,0 +1,56 @@
+.. tips documentation master file, created by
+   sphinx-quickstart on Tue Jun  9 09:15:41 2020.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+**********
+統計建模技法
+**********
+
+「心理計量」（psychometrics）為一探討如何使用數量模型，刻畫人類外顯行為與內在歷程之學門。典型的「心理計量模型」（psychometric model）包含「因素分析」（factor analysis）、「試題反應理論」（item response theory）等試圖刻畫潛在構念（latent constructs）與觀察指標（observed indicators）間關係之方法。因此，潛在構念（或稱潛在變項）的出現，可說是「心理計量模型」的一大特色，而如何處理潛在變項對於統計推論與心理學研究帶來的挑戰，則為「心理計量」的核心議題。
+
+進行「心理計量學」的研究，除了對於心理學的知識外，也需要具備以下的能力：
+
+1. 數理技能（mathematical skills），包括線性代數（linear algebra）、微積分（calculus）、以及機率（probability）。
+
+2. 統計理論（statistical theory），包括建立估計（estimation）與推論（inference）程序的技術。
+
+3. 程式設計（programming），包括如何在電腦上進行線性代數之計算、數值微分與積分、以及機率物件的操弄。
+
+
+此網站放置了黃柏僩老師所撰寫的「心理計量技法」（Techniques in Psychometrics，TIPS）講義，其旨在介紹「心理計量」研究所需的技術，並搭配 TensorFlow 進行實作。此講義主要用於訓練量化方法主修研究生之課程，講義本身並無法達到「自給自足」（self-contained）的目標，因此，對於交代不清的部分，我盡可能地會附上參考文獻或是外部連結，讀者可以自行將該缺失的部分補足。
+
+在閱讀此講義之前，讀者需具有以下之先備知識：
+
+1. 數理基礎，包括向量（vector）與矩陣（matrix）之運算規則、微分（differentiation）與積分（integral）之幾何意義、機率分配與期望值（expectation）。
+
+2. 統計學的基礎，包括平均數、變異數、相關係數之計算，估計、假設檢定（hypothesis testing）、與信賴區間（confidence interval）之概念。
+
+3. python程式設計基礎，包括基本資料類型、流程控制（flow control）、函數等概念。若無基礎，Jake VanderPlask 的 `A Whirlwind Tour of Python <https://jakevdp.github.io/WhirlwindTourOfPython>`_ 會是一很好的學習資源。
+
+本講義之內容，皆預設讀者已具備前述之基礎，以說明如何將這些知識應用於「心理計量」之研究。讀者不需精熟這些先備知識之理論與操作，但應至少須知道這些概念的定義，以及不害怕深入了解這些概念。
+
+若您發現講義的內容有誤，請將勘誤寄至本人之電子信箱 <psyphh@gmail.com>，感謝！
+
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+
+   notebook/mathematics-prerequisite
+   notebook/linear-regression
+   notebook/lab-tensor
+   notebook/logistic-regression
+   notebook/lab-optimization
+   notebook/probability-distribution
+   notebook/maximum-likelihood
+   notebook/lab-probability
+   notebook/likelihood-inference
+   notebook/true-score-model
+   notebook/factor-analysis-I
+   notebook/factor-analysis-II
+   notebook/item-response-theory-I
+   notebook/item-response-theory-II
+   notebook/mixture-modeling
+
+

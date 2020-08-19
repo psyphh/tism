@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. 線性迴歸 &#8212; 統計建模技法 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Lab I: 線性代數" href="lab-tensor.html" />
+    <link rel="prev" title="1. 先備數學知識" href="mathematics-prerequisite.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="線性迴歸">
+<h1><span class="section-number">2. </span>線性迴歸<a class="headerlink" href="#線性迴歸" title="Permalink to this headline">¶</a></h1>
+<p>線性迴歸（linear regression）可說是統計建模的基礎，其試圖建立一線性函數（linear function），以描述兩變項 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係。這裡，<span class="math notranslate nohighlight">\(x=(x_1,x_2,..., x_P)\)</span>為一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量，其常被稱獨變項（independent variable）、共變量（covariate），或是特徵（feature），而 <span class="math notranslate nohighlight">\(y\)</span> 則為一純量（scalar），其常被稱作依變項（dependent variable）或是反應變項（response variable）。</p>
+<p>在此主題中，我們將會學習以下的重點：</p>
+<ol class="arabic simple">
+<li><p>使用線性函數刻畫兩變項間的關係。</p></li>
+<li><p>使用最小平方法（least squares method）來建立參數之估計準則。</p></li>
+<li><p>使用一階導數（derivative）來刻畫最小平方估計值（estimate）之最適條件（optimality condition）</p></li>
+<li><p>使用線性代數來解決線性迴歸之問題。</p></li>
+</ol>
+<div class="section" id="線性迴歸模型">
+<h2><span class="section-number">2.1. </span>線性迴歸模型<a class="headerlink" href="#線性迴歸模型" title="Permalink to this headline">¶</a></h2>
+<p>廣義來說，迴歸分析試圖使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，其假設 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 存在以下的關係</p>
+<div class="math notranslate nohighlight">
+\[y=f(x)+\epsilon\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(f(x)\)</span> 表示一函數，其描述了 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 系統性的關係，而 <span class="math notranslate nohighlight">\(\epsilon\)</span> 則表示一隨機誤差，其平均數為0，變異數為 <span class="math notranslate nohighlight">\(\sigma_{\epsilon}^2\)</span>，即 <span class="math notranslate nohighlight">\(\epsilon \sim (0,\sigma_{\epsilon}^2)\)</span>。</p>
+<p>線性迴歸模型假設 <span class="math notranslate nohighlight">\(f(x)\)</span> 為一線性函數，即</p>
+<div class="math notranslate nohighlight">
+\[f(x) =\beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_P x_P\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\beta_p\)</span> 為 <span class="math notranslate nohighlight">\(x_p\)</span> 所對應之迴歸係數（regression coefficient），其亦被稱作權重（weight），反映 <span class="math notranslate nohighlight">\(x_p\)</span> 每變動一個單位時，預期 <span class="math notranslate nohighlight">\(y\)</span> 跟著變動的量，<span class="math notranslate nohighlight">\(\beta_0\)</span> 則稱作截距（intercept），亦稱作偏誤（bias），其反映當 <span class="math notranslate nohighlight">\(x_1,x_2,..,x_P\)</span>皆為0時，我們預期 <span class="math notranslate nohighlight">\(y\)</span> 的數值。利用連加的符號，<span class="math notranslate nohighlight">\(f(x)\)</span>可簡單的寫為</p>
+<div class="math notranslate nohighlight">
+\[f(x) = \beta_0 + \sum_{p=1}^P \beta_p x_p\]</div>
+<p>無論是迴歸係數 <span class="math notranslate nohighlight">\(\beta_p\)</span> 或是截距 <span class="math notranslate nohighlight">\(\beta_0\)</span>，由於其刻畫了 <span class="math notranslate nohighlight">\(f(x)\)</span> 的形狀，故其皆被稱作模型參數（model parameter），文獻中常簡單以一 <span class="math notranslate nohighlight">\(P+1\)</span> 維之向量 <span class="math notranslate nohighlight">\(\beta = (\beta_0, \beta_1, ..., \beta_P)\)</span> 來表示模型中的所有參數。線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 <span class="math notranslate nohighlight">\(\beta\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span>，一方面對於各參數 <span class="math notranslate nohighlight">\(\widehat{\beta}_p\)</span> 進行推論，二方面則是使用 <span class="math notranslate nohighlight">\(\widehat{f}(x) = \widehat{\beta}_0 + \sum_{p=1}^P \widehat{\beta}_p x_p\)</span> 對
+<span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
+</div>
+<div class="section" id="最小平方估計法">
+<h2><span class="section-number">2.2. </span>最小平方估計法<a class="headerlink" href="#最小平方估計法" title="Permalink to this headline">¶</a></h2>
+<p>線性迴歸分析主要採用最小平方法（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則可寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+\mathcal{D}(\beta)
+= &amp;\frac{1}{N} \sum_{n=1}^N \left (y_n - \beta_0 - \sum_{p=1}^P \beta_p x_{np} \right )^2
+\end{aligned}\]</div>
+<p>由於迴歸模型假設 <span class="math notranslate nohighlight">\(y=f(x)+\epsilon\)</span>，且線性迴歸僅考慮線性的關係 <span class="math notranslate nohighlight">\(f(x) = \beta_0 + \sum_{p=1}^P \beta_p x_p\)</span>，因此，第 <span class="math notranslate nohighlight">\(n\)</span> 筆觀測值對應之殘差可寫為 <span class="math notranslate nohighlight">\(\epsilon_n = y_n - f(x_n)\)</span>，LS 估計準則亦可簡單地寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+\mathcal{D}(\beta)
+= &amp;\frac{1}{N} \sum_{n=1}^N \epsilon_n^2
+\end{aligned}\]</div>
+<p>LS估計法的目標在於找到一估計值 <span class="math notranslate nohighlight">\(\widehat{\beta} = (\widehat{\beta}_0, \widehat{\beta}_1, ..., \widehat{\beta}_P)\)</span>，其最小化 LS 估計準則，意即，<span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> 可最小化樣本資料中所有殘差的平方和。</p>
+</div>
+<div class="section" id="一階導數與最適條件">
+<h2><span class="section-number">2.3. </span>一階導數與最適條件<a class="headerlink" href="#一階導數與最適條件" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="線性代數與迴歸">
+<h2><span class="section-number">2.4. </span>線性代數與迴歸<a class="headerlink" href="#線性代數與迴歸" title="Permalink to this headline">¶</a></h2>
+<p>線性迴歸的問題可以簡單的使用矩陣與向量的方式來表徵</p>
+<div class="math notranslate nohighlight">
+\[y = X \beta + \epsilon,\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathop{\begin{pmatrix}
+  y_{1} \\
+  y_{2} \\
+  \vdots \\
+  y_{N}
+ \end{pmatrix}}_{N \times 1}=
+\mathop{\begin{pmatrix}
+  1 &amp; x_{11} &amp; \cdots &amp; x_{1P} \\
+  1 &amp; x_{21} &amp; \cdots &amp; x_{2P} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  1 &amp; x_{N1} &amp; \cdots &amp; x_{NP}
+ \end{pmatrix}}_{N \times (P+1)}
+\mathop{\begin{pmatrix}
+  \beta_{0} \\
+  \beta_{1} \\
+  \vdots \\
+  \beta_{P}
+ \end{pmatrix}}_{(P+1) \times 1}+
+ \mathop{\begin{pmatrix}
+  \epsilon_{1} \\
+  \epsilon_{2} \\
+  \vdots \\
+  \epsilon_{N}
+ \end{pmatrix}}_{N \times 1}.\end{split}\]</div>
+<p>在這邊我們於符號使用上有稍微偷懶， <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon\)</span> 在這用於表徵 <span class="math notranslate nohighlight">\(N\)</span> 維的向量。在前式的表徵下，LS 估計準則可以寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{D}(\beta) &amp; =  \frac{1}{N} \sum_{n=1}^N \epsilon_n^2 \\
+  &amp; = \frac{1}{N} \epsilon^T \epsilon\\
+ &amp; =  \frac{1}{N} (y-X\beta)^T(y-X\beta).
+\end{aligned}\end{split}\]</div>
+<p>透過對 <span class="math notranslate nohighlight">\(\beta\)</span> 的每一個成分做偏微分，我們可以得到刻畫 LS 解的一階條件</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\frac{\partial \mathcal{D}(\widehat{\beta})}{\partial \beta}&amp;=
+\begin{pmatrix}
+  \frac{\partial \mathcal{D}(\widehat{\beta})}{\partial \beta_0}  \\
+  \frac{\partial \mathcal{D}(\widehat{\beta})}{\partial \beta_1} \\
+   \vdots \\
+  \frac{\partial \mathcal{D}(\widehat{\beta})}{\partial \beta_P}
+ \end{pmatrix} \\
+&amp;=-\frac{2}{N} X^T(y-X\widehat{\beta})=0.
+\end{aligned}\end{split}\]</div>
+<p>此純量對向量（scalar by vector）的微分的計算，可按照定義對各個 <span class="math notranslate nohighlight">\(\beta_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{\beta})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> 需滿足以下的等式</p>
+<div class="math notranslate nohighlight">
+\[X^T X\widehat{\beta}=X^Ty.\]</div>
+<p>因此，若 <span class="math notranslate nohighlight">\(X^T X\)</span> 存在反矩陣，則迴歸係數的 LS 估計值可寫為</p>
+<div class="math notranslate nohighlight">
+\[\widehat{\beta} = (X^T X)^{-1} X^Ty\]</div>
+<p>確保 <span class="math notranslate nohighlight">\(X^T X\)</span> 存在反矩陣的數學條件為其各直行向量（column vector）間並未存在線性相依（linear dependence）的狀況。所謂向量間有線性相依指的是某個向量，可以寫為其它向量的線性組合。一般來說，當樣本數大於變項數（<span class="math notranslate nohighlight">\(N &gt; P\)</span>），各變項間變異數皆大於0，且皆存在其獨特的訊息時，<span class="math notranslate nohighlight">\(X^T X\)</span> 為可逆的。</p>
+<p><span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span> 的計算，常採用<a class="reference external" href="https://en.wikipedia.org/wiki/Gaussian_elimination">高斯消去法</a>（Gaussian elimination）或是<a class="reference external" href="https://en.wikipedia.org/wiki/QR_decomposition">QR分解</a>（QR decomposition），這兩種方法的計算複雜度皆為 <span class="math notranslate nohighlight">\(O(P^3)\)</span>，意即，其牽涉到大約 <span class="math notranslate nohighlight">\(K \times P^3\)</span> 這麼多步驟的計算，這裡，<span class="math notranslate nohighlight">\(K\)</span> 表示一跟 <span class="math notranslate nohighlight">\(P\)</span> 無關的常數，因此，當 <span class="math notranslate nohighlight">\(P\)</span> 很大時，此反矩陣的計算可能會很耗時。</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">統計建模技法</a></h1>
+
+
+
+<p class="blurb">Techniques in Statistical Modeling</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="mathematics-prerequisite.html">1. 先備數學知識</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 線性迴歸</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#線性迴歸模型">2.1. 線性迴歸模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#最小平方估計法">2.2. 最小平方估計法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#一階導數與最適條件">2.3. 一階導數與最適條件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#線性代數與迴歸">2.4. 線性代數與迴歸</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lab-tensor.html">3. Lab I: 線性代數</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logistic-regression.html">4. 邏輯斯迴歸</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab-optimization.html">5. Lab II: 數值優化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="probability-distribution.html">6. 機率分佈</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maximum-likelihood.html">7. 最大概似法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lab-probability.html">8. Lab III: 機率模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="likelihood-inference.html">9. 概似推論</a></li>
+<li class="toctree-l1"><a class="reference internal" href="true-score-model.html">10. 真實分數模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="factor-analysis-I.html">11. 因素分析-I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="factor-analysis-II.html">12. 因素分析-II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-response-theory-I.html">13. 試題反應理論-I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-response-theory-II.html">14. 試題反應理論-II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mixture-modeling.html">15. 混合建模</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mathematics-prerequisite.html" title="previous chapter"><span class="section-number">1. </span>先備數學知識</a></li>
+      <li>Next: <a href="lab-tensor.html" title="next chapter"><span class="section-number">3. </span>Lab I: 線性代數</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Po-Hsien Huang.
+      
+      |
+      <a href="../_sources/notebook/linear-regression.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
