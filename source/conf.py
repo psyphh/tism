@@ -60,10 +60,11 @@ html_theme = 'alabaster'
 html_theme_options = {
     "show_powered_by":False,
     "fixed_sidebar":False,
-    "sidebarwidth":"100px",
-    "body_max_width":"900px",
-    "page_width": "1000px",
-    "description": "Techniques in Statistical Modeling"
+    #"sidebarwidth":"100px",
+    #"body_max_width":"900px",
+    #"page_width": "1000px",
+    "description": "Techniques in Statistical Modeling",
+    "font_family": "'-apple-system', 'BlinkMacSystemFont', 'Roboto', 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', sans-serif"
 }
 
 
