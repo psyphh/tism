@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>8. Lab: 最大概似估計 &#8212; 統計建模技法</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. 概似推論" href="likelihood-inference.html" />
+    <link rel="prev" title="7. 最大概似法" href="maximum-likelihood.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">統計建模技法</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mathematics-prerequisite.html">
+   1. 先備數學知識
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="linear-regression.html">
+   2. 線性迴歸
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-torch-tensor.html">
+   3. Lab: 線性代數
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="logistic-regression.html">
+   4. 邏輯斯迴歸
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-torch-optimization.html">
+   5. Lab: 數值優化
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="probability-distribution.html">
+   6. 機率分佈
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="maximum-likelihood.html">
+   7. 最大概似法
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   8. Lab: 最大概似估計
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="likelihood-inference.html">
+   9. 概似推論
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="true-score-model.html">
+   10. 真實分數模型
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="factor-analysis-I.html">
+   11. 因素分析-I
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="factor-analysis-II.html">
+   12. 因素分析-II
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="item-response-theory-I.html">
+   13. 試題反應理論-I
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="item-response-theory-II.html">
+   14. 試題反應理論-II
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="mixture-modeling.html">
+   15. 混合建模
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebook/lab-torch-mle.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="lab">
+<h1><span class="section-number">8. </span>Lab: 最大概似估計<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Normal</span>
+<span class="n">normal</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with shape (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with shape (2,3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
+ tensor(-0.7251)
+random sample with shape (3,):
+ tensor([-0.3210,  0.9775, -0.1056])
+random sample with shape (2,3):
+ tensor([[-0.3918, -0.3126, -0.8170],
+        [-0.8180,  0.6034,  0.2298]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">])),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with (2,3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cumulative probability given value with shape ():
+ tensor(0.5000) 
+
+cumulative probability given value with (3,):
+ tensor([0.1587, 0.5000, 0.6915]) 
+
+cumulative probability given value with (2,3):
+ tensor([[0.1587, 0.5000, 0.6915],
+        [0.0228, 0.8413, 0.9987]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">])),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cumulative probability given value with (2,3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cumulative probability given value with shape ():
+ tensor(-0.9189) 
+
+cumulative probability given value with (3,):
+ tensor([-1.4189, -0.9189, -1.0439]) 
+
+cumulative probability given value with (2,3):
+ tensor([[-1.4189, -0.9189, -1.0439],
+        [-2.9189, -1.4189, -5.4189]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Normal(loc: 0.0, scale: 1.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">batch_shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">normal</span><span class="o">.</span><span class="n">event_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>torch.Size([])
+torch.Size([])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">normal_batch</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]),</span> <span class="n">scale</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">normal_batch</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Normal(loc: torch.Size([2]), scale: torch.Size([2]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (2,3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
+ tensor([1.0539, 0.6812]) 
+
+random sample with sample_shape (3,):
+ tensor([[ 1.0815,  4.2408],
+        [-1.5116,  1.0701],
+        [-0.2424,  1.5655]]) 
+
+random sample with sample_shape (2,3):
+ tensor([[[-0.5095, -0.7895],
+         [-0.6018,  3.1641],
+         [-0.0365,  1.6315]],
+
+        [[ 0.9499,  0.9825],
+         [ 0.5302,  2.5403],
+         [-0.5381,  2.5007]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log-probability given value with shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log-probability given value with shape (2,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log-probability given value with shape (2,1):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">normal_batch</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>log-probability given value with shape ():
+ tensor([-0.9189, -1.5466]) 
+
+log-probability given value with shape (2,):
+ tensor([-0.9189, -1.5466]) 
+
+log-probability given value with shape (2,1):
+ tensor([[-0.9189, -1.5466],
+        [-0.9189, -1.5466]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">MultivariateNormal</span>
+<span class="n">mvn</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="n">scale_tril</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mvn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>MultivariateNormal(loc: torch.Size([2]), scale_tril: torch.Size([2, 2]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (2, 3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
+ tensor([1.0111, 1.8143]) 
+
+random sample with sample_shape (3,):
+ tensor([[ 0.6033,  1.4658],
+        [-0.2316,  0.1096],
+        [-0.6719,  1.2997]]) 
+
+random sample with sample_shape (2, 3):
+ tensor([[[ 0.0360,  0.4150],
+         [ 2.0967,  0.7699],
+         [ 0.2420,  0.9181]],
+
+        [[-0.2074,  0.9325],
+         [-0.5997,  0.6757],
+         [ 0.9281,  1.2094]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log-probability given value with shape (2,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;log-probability given value with shape (2,1):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>log-probability given value with shape (2,):
+ tensor(-2.4913) 
+
+log-probability given value with shape (2,1):
+ tensor([-2.4913, -2.4913])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Independent</span>
+<span class="n">normal_batch</span> <span class="o">=</span> <span class="n">Independent</span><span class="p">(</span><span class="n">normal_batch</span><span class="p">,</span> <span class="n">reinterpreted_batch_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">normal_batch</span><span class="o">.</span><span class="n">batch_shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">normal_batch</span><span class="o">.</span><span class="n">event_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>torch.Size([])
+torch.Size([2])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mvn_batch</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]),</span>
+    <span class="n">scale_tril</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]])))</span>
+<span class="n">mvn_batch</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>MultivariateNormal(loc: torch.Size([3, 2]), scale_tril: torch.Size([3, 2, 2]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape ():</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (3,):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,)),</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;random sample with sample_shape (2, 3):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mvn_batch</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
+ tensor([[0.3286, 1.0184],
+        [0.1563, 1.1976],
+        [2.2785, 1.9281]]) 
+
+random sample with sample_shape (3,):
+ tensor([[[ 2.0335,  1.1980],
+         [-0.2274,  1.0336],
+         [ 2.2735,  2.7263]],
+
+        [[ 0.0739,  0.8529],
+         [ 1.4763,  1.6400],
+         [ 1.6496,  2.6528]],
+
+        [[ 0.2534,  0.3735],
+         [ 1.2531,  2.7364],
+         [ 2.3528,  3.0961]]]) 
+
+random sample with sample_shape (2, 3):
+ tensor([[[[ 0.2327,  0.8202],
+          [ 1.9229,  1.9113],
+          [ 0.4851,  3.4065]],
+
+         [[ 0.5540,  0.4060],
+          [ 0.2189,  1.3886],
+          [ 1.5919,  2.1573]],
+
+         [[ 1.9386,  1.2528],
+          [ 1.9650,  2.8223],
+          [ 3.6178,  3.1882]]],
+
+
+        [[[-0.1204,  1.0408],
+          [ 0.2880,  1.9700],
+          [ 2.4340,  4.1901]],
+
+         [[ 0.2542,  0.6331],
+          [ 1.5785,  1.0956],
+          [ 1.3173,  3.8490]],
+
+         [[-0.1060,  1.1156],
+          [ 0.6205,  2.5574],
+          [-0.1965,  2.6641]]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mu_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">5.</span><span class="p">])</span>
+<span class="n">sigma_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">2.</span><span class="p">])</span>
+<span class="n">normal_model_true</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">mu_true</span><span class="p">,</span>
+    <span class="n">scale</span><span class="o">=</span><span class="n">sigma_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;normal model:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">normal_model_true</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>normal model:
+ Normal(loc: tensor([5.]), scale: tensor([2.])) 
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">normal_model_true</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,))</span>
+<span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">normal_model_true</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negative likelihood value is&quot;</span><span class="p">,</span> <span class="n">loss_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.0789)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">],</span> <span class="n">lr</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">normal_model</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+    <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">normal_model</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss_value</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># compute the gradient</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by gradient descent:&quot;</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML std by gradient descent:&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([5.0441], requires_grad=True)
+ML std by gradient descent: tensor([1.9290], requires_grad=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by formula:&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML std by formula:&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">unbiased</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: tensor(5.0440)
+ML std by formula: tensor(1.9320)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mu_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="n">sigma_tril_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]])</span>
+<span class="n">mvn_model_true</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">mu_true</span><span class="p">,</span>
+    <span class="n">scale_tril</span><span class="o">=</span><span class="n">sigma_tril_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;true mean vector: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mvn_model_true</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;true covariance matrix: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mvn_model_true</span><span class="o">.</span><span class="n">covariance_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>true mean vector: 
+ tensor([-1.,  0.,  1.])
+true covariance matrix: 
+ tensor([[9.0000, 6.0000, 1.2000],
+        [6.0000, 5.0000, 1.3000],
+        [1.2000, 1.3000, 0.6600]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">mvn_model_true</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sample_shape</span><span class="o">=</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,))</span>
+<span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mvn_model_true</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;negative likelihood value is&quot;</span><span class="p">,</span> <span class="n">loss_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.7001)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+    <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sigma_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]],</span>
+    <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma_tril</span><span class="p">],</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">mvn_model</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span>
+    <span class="n">scale_tril</span><span class="o">=</span><span class="n">sigma_tril</span><span class="p">)</span>
+    <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss_value</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># compute the gradient</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by gradient descent: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">mu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML covariance by gradient descent: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">sigma_tril</span> <span class="o">@</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">sigma_tril</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
+ tensor([-0.9171,  0.0651,  1.0312], requires_grad=True)
+ML covariance by gradient descent: 
+ tensor([[9.4496, 6.3540, 1.2907],
+        [6.3540, 5.2871, 1.3354],
+        [1.2907, 1.3354, 0.6424]], grad_fn=&lt;MmBackward&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sample_moment2</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">sample_size</span>
+<span class="n">sample_cov</span> <span class="o">=</span> <span class="n">sample_moment2</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">ger</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">sample_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML covariance by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">sample_cov</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
+ tensor([-0.9171,  0.0651,  1.0312])
+ML covariance by formula: 
+ tensor([[9.4496, 6.3540, 1.2907],
+        [6.3540, 5.2871, 1.3354],
+        [1.2907, 1.3354, 0.6424]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebook"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="maximum-likelihood.html" title="previous page"><span class="section-number">7. </span>最大概似法</a>
+    <a class='right-next' id="next-link" href="likelihood-inference.html" title="next page"><span class="section-number">9. </span>概似推論</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Po-Hsien Huang<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../_static/js/index.js"></script>
+    
+  </body>
+</html>
