@@ -1,0 +1,17 @@
+- file: intro
+  numbered: true
+- file: notebook/mathematics-prerequisite
+- file: notebook/linear-regression
+- file: notebook/lab-torch-tensor
+- file: notebook/logistic-regression
+- file: notebook/lab-torch-optimization
+- file: notebook/probability-distribution
+- file: notebook/maximum-likelihood
+- file: notebook/lab-torch-mle
+- file: notebook/likelihood-inference
+- file: notebook/true-score-model
+- file: notebook/factor-analysis-I
+- file: notebook/factor-analysis-II
+- file: notebook/item-response-theory-I
+- file: notebook/item-response-theory-II
+- file: notebook/mixture-modeling

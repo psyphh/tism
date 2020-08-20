@@ -1,0 +1,14 @@
+# Book settings
+title: 統計建模技法
+author: Po-Hsien Huang
+
+execute:
+  execute_notebooks: auto
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+html:
+  extra_navbar:
+
