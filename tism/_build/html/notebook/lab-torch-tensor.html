@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3. Lab: 線性代數 &#8212; 統計建模技法</title>
+    <title>3. Lab: 張量與線性代數 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -84,7 +84,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   3. Lab: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -284,6 +284,11 @@
      3.4.2. 計算模型參數
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     3.4.3. 建立一進行迴歸分析之物件
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -297,24 +302,30 @@
               <div>
                 
   <div class="section" id="lab">
-<h1><span class="section-number">3. </span>Lab: 線性代數<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
-<p>此 lab 中，我們將會透過 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 此套件，學習以下的主題。</p>
+<h1><span class="section-number">3. </span>Lab: 張量與線性代數<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<p>此 lab 中，我們將會透過 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 此套件，學習以下的主題。</p>
 <ol class="simple">
-<li><p>認識 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 的張量（tensor）之基礎。</p></li>
-<li><p>了解如何對 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 張量進行操弄。</p></li>
-<li><p>使用 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 進行線性代數之運算。</p></li>
+<li><p>認識 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的張量（tensor）之基礎。</p></li>
+<li><p>了解如何對 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量進行操弄。</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行線性代數之運算。</p></li>
 <li><p>應用前述之知識，建立一可進行線性迴歸分析之類型（class）。</p></li>
 </ol>
-<p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code>之安裝與基礎教學，可參考 <a class="reference external" href="https://www.tensorflow.org">tensorflow官方網頁</a>。在安裝完成後，可透過以下的指令載入</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code>之安裝與基礎教學，可參考 <a class="reference external" href="https://pytorch.org/get-started/locally">PyTorch官方網頁</a>。在安裝完成後，可透過以下的指令載入</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="id1">
 <h2><span class="section-number">3.1. </span>張量之基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3><span class="section-number">3.1.1. </span>張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 最基本的物件是張量（tensor），其與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的陣列（array）相當的類似。產生一個張量最基本的方法為，將所欲形成張量的資料（其可為 <code class="docutils literal notranslate"><span class="pre">python</span></code> 的 <code class="docutils literal notranslate"><span class="pre">list</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的 <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>），置於<code class="docutils literal notranslate"><span class="pre">tf.constant</span></code>函數中</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 最基本的物件是張量（tensor），其與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的陣列（array）相當的類似。產生一個張量最基本的方法為，將所欲形成張量的資料（其可為 <code class="docutils literal notranslate"><span class="pre">python</span></code> 的 <code class="docutils literal notranslate"><span class="pre">list</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的 <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>），置於<code class="docutils literal notranslate"><span class="pre">torch.tensor</span></code>函數中</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
                          <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
                          <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]])</span>
 <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -327,7 +338,7 @@
 </div>
 </div>
 </div>
-<p>透過 <code class="docutils literal notranslate"><span class="pre">type()</span></code>，可看見其屬於 <code class="docutils literal notranslate"><span class="pre">EagerTensor</span></code> 此一類型（class），若欲了解 <code class="docutils literal notranslate"><span class="pre">a</span></code> 的樣貌，我們可使用 <code class="docutils literal notranslate"><span class="pre">print</span></code> 指令來列印其主要的內容</p>
+<p>透過 <code class="docutils literal notranslate"><span class="pre">type()</span></code>，可看見其屬於 <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> 此一類型（class），若欲了解 <code class="docutils literal notranslate"><span class="pre">a</span></code> 的樣貌，我們可使用 <code class="docutils literal notranslate"><span class="pre">print</span></code> 指令來列印其主要的內容</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -345,9 +356,13 @@
 <p>透過對 <code class="docutils literal notranslate"><span class="pre">a</span></code> 列印的結果，我們可觀察到：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 內部的資料數值（value）為 <code class="docutils literal notranslate"><span class="pre">[[1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4],</span> <span class="pre">[5,</span> <span class="pre">6,</span> <span class="pre">7,</span> <span class="pre">8],</span> <span class="pre">[9,</span> <span class="pre">10,</span> <span class="pre">11,</span> <span class="pre">12]]</span></code>。</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的形狀（shape）為 <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">4)</span></code>，表示 <code class="docutils literal notranslate"><span class="pre">a</span></code> 為一 <span class="math notranslate nohighlight">\(3 \times 4\)</span> 之張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的資料類型（data type）為 <code class="docutils literal notranslate"><span class="pre">int32</span></code>，表示32位元的整數。在進行運算時，張量間的類型須相同。一般來說，</p></li>
 </ul>
+<p>除此之外，<code class="docutils literal notranslate"><span class="pre">a</span></code> 還有兩個重要的屬性並未顯示在列印的結果中：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的尺寸（size）為 <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">4)</span></code>，表示 <code class="docutils literal notranslate"><span class="pre">a</span></code> 為一 <span class="math notranslate nohighlight">\(3 \times 4\)</span> 之張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的資料類型（data type）為 <code class="docutils literal notranslate"><span class="pre">int64</span></code>，表示64位元的整數。在進行運算時，張量間的類型須相同。</p></li>
+</ul>
+<p>稍後，我們會討論如何獲得 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的尺寸與資料類型。</p>
 </div>
 <div class="section" id="id3">
 <h3><span class="section-number">3.1.2. </span>張量之數值<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -367,7 +382,7 @@
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 內建了多種函數，以協助產生具有特別數值結構之張量：</p>
+<p><code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列是 <code class="docutils literal notranslate"><span class="pre">python</span></code> 進行科學運算時，幾乎都會仰賴的資料格式。<code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建了多種函數，以協助產生具有特別數值結構之張量：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor with all elements being ones </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -403,7 +418,7 @@ diagonal matrix
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 亦可指定分配產生隨機的資料</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 亦可指定分配產生隨機的資料</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor with random elements from uniform(0, 1) </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -415,13 +430,13 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.04668838 0.27320892 0.9735771  0.23718977 0.7727748  0.9600251 ]
- [0.74182004 0.19942713 0.25415516 0.8656103  0.0012368  0.6181432 ]]
+ [[0.1399849  0.38744384 0.53350794 0.04350138 0.606503   0.15408015]
+ [0.72067714 0.14155364 0.74075174 0.08217931 0.05070204 0.25389558]]
 tensor with uninitialized data 
- [[ 0.0000000e+00 -1.0842022e-19  1.8948448e-22  2.8600502e-42
-   1.1210388e-44  0.0000000e+00]
- [ 0.0000000e+00  0.0000000e+00  0.0000000e+00  0.0000000e+00
-   1.8754495e+28  2.5991114e-06]]
+ [[ 0.0000000e+00  3.6893488e+19  0.0000000e+00  3.6893488e+19
+   7.8533525e+34  4.7418033e+30]
+ [ 5.9663225e-02  7.0373527e+22 -2.6615711e+29  4.5814052e-41
+  -1.9308691e+29  4.5814052e-41]]
 </pre></div>
 </div>
 </div>
@@ -429,22 +444,24 @@ tensor with uninitialized data
 </div>
 <div class="section" id="id4">
 <h3><span class="section-number">3.1.3. </span>張量之形狀<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p>張量之形狀與形狀之維度數量，可透過張量物件的 <code class="docutils literal notranslate"><span class="pre">.shape</span></code> 與 <code class="docutils literal notranslate"><span class="pre">ndim</span></code> 方法來獲得</p>
+<p>張量之形狀與形狀維度之數量，可透過張量物件的 <code class="docutils literal notranslate"><span class="pre">.size()</span></code>（或 <code class="docutils literal notranslate"><span class="pre">.shape</span></code>） 與 <code class="docutils literal notranslate"><span class="pre">dim</span></code> 方法來獲得</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size of tensor is&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size of tensor is&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dim of tensor is&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">dim</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>size of tensor is torch.Size([3, 4])
+size of tensor is torch.Size([3, 4])
 dim of tensor is 2
 </pre></div>
 </div>
 </div>
 </div>
-<p>如果要對張量的形狀進行改變的話，可透過 <code class="docutils literal notranslate"><span class="pre">tf.reshape()</span></code> 此函數</p>
+<p>如果要對張量的形狀進行改變的話，可透過 <code class="docutils literal notranslate"><span class="pre">.view()</span></code> 此方法獲得</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor with shape (4, 3): </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -504,7 +521,7 @@ tensor with shape (12,):
 </div>
 </div>
 </div>
-<p>注意，<code class="docutils literal notranslate"><span class="pre">(12,</span> <span class="pre">1)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">(12,)</span></code> 兩種形狀是不一樣的，前者為2d的張量，後者為1d的張量。在進行張量操弄時，若將兩者混淆，很可能會帶來錯誤的計算結果。</p>
+<p>注意，<code class="docutils literal notranslate"><span class="pre">(12,</span> <span class="pre">1)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">(12,)</span></code> 兩種形狀是不一樣的，前者為2d的張量，後者為1d的張量。在進行張量操弄時，若將兩者混淆，很可能會帶來錯誤的計算結果。另外，-1表示該面向對應之尺寸，由其它面向決定。</p>
 </div>
 <div class="section" id="id5">
 <h3><span class="section-number">3.1.4. </span>張量之資料類型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
@@ -521,7 +538,7 @@ tensor with shape (12,):
 </div>
 </div>
 </div>
-<p>若是要調整資料類型的話，則可透過 <code class="docutils literal notranslate"><span class="pre">tf.cast()</span></code>此函數</p>
+<p>若是要調整資料類型的話，則可透過 <code class="docutils literal notranslate"><span class="pre">.type()</span></code> 此方法：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
@@ -536,15 +553,15 @@ tensor with shape (12,):
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 內建多種資料類型，包含整數類型（如 <code class="docutils literal notranslate"><span class="pre">tf.int32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">tf.int64</span></code>）與浮點數類型（如 <code class="docutils literal notranslate"><span class="pre">tf.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">tf.float64</span></code>），完整的資料類型請見 <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/dtypes/DType">tf.dtypes.DType</a>。</p>
-<p>在進行張量的數學運算時，請務必確認張量間的資料類型都是一致的，而 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 常用之資料類型為 <code class="docutils literal notranslate"><span class="pre">tf.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">tf.float64</span></code>，前者所需的記憶體較小，但運算結果的數值誤差較大。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建多種資料類型，包含整數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.int32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.int64</span></code>）與浮點數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code>），完整的資料類型請見 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">torch.Tensor文件</a>。</p>
+<p>在進行張量的數學運算時，請務必確認張量間的資料類型都是一致的，而 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 常用之資料類型為 <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code>，前者所需的記憶體較小，但運算結果的數值誤差較大。</p>
 </div>
 </div>
 <div class="section" id="id6">
 <h2><span class="section-number">3.2. </span>張量之操弄<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
 <h3><span class="section-number">3.2.1. </span>張量之切片<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<p>若要擷取一張量特定的行（row）或列（column）的話，則可透過切片（slicing）的功能獲得。<code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 張量的切片方式，與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 類似，皆使用中括號 <code class="docutils literal notranslate"><span class="pre">[]</span></code>，再搭配所欲擷取資料行列的索引（index）獲得。</p>
+<p>若要擷取一張量特定的行（row）或列（column）的話，則可透過切片（slicing）的功能獲得。<code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的切片方式，與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 類似，皆使用中括號 <code class="docutils literal notranslate"><span class="pre">[]</span></code>，再搭配所欲擷取資料行列的索引（index）獲得。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;extract 1st row: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -585,7 +602,7 @@ extract 2nd and 3rd columns:
 </div>
 <div class="section" id="id8">
 <h3><span class="section-number">3.2.2. </span>張量之串接<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>多個張量在維度可對應之前提下，可透過 <code class="docutils literal notranslate"><span class="pre">tf.concat</span></code> 串接</p>
+<p>多個張量在維度可對應之前提下，可透過 <code class="docutils literal notranslate"><span class="pre">torch.cat</span></code> 串接</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vertical concatenation </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -640,10 +657,10 @@ tensor b is
 </div>
 </div>
 </div>
-<p>我們將使用 <code class="docutils literal notranslate"><span class="pre">a</span></code> 與 <code class="docutils literal notranslate"><span class="pre">b</span></code> 來展示如何使用 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 進行張量間的計算。</p>
+<p>我們將使用 <code class="docutils literal notranslate"><span class="pre">a</span></code> 與 <code class="docutils literal notranslate"><span class="pre">b</span></code> 來展示如何使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行張量間的計算。</p>
 <div class="section" id="id10">
 <h3><span class="section-number">3.3.1. </span>張量元素對元素之運算<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>透過 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 的數學函數，可進行張量元素對元素的四則運算</p>
+<p>透過 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的數學函數，可進行張量元素對元素的四則運算</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;element-wise add </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -709,11 +726,11 @@ element-wise divide
 </div>
 </div>
 </div>
-<p>若需要進行絕對值、對數、指數等較為進階之數學運算，可以至 <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/math">tf.math</a> 此模組中尋找對應的數學函數。</p>
+<p>若需要進行絕對值、對數、指數等較為進階之數學運算，可以至 <a class="reference external" href="https://pytorch.org/docs/stable/torch.html#math-operations">troch官方文件</a> 此模組中尋找對應的數學函數。</p>
 </div>
 <div class="section" id="id11">
 <h3><span class="section-number">3.3.2. </span>張量線性代數之運算<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>除了簡單的四則運算外，當張量的 <code class="docutils literal notranslate"><span class="pre">ndim</span></code> 為2時，<code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 提供了進行線性代數（linear algebra）相關的函數，如</p>
+<p>除了簡單的四則運算外，當張量的 <code class="docutils literal notranslate"><span class="pre">dim</span></code> 為2時，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 提供了進行線性代數（linear algebra）相關的函數，如</p>
 <ul class="simple">
 <li><p>矩陣轉置（matrix transpose）</p></li>
 </ul>
@@ -873,7 +890,7 @@ check for singular value decomposition
 </div>
 <div class="section" id="id12">
 <h3><span class="section-number">3.3.3. </span>對張量之數值進行摘要<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">tf.math</span></code> 提供了一些化約（reduce）的函數，對張量內的數值進行摘要</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 提供了一些化約（reduction）的函數，對張量內的數值進行摘要</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;calculate mean </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -919,15 +936,174 @@ calculate mean for each row
 </div>
 </div>
 </div>
+<p>其它的化約函數，可以參考<a class="reference external" href="https://pytorch.org/docs/stable/torch.html#reduction-ops">官方文件</a>。</p>
 </div>
 </div>
 <div class="section" id="id13">
 <h2><span class="section-number">3.4. </span>實徵範例<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
 <h3><span class="section-number">3.4.1. </span>產生線性迴歸資料<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function to generate x and y</span>
+<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span>
+                  <span class="n">intercept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">n_feature</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean_feature</span><span class="p">,</span>
+                     <span class="n">std</span> <span class="o">=</span> <span class="n">std_feature</span><span class="p">,</span>
+                     <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_feature</span><span class="p">),</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                     <span class="n">std</span> <span class="o">=</span> <span class="n">std_residual</span><span class="p">,</span>
+                     <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">coef</span> <span class="o">+</span> <span class="n">e</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run generate_data</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">coef</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">intercept</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                     <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                     <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;feature matrix x is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;response vector y is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>feature matrix x is 
+ [[ 8.81075165 12.02649454 10.92376861]
+ [ 9.74899944  5.49004189 15.60709088]
+ [ 3.06626307  9.29261982 12.73665251]
+ [ 9.19386564  9.27096919  8.98736324]
+ [ 8.08839927 13.36101937 10.03805308]
+ [ 7.31449703 11.44860865  4.32291025]
+ [ 6.31488641 15.24412057 10.62706224]
+ [10.12950336 13.95383498  7.27956725]
+ [10.67988167 10.1036966   8.11403237]
+ [12.02533664 13.32349857 17.90966912]]
+response vector y is 
+ [[ -3.71697125]
+ [-25.59560497]
+ [ 19.32346908]
+ [-12.51789442]
+ [  5.15761289]
+ [  2.80754486]
+ [ 20.83197077]
+ [ -4.23366864]
+ [-16.615772  ]
+ [-16.21476249]]
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="id15">
 <h3><span class="section-number">3.4.2. </span>計算模型參數<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function to calculate model parameter</span>
+<span class="k">def</span> <span class="nf">calculate_parameter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">dtype</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">x_design</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">parameter</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_design</span><span class="p">)</span> <span class="o">@</span> \
+                <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">coef</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run calculate_parameter</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                     <span class="n">coef</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">intercept</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                     <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                     <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">intercept</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="n">calculate_parameter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">intercept</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficient estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>intercept estimate is 
+ 4.883371040306211
+coefficient estimate is 
+ [-4.99326404  2.99197104  0.01218326]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3><span class="section-number">3.4.3. </span>建立一進行迴歸分析之物件<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a class to fit linear regression</span>
+<span class="k">class</span> <span class="nc">LinearRegression</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coef</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x_design</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">parameter</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_design</span><span class="p">)</span> <span class="o">@</span> \
+                    <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coef</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">linear_regression</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">linear_regression</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">linear_regression</span><span class="o">.</span><span class="n">intercept</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">linear_regression</span><span class="o">.</span><span class="n">coef</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.883371040306211
+[-4.99326404  2.99197104  0.01218326]
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
