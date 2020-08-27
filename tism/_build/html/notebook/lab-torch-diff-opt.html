@@ -225,6 +225,18 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   5.2. 數值優化
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     5.2.1. 手動撰寫優化算則
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -294,7 +306,7 @@ tensor z:
 </div>
 <div class="section" id="id3">
 <h3><span class="section-number">5.1.2. </span>數值微分之執行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>針對已追朔之運算過程，想要獲得與該運算有關的梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>此方法。在前一小節的例子中，<span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 (2x_{i} - 4)^2\)</span>，若想要獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dx}\)</span> 在當下 <span class="math notranslate nohighlight">\(x\)</span> 的數值的話，可使用以下的程式碼：</p>
+<p>針對已追朔之運算過程，想要獲得與該運算有關的梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>此方法。在前一小節的例子中，<span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 (2x_{i} - 4)^2\)</span>，若想要獲得 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial x}\)</span> 在當下 <span class="math notranslate nohighlight">\(x\)</span> 的數值的話，可使用以下的程式碼：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
@@ -308,7 +320,7 @@ tensor z:
 </div>
 </div>
 </div>
-<p>接著，由於 <span class="math notranslate nohighlight">\(z\)</span> 也可以寫為 <span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 y_{i}^2\)</span>，因此，我們是否也可以透過類似的程式碼獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span> 呢？</p>
+<p>接著，由於 <span class="math notranslate nohighlight">\(z\)</span> 也可以寫為 <span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 y_{i}^2\)</span>，因此，我們是否也可以透過類似的程式碼獲得 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial y}\)</span> 呢？</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dz/dy: &quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
@@ -326,7 +338,7 @@ tensor z:
 </div>
 </div>
 </div>
-<p>結果是不行，主因在於，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 為了節省記憶體的使用，因此，僅可提供位於計算圖葉子（leaf）張量之一次微分。如果希望能夠獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span> 的話，可以對 <code class="docutils literal notranslate"><span class="pre">y</span></code> 使用 <code class="docutils literal notranslate"><span class="pre">.retain_grad()</span></code> 此方法：</p>
+<p>結果是不行，主因在於，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 為了節省記憶體的使用，因此，僅可提供位於計算圖葉子（leaf）張量之一次微分。如果希望能夠獲得 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial y}\)</span> 的話，可以對 <code class="docutils literal notranslate"><span class="pre">y</span></code> 使用 <code class="docutils literal notranslate"><span class="pre">.retain_grad()</span></code> 此方法：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
@@ -343,7 +355,7 @@ tensor z:
 </div>
 </div>
 </div>
-<p>在評估完 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span> 後，讓我們重新檢視一下 <code class="docutils literal notranslate"><span class="pre">x.grad</span></code> 的數值：</p>
+<p>在評估完 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial y}\)</span> 後，讓我們重新檢視一下 <code class="docutils literal notranslate"><span class="pre">x.grad</span></code> 的數值：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dz/dx: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
@@ -373,7 +385,7 @@ dz/dx:  tensor([0., 0., 0.])
 </div>
 </div>
 </div>
-<p>接著，就可以使用原先的程式碼，計算 <span class="math notranslate nohighlight">\(\frac{d z}{dx}\)</span> 與 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span>：</p>
+<p>接著，就可以使用原先的程式碼，計算 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial x}\)</span> 與 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial y}\)</span>：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
@@ -425,11 +437,11 @@ dz/dy:  tensor([-4.,  0.,  4.])
 </div>
 </div>
 </div>
-<p>如果想將張量 <code class="docutils literal notranslate"><span class="pre">x</span></code> 拷貝到另一變量 <code class="docutils literal notranslate"><span class="pre">x_no</span></code>，卻不希望 <code class="docutils literal notranslate"><span class="pre">x_no</span></code> 的計算會被追朔時，可以使用以下的程式碼：</p>
+<p>如果想將張量 <code class="docutils literal notranslate"><span class="pre">x</span></code> 拷貝到另一變量 <code class="docutils literal notranslate"><span class="pre">x_ng</span></code>，卻不希望 <code class="docutils literal notranslate"><span class="pre">x_ng</span></code> 的計算會被追朔時，可以使用以下的程式碼：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_no</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">x_no</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_ng</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_ng</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -453,6 +465,151 @@ dz/dy:  tensor([-4.,  0.,  4.])
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>False
 False
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">5.2. </span>數值優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><span class="section-number">5.2.1. </span>手動撰寫優化算則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>前一小節所使用的範例，其計算過程可以寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+z &amp;= f(x)\\
+ &amp;= \sum_{i=1}^3\left[2(x_i-2)\right]^2 \\
+ &amp;= \sum_{i=1}^3 y^2
+\end{aligned}
+\end{split}\]</div>
+<p>若想要找到一 <span class="math notranslate nohighlight">\(\widehat{x}\)</span>，其使得 <span class="math notranslate nohighlight">\(f(\widehat{x})\)</span> 達到最小值的話，由於 <span class="math notranslate nohighlight">\(z\)</span> 為 <span class="math notranslate nohighlight">\(y_1, y_2, y_3\)</span> 的平方和，因此，其會在 <span class="math notranslate nohighlight">\(\widehat{y} = (0, 0, 0)\)</span>的地方達到最小值，也意味著 <span class="math notranslate nohighlight">\(\widehat{x} = (2,2,2)\)</span>。</p>
+<p>那麼，我們應該如何使用數值方法，對 <span class="math notranslate nohighlight">\(f(x)\)</span> 進行優化呢？根據梯度下降（gradient descent）法，<span class="math notranslate nohighlight">\(\widehat{x}\)</span> 的更新規則為</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{x} \leftarrow \widehat{x} - \alpha \times \frac{\partial f(x)}{\partial x}
+\]</div>
+<p>這裏，<span class="math notranslate nohighlight">\(\alpha\)</span> 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 <span class="math notranslate nohighlight">\(f\)</span> 足夠圓滑（smooth），且 <span class="math notranslate nohighlight">\(\alpha\)</span> 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 <span class="math notranslate nohighlight">\(f\)</span> 最小值的發生位置。</p>
+<p>在開始進行梯度下降前，我們先定義一函數 <code class="docutils literal notranslate"><span class="pre">f</span></code>，並了解起始狀態時，<code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">x</span></code> 的數值為何：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">z</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+                 <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>f(x) = 8.000, x = tensor([1., 2., 3.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行梯度下降，需先計算在當下 <code class="docutils literal notranslate"><span class="pre">x</span></code> 數值下的梯度，接著，根據該梯度的訊息與設定的步伐大小對 <code class="docutils literal notranslate"><span class="pre">x</span></code> 進行更新，即</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
+<span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>f(x) = 0.320, x = tensor([1.8000, 2.0000, 2.2000])
+</pre></div>
+</div>
+</div>
+</div>
+<p>這裡，我們將步伐大小 <code class="docutils literal notranslate"><span class="pre">alpha</span></code> 設為0.1，透過 <code class="docutils literal notranslate"><span class="pre">z</span></code> 的數值，可觀察到梯度下降的確導致 <code class="docutils literal notranslate"><span class="pre">z</span></code> 數值的下降，而 <code class="docutils literal notranslate"><span class="pre">x</span></code> 也與 <span class="math notranslate nohighlight">\(\widehat{x}=(2,2,2)\)</span> 更加地靠近。</p>
+<p>梯度下降的算則，需重複前述的程序多次，才可獲得一收斂的解。最簡單的方法，即使用 <code class="docutils literal notranslate"><span class="pre">for</span></code> 迴圈，重複更新<span class="math notranslate nohighlight">\(I\)</span>次：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+                 <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>iter  1, f(x) = 0.320, x = tensor([1.8000, 2.0000, 2.2000])
+iter  2, f(x) = 0.013, x = tensor([1.9600, 2.0000, 2.0400])
+iter  3, f(x) = 0.001, x = tensor([1.9920, 2.0000, 2.0080])
+iter  4, f(x) = 0.000, x = tensor([1.9984, 2.0000, 2.0016])
+iter  5, f(x) = 0.000, x = tensor([1.9997, 2.0000, 2.0003])
+iter  6, f(x) = 0.000, x = tensor([1.9999, 2.0000, 2.0001])
+iter  7, f(x) = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  8, f(x) = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  9, f(x) = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter 10, f(x) = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter 11, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 12, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 13, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 14, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 15, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 16, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 17, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 18, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 19, f(x) = 0.000, x = tensor([2., 2., 2.])
+iter 20, f(x) = 0.000, x = tensor([2., 2., 2.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>然而，從列印出來的結果來看，20次迭代可能太多了，因此，我們可以進一步要求當梯度絕對值小於某收斂標準 <code class="docutils literal notranslate"><span class="pre">tol</span></code> 時，算則就停止，其所對應之程式碼為：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+                 <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, z = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
+        <span class="k">break</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>iter  1, z = 0.320, x = tensor([1.8000, 2.0000, 2.2000])
+iter  2, z = 0.013, x = tensor([1.9600, 2.0000, 2.0400])
+iter  3, z = 0.001, x = tensor([1.9920, 2.0000, 2.0080])
+iter  4, z = 0.000, x = tensor([1.9984, 2.0000, 2.0016])
+iter  5, z = 0.000, x = tensor([1.9997, 2.0000, 2.0003])
+iter  6, z = 0.000, x = tensor([1.9999, 2.0000, 2.0001])
+iter  7, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  8, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  9, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 </pre></div>
 </div>
 </div>
