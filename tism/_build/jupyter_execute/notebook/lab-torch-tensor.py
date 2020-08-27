@@ -253,6 +253,11 @@ print("calculate mean for each row \n",
 
 ### 產生線性迴歸資料
 
+在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 `manual_seed` 僅適用於CPU，若使用GPU，請改為 `torch.cuda.manual_seed`）。
+
+torch.manual_seed(48)
+
+
 # define a function to generate x and y
 def generate_data(n_sample, coef,
                   intercept = 0,
