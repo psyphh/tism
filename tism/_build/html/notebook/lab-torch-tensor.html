@@ -93,43 +93,48 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="lab-torch-diff-opt.html">
+   5. Lab: 數值微分與優化
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="probability-distribution.html">
-   5. 機率分佈
+   6. 機率分佈
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="maximum-likelihood.html">
-   6. 最大概似法
+   7. 最大概似法
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-torch-mle.html">
-   7. Lab: 最大概似估計
+   8. Lab: 最大概似估計
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="likelihood-inference.html">
-   8. 概似推論
+   9. 概似推論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="true-score-model.html">
-   9. 真實分數模型
+   10. 真實分數模型
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="factor-analysis.html">
-   10. 因素分析
+   11. 因素分析
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="item-response-theory.html">
-   11. 試題反應理論
+   12. 試題反應理論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
+   13. 混合建模
   </a>
  </li>
 </ul>
@@ -425,11 +430,13 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.43642104 0.6778196  0.72069305 0.6363408  0.13960487 0.7098032 ]
- [0.16209203 0.43370277 0.5420476  0.53322554 0.06413972 0.28599638]]
+ [[2.2421652e-01 4.5178550e-01 7.2430813e-01 2.4646521e-04 9.4009501e-01
+  2.0715415e-02]
+ [1.6905636e-01 7.6445764e-01 3.9908987e-01 3.7193316e-01 1.1019111e-01
+  3.8327539e-01]]
 tensor with uninitialized data 
- [[0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
- [2.8e-45 0.0e+00 1.1e-44 0.0e+00 1.4e-45 0.0e+00]]
+ [[0.e+00 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]
+ [0.e+00 0.e+00 0.e+00 0.e+00 3.e-45 0.e+00]]
 </pre></div>
 </div>
 </div>
@@ -980,27 +987,27 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>feature matrix x is 
- [[10.22316917  9.52272319  9.89900549]
- [10.12718597  6.08727427 11.07207019]
- [10.07156549 12.97807941  7.48275962]
- [ 2.5783818   9.6991769  10.1276353 ]
- [12.40389544  9.46885698 12.24645609]
- [10.04789159 17.42200528 11.23721683]
- [ 8.2834497   9.90984317  8.68045253]
- [ 7.24781478 11.14525625  8.25908539]
- [10.31111179 11.55150734  4.42576114]
- [12.21137083  7.16104929  7.78726688]]
+ [[ 8.58272273 13.68916805 15.40053413]
+ [10.02459105  5.71558327  6.85370053]
+ [ 8.80670969 10.88766956  9.45066113]
+ [ 4.95739336 14.52564518 10.22457205]
+ [11.2736874  10.36667475 17.75970866]
+ [ 9.81570926  9.40172071  8.21484753]
+ [10.09383364 12.25373543 10.85327725]
+ [13.26229753  8.88256158 10.91070293]
+ [11.43308939  6.74592754 10.87164533]
+ [10.37260454  5.34027756  7.05965902]]
 response vector y is 
- [[-16.72523393]
- [-25.64607826]
- [ -6.11112296]
- [ 20.76576456]
- [-27.88363159]
- [  7.09660428]
- [ -5.90194579]
- [  0.96185607]
- [-11.74996196]
- [-32.80053298]]
+ [[  2.04979258]
+ [-28.95043346]
+ [ -5.37379078]
+ [ 24.26179035]
+ [-19.50397062]
+ [-16.32226642]
+ [ -9.41352113]
+ [-34.62893317]
+ [-32.49695787]
+ [-31.68492095]]
 </pre></div>
 </div>
 </div>
@@ -1046,9 +1053,9 @@ response vector y is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>intercept estimate is 
- 5.313247273069139
+ 5.190240420041054
 coefficient estimate is 
- [-5.00500263  2.98063507 -0.00897045]
+ [-4.99937742  2.98301027 -0.00714233]
 </pre></div>
 </div>
 </div>
@@ -1091,8 +1098,8 @@ coefficient estimate is
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>5.313247273069139
-[-5.00500263  2.98063507 -0.00897045]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>5.190240420041054
+[-4.99937742  2.98301027 -0.00714233]
 </pre></div>
 </div>
 </div>

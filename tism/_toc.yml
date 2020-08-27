@@ -4,7 +4,7 @@
 - file: notebook/linear-regression
 - file: notebook/lab-torch-tensor
 - file: notebook/logistic-regression
-- file: notebook/lab-torch-optimization
+- file: notebook/lab-torch-diff-opt
 - file: notebook/probability-distribution
 - file: notebook/maximum-likelihood
 - file: notebook/lab-torch-mle
