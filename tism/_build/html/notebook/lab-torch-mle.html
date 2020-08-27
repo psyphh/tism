@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>8. Lab: 最大概似估計 &#8212; 統計建模技法</title>
+    <title>7. Lab: 最大概似估計 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. 概似推論" href="likelihood-inference.html" />
-    <link rel="prev" title="7. 最大概似法" href="maximum-likelihood.html" />
+    <link rel="next" title="8. 概似推論" href="likelihood-inference.html" />
+    <link rel="prev" title="6. 最大概似法" href="maximum-likelihood.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -84,7 +84,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-torch-tensor.html">
-   3. Lab: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -93,48 +93,43 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-optimization.html">
-   5. Lab: 數值微分與優化
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="probability-distribution.html">
-   6. 機率分佈
+   5. 機率分佈
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="maximum-likelihood.html">
-   7. 最大概似法
+   6. 最大概似法
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   8. Lab: 最大概似估計
+   7. Lab: 最大概似估計
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="likelihood-inference.html">
-   9. 概似推論
+   8. 概似推論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="true-score-model.html">
-   10. 真實分數模型
+   9. 真實分數模型
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="factor-analysis.html">
-   11. 因素分析
+   10. 因素分析
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="item-response-theory.html">
-   12. 試題反應理論
+   11. 試題反應理論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mixture-modeling.html">
-   13. 混合建模
+   12. 混合建模
   </a>
  </li>
 </ul>
@@ -212,7 +207,7 @@
               <div>
                 
   <div class="section" id="lab">
-<h1><span class="section-number">8. </span>Lab: 最大概似估計<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">7. </span>Lab: 最大概似估計<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -241,12 +236,12 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(0.9295)
+ tensor(-0.5375)
 random sample with shape (3,):
- tensor([-0.1884, -0.8821, -0.1007])
+ tensor([ 0.6526,  0.7198, -0.1674])
 random sample with shape (2,3):
- tensor([[ 1.2665, -0.3605, -0.1199],
-        [ 0.2227, -0.6124, -0.2536]])
+ tensor([[ 0.4500,  1.3059, -1.9399],
+        [-0.8112, -0.9248, -0.1910]])
 </pre></div>
 </div>
 </div>
@@ -353,21 +348,21 @@ torch.Size([])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([ 0.3205, -0.5978]) 
+ tensor([0.2959, 2.6718]) 
 
 random sample with sample_shape (3,):
- tensor([[-0.5716,  1.7565],
-        [ 0.9567, -1.2378],
-        [-1.0503, -0.3478]]) 
+ tensor([[-1.6329, -0.4173],
+        [ 0.6373, -1.9564],
+        [-0.8026,  1.2737]]) 
 
 random sample with sample_shape (2,3):
- tensor([[[-0.8365, -0.4753],
-         [-0.9461,  1.1011],
-         [ 2.1654,  0.6389]],
+ tensor([[[ 0.7441, -1.5493],
+         [-0.2312,  1.6810],
+         [-0.3377, -0.9645]],
 
-        [[ 0.0993,  1.1349],
-         [ 1.0866, -1.9107],
-         [ 1.0602,  2.8958]]])
+        [[-0.3351,  0.3939],
+         [ 0.9689,  2.5815],
+         [-0.8018,  0.1117]]])
 </pre></div>
 </div>
 </div>
@@ -426,21 +421,21 @@ log-probability given value with shape (2,1):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([-0.5189, -0.2280]) 
+ tensor([ 0.0095, -0.3466]) 
 
 random sample with sample_shape (3,):
- tensor([[-0.3313,  1.4091],
-        [-1.3830,  0.3483],
-        [ 1.2271, -0.3071]]) 
+ tensor([[0.5276, 0.9779],
+        [0.8853, 1.4603],
+        [0.4926, 2.0687]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[ 0.6462,  1.0255],
-         [-0.7205,  1.7626],
-         [ 0.3417,  1.5046]],
+ tensor([[[-1.3499,  1.6449],
+         [ 0.1050, -0.4897],
+         [ 0.0898,  0.6144]],
 
-        [[ 0.8905,  0.5058],
-         [-0.0375,  1.3373],
-         [-0.4642,  1.1783]]])
+        [[-0.7772,  1.8796],
+         [-0.9441,  1.8775],
+         [-0.4178,  1.2061]]])
 </pre></div>
 </div>
 </div>
@@ -508,48 +503,48 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([[ 0.0847,  1.4848],
-        [-1.3189,  2.7567],
-        [ 1.5867,  4.5209]]) 
+ tensor([[-1.1759,  0.7234],
+        [ 2.2967,  2.6732],
+        [ 2.4495,  3.2737]]) 
 
 random sample with sample_shape (3,):
- tensor([[[-2.3244,  0.2312],
-         [ 1.2348,  1.8712],
-         [ 2.3879,  3.5360]],
+ tensor([[[0.9133, 1.2102],
+         [0.9494, 1.6224],
+         [1.4728, 3.7220]],
 
-        [[-0.2209,  1.5717],
-         [ 0.8786,  2.8911],
-         [ 0.6307,  2.7636]],
+        [[0.5411, 0.7077],
+         [0.8437, 2.5496],
+         [2.4281, 2.4536]],
 
-        [[ 0.3950,  1.0071],
-         [ 1.4580,  1.7656],
-         [ 2.8364,  2.9349]]]) 
+        [[0.0987, 0.6569],
+         [0.3479, 1.8064],
+         [3.7747, 2.6648]]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[[-0.0586,  0.9190],
-          [ 0.5611,  1.6489],
-          [ 3.5022,  3.0107]],
+ tensor([[[[-0.0631,  0.3916],
+          [ 1.4256,  2.4096],
+          [ 0.1691,  1.6225]],
 
-         [[-1.0622,  0.5766],
-          [ 0.1411,  1.4111],
-          [ 1.6315,  3.7088]],
+         [[-1.9803,  1.8888],
+          [ 1.2507,  1.1156],
+          [ 3.0533,  2.8131]],
 
-         [[ 1.7255,  0.7592],
-          [ 0.6242,  3.5455],
-          [ 1.9021,  1.1335]]],
+         [[-0.8355,  0.5726],
+          [ 1.8916,  1.9377],
+          [ 2.2285,  3.7143]]],
 
 
-        [[[ 1.5389,  1.5200],
-          [-0.0430,  1.2177],
-          [ 1.8611,  3.7190]],
+        [[[ 0.0131, -0.0956],
+          [ 1.0848,  2.0932],
+          [ 2.1682,  2.4639]],
 
-         [[-0.6965,  1.3945],
-          [ 0.7339,  0.3864],
-          [ 1.0317,  2.2053]],
+         [[-0.5357, -0.7628],
+          [ 1.2012,  2.5486],
+          [ 2.7595,  2.9068]],
 
-         [[-0.9446,  1.2506],
-          [ 0.4448,  0.3897],
-          [ 1.5293,  3.6477]]]])
+         [[-0.3642, -0.0413],
+          [ 0.7936,  1.7178],
+          [ 0.8948,  2.9918]]]])
 </pre></div>
 </div>
 </div>
@@ -583,7 +578,7 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.0896)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.1362)
 </pre></div>
 </div>
 </div>
@@ -613,8 +608,8 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: tensor([5.0086], requires_grad=True)
-ML std by gradient descent: tensor([1.9517], requires_grad=True)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: tensor([5.1666], requires_grad=True)
+ML std by gradient descent: tensor([2.0451], requires_grad=True)
 </pre></div>
 </div>
 </div>
@@ -627,8 +622,8 @@ ML std by gradient descent: tensor([1.9517], requires_grad=True)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: tensor(5.0084)
-ML std by formula: tensor(1.9545)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: tensor(5.1667)
+ML std by formula: tensor(2.0409)
 </pre></div>
 </div>
 </div>
@@ -666,7 +661,7 @@ true covariance matrix:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6349)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6904)
 </pre></div>
 </div>
 </div>
@@ -705,11 +700,11 @@ true covariance matrix:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
- tensor([-0.9429,  0.0496,  1.0101], requires_grad=True)
+ tensor([-0.9021,  0.0480,  0.9758], requires_grad=True)
 ML covariance by gradient descent: 
- tensor([[8.8793, 5.7819, 1.0710],
-        [5.7819, 4.7076, 1.1514],
-        [1.0710, 1.1514, 0.6006]], grad_fn=&lt;MmBackward&gt;)
+ tensor([[9.2005, 6.3344, 1.2912],
+        [6.3344, 5.3537, 1.3816],
+        [1.2912, 1.3816, 0.6837]], grad_fn=&lt;MmBackward&gt;)
 </pre></div>
 </div>
 </div>
@@ -728,11 +723,11 @@ ML covariance by gradient descent:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([-0.9429,  0.0496,  1.0101])
+ tensor([-0.9021,  0.0480,  0.9758])
 ML covariance by formula: 
- tensor([[8.8793, 5.7819, 1.0710],
-        [5.7819, 4.7076, 1.1514],
-        [1.0710, 1.1514, 0.6006]])
+ tensor([[9.2005, 6.3344, 1.2912],
+        [6.3344, 5.3537, 1.3816],
+        [1.2912, 1.3816, 0.6837]])
 </pre></div>
 </div>
 </div>
@@ -767,8 +762,8 @@ ML covariance by formula:
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="maximum-likelihood.html" title="previous page"><span class="section-number">7. </span>最大概似法</a>
-    <a class='right-next' id="next-link" href="likelihood-inference.html" title="next page"><span class="section-number">9. </span>概似推論</a>
+    <a class='left-prev' id="prev-link" href="maximum-likelihood.html" title="previous page"><span class="section-number">6. </span>最大概似法</a>
+    <a class='right-next' id="next-link" href="likelihood-inference.html" title="next page"><span class="section-number">8. </span>概似推論</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
