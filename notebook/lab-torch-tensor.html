@@ -93,43 +93,48 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="lab-torch-diff-opt.html">
+   5. Lab: 數值微分與優化
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="probability-distribution.html">
-   5. 機率分佈
+   6. 機率分佈
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="maximum-likelihood.html">
-   6. 最大概似法
+   7. 最大概似法
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-torch-mle.html">
-   7. Lab: 最大概似估計
+   8. Lab: 最大概似估計
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="likelihood-inference.html">
-   8. 概似推論
+   9. 概似推論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="true-score-model.html">
-   9. 真實分數模型
+   10. 真實分數模型
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="factor-analysis.html">
-   10. 因素分析
+   11. 因素分析
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="item-response-theory.html">
-   11. 試題反應理論
+   12. 試題反應理論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
+   13. 混合建模
   </a>
  </li>
 </ul>
@@ -425,11 +430,11 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.43642104 0.6778196  0.72069305 0.6363408  0.13960487 0.7098032 ]
- [0.16209203 0.43370277 0.5420476  0.53322554 0.06413972 0.28599638]]
+ [[0.75882035 0.5265252  0.8044858  0.48644155 0.32828307 0.5039017 ]
+ [0.4577276  0.71354574 0.20374936 0.8423138  0.45013225 0.13239509]]
 tensor with uninitialized data 
- [[0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
- [2.8e-45 0.0e+00 1.1e-44 0.0e+00 1.4e-45 0.0e+00]]
+ [[0.e+00 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]
+ [0.e+00 0.e+00 0.e+00 0.e+00 3.e-45 0.e+00]]
 </pre></div>
 </div>
 </div>
@@ -508,7 +513,9 @@ tensor with shape (12, 1) by (-1, 1):
  [10]
  [11]
  [12]]
-tensor with shape (12,): 
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with shape (12,): 
  [ 1  2  3  4  5  6  7  8  9 10 11 12]
 </pre></div>
 </div>
@@ -837,7 +844,9 @@ check for Cholesky decomposition
 eigenvector of c is 
  [[-0.78489445  0.61962948]
  [ 0.61962948  0.78489445]]
-check for eigen-decomposition 
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>check for eigen-decomposition 
  [[35. 44.]
  [44. 56.]]
 </pre></div>
@@ -900,7 +909,9 @@ check for singular value decomposition
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>calculate mean 
  3.5
-calculate standard deviation 
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>calculate standard deviation 
  1.8708286933869707
 calculate max 
  6.0
@@ -936,6 +947,19 @@ calculate mean for each row
 <h2><span class="section-number">3.4. </span>實徵範例<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
 <h3><span class="section-number">3.4.1. </span>產生線性迴歸資料<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">manual_seed</span></code> 僅適用於CPU，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7f81704f5fb0&gt;
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function to generate x and y</span>
@@ -980,27 +1004,27 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>feature matrix x is 
- [[10.22316917  9.52272319  9.89900549]
- [10.12718597  6.08727427 11.07207019]
- [10.07156549 12.97807941  7.48275962]
- [ 2.5783818   9.6991769  10.1276353 ]
- [12.40389544  9.46885698 12.24645609]
- [10.04789159 17.42200528 11.23721683]
- [ 8.2834497   9.90984317  8.68045253]
- [ 7.24781478 11.14525625  8.25908539]
- [10.31111179 11.55150734  4.42576114]
- [12.21137083  7.16104929  7.78726688]]
+ [[10.86425232  2.85930239 12.99748957]
+ [ 7.98709525  9.79137811 12.98202577]
+ [ 8.40585824 13.31645195  4.51125723]
+ [10.52843635 10.28388618  8.43102705]
+ [11.25624976 12.04005459 12.59301479]
+ [12.31145327  9.15153143  7.96220487]
+ [11.49807312 14.63609048  6.82995236]
+ [11.7234386   7.16098399  9.8980089 ]
+ [ 7.24735628  7.5570991   5.9154331 ]
+ [11.05035931 10.47430089  4.86376669]]
 response vector y is 
- [[-16.72523393]
- [-25.64607826]
- [ -6.11112296]
- [ 20.76576456]
- [-27.88363159]
- [  7.09660428]
- [ -5.90194579]
- [  0.96185607]
- [-11.74996196]
- [-32.80053298]]
+ [[-42.98404441]
+ [ -4.94309144]
+ [  0.31840093]
+ [-16.21407503]
+ [-13.77391657]
+ [-31.18360077]
+ [ -8.4871242 ]
+ [-31.53590804]
+ [ -7.8563037 ]
+ [-19.27007283]]
 </pre></div>
 </div>
 </div>
@@ -1046,9 +1070,9 @@ response vector y is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>intercept estimate is 
- 5.313247273069139
+ 4.996612423766793
 coefficient estimate is 
- [-5.00500263  2.98063507 -0.00897045]
+ [-4.98003037  2.98762589 -0.00737968]
 </pre></div>
 </div>
 </div>
@@ -1091,8 +1115,8 @@ coefficient estimate is
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>5.313247273069139
-[-5.00500263  2.98063507 -0.00897045]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.996612423766793
+[-4.98003037  2.98762589 -0.00737968]
 </pre></div>
 </div>
 </div>

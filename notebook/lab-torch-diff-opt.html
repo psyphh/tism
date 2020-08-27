@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Lab: 數值微分與優化 &#8212; 統計建模技法</title>
+    <title>5. Lab: 數值微分與優化 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,6 +39,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. 機率分佈" href="probability-distribution.html" />
+    <link rel="prev" title="4. 邏輯斯迴歸" href="logistic-regression.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -69,7 +71,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+  <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="mathematics-prerequisite.html">
    1. 先備數學知識
@@ -90,44 +92,49 @@
    4. 邏輯斯迴歸
   </a>
  </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   5. Lab: 數值微分與優化
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="probability-distribution.html">
-   5. 機率分佈
+   6. 機率分佈
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="maximum-likelihood.html">
-   6. 最大概似法
+   7. 最大概似法
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-torch-mle.html">
-   7. Lab: 最大概似估計
+   8. Lab: 最大概似估計
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="likelihood-inference.html">
-   8. 概似推論
+   9. 概似推論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="true-score-model.html">
-   9. 真實分數模型
+   10. 真實分數模型
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="factor-analysis.html">
-   10. 因素分析
+   11. 因素分析
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="item-response-theory.html">
-   11. 試題反應理論
+   12. 試題反應理論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
+   13. 混合建模
   </a>
  </li>
 </ul>
@@ -198,27 +205,22 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   數值微分
+   5.1. 數值微分
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     可微分張量之輸入
+     5.1.1. 可獲得梯度張量之輸入
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
-     數值微分之執行
+     5.1.2. 數值微分之執行
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#requires-grad">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       requires_grad
-      </span>
-     </code>
-     的進階控制
+    <a class="reference internal nav-link" href="#id4">
+     5.1.3. 可獲得梯度張量之進階控制
     </a>
    </li>
   </ul>
@@ -234,32 +236,24 @@
               <div>
                 
   <div class="section" id="lab">
-<h1>Lab: 數值微分與優化<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">5. </span>Lab: 數值微分與優化<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <p>在此 lab 中，我們將介紹</p>
 <ol class="simple">
 <li><p>如何使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行數值微分。</p></li>
 <li><p>如何使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行數值優化。</p></li>
 <li><p>利用前述知識，撰寫一採用梯度下降（gradient descent）獲得迴歸參數估計之類型。</p></li>
 </ol>
-<p>在開始之前，我們先載入 <code class="docutils literal notranslate"><span class="pre">torch</span></code>，並設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">manual_seed</span></code> 僅適用於CPU，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
-
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fd7b0e1c0f0&gt;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="id1">
-<h2>數值微分<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.1. </span>數值微分<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3>可微分張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">5.1.1. </span>可獲得梯度張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>而在統計模型中，模型之參數常需透過一優化（optimization）方法獲得，而許多的優化方法皆仰賴目標函數（objective function）的一階導數（first-order derivative），或稱梯度（gradient），因此，如何獲得目標函數對於模型參數的梯度，即為一重要的工作。</p>
 <p>在 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 中，張量不僅用於儲存資料，其亦用於儲存模型之參數。然而，誠如先前所述，我們很可能會需要用到對應於該參數之梯度訊息，因此，為了追朔該參數的歷史建立計算圖（computation graph），輸入該參數張量時需要加入 <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 此指令：</p>
 <div class="cell docutils container">
@@ -280,7 +274,7 @@
 <p>這裏，我們建立了一尺寸為 <span class="math notranslate nohighlight">\(3\)</span> 的張量，由於此張量具有 <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 此標記，因此，接下來對此張量進行任何的運算，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 皆會將此計算過程記錄下來。舉例來說：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
 <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor y: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor z: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
@@ -289,7 +283,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor y: 
- tensor([-2.,  0.,  2.], grad_fn=&lt;MulBackward0&gt;)
+ tensor([-2.,  0.,  2.], grad_fn=&lt;SubBackward0&gt;)
 tensor z: 
  tensor(8., grad_fn=&lt;SumBackward0&gt;)
 </pre></div>
@@ -299,8 +293,8 @@ tensor z:
 <p>我們可以看到，無論是 <code class="docutils literal notranslate"><span class="pre">y</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">z</span></code>，其都具有 <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 的標記。要特別注意的是，<code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 僅適用於資料類型為浮點數之張量。</p>
 </div>
 <div class="section" id="id3">
-<h3>數值微分之執行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>針對已追朔之運算過程，想要獲得與該運算有關的梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>此方法。在前一小節的例子中，<span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 (2x_{i} - 2)^2\)</span>，若想要獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dx}\)</span> 在當下 <span class="math notranslate nohighlight">\(x\)</span> 的數值的話，可使用以下的程式碼：</p>
+<h3><span class="section-number">5.1.2. </span>數值微分之執行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>針對已追朔之運算過程，想要獲得與該運算有關的梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>此方法。在前一小節的例子中，<span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 (2x_{i} - 4)^2\)</span>，若想要獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dx}\)</span> 在當下 <span class="math notranslate nohighlight">\(x\)</span> 的數值的話，可使用以下的程式碼：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
@@ -335,7 +329,7 @@ tensor z:
 <p>結果是不行，主因在於，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 為了節省記憶體的使用，因此，僅可提供位於計算圖葉子（leaf）張量之一次微分。如果希望能夠獲得 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span> 的話，可以對 <code class="docutils literal notranslate"><span class="pre">y</span></code> 使用 <code class="docutils literal notranslate"><span class="pre">.retain_grad()</span></code> 此方法：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
 <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">y</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
 <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
@@ -382,17 +376,17 @@ dz/dx:  tensor([0., 0., 0.])
 <p>接著，就可以使用原先的程式碼，計算 <span class="math notranslate nohighlight">\(\frac{d z}{dx}\)</span> 與 <span class="math notranslate nohighlight">\(\frac{d z}{dy}\)</span>：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
 <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">y</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
 <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dz/dy: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dz/dx: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dz/dy: &quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>dz/dy:  tensor([-8.,  0.,  8.])
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>dz/dx:  tensor([-8.,  0.,  8.])
 dz/dy:  tensor([-4.,  0.,  4.])
 </pre></div>
 </div>
@@ -400,26 +394,69 @@ dz/dy:  tensor([-4.,  0.,  4.])
 </div>
 <p>不過要特別注意的是，如果計算圖沒有重新建立，連續進行兩次 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> 會引發錯誤的訊息。</p>
 </div>
-<div class="section" id="requires-grad">
-<h3><code class="docutils literal notranslate"><span class="pre">requires_grad</span></code>的進階控制<a class="headerlink" href="#requires-grad" title="Permalink to this headline">¶</a></h3>
-<p>如果今天想將一原先沒有要求梯度之張量轉為要求時，可以使用 <code class="docutils literal notranslate"><span class="pre">.requires_grad_()</span></code> 此方法：</p>
+<div class="section" id="id4">
+<h3><span class="section-number">5.1.3. </span>可獲得梯度張量之進階控制<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>一個張量是否有被追朔以計算梯度，除了直接列印外，亦可透過 <code class="docutils literal notranslate"><span class="pre">.requires_grad</span></code> 此屬性來觀看</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>False
-True
 </pre></div>
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">.requires_grad_()</span></code> 會原地修改該向量的 <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code> 類型。</p>
+<p>如果想將一原先沒有要求梯度之張量，改為需要梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.requires_grad_()</span></code> 此方法原地修改該向量的 <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code> 類型：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>如果想將張量 <code class="docutils literal notranslate"><span class="pre">x</span></code> 拷貝到另一變量 <code class="docutils literal notranslate"><span class="pre">x_no</span></code>，卻不希望 <code class="docutils literal notranslate"><span class="pre">x_no</span></code> 的計算會被追朔時，可以使用以下的程式碼：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_no</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_no</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<p>最後，如果希望可獲得梯度之向量後續的計算歷程不被追朔的話，可以將計算程式碼置於 <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">torch.no_grad():</span></code> 此環境中，即</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">4</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>False
+False
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -452,6 +489,8 @@ True
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="logistic-regression.html" title="previous page"><span class="section-number">4. </span>邏輯斯迴歸</a>
+    <a class='right-next' id="next-link" href="probability-distribution.html" title="next page"><span class="section-number">6. </span>機率分佈</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
