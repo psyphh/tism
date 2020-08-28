@@ -348,4 +348,3 @@ model_lr = LinearRegression()
 model_lr.fit(x, y)
 print("bias estimate is \n", model_lr.bias.numpy())
 print("weight estimate is \n", model_lr.weight.numpy())
-
