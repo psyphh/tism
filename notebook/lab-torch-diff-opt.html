@@ -235,6 +235,29 @@
      5.2.1. 手動撰寫優化算則
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#torch-optim">
+     5.2.2. 使用
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       torch.optim
+      </span>
+     </code>
+     進行優化
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   5.3. 實徵範例
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     5.3.1. 產生邏吉斯迴歸資料
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -485,13 +508,13 @@ z &amp;= f(x)\\
 \end{aligned}
 \end{split}\]</div>
 <p>若想要找到一 <span class="math notranslate nohighlight">\(\widehat{x}\)</span>，其使得 <span class="math notranslate nohighlight">\(f(\widehat{x})\)</span> 達到最小值的話，由於 <span class="math notranslate nohighlight">\(z\)</span> 為 <span class="math notranslate nohighlight">\(y_1, y_2, y_3\)</span> 的平方和，因此，其會在 <span class="math notranslate nohighlight">\(\widehat{y} = (0, 0, 0)\)</span>的地方達到最小值，也意味著 <span class="math notranslate nohighlight">\(\widehat{x} = (2,2,2)\)</span>。</p>
-<p>那麼，我們應該如何使用數值方法，對 <span class="math notranslate nohighlight">\(f(x)\)</span> 進行優化呢？根據梯度下降（gradient descent）法，<span class="math notranslate nohighlight">\(\widehat{x}\)</span> 的更新規則為</p>
+<p>那麼，我們應該如何使用數值方法，對目標函數進行優化呢？令 <span class="math notranslate nohighlight">\(\theta\)</span> 表示模型參數（其扮演範例中<span class="math notranslate nohighlight">\(x\)</span>的角色），<span class="math notranslate nohighlight">\(\mathcal{D}(\theta)\)</span> 表示度量模型好壞的目標函數（其扮演<span class="math notranslate nohighlight">\(f(x)\)</span>的角色）。根據梯度下降（gradient descent）法，極小元（minimizer）<span class="math notranslate nohighlight">\(\widehat{\theta}\)</span> 的更新規則為</p>
 <div class="math notranslate nohighlight">
 \[
-\widehat{x} \leftarrow \widehat{x} - \alpha \times \frac{\partial f(x)}{\partial x}
+\widehat{\theta} \leftarrow \widehat{\theta} - s \times \frac{\partial \mathcal{D}(\widehat{\theta})}{\partial \theta}
 \]</div>
-<p>這裏，<span class="math notranslate nohighlight">\(\alpha\)</span> 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 <span class="math notranslate nohighlight">\(f\)</span> 足夠圓滑（smooth），且 <span class="math notranslate nohighlight">\(\alpha\)</span> 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 <span class="math notranslate nohighlight">\(f\)</span> 最小值的發生位置。</p>
-<p>在開始進行梯度下降前，我們先定義一函數 <code class="docutils literal notranslate"><span class="pre">f</span></code>，並了解起始狀態時，<code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">x</span></code> 的數值為何：</p>
+<p>這裏，<span class="math notranslate nohighlight">\(s\)</span> 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> 足夠圓滑（smooth），且 <span class="math notranslate nohighlight">\(s\)</span> 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> 最小值的發生位置。</p>
+<p>在開始進行梯度下降前，我們先定義一函數 <code class="docutils literal notranslate"><span class="pre">f</span></code> 使得<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">f(x)</span></code>，並了解起始狀態時，<code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">x</span></code> 的數值為何：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -520,10 +543,10 @@ z &amp;= f(x)\\
 <p>使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行梯度下降，需先計算在當下 <code class="docutils literal notranslate"><span class="pre">x</span></code> 數值下的梯度，接著，根據該梯度的訊息與設定的步伐大小對 <code class="docutils literal notranslate"><span class="pre">x</span></code> 進行更新，即</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
 <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
@@ -536,7 +559,7 @@ z &amp;= f(x)\\
 </div>
 </div>
 </div>
-<p>這裡，我們將步伐大小 <code class="docutils literal notranslate"><span class="pre">alpha</span></code> 設為0.1，透過 <code class="docutils literal notranslate"><span class="pre">z</span></code> 的數值，可觀察到梯度下降的確導致 <code class="docutils literal notranslate"><span class="pre">z</span></code> 數值的下降，而 <code class="docutils literal notranslate"><span class="pre">x</span></code> 也與 <span class="math notranslate nohighlight">\(\widehat{x}=(2,2,2)\)</span> 更加地靠近。</p>
+<p>這裡，我們將學習速率 <code class="docutils literal notranslate"><span class="pre">lr</span></code> 設為0.1，而張量的 <code class="docutils literal notranslate"><span class="pre">.sub_()</span></code> 方法則是就地減去括號內的數值直接更新。透過 <code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 的數值，可觀察到梯度下降的確導致 <code class="docutils literal notranslate"><span class="pre">z</span></code> 數值的下降，而 <code class="docutils literal notranslate"><span class="pre">x</span></code> 也與 <span class="math notranslate nohighlight">\(\widehat{x}=(2,2,2)\)</span> 更加地靠近。</p>
 <p>梯度下降的算則，需重複前述的程序多次，才可獲得一收斂的解。最簡單的方法，即使用 <code class="docutils literal notranslate"><span class="pre">for</span></code> 迴圈，重複更新<span class="math notranslate nohighlight">\(I\)</span>次：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -547,7 +570,7 @@ z &amp;= f(x)\\
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
     <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
     <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
@@ -590,7 +613,7 @@ iter 20, f(x) = 0.000, x = tensor([2., 2., 2.])
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
     <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, z = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
@@ -614,6 +637,71 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="torch-optim">
+<h3><span class="section-number">5.2.2. </span>使用<code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>進行優化<a class="headerlink" href="#torch-optim" title="Permalink to this headline">¶</a></h3>
+<p>由於 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 已內建了進行優化的方法，因此，在絕大多數的情況下，可直接利用 <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code> 的類型來求得函數的最小值。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 為進行梯度下降法之物件，由於 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 主要用於進行深度學習，在該領域種主要使用的是隨機梯度下降（stochastic gradient descent）或是迷你批次梯度下降（mini-batch gradient descent）來強化優化的效能，因此，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 使用 <code class="docutils literal notranslate"><span class="pre">SGD</span></code> 一詞。事實上，除了計算一階導數時資料量的差異外，<code class="docutils literal notranslate"><span class="pre">SGD</span></code> 與傳統的梯度下降並無差異。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 可透過以下的程式碼來使用：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+                 <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">((</span><span class="n">x</span><span class="p">,),</span> <span class="n">lr</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, z = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
+        <span class="k">break</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>iter  1, z = 0.320, x = tensor([1.8000, 2.0000, 2.2000])
+iter  2, z = 0.013, x = tensor([1.9600, 2.0000, 2.0400])
+iter  3, z = 0.001, x = tensor([1.9920, 2.0000, 2.0080])
+iter  4, z = 0.000, x = tensor([1.9984, 2.0000, 2.0016])
+iter  5, z = 0.000, x = tensor([1.9997, 2.0000, 2.0003])
+iter  6, z = 0.000, x = tensor([1.9999, 2.0000, 2.0001])
+iter  7, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  8, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  9, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+</pre></div>
+</div>
+</div>
+</div>
+<p>這裡，我們使用 <code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 來生成優化器（optimizer）物件 <code class="docutils literal notranslate"><span class="pre">opt</span></code>，其在生成時，需要指定其追朔的變量，並以一可迭代的物件（iterable object）作為輸入，因此，在該程式碼中，我們將 <code class="docutils literal notranslate"><span class="pre">x</span></code> 以一元組（tuple）的方式來輸入，並指定學習速率 <code class="docutils literal notranslate"><span class="pre">lr=.1</span></code>。使用內建優化器時，仍須手動對目標函數執行 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>，但更新估計值的步驟，可使用優化器的 <code class="docutils literal notranslate"><span class="pre">.step()</span></code> 來進行，而消除變量的 <code class="docutils literal notranslate"><span class="pre">.grad</span></code>，則可使用優化器的 <code class="docutils literal notranslate"><span class="pre">.zero_grad()</span></code> 方法。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 容許使用者加入動能（momentum）<span class="math notranslate nohighlight">\(m\)</span>（其預設為 0），此時，優化算則會改為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\delta &amp; \leftarrow m \times  \delta + \frac{\partial \mathcal{D}(\widehat{\theta})}{\partial \theta} \\
+\widehat{\theta} &amp;\leftarrow \widehat{\theta} - s \times \delta
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\delta\)</span> 表示更新的方向。此算則中，更新的方向不單單倚賴當下目標函數的梯度，其亦考慮到先前的梯度方向，因此，引入動能會使得求解的路徑更為平滑。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 中，有許多不同的優化器（見<a class="reference external" href="https://pytorch.org/docs/stable/optim.html"><code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>頁面</a>），如</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Adadelta</span></code>（見<a class="reference external" href="https://arxiv.org/abs/1212.5701">ADADELTA: An Adaptive Learning Rate Method</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Adagrad</span></code>（見<a class="reference external" href="https://jmlr.org/papers/v12/duchi11a.html">Adaptive Subgradient Methods for Online Learning and Stochastic Optimization</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Adam</span></code>（見<a class="reference external" href="https://arxiv.org/abs/1412.6980">Adam: A Method for Stochastic Optimization</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LBFGS</span></code>（見<a class="reference external" href="https://doi.org/10.1007/BF01589116">On the limited memory BFGS method for large scale optimization</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Adadelta</span></code>（見<a class="reference external" href="https://arxiv.org/abs/1212.5701">ADADELTA: An Adaptive Learning Rate Method</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RMSprop</span></code>（見<a class="reference external" href="https://arxiv.org/abs/1308.0850">Generating Sequences With Recurrent Neural Networks</a>）</p></li>
+</ul>
+<p>讀者可自行深入了解這些方法。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2><span class="section-number">5.3. </span>實徵範例<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3><span class="section-number">5.3.1. </span>產生邏吉斯迴歸資料<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
