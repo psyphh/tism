@@ -126,7 +126,7 @@ $$
 $$
 這裏，$\alpha$ 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 $f$ 足夠圓滑（smooth），且 $\alpha$ 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 $f$ 最小值的發生位置。
 
-在開始進行梯度下降前，我們先定義一函數 `f`，並了解起始狀態時，`f(x)` 與 `x` 的數值為何：
+在開始進行梯度下降前，我們先定義一函數 `f` 使得`z = f(x)`，並了解起始狀態時，`f(x)` 與 `x` 的數值為何：
 
 def f(x):
     z = ((2 * x - 4) ** 2).sum()
@@ -140,15 +140,15 @@ print("f(x) = {:2.3f}, x = {}".format(z.item(), x.data))
 
 使用 `torch` 進行梯度下降，需先計算在當下 `x` 數值下的梯度，接著，根據該梯度的訊息與設定的步伐大小對 `x` 進行更新，即
 
-alpha = .1
+lr = .1
 z.backward()
 with torch.no_grad():
-    x.sub_(alpha * x.grad)
+    x.sub_(lr * x.grad)
     x.grad.zero_()
 z = f(x)
 print("f(x) = {:2.3f}, x = {}".format(z.item(), x.data))
 
-這裡，我們將步伐大小 `alpha` 設為0.1，透過 `z` 的數值，可觀察到梯度下降的確導致 `z` 數值的下降，而 `x` 也與 $\widehat{x}=(2,2,2)$ 更加地靠近。
+這裡，我們將學習速率 `lr` 設為0.1，而張量的 `.sub_()` 方法則是就地減去括號內的數值直接更新。透過 `f(x)` 的數值，可觀察到梯度下降的確導致 `z` 數值的下降，而 `x` 也與 $\widehat{x}=(2,2,2)$ 更加地靠近。
 
 梯度下降的算則，需重複前述的程序多次，才可獲得一收斂的解。最簡單的方法，即使用 `for` 迴圈，重複更新$I$次：
 
@@ -159,7 +159,7 @@ z = f(x)
 for i in range(1, 21):
     z.backward()
     with torch.no_grad():
-        x.sub_(alpha * x.grad)
+        x.sub_(lr * x.grad)
     z = f(x)
     print("iter {:2.0f}, f(x) = {:2.3f}, x = {}".format(i, z.item(), x.data))
     x.grad.zero_()
@@ -174,9 +174,27 @@ z = f(x)
 for i in range(1, 21):
     z.backward()
     with torch.no_grad():
-        x.sub_(alpha * x.grad)
+        x.sub_(lr * x.grad)
     z = f(x)
     print("iter {:2.0f}, z = {:2.3f}, x = {}".format(i, z.item(), x.data))
     if (x.grad.abs().max().item() < tol):
         break
     x.grad.zero_()
+
+### 使用`torch.optim`進行優化
+
+由於 `torch` 已內建了進行優化的函數，因此，在多數的情況下，可直接利用 `torch.optim`
+
+x = torch.tensor([1, 2, 3],
+                 dtype = torch.float,
+                 requires_grad=True)
+opt = torch.optim.SGD((x,), lr=.1)
+z = f(x)
+for i in range(1, 21):
+    z.backward()
+    opt.step()
+    z = f(x)
+    print("iter {:2.0f}, z = {:2.3f}, x = {}".format(i, z.item(), x.data))
+    if (x.grad.abs().max().item() < tol):
+        break
+    opt.zero_grad()

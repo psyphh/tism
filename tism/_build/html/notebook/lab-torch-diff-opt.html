@@ -235,6 +235,17 @@
      5.2.1. 手動撰寫優化算則
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#torch-optim">
+     5.2.2. 使用
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       torch.optim
+      </span>
+     </code>
+     進行優化
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -491,7 +502,7 @@ z &amp;= f(x)\\
 \widehat{x} \leftarrow \widehat{x} - \alpha \times \frac{\partial f(x)}{\partial x}
 \]</div>
 <p>這裏，<span class="math notranslate nohighlight">\(\alpha\)</span> 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 <span class="math notranslate nohighlight">\(f\)</span> 足夠圓滑（smooth），且 <span class="math notranslate nohighlight">\(\alpha\)</span> 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 <span class="math notranslate nohighlight">\(f\)</span> 最小值的發生位置。</p>
-<p>在開始進行梯度下降前，我們先定義一函數 <code class="docutils literal notranslate"><span class="pre">f</span></code>，並了解起始狀態時，<code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">x</span></code> 的數值為何：</p>
+<p>在開始進行梯度下降前，我們先定義一函數 <code class="docutils literal notranslate"><span class="pre">f</span></code> 使得<code class="docutils literal notranslate"><span class="pre">z</span> <span class="pre">=</span> <span class="pre">f(x)</span></code>，並了解起始狀態時，<code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">x</span></code> 的數值為何：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -520,10 +531,10 @@ z &amp;= f(x)\\
 <p>使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行梯度下降，需先計算在當下 <code class="docutils literal notranslate"><span class="pre">x</span></code> 數值下的梯度，接著，根據該梯度的訊息與設定的步伐大小對 <code class="docutils literal notranslate"><span class="pre">x</span></code> 進行更新，即</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span>
 <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-    <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
 <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
@@ -536,7 +547,7 @@ z &amp;= f(x)\\
 </div>
 </div>
 </div>
-<p>這裡，我們將步伐大小 <code class="docutils literal notranslate"><span class="pre">alpha</span></code> 設為0.1，透過 <code class="docutils literal notranslate"><span class="pre">z</span></code> 的數值，可觀察到梯度下降的確導致 <code class="docutils literal notranslate"><span class="pre">z</span></code> 數值的下降，而 <code class="docutils literal notranslate"><span class="pre">x</span></code> 也與 <span class="math notranslate nohighlight">\(\widehat{x}=(2,2,2)\)</span> 更加地靠近。</p>
+<p>這裡，我們將學習速率 <code class="docutils literal notranslate"><span class="pre">lr</span></code> 設為0.1，而張量的 <code class="docutils literal notranslate"><span class="pre">.sub_()</span></code> 方法則是就地減去括號內的數值直接更新。透過 <code class="docutils literal notranslate"><span class="pre">f(x)</span></code> 的數值，可觀察到梯度下降的確導致 <code class="docutils literal notranslate"><span class="pre">z</span></code> 數值的下降，而 <code class="docutils literal notranslate"><span class="pre">x</span></code> 也與 <span class="math notranslate nohighlight">\(\widehat{x}=(2,2,2)\)</span> 更加地靠近。</p>
 <p>梯度下降的算則，需重複前述的程序多次，才可獲得一收斂的解。最簡單的方法，即使用 <code class="docutils literal notranslate"><span class="pre">for</span></code> 迴圈，重複更新<span class="math notranslate nohighlight">\(I\)</span>次：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -547,7 +558,7 @@ z &amp;= f(x)\\
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
     <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, f(x) = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
     <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
@@ -590,12 +601,49 @@ iter 20, f(x) = 0.000, x = tensor([2., 2., 2.])
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
     <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="p">)</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, z = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
         <span class="k">break</span>
     <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>iter  1, z = 0.320, x = tensor([1.8000, 2.0000, 2.2000])
+iter  2, z = 0.013, x = tensor([1.9600, 2.0000, 2.0400])
+iter  3, z = 0.001, x = tensor([1.9920, 2.0000, 2.0080])
+iter  4, z = 0.000, x = tensor([1.9984, 2.0000, 2.0016])
+iter  5, z = 0.000, x = tensor([1.9997, 2.0000, 2.0003])
+iter  6, z = 0.000, x = tensor([1.9999, 2.0000, 2.0001])
+iter  7, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  8, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter  9, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="torch-optim">
+<h3><span class="section-number">5.2.2. </span>使用<code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>進行優化<a class="headerlink" href="#torch-optim" title="Permalink to this headline">¶</a></h3>
+<p>由於 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 已內建了進行優化的函數，因此，在多數的情況下，可直接利用 <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+                 <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">((</span><span class="n">x</span><span class="p">,),</span> <span class="n">lr</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">):</span>
+    <span class="n">z</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, z = </span><span class="si">{:2.3f}</span><span class="s2">, x = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
+        <span class="k">break</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
