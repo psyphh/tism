@@ -233,6 +233,8 @@ class LogisticRegression():
             opt.step()
         return self
 
+### 計算模型參數
+
 # fit logistic model
 lr_model = LogisticRegression()
 lr_model.fit(x, y, epochs = 2000, lr = 1)
