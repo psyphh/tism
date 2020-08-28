@@ -201,7 +201,7 @@ x, y = generate_data(n_sample = 1000,
                      std_feature = 3,
                      dtype = torch.float64)
 
-### 計算模型參數
+### 建立一進行邏吉斯迴歸分析之物件
 
 # define a class to fit logistic regression
 class LogisticRegression():
@@ -236,11 +236,10 @@ class LogisticRegression():
 ### 計算模型參數
 
 # fit logistic model
-lr_model = LogisticRegression()
-lr_model.fit(x, y, epochs = 2000, lr = 1)
-print(lr_model.bias)
-print(lr_model.weight)
-
+model_lr = LogisticRegression()
+model_lr.fit(x, y, epochs = 2000, lr = 1)
+print(model_lr.bias)
+print(model_lr.weight)
 
 # fit logistic model via sklearn
 # please install sklearn first
