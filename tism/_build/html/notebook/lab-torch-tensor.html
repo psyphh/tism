@@ -430,13 +430,11 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.02895176 0.94688255 0.41787893 0.5014122  0.25421917 0.8561887 ]
- [0.02338874 0.30045998 0.8770489  0.9453684  0.5081183  0.68974465]]
+ [[0.17996073 0.07751584 0.0452401  0.43649668 0.39779264 0.51213384]
+ [0.4908442  0.5903788  0.23174506 0.41080868 0.58999246 0.07659847]]
 tensor with uninitialized data 
- [[ 2.4259038e-18  1.7516231e-43  1.4012985e-45  2.3510604e-38
-  -2.2662319e-34 -8.5920297e+09]
- [-2.4576386e-34 -8.5920297e+09  7.0064923e-45 -8.5899346e+09
-   0.0000000e+00 -8.5899346e+09]]
+ [[0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
+ [2.8e-45 0.0e+00 1.1e-44 0.0e+00 1.4e-45 0.0e+00]]
 </pre></div>
 </div>
 </div>
@@ -951,7 +949,7 @@ calculate mean for each row
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fe88887dfb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fe52082efb0&gt;
 </pre></div>
 </div>
 </div>
@@ -959,14 +957,14 @@ calculate mean for each row
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function to generate x and y</span>
-<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span>
-                  <span class="n">intercept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span>
+                  <span class="n">bias</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                   <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                   <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
                   <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                   <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
-    <span class="n">coef</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
-    <span class="n">n_feature</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">n_feature</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean_feature</span><span class="p">,</span>
                      <span class="n">std</span> <span class="o">=</span> <span class="n">std_feature</span><span class="p">,</span>
                      <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_feature</span><span class="p">),</span>
@@ -975,8 +973,8 @@ calculate mean for each row
                      <span class="n">std</span> <span class="o">=</span> <span class="n">std_residual</span><span class="p">,</span>
                      <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
                      <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
-    <span class="n">coef</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">coef</span> <span class="o">+</span> <span class="n">e</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">weight</span> <span class="o">+</span> <span class="n">e</span>
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
 </pre></div>
 </div>
@@ -986,8 +984,8 @@ calculate mean for each row
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run generate_data</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-                     <span class="n">coef</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                     <span class="n">intercept</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                     <span class="n">weight</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">bias</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
                      <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                      <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
                      <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
@@ -1041,9 +1039,9 @@ response vector y is
     <span class="n">parameter</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span>
         <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_design</span><span class="p">)</span> <span class="o">@</span> \
                 <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>
-    <span class="n">intercept</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">coef</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">coef</span>
+    <span class="n">bias</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">bias</span><span class="p">,</span> <span class="n">weight</span>
 </pre></div>
 </div>
 </div>
@@ -1052,22 +1050,22 @@ response vector y is
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run calculate_parameter</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-                     <span class="n">coef</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                     <span class="n">intercept</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                     <span class="n">weight</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">bias</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
                      <span class="n">std_residual</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
                      <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
                      <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
                      <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-<span class="n">intercept</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="n">calculate_parameter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">intercept</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coefficient estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">coef</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">bias</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">calculate_parameter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bias estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">bias</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;weight estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>intercept estimate is 
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>bias estimate is 
  4.996612423766793
-coefficient estimate is 
+weight estimate is 
  [-4.98003037  2.98762589 -0.00737968]
 </pre></div>
 </div>
@@ -1082,8 +1080,8 @@ coefficient estimate is
 <span class="k">class</span> <span class="nc">LinearRegression</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coef</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -1094,8 +1092,8 @@ coefficient estimate is
         <span class="n">parameter</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">x_design</span><span class="p">)</span> <span class="o">@</span> \
                     <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_design</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">y</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coef</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span>
 </pre></div>
 </div>
@@ -1103,16 +1101,19 @@ coefficient estimate is
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">linear_regression</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
-<span class="n">linear_regression</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">linear_regression</span><span class="o">.</span><span class="n">intercept</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">linear_regression</span><span class="o">.</span><span class="n">coef</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model_lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">model_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;bias estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">model_lr</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;weight estimate is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">model_lr</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.996612423766793
-[-4.98003037  2.98762589 -0.00737968]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>bias estimate is 
+ 4.996612423766793
+weight estimate is 
+ [-4.98003037  2.98762589 -0.00737968]
 </pre></div>
 </div>
 </div>

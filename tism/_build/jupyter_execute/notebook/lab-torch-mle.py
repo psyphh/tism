@@ -3,6 +3,8 @@ Lab: 最大概似估計
 
 import torch
 
+## `torch` 分配物件
+
 from torch.distributions import Normal
 normal = Normal(loc=0., scale=1.)
 
@@ -87,17 +89,18 @@ print("random sample with sample_shape (3,):\n",
 print("random sample with sample_shape (2, 3):\n",
       mvn_batch.sample(sample_shape=(2, 3)))
 
+## 計算最大概似估計值
 
 mu_true = torch.tensor([5.])
 sigma_true = torch.tensor([2.])
-normal_model_true = Normal(
+model_normal_true = Normal(
     loc=mu_true,
     scale=sigma_true)
-print("normal model:\n", normal_model_true, "\n")
+print("normal model:\n", model_normal_true, "\n")
 
 sample_size = 1000
-x = normal_model_true.sample(sample_shape=(sample_size,))
-loss_value = -torch.mean(torch.sum(normal_model_true.log_prob(x), dim = 1))
+x = model_normal_true.sample(sample_shape=(sample_size,))
+loss_value = -torch.mean(torch.sum(model_normal_true.log_prob(x), dim = 1))
 print("negative likelihood value is", loss_value)
 
 
@@ -105,13 +108,13 @@ epochs = 200
 lr = 1.0
 mu = torch.tensor([0.], requires_grad=True)
 sigma = torch.tensor([1.], requires_grad=True)
-optimizer = torch.optim.Adam([mu, sigma], lr=.5)
+opt = torch.optim.Adam([mu, sigma], lr=.5)
 for epoch in range(epochs):
-    normal_model = Normal(loc=mu, scale=sigma)
-    loss_value = -torch.mean(normal_model.log_prob(x))
-    optimizer.zero_grad()
+    model_normal = Normal(loc=mu, scale=sigma)
+    loss_value = -torch.mean(model_normal.log_prob(x))
+    opt.zero_grad()
     loss_value.backward() # compute the gradient
-    optimizer.step()
+    opt.step()
 
 print("ML mean by gradient descent:", mu)
 print("ML std by gradient descent:", sigma)
@@ -121,15 +124,15 @@ print("ML std by formula:", torch.std(x, unbiased=False))
 
 mu_true = torch.tensor([-1., 0., 1.])
 sigma_tril_true = torch.tensor([[3., 0., 0.], [2., 1., 0.], [.4, .5, .5]])
-mvn_model_true = MultivariateNormal(
+model_mvn_true = MultivariateNormal(
     loc=mu_true,
     scale_tril=sigma_tril_true)
-print("true mean vector: \n", mvn_model_true.mean)
-print("true covariance matrix: \n", mvn_model_true.covariance_matrix)
+print("true mean vector: \n", model_mvn_true.mean)
+print("true covariance matrix: \n", model_mvn_true.covariance_matrix)
 
 sample_size = 1000
-x = mvn_model_true.sample(sample_shape=(sample_size,))
-loss_value = -torch.mean(mvn_model_true.log_prob(x))
+x = model_mvn_true.sample(sample_shape=(sample_size,))
+loss_value = -torch.mean(model_mvn_true.log_prob(x))
 print("negative likelihood value is", loss_value)
 
 
@@ -140,16 +143,16 @@ mu = torch.tensor(
 sigma_tril = torch.tensor(
     [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]],
     requires_grad=True)
-optimizer = torch.optim.Adam([mu, sigma_tril], lr=lr)
+opt = torch.optim.Adam([mu, sigma_tril], lr=lr)
 
 for epoch in range(epochs):
-    mvn_model = MultivariateNormal(
+    model_mvn = MultivariateNormal(
     loc=mu,
     scale_tril=sigma_tril)
-    loss_value = -torch.mean(mvn_model.log_prob(x))
-    optimizer.zero_grad()
+    loss_value = -torch.mean(model_mvn.log_prob(x))
+    opt.zero_grad()
     loss_value.backward() # compute the gradient
-    optimizer.step()
+    opt.step()
 
 print("ML mean by gradient descent: \n",
       mu)
@@ -163,3 +166,84 @@ print("ML mean by formula: \n",
       sample_mean)
 print("ML covariance by formula: \n",
       sample_cov)
+
+
+## 實徵範例
+
+### 產生邏吉斯迴歸資料
+
+torch.manual_seed(48)
+
+from torch.distributions import Bernoulli
+def generate_data(n_sample,
+                  weight,
+                  bias = 0,
+                  mean_feature = 0,
+                  std_feature = 1,
+                  dtype = torch.float64):
+    weight = torch.tensor(weight, dtype = dtype)
+    n_feature = weight.shape[0]
+    x = torch.normal(mean = mean_feature,
+                     std = std_feature,
+                     size = (n_sample, n_feature),
+                     dtype = dtype)
+    weight = weight.view(size = (-1, 1))
+    logit = bias + x @ weight
+    bernoulli = Bernoulli(logits = logit)
+    y = bernoulli.sample()
+    return x, y
+
+# run generate_data
+x, y = generate_data(n_sample = 1000,
+                     weight = [-5, 3, 0],
+                     bias = 2,
+                     mean_feature = 10,
+                     std_feature = 3,
+                     dtype = torch.float64)
+
+### 計算模型參數
+
+# define a class to fit logistic regression
+class LogisticRegression():
+    def __init__(self, dtype = torch.float64):
+        self.dtype = dtype
+        self.weight = None
+        self.bias = None
+    def log_lik(self, x, y):
+        logit = self.bias + x @ self.weight
+        bernoulli = Bernoulli(logits = logit)
+        return torch.mean(bernoulli.log_prob(y))
+    def fit(self, x, y, epochs = 200, lr = .1):
+        if x.dtype is not self.dtype:
+            x = x.type(dtype = self.dtype)
+        if y.dtype is not self.dtype:
+            y = y.type(dtype = self.dtype)
+        n_feature = x.size()[1]
+        self.bias = torch.zeros(size = (1,),
+                                dtype = self.dtype,
+                                requires_grad = True)
+        self.weight = torch.zeros(size = (n_feature, 1),
+                                  dtype = self.dtype,
+                                  requires_grad = True)
+        opt = torch.optim.Adam([self.bias, self.weight], lr=lr)
+        for epoch in range(epochs):
+            loss_value = - self.log_lik(x, y)
+            opt.zero_grad()
+            loss_value.backward() # compute the gradient
+            opt.step()
+        return self
+
+# fit logistic model
+lr_model = LogisticRegression()
+lr_model.fit(x, y, epochs = 2000, lr = 1)
+print(lr_model.bias)
+print(lr_model.weight)
+
+
+# fit logistic model via sklearn
+# please install sklearn first
+from sklearn import linear_model
+model_lr_sklearn = linear_model.LogisticRegression(C=10000)
+model_lr_sklearn.fit(x, y)
+print(model_lr_sklearn.intercept_)
+print(model_lr_sklearn.coef_)

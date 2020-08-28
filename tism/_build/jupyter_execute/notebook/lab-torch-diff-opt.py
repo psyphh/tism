@@ -225,3 +225,9 @@ $$
 + `LBFGS`（見[On the limited memory BFGS method for large scale optimization](https://doi.org/10.1007/BF01589116)）
 + `Adadelta`（見[ADADELTA: An Adaptive Learning Rate Method](https://arxiv.org/abs/1212.5701)）
 + `RMSprop`（見[Generating Sequences With Recurrent Neural Networks](https://arxiv.org/abs/1308.0850)）
+
+讀者可自行深入了解這些方法。
+
+## 實徵範例
+
+### 產生邏吉斯迴歸資料

@@ -259,14 +259,14 @@ torch.manual_seed(48)
 
 
 # define a function to generate x and y
-def generate_data(n_sample, coef,
-                  intercept = 0,
+def generate_data(n_sample, weight,
+                  bias = 0,
                   std_residual = 1,
                   mean_feature = 0,
                   std_feature = 1,
                   dtype = torch.float64):
-    coef = torch.tensor(coef, dtype = dtype)
-    n_feature = coef.shape[0]
+    weight = torch.tensor(weight, dtype = dtype)
+    n_feature = weight.shape[0]
     x = torch.normal(mean = mean_feature,
                      std = std_feature,
                      size = (n_sample, n_feature),
@@ -275,14 +275,14 @@ def generate_data(n_sample, coef,
                      std = std_residual,
                      size = (n_sample, 1),
                      dtype = dtype)
-    coef = coef.view(size = (-1, 1))
-    y = intercept + x @ coef + e
+    weight = weight.view(size = (-1, 1))
+    y = bias + x @ weight + e
     return x, y
 
 # run generate_data
 x, y = generate_data(n_sample = 10,
-                     coef = [-5, 3, 0],
-                     intercept = 5,
+                     weight = [-5, 3, 0],
+                     bias = 5,
                      std_residual = 1,
                      mean_feature = 10,
                      std_feature = 3,
@@ -305,21 +305,21 @@ def calculate_parameter(x, y, dtype = torch.float64):
     parameter = torch.inverse(
         torch.transpose(x_design, dim0=0, dim1=1) @ x_design) @ \
                 torch.transpose(x_design, dim0=0, dim1=1) @ y
-    intercept = parameter[0, 0]
-    coef = parameter[1:, 0]
-    return intercept, coef
+    bias = parameter[0, 0]
+    weight = parameter[1:, 0]
+    return bias, weight
 
 # run calculate_parameter
 x, y = generate_data(n_sample = 1000,
-                     coef = [-5, 3, 0],
-                     intercept = 5,
+                     weight = [-5, 3, 0],
+                     bias = 5,
                      std_residual = 1,
                      mean_feature = 10,
                      std_feature = 3,
                      dtype = torch.float64)
-intercept, coef = calculate_parameter(x, y)
-print("intercept estimate is \n", intercept.numpy())
-print("coefficient estimate is \n", coef.numpy())
+bias, weight = calculate_parameter(x, y)
+print("bias estimate is \n", bias.numpy())
+print("weight estimate is \n", weight.numpy())
 
 
 ### 建立一進行迴歸分析之物件
@@ -328,8 +328,8 @@ print("coefficient estimate is \n", coef.numpy())
 class LinearRegression():
     def __init__(self, dtype = torch.float64):
         self.dtype = dtype
-        self.intercept = None
-        self.coef = None
+        self.bias = None
+        self.weight = None
     def fit(self, x, y):
         if x.dtype is not self.dtype:
             x = x.type(dtype = self.dtype)
@@ -340,11 +340,12 @@ class LinearRegression():
         parameter = torch.inverse(
             torch.transpose(x_design, dim0=0, dim1=1) @ x_design) @ \
                     torch.transpose(x_design, dim0=0, dim1=1) @ y
-        self.intercept = parameter[0, 0]
-        self.coef = parameter[1:, 0]
+        self.bias = parameter[0, 0]
+        self.weight = parameter[1:, 0]
         return self
 
-linear_regression = LinearRegression()
-linear_regression.fit(x, y)
-print(linear_regression.intercept.numpy())
-print(linear_regression.coef.numpy())
+model_lr = LinearRegression()
+model_lr.fit(x, y)
+print("bias estimate is \n", model_lr.bias.numpy())
+print("weight estimate is \n", model_lr.weight.numpy())
+
