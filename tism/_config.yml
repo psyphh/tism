@@ -12,3 +12,11 @@ latex:
 html:
   extra_navbar:
 
+repository:
+  url                       : https://github.com/psyphh/tism  # Online location of your book
+  path_to_book              : tism/  # Optional path to your book, relative to the repository root
+  branch                    : master
+
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"

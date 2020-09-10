@@ -194,6 +194,22 @@
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/psyphh/tism/blob/master/tism/notebook/mathematics-prerequisite.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
@@ -202,7 +218,53 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   1.1. 向量
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     1.1.1. 何謂向量？
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     1.1.2. 向量的運算
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     1.1.3. 距離、內積、與餘弦值
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   1.2. 矩陣
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     1.2.1. 何謂矩陣
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     1.2.2. 矩陣的運算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id9">
+   1.3. 反矩陣
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -213,6 +275,351 @@
                 
   <div class="section" id="id1">
 <h1><span class="section-number">1. </span>先備數學知識<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2><span class="section-number">1.1. </span>向量<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">1.1.1. </span>何謂向量？<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>在進行統計建模時，一筆觀測值（observation）常透過向量（vector）來表徵。令 <span class="math notranslate nohighlight">\(x\)</span> 表示一 <span class="math notranslate nohighlight">\(M\)</span> 維之直行向量（column vector），則其包含了 <span class="math notranslate nohighlight">\(x_1,x_2,...,x_M\)</span> 共 <span class="math notranslate nohighlight">\(M\)</span> 個元素（element），按順序由上至下排列而成，即</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x =
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_M
+\end{pmatrix}
+\end{split}\]</div>
+<p>在此講義中，我們將使用 <span class="math notranslate nohighlight">\(x_m\)</span> 來表示 <span class="math notranslate nohighlight">\(x\)</span> 的第 <span class="math notranslate nohighlight">\(m\)</span> 個元素。</p>
+<p>我們可以將 <span class="math notranslate nohighlight">\(x\)</span> 轉置（transpose），將其轉為一橫列向量，即</p>
+<div class="math notranslate nohighlight">
+\[
+x^T =
+\begin{pmatrix}
+x_1 &amp; x_2 &amp; \cdots &amp; x_M
+\end{pmatrix}
+\]</div>
+<p>透過轉置，原本由上而下的排列，改成有左至右的排列。不過，請記得在文獻中向量一詞，大多指稱的是直行向量。</p>
+<p>一個向量長度（length），可透過其範數（norm）來獲得。範數有許多種定義方式，不過，最常見的為 <span class="math notranslate nohighlight">\(L_2\)</span> 範數，即</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+||x|| &amp;= \sqrt{x_1^2 + x_2^2 +...+x_M^2}\\
+&amp; = \sqrt{ \sum_{m=1}^M x_m^2}
+\end{aligned}
+\end{split}\]</div>
+<p>唯有當 <span class="math notranslate nohighlight">\(x\)</span> 的所有成分皆為0時，其範數才會是0。</p>
+<p>當一向量的範數為1時，我們會說其為標準化的（normalized）向量，給定任何長度不為0的向量 <span class="math notranslate nohighlight">\(x\)</span>，我們可以透過以下公式對其進行標準化</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+x^* = \frac{1}{||x||} x =
+\begin{pmatrix}
+\frac{1}{||x||} x_1 \\
+\frac{1}{||x||} x_2 \\
+\vdots \\
+\frac{1}{||x||} x_M
+\end{pmatrix}
+\end{split}\]</div>
+<p>這邊牽涉到純量對向量的乘法，請見下一小節。</p>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">1.1.2. </span>向量的運算<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 表示兩 <span class="math notranslate nohighlight">\(M\)</span> 維之向量，則我們可以將向量的加減法分別定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+x  + y=
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_M
+\end{pmatrix}
++
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_M
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_1 + y_1 \\
+x_2 + y_2 \\
+\vdots \\
+x_M + y_M
+\end{pmatrix}
+\end{aligned}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+x  - y=
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_M
+\end{pmatrix}
+-
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_M
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_1 - y_1 \\
+x_2 - y_2 \\
+\vdots \\
+x_M - y_M
+\end{pmatrix}
+\end{aligned}
+\end{split}\]</div>
+<p>即所謂元素對元素的（element to element）加減法。依循相同的邏輯，我們可定義所謂元素對元素的乘除法，不過，在線性代數（linear algebra）此一學門中，甚少直接使用此類的運算子。相較之下，令 <span class="math notranslate nohighlight">\(\alpha\)</span> 表示一純量（scalar），則我們可定義純量對向量之乘法</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\alpha x =
+\alpha
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_M
+\end{pmatrix}
+=
+\begin{pmatrix}
+\alpha x_1 \\
+\alpha x_2 \\
+\vdots \\
+\alpha x_M
+\end{pmatrix}
+\end{aligned}
+\end{split}\]</div>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">1.1.3. </span>距離、內積、與餘弦值<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>在度量兩向量是否相似時，最基本的做法是計算兩者之間的距離，即</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+d(x, y) &amp;= ||x - y|| \\
+&amp;=
+\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + ... + (x_M - y_M)^2} \\
+&amp;=
+\sqrt{\sum_{m=1}^M (x_m - y_m)^2 }
+\end{aligned}
+\end{split}\]</div>
+<p>前述根據 <span class="math notranslate nohighlight">\(L_2\)</span> 範數計算的距離，亦稱做 <span class="math notranslate nohighlight">\(L_2\)</span> 距離，或是歐幾里德距離（Euclidean distance）。從公式中可以看出來，<span class="math notranslate nohighlight">\(x\)</span> 和 <span class="math notranslate nohighlight">\(y\)</span> 唯有在所有元素都相等的前提之下，其距離才會等於0。當 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 的內積為0時，我們會說 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 為垂直（orthogonal），表示兩向量在 <span class="math notranslate nohighlight">\(M\)</span> 為空間中，呈現90度的夾角，兩垂直的向量常被解讀為其具有獨立未重疊的訊息。</p>
+<p>另外一種度量兩向量是否相似的做法是，計算其內積（inner product），即</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\langle x,y \rangle &amp;=
+x_1 y_1 + x_2 y_2 + ... + x_M y_M \\
+&amp; = \sum_{m=1}^M x_m y_m
+\end{aligned}
+\end{split}\]</div>
+<p>當 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 個元素間存在同時大同時小的關係時，兩者的內積會很大，若存在一個大另一個小的關係時，則內積會很小（指的是存在負號的很小），若未存在前述的組型時，則內積會靠近0。</p>
+<p>有時，<span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 的內積會簡單的寫為 <span class="math notranslate nohighlight">\(x^T y\)</span>，這與下一小節會提到的矩陣乘法有關。</p>
+<p>然而，內積並未考慮到 <span class="math notranslate nohighlight">\(x\)</span> 和 <span class="math notranslate nohighlight">\(y\)</span> 自身的長度，其數值大小較難直接做解釋。故此，令<span class="math notranslate nohighlight">\(\theta\)</span> 表示兩向量之夾角，則其餘弦值（cosine）之計算，乃將兩向量之內積除上各自的長度，即</p>
+<div class="math notranslate nohighlight">
+\[
+\text{cos}(\theta) = \frac{\langle x,y \rangle}{||x|| ||y||}
+\]</div>
+<p>當兩向量夾角的餘弦值，可透過以下的方式解釋：</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\text{cos}(\theta)\)</span> 靠近1時，表示兩向量在同一方向上，相似性高。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{cos}(\theta)\)</span> 靠近-1時，表示兩向量在相反方向上，相似性亦高，但存在相反的關係。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\text{cos}(\theta)\)</span> 靠近0時，表示兩向量靠近垂直的關係，相似性低。</p></li>
+</ul>
+<p>不過，餘弦值大多在向量內部數值皆為正的情境下作為相似性指標（即所謂的第一象限），此時，<span class="math notranslate nohighlight">\(0 \leq\text{cos}(\theta) \leq 1\)</span>，不需考慮 <span class="math notranslate nohighlight">\(-1 \leq\text{cos}(\theta) \leq 0\)</span> 的情況。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">1.2. </span>矩陣<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3><span class="section-number">1.2.1. </span>何謂矩陣<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>若把 <span class="math notranslate nohighlight">\(N\)</span> 個 <span class="math notranslate nohighlight">\(M\)</span> 維的向量由左至右排列，則可形成一尺寸為 <span class="math notranslate nohighlight">\(M \times N\)</span> 之矩陣（matrix）。這裡，<span class="math notranslate nohighlight">\(M\)</span> 為矩陣的橫列（row）個數，<span class="math notranslate nohighlight">\(N\)</span> 則為矩陣的直行（column）個數。</p>
+<p>舉例來說，令 <span class="math notranslate nohighlight">\(a_1, a_2,...,a_N\)</span> 皆表示 <span class="math notranslate nohighlight">\(M\)</span> 維之向量，則我們可以將其排為一矩陣 <span class="math notranslate nohighlight">\(A\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A =
+\underbrace{ \begin{pmatrix}
+  a_{1} &amp; a_{2} &amp; \cdots &amp; a_{N} \\
+ \end{pmatrix}}_{N \ \text{Vectors}}\end{split}\]</div>
+<p>注意，在這邊，我們有過度使用符號的狀況，在前一小節，<span class="math notranslate nohighlight">\(a_n\)</span>用於表示向量 <span class="math notranslate nohighlight">\(a\)</span> 的第 <span class="math notranslate nohighlight">\(n\)</span> 個元素，但在這邊，<span class="math notranslate nohighlight">\(a_n\)</span> 被用於表示第 <span class="math notranslate nohighlight">\(n\)</span> 個 <span class="math notranslate nohighlight">\(M\)</span> 維之向量，讀者應嘗試理解後具備獨立判斷的能力。</p>
+<p>若我們將前述的矩陣 <span class="math notranslate nohighlight">\(A\)</span> 每一個元素寫開來，則可以表示為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A =
+ \begin{pmatrix}
+  a_{1,1} &amp; a_{1,2} &amp; \cdots &amp; a_{1,N} \\
+  a_{2,1} &amp; a_{2,2} &amp; \cdots &amp; a_{2,N} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{M,1} &amp; a_{M,2} &amp; \cdots &amp; a_{M,N}
+ \end{pmatrix}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(A\)</span> 的第 <span class="math notranslate nohighlight">\((m,n)\)</span> 個元素，我們使用 <span class="math notranslate nohighlight">\(a_{m,n}\)</span>（或<span class="math notranslate nohighlight">\(a_{mn}\)</span>）來表示。</p>
+<p>給定一尺寸為 <span class="math notranslate nohighlight">\(M \times N\)</span>之矩陣 <span class="math notranslate nohighlight">\(A\)</span>，其第 <span class="math notranslate nohighlight">\((m,n)\)</span> 個元素為 <span class="math notranslate nohighlight">\(a_{m,n}\)</span>，則 <span class="math notranslate nohighlight">\(A\)</span> 的轉置（transpose）被定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A^T =
+ \begin{pmatrix}
+  a_{1,1} &amp; a_{2,1} &amp; \cdots &amp; a_{N,1} \\
+  a_{1,2} &amp; a_{2,2} &amp; \cdots &amp; a_{N,2} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{1,M} &amp; a_{2,M} &amp; \cdots &amp; a_{N,M}
+ \end{pmatrix}
+\end{split}\]</div>
+<p>因此，<span class="math notranslate nohighlight">\(A^T\)</span> 可視為將 <span class="math notranslate nohighlight">\(A\)</span> 的直行與橫列訊息互換的結果，而 <span class="math notranslate nohighlight">\(A^T\)</span> 的尺寸則轉為了 <span class="math notranslate nohighlight">\(N \times M\)</span>。</p>
+<p>舉例來說，若矩陣 <span class="math notranslate nohighlight">\(A =  \begin{pmatrix}
+  1 &amp; 2 &amp; 3  \\
+  4 &amp; 5 &amp; 6
+ \end{pmatrix}\)</span>為一<span class="math notranslate nohighlight">\(2 \times 3\)</span>的矩陣，則其轉置為一 <span class="math notranslate nohighlight">\(3 \times 2\)</span> 之矩陣 <span class="math notranslate nohighlight">\(A^T =  \begin{pmatrix}
+  1 &amp; 4 \\
+  2 &amp; 5 \\
+  3 &amp; 6
+ \end{pmatrix}\)</span></p>
+<p>當 <span class="math notranslate nohighlight">\(A\)</span> 的尺寸為 <span class="math notranslate nohighlight">\(M \times M\)</span>時，則 <span class="math notranslate nohighlight">\(A\)</span> 被稱作方陣（square matrix）。而一個方陣又進一步滿足 <span class="math notranslate nohighlight">\(A = A^T\)</span> 時，則其稱作對稱矩陣（symmetric matrix）。不管是方陣或是對稱矩陣，其都具有一些好的特性，我們將會在後續的小節進行說明。</p>
+</div>
+<div class="section" id="id8">
+<h3><span class="section-number">1.2.2. </span>矩陣的運算<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(A\)</span> 與 <span class="math notranslate nohighlight">\(B\)</span> 皆表示 <span class="math notranslate nohighlight">\(M \times N\)</span> 之矩陣，其內部元素分別為 <span class="math notranslate nohighlight">\(a_{mn}\)</span> 與 <span class="math notranslate nohighlight">\(b_{mn}\)</span>，則矩陣加減法，即 <span class="math notranslate nohighlight">\(A \pm B\)</span>，被定義元素對元素的加減法：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A  + B=
+ \begin{pmatrix}
+  a_{11} \pm b_{11} &amp; a_{12}\pm  b_{12} &amp; \cdots &amp; a_{1N}\pm  b_{1N} \\
+  a_{21} \pm  b_{21} &amp; a_{22}\pm  b_{22} &amp; \cdots &amp; a_{2N}\pm  b_{2N} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{M1} \pm  b_{M1}&amp; a_{M2}\pm  b_{M2} &amp; \cdots &amp; a_{MN}\pm  b_{MN}
+ \end{pmatrix}
+\end{split}\]</div>
+<p>由於此為元素對元素的運算，因此，<span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(B\)</span> 兩者的尺寸必須一樣。</p>
+<p>既然可以計算元素對元素的加減法，自然也可以同樣定義元素對元素的乘除法，不過，線性代數的領域依然很少直接用到此運算子。</p>
+<p>矩陣乘法（matrix multiplication）在統計建模中則是相當的關鍵。令 <span class="math notranslate nohighlight">\(A\)</span> 表示一 <span class="math notranslate nohighlight">\(M \times N\)</span> 之矩陣，<span class="math notranslate nohighlight">\(x\)</span> 表示一 <span class="math notranslate nohighlight">\(N\)</span> 維之向量（注意尺寸跟維度），則矩陣對向量的乘法被定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+Ax &amp;=  \begin{pmatrix}
+  a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1N} \\
+  a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2N} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{M1} &amp; a_{M2} &amp; \cdots &amp; a_{MN}
+ \end{pmatrix}
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix} \\
+&amp;=
+\begin{pmatrix}
+  a_{11} x_1 + a_{12} x_2 + ... + a_{1N} x_N \\
+  a_{21} x_1 + a_{22} x_2 + ... + a_{2N} x_N \\
+  \vdots \\
+  a_{M1} x_1 + a_{M2} x_2 + ... + a_{MN} x_N
+ \end{pmatrix}\\
+&amp;=
+\begin{pmatrix}
+  \sum_{n=1}^N a_{1n} x_n \\
+  \sum_{n=1}^N a_{2n} x_n\\
+  \vdots \\
+  \sum_{n=1}^N a_{Mn} x_n
+ \end{pmatrix}
+\end{aligned}
+\end{split}\]</div>
+<p>在此，我們可以觀察到兩件事情</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span> 的維度，必須跟 <span class="math notranslate nohighlight">\(A\)</span> 的直行個數相等，此矩陣向量之乘法才能夠被合法定義。</p></li>
+<li><p><span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(x\)</span> 相乘後的結果乃一 <span class="math notranslate nohighlight">\(M\)</span> 維之向量，其亦可理解為 <span class="math notranslate nohighlight">\(M \times 1\)</span> 之矩陣。</p></li>
+<li><p><span class="math notranslate nohighlight">\(Ax\)</span> 的第 <span class="math notranslate nohighlight">\(m\)</span> 個元素，可以視為 <span class="math notranslate nohighlight">\(A\)</span> 的第 <span class="math notranslate nohighlight">\(m\)</span> 個橫列所形成之向量，對 <span class="math notranslate nohighlight">\(x\)</span> 做內積的結果。</p></li>
+</ol>
+<p>因此，若我們將 <span class="math notranslate nohighlight">\(A\)</span> 寫為 <span class="math notranslate nohighlight">\(A =
+\begin{pmatrix}
+  a_1^T \\
+  a_2^T  \\
+  \vdots \\
+  a_{M}^T
+ \end{pmatrix}\)</span>，這裡，<span class="math notranslate nohighlight">\(a_m^T\)</span> 表示由 <span class="math notranslate nohighlight">\(A\)</span> 的第 <span class="math notranslate nohighlight">\(m\)</span> 個橫列形成的橫列向量，則 <span class="math notranslate nohighlight">\(Ax\)</span> 可以表示為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+ Ax
+ = \begin{pmatrix}
+   a_1^Tx  \\
+   a_2^Tx  \\
+  \vdots \\
+   a_M^Tx
+ \end{pmatrix}
+ = \begin{pmatrix}
+  \langle a_1,x \rangle \\
+  \langle a_2,x \rangle \\
+  \vdots \\
+  \langle a_M,x \rangle
+ \end{pmatrix}
+ \end{split}\]</div>
+<p>我們可延伸前述的概念，來定義矩陣對矩陣的乘法。令 <span class="math notranslate nohighlight">\(A\)</span> 與 <span class="math notranslate nohighlight">\(B\)</span> 分別表示 <span class="math notranslate nohighlight">\(M \times N\)</span> 與 <span class="math notranslate nohighlight">\(N \times P\)</span> 之矩陣，其內部元素分別為 <span class="math notranslate nohighlight">\(a_{mn}\)</span> 與 <span class="math notranslate nohighlight">\(b_{np}\)</span>，則 <span class="math notranslate nohighlight">\(A\)</span> 與 <span class="math notranslate nohighlight">\(B\)</span> 相乘被定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+AB &amp;=
+ \underbrace{\begin{pmatrix}
+  a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1N} \\
+  a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2N} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_{M1} &amp; a_{M2} &amp; \cdots &amp; a_{MN}
+ \end{pmatrix}}_{M \times N}
+  \underbrace{\begin{pmatrix}
+  b_{11} &amp; b_{12} &amp; \cdots &amp; b_{1P} \\
+  b_{21} &amp; b_{22} &amp; \cdots &amp; b_{2P} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  b_{N1} &amp; b_{N2} &amp; \cdots &amp; b_{NP}
+ \end{pmatrix}}_{N \times P} \\
+  &amp;=
+  \underbrace{\begin{pmatrix}
+  \sum_{n=1}^N a_{1n} b_{n1} &amp; \sum_{n=1}^N a_{1n} b_{n2} &amp; \cdots &amp; \sum_{n=1}^N a_{1n} b_{nP} \\
+  \sum_{n=1}^N a_{2n} b_{n1} &amp; \sum_{n=1}^N a_{2n} b_{n2} &amp; \cdots &amp; \sum_{n=1}^N a_{2n} b_{nP} \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  \sum_{n=1}^N a_{Nn} b_{n1} &amp; \sum_{n=1}^N a_{Nn} b_{n2} &amp; \cdots &amp; \sum_{n=1}^N a_{Nn} b_{nP}
+ \end{pmatrix}}_{M \times P}
+ \end{aligned}
+\end{split}\]</div>
+<p>其相乘之結果為一 <span class="math notranslate nohighlight">\(N \times P\)</span> 之矩陣。</p>
+<p>前述的公式，不太容易看出來矩陣乘法的結構，因此，我們將 <span class="math notranslate nohighlight">\(A\)</span> 與 <span class="math notranslate nohighlight">\(B\)</span> 重新寫成以下的結構</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A =
+\begin{pmatrix}
+  a_1^T \\
+  a_2^T  \\
+  \vdots \\
+  a_{M}^T
+ \end{pmatrix},
+ B =
+\begin{pmatrix}
+  b_1 &amp; b_2  &amp; \cdots &amp; b_{P}
+ \end{pmatrix}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(a_m^T\)</span> 表示由 <span class="math notranslate nohighlight">\(A\)</span> 的第 <span class="math notranslate nohighlight">\(m\)</span> 個橫列形成的橫列向量，<span class="math notranslate nohighlight">\(b_p\)</span> 表示由 <span class="math notranslate nohighlight">\(B\)</span> 的第 <span class="math notranslate nohighlight">\(p\)</span> 個直行形成的直行向量，則 <span class="math notranslate nohighlight">\(AB\)</span> 可寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+AB =
+  \begin{pmatrix}
+  a_1^T b_1 &amp; a_1^T b_2 &amp; \cdots &amp; a_1^T b_P \\
+  a_2^T b_1 &amp; a_2^T b_2 &amp; \cdots &amp; a_2^T b_P \\
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+  a_M^T b_1 &amp; a_M^T b_2 &amp; \cdots &amp; a_M^T b_P \\
+ \end{pmatrix}
+\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2><span class="section-number">1.3. </span>反矩陣<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
