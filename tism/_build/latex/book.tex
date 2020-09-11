@@ -72,7 +72,7 @@
 
 
 \title{統計建模技法}
-\date{Aug 28, 2020}
+\date{Sep 11, 2020}
 \release{}
 \author{Po\sphinxhyphen{}Hsien Huang}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -131,6 +131,691 @@ python程式設計基礎，包括基本資料類型、流程控制（flow contro
 
 \chapter{先備數學知識}
 \label{\detokenize{notebook/mathematics-prerequisite:id1}}\label{\detokenize{notebook/mathematics-prerequisite::doc}}
+
+\section{向量}
+\label{\detokenize{notebook/mathematics-prerequisite:id2}}
+
+\subsection{何謂向量？}
+\label{\detokenize{notebook/mathematics-prerequisite:id3}}
+在進行統計建模時，一筆觀測值（observation）常透過\sphinxstylestrong{向量}（vector）來表徵。令 \(x\) 表示一 \(N\) 維之直行向量（column vector），則其包含了 \(x_1,x_2,...,x_N\) 共 \(N\) 個元素（element），按順序由上至下排列而成，即
+\begin{equation*}
+\begin{split}
+x =
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix}
+\end{split}
+\end{equation*}
+在此講義中，我們通常使用大寫的英文字母作為一組數列的元素個數，而該字母的小寫則作為索引使用，因此，\(x\) 的元素個素為 \(N\)，我們用\(x_n\) 來表示 \(x\) 的第 \(n\) 個元素。
+
+我們可以將 \(x\) 進行\sphinxstylestrong{轉置}（transpose），將其轉為一橫列向量（row vector），即
+\begin{equation*}
+\begin{split}
+x^T =
+\begin{pmatrix}
+x_1 & x_2 & \cdots & x_N
+\end{pmatrix}
+\end{split}
+\end{equation*}
+透過轉置，原本由上而下的排列，改成有左至右的排列。不過，請記得在文獻中向量一詞，大多指稱的是直行向量。
+
+有時為了節省呈現空間，會將一直行向量寫為 \(x = (x_1, x_2,...,x_N)\)，利用逗點來分隔不同的上下欄位。注意，這跟橫列向量利用空格將元素左右分隔的做法是不同的。
+
+一個向量\sphinxstylestrong{長度}（length），可透過其\sphinxstylestrong{範數}（norm）來獲得。範數有許多種定義方式，不過，最常見的為 \(L_2\) 範數，即
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+||x|| &= \sqrt{x_1^2 + x_2^2 +...+x_N^2}\\
+& = \sqrt{ \sum_{n=1}^N x_n^2}
+\end{aligned}
+\end{split}
+\end{equation*}
+此式被稱作 \(L_2\) 範數的原因在於，其使用了二次方來處理每一項。從公式中可以看出來，唯有當 \(x\) 的所有成分皆為0時，其範數才會是0。
+
+當一向量的範數為1時，我們會說其為標準化的向量（normalized vector），給定任何長度不為0的向量 \(x\)，我們可以透過以下公式對其進行標準化
+\begin{equation*}
+\begin{split}
+x^* = \frac{1}{||x||} x =
+\begin{pmatrix}
+\frac{1}{||x||} x_1 \\
+\frac{1}{||x||} x_2 \\
+\vdots \\
+\frac{1}{||x||} x_N
+\end{pmatrix}
+\end{split}
+\end{equation*}
+這邊牽涉到純量對向量的乘法，請見下一小節。
+
+
+\subsection{向量的運算}
+\label{\detokenize{notebook/mathematics-prerequisite:id4}}
+令 \(x\) 與 \(y\) 表示兩 \(N\) 維之向量，則我們可以將向量的加法與減法分別定義為
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+x  + y=
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix}
++
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_N
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_1 + y_1 \\
+x_2 + y_2 \\
+\vdots \\
+x_N + y_N
+\end{pmatrix}
+\end{aligned}
+\end{split}
+\end{equation*}
+與
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+x  - y=
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix}
+-
+\begin{pmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_N
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_1 - y_1 \\
+x_2 - y_2 \\
+\vdots \\
+x_N - y_N
+\end{pmatrix}
+\end{aligned}
+\end{split}
+\end{equation*}
+即所謂元素對元素的（element to element）加法與減法。
+
+依循相同的邏輯，我們可定義所謂元素對元素的乘法與除法，不過，在線性代數（linear algebra）此一學門中，甚少直接使用此類的運算子。相較之下，純量對向量之乘法則較常使用。令 \(\alpha\) 表示一純量（scalar），純量對向量之乘法定義為
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+\alpha x =
+\alpha
+\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix}
+=
+\begin{pmatrix}
+\alpha x_1 \\
+\alpha x_2 \\
+\vdots \\
+\alpha x_N
+\end{pmatrix}
+\end{aligned}
+\end{split}
+\end{equation*}
+
+\subsection{距離、內積、與餘弦值}
+\label{\detokenize{notebook/mathematics-prerequisite:id5}}
+在度量兩向量是否相似時，最基本的做法是計算兩者之間的\sphinxstylestrong{距離}（distance），即
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+d(x, y) &= ||x - y|| \\
+&=
+\sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + ... + (x_N - y_N)^2} \\
+&=
+\sqrt{\sum_{n=1}^N (x_n - y_n)^2 }
+\end{aligned}
+\end{split}
+\end{equation*}
+前述根據 \(L_2\) 範數計算的距離，亦稱做 \(L_2\) 距離，或是歐幾里德距離（Euclidean distance）。從公式中可以看出來，\(x\) 和 \(y\) 唯有在所有元素都相等的前提之下，其距離才會等於0。當 \(x\) 與 \(y\) 的內積為0時，我們會說 \(x\) 與 \(y\) 為垂直（orthogonal），表示兩向量在 \(N\) 為空間中，呈現90度的夾角，兩垂直的向量常被解讀為其具有獨立未重疊的訊息。
+
+另外一種度量兩向量是否相似的做法是，計算其\sphinxstylestrong{內積}（inner product），即
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+\langle x,y \rangle &=
+x_1 y_1 + x_2 y_2 + ... + x_N y_N \\
+& = \sum_{n=1}^N x_n y_n
+\end{aligned}
+\end{split}
+\end{equation*}
+當 \(x\) 與 \(y\) 個元素間存在同時大同時小的關係時，兩者的內積會很大，若存在一個大另一個小的關係時，則內積會很小（指的是存在負號的很小），若未存在前述的組型時，則內積會靠近0。
+
+有時，\(x\) 與 \(y\) 的內積會簡單的寫為 \(x^T y\)，這與下一小節會提到的矩陣乘法有關。
+
+然而，內積並未考慮到 \(x\) 和 \(y\) 自身的長度，其數值大小較難直接做解釋。故此，令\(\theta\) 表示兩向量之夾角，則其\sphinxstylestrong{餘弦值}（cosine）之計算，乃將兩向量之內積除上各自的長度，即
+\begin{equation*}
+\begin{split}
+\text{cos}(\theta) = \frac{\langle x,y \rangle}{||x|| ||y||}
+\end{split}
+\end{equation*}
+當兩向量夾角的餘弦值，可透過以下的方式解釋：
+\begin{itemize}
+\item {} 
+\(\text{cos}(\theta)\) 靠近1時，表示兩向量在同一方向上，相似性高。
+
+\item {} 
+\(\text{cos}(\theta)\) 靠近\sphinxhyphen{}1時，表示兩向量在相反方向上，相似性亦高，但存在相反的關係。
+
+\item {} 
+\(\text{cos}(\theta)\) 靠近0時，表示兩向量靠近垂直的關係，相似性低。
+
+\end{itemize}
+
+不過，餘弦值大多在向量內部數值皆為正的情境下作為相似性指標（即所謂的第一象限），此時，\(0 \leq\text{cos}(\theta) \leq 1\)，不需考慮 \(-1 \leq\text{cos}(\theta) \leq 0\) 的情況。
+
+
+\section{矩陣}
+\label{\detokenize{notebook/mathematics-prerequisite:id6}}
+
+\subsection{何謂矩陣}
+\label{\detokenize{notebook/mathematics-prerequisite:id7}}
+若把 \(M\) 個 \(N\) 維的橫列向量由上至下排列，則可形成一尺寸為 \(M \times N\) 之\sphinxstylestrong{矩陣}（matrix）。這裡，\(M\) 為矩陣的橫列（row）個數，\(N\) 則為矩陣的直行（column）個數。
+
+舉例來說，令 \(a_1, a_2,...,a_M\) 皆表示 \(N\) 維之向量，則我們可以將其排為一矩陣 \(A\)
+\begin{equation*}
+\begin{split}
+A =
+\begin{pmatrix}
+  a_{1}^T \\
+   a_{2}^T \\
+    \vdots \\
+     a_{M}^T \\
+ \end{pmatrix}\end{split}
+\end{equation*}
+注意，在這邊，我們有過度使用符號的狀況，在前一小節，\(a_n\)用於表示向量 \(a\) 的第 \(n\) 個元素，但在這邊，\(a_m\) 被用於表示第 \(m\) 個 \(N\) 維之向量，讀者應嘗試理解以具備獨立判斷的能力。
+
+若我們將前述的矩陣 \(A\) 每一個元素寫開來，則可以表示為
+\begin{equation*}
+\begin{split}
+A =
+ \begin{pmatrix}
+  a_{1,1} & a_{1,2} & \cdots & a_{1,N} \\
+  a_{2,1} & a_{2,2} & \cdots & a_{2,N} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_{M,1} & a_{M,2} & \cdots & a_{M,N}
+ \end{pmatrix}
+\end{split}
+\end{equation*}
+這裡，\(A\) 的第 \((m,n)\) 個元素，我們使用 \(a_{m,n}\)（或\(a_{mn}\)）來表示。
+
+給定一尺寸為 \(M \times N\)之矩陣 \(A\)，其第 \((m,n)\) 個元素為 \(a_{mn}\)，則 \(A\) 的\sphinxstylestrong{轉置}（transpose）被定義為
+\begin{equation*}
+\begin{split}
+A^T =
+ \begin{pmatrix}
+  a_{11} & a_{21} & \cdots & a_{N1} \\
+  a_{12} & a_{22} & \cdots & a_{N2} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_{1M} & a_{2M} & \cdots & a_{NM}
+ \end{pmatrix}
+\end{split}
+\end{equation*}
+因此，\(A^T\) 可視為將 \(A\) 的直行與橫列訊息互換的結果，而 \(A^T\) 的尺寸則轉為了 \(N \times M\)。
+
+舉例來說，若矩陣 \(A =  \begin{pmatrix}
+  1 & 2 & 3  \\
+  4 & 5 & 6
+ \end{pmatrix}\)為一\(2 \times 3\)的矩陣，則其轉置為一 \(3 \times 2\) 之矩陣 \(A^T =  \begin{pmatrix}
+  1 & 4 \\
+  2 & 5 \\
+  3 & 6
+ \end{pmatrix}\)
+
+在矩陣的世界中，有幾種特別的矩陣讀者需要特別認識：
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+當 \(A\) 的尺寸為 \(M \times M\)時，則 \(A\) 被稱作\sphinxstylestrong{方陣}（square matrix）。
+
+\item {} 
+當 \(A\) 為方陣，且進一步滿足 \(A = A^T\) 時，則其稱作\sphinxstylestrong{對稱矩陣}（symmetric matrix）。
+
+\item {} 
+當 \(A\) 為方陣，且其只有對角線左下角（可包含對角線）之元素不為0時，其稱作\sphinxstylestrong{下三角矩陣}（lower triangular matrix），反之，若只有對角線右上角之元素不為0時，則其稱作\sphinxstylestrong{上三角矩陣}（upper triangular matrix）。
+
+\item {} 
+當 \(A\) 為方陣，且其只有對角線元素不為0時，則其稱作\sphinxstylestrong{對角矩陣}（diagonal matrix）。
+
+\item {} 
+當 \(A\) 為方陣，且其僅有對角線元素數值為1，其它為0時，則其稱作\sphinxstylestrong{單位矩陣}（identity matrix）。其在矩陣的世界中，扮演像是純量1的角色。
+
+\end{enumerate}
+
+這幾個特別的矩陣，在計算矩陣乘法、反矩陣、或是拆解時，可能會有一些好的特性讓計算變得比較容易。
+
+
+\subsection{矩陣的運算}
+\label{\detokenize{notebook/mathematics-prerequisite:id8}}
+令 \(A\) 與 \(B\) 皆表示 \(M \times N\) 之矩陣，其內部元素分別為 \(a_{mn}\) 與 \(b_{mn}\)，則矩陣加減法，即 \(A \pm B\)，被定義元素對元素的加減法：
+\begin{equation*}
+\begin{split}
+A  + B=
+ \begin{pmatrix}
+  a_{11} \pm b_{11} & a_{12}\pm  b_{12} & \cdots & a_{1N}\pm  b_{1N} \\
+  a_{21} \pm  b_{21} & a_{22}\pm  b_{22} & \cdots & a_{2N}\pm  b_{2N} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_{M1} \pm  b_{M1}& a_{M2}\pm  b_{M2} & \cdots & a_{MN}\pm  b_{MN}
+ \end{pmatrix}
+\end{split}
+\end{equation*}
+由於此為元素對元素的運算，因此，\(A\) 和 \(B\) 兩者的尺寸必須一樣。
+
+既然可以計算元素對元素的加減法，自然也可以同樣定義元素對元素的乘除法，不過，線性代數的領域依然很少直接用到此運算子。
+
+\sphinxstylestrong{矩陣乘法}（matrix multiplication）在統計建模中則是相當的關鍵。令 \(A\) 表示一 \(M \times N\) 之矩陣，\(x\) 表示一 \(N\) 維之向量，或視為一 \(N \times 1\) 的矩陣，則矩陣對向量的乘法被定義為
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+Ax &=  \underbrace{\begin{pmatrix}
+  a_{11} & a_{12} & \cdots & a_{1N} \\
+  a_{21} & a_{22} & \cdots & a_{2N} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_{M1} & a_{M2} & \cdots & a_{MN}
+ \end{pmatrix}}_{M \times N}
+\underbrace{\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{pmatrix}}_{N \times 1} \\
+&=
+\underbrace{\begin{pmatrix}
+  a_{11} x_1 + a_{12} x_2 + ... + a_{1N} x_N \\
+  a_{21} x_1 + a_{22} x_2 + ... + a_{2N} x_N \\
+  \vdots \\
+  a_{M1} x_1 + a_{M2} x_2 + ... + a_{MN} x_N
+ \end{pmatrix}}_{M \times 1}\\
+&=
+\begin{pmatrix}
+  \sum_{n=1}^N a_{1n} x_n \\
+  \sum_{n=1}^N a_{2n} x_n\\
+  \vdots \\
+  \sum_{n=1}^N a_{Mn} x_n
+ \end{pmatrix}
+\end{aligned}
+\end{split}
+\end{equation*}
+在此，我們可以觀察到兩件事情
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\(x\) 的維度，必須跟 \(A\) 的直行個數相等，此矩陣向量之乘法才能夠被合法定義。
+
+\item {} 
+\(A\) 和 \(x\) 相乘後的結果乃一 \(M\) 維之向量，其亦可理解為 \(M \times 1\) 之矩陣。
+
+\item {} 
+\(Ax\) 的第 \(m\) 個元素，可以視為 \(A\) 的第 \(m\) 個橫列所形成之向量，對 \(x\) 做內積的結果。
+
+\end{enumerate}
+
+因此，若我們將 \(A\) 寫為 \(A =
+\begin{pmatrix}
+  a_1^T \\
+  a_2^T  \\
+  \vdots \\
+  a_{M}^T
+ \end{pmatrix}\)，這裡，\(a_m^T\) 表示由 \(A\) 的第 \(m\) 個橫列形成的橫列向量，則 \(Ax\) 可以表示為
+\begin{equation*}
+\begin{split}
+ Ax
+ = \begin{pmatrix}
+   a_1^Tx  \\
+   a_2^Tx  \\
+  \vdots \\
+   a_M^Tx
+ \end{pmatrix}
+ = \begin{pmatrix}
+  \langle a_1,x \rangle \\
+  \langle a_2,x \rangle \\
+  \vdots \\
+  \langle a_M,x \rangle
+ \end{pmatrix}
+ \end{split}
+\end{equation*}
+我們可延伸前述的概念，來定義矩陣對矩陣的乘法。令 \(A\) 與 \(B\) 分別表示 \(M \times N\) 與 \(N \times P\) 之矩陣，其內部元素分別為 \(a_{mn}\) 與 \(b_{np}\)，則 \(A\) 與 \(B\) 相乘被定義為
+\begin{equation*}
+\begin{split}
+\begin{aligned}
+AB &=
+ \underbrace{\begin{pmatrix}
+  a_{11} & a_{12} & \cdots & a_{1N} \\
+  a_{21} & a_{22} & \cdots & a_{2N} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_{M1} & a_{M2} & \cdots & a_{MN}
+ \end{pmatrix}}_{M \times N}
+  \underbrace{\begin{pmatrix}
+  b_{11} & b_{12} & \cdots & b_{1P} \\
+  b_{21} & b_{22} & \cdots & b_{2P} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  b_{N1} & b_{N2} & \cdots & b_{NP}
+ \end{pmatrix}}_{N \times P} \\
+  &=
+  \underbrace{\begin{pmatrix}
+  \sum_{n=1}^N a_{1n} b_{n1} & \sum_{n=1}^N a_{1n} b_{n2} & \cdots & \sum_{n=1}^N a_{1n} b_{nP} \\
+  \sum_{n=1}^N a_{2n} b_{n1} & \sum_{n=1}^N a_{2n} b_{n2} & \cdots & \sum_{n=1}^N a_{2n} b_{nP} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  \sum_{n=1}^N a_{Nn} b_{n1} & \sum_{n=1}^N a_{Nn} b_{n2} & \cdots & \sum_{n=1}^N a_{Nn} b_{nP}
+ \end{pmatrix}}_{M \times P}
+ \end{aligned}
+\end{split}
+\end{equation*}
+其相乘之結果為一 \(N \times P\) 之矩陣。
+
+前述的公式，不太容易看出來矩陣乘法的結構，因此，我們將 \(A\) 與 \(B\) 重新寫成以下的結構
+\begin{equation*}
+\begin{split}
+A =
+\begin{pmatrix}
+  a_1^T \\
+  a_2^T  \\
+  \vdots \\
+  a_{M}^T
+ \end{pmatrix},
+ B =
+\begin{pmatrix}
+  b_1 & b_2  & \cdots & b_{P}
+ \end{pmatrix}
+\end{split}
+\end{equation*}
+這裡，\(a_m^T\) 表示由 \(A\) 的第 \(m\) 個橫列形成的橫列向量，\(b_p\) 表示由 \(B\) 的第 \(p\) 個直行形成的直行向量，則 \(AB\) 可寫為
+\begin{equation*}
+\begin{split}
+AB =
+  \begin{pmatrix}
+  a_1^T b_1 & a_1^T b_2 & \cdots & a_1^T b_P \\
+  a_2^T b_1 & a_2^T b_2 & \cdots & a_2^T b_P \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  a_M^T b_1 & a_M^T b_2 & \cdots & a_M^T b_P \\
+ \end{pmatrix}
+\end{split}
+\end{equation*}
+
+\subsection{反矩陣}
+\label{\detokenize{notebook/mathematics-prerequisite:id9}}
+當 \(A\) 為 \(N \times N\)之方陣，且其行或列並未包含累贅的（redundant）訊息時，則 \(A\) 存在\sphinxstylestrong{反矩陣}（inverse）。意即，存在一 \(N \times N\) 矩陣 \(A^{-1}\)，其滿足
+\begin{equation*}
+\begin{split}
+A^{-1} A = A A^{-1} = I
+\end{split}
+\end{equation*}
+這裡 \(I\) 為 \(N \times N\) 單位矩陣。當反矩陣存在時，其為獨特的（unique），意思是，反矩陣只會有一個。
+
+反矩陣的計算常與 \(N\) 元一次方程組的求解有關。考慮以下的聯立方程組
+\begin{equation*}
+\begin{split}
+\begin{cases}
+a_{11} x_1 + a_{12} x_2 + ... + a_{1N} x_N = b_1 \\
+a_{21} x_1 + a_{22} x_2 + ... + a_{2N} x_N = b_2 \\
+\vdots \\
+a_{N1} x_1 + a_{N2} x_2 + ... + a_{NN} x_N = b_N \\
+\end{cases}
+\end{split}
+\end{equation*}
+在此方程組中，有\(x_1, x_2,...,x_N\) 共 \(N\) 個未知數，並有 \(N\) 條式子。令\(A\)表示由 \(a_{mn}\)組成的 \(N \times N\) 矩陣（\(1 \leq m,n\leq N\)），\(x\) 與 \(b\) 則表示由 \(x_n\) 與 \(b_n\) 形成的 \(N\) 維向量。前述方程組可以用矩陣向量乘法的形式來表徵
+\begin{equation*}
+\begin{split}
+Ax=b
+\end{split}
+\end{equation*}
+因此，若可以獲得 \(A^{-1}\)，則根據 \(A^{-1}Ax=A^{-1}b\)，方程組的解即為 \(x=A^{-1}b\)。
+
+反矩陣的計算主要仰賴電腦程式，採用\sphinxhref{https://en.wikipedia.org/wiki/Gaussian\_elimination}{\sphinxstylestrong{高斯消去法}}（Gaussian elimination）或是\sphinxhref{https://en.wikipedia.org/wiki/QR\_decomposition}{\sphinxstylestrong{QR分解}}（QR decomposition），這兩種方法的計算複雜度皆為 \(O(N^3)\)，意即，其牽涉到大約 \(K \times N^3\) 這麼多步驟的計算，這裡，\(K\) 表示一跟 \(N\) 無關的常數，因此，當 \(N\) 很大時，此反矩陣的計算可能會很耗時。
+
+而讀者需要特別注意的是，究竟 \(A\) 是否真的存在反矩陣，\(A\) 存在反矩陣的條件為，其 \(N\) 個直行（或橫列）所形成的向量，並不存在線性相依（linear dependent）的狀況。令 \(a_1, a_2, ..., a_N\) 表示 \(A\) 的 \(N\) 個直行所對應之向量，若其中存在某 \(a_i\)，其可以寫為 \(a_i = \sum_{n \neq i} w_n a_n\) 的話，則表示有線性相依的狀況。這裡，\(w_n\) 為純量，用於表示一權重係數。事實上，線性相依的問題意味著在該聯立方程組的系統中，存在了多餘訊息，各位聰明的讀者，應該都知道此時存在無窮多組解，故不存在 \(A^{-1}\)。
+
+
+\subsection{分解}
+\label{\detokenize{notebook/mathematics-prerequisite:id10}}
+在矩陣的世界中，存在許多將矩陣拆成幾個比較簡單矩陣乘積的\sphinxstylestrong{分解}（decomposition），我們在這邊做個簡單的介紹（這邊只考慮實數矩陣，不考慮虛數）。
+
+a. \(LU\) 分解
+
+當 \(A\) 為 \(N \times N\) 可逆方陣時，則其存在 \sphinxstylestrong{\(LU\) 分解}：
+\begin{equation*}
+\begin{split}
+A = LU
+\end{split}
+\end{equation*}\begin{itemize}
+\item {} 
+\(L\)表示一 \(N \times N\) 下三角矩陣。
+
+\item {} 
+\(U\)表示一 \(N \times N\) 上三角矩陣。
+
+\end{itemize}
+
+b. \(QR\) 分解
+
+當 \(A\) 為 \(N \times N\) 可逆方陣時，則其存在 \sphinxstylestrong{\(QR\) 分解}：
+\begin{equation*}
+\begin{split}
+A = QR
+\end{split}
+\end{equation*}\begin{itemize}
+\item {} 
+\(Q\) 表示一 \(N \times N\) 的\sphinxstylestrong{垂直矩陣}（orthogonal matrix）（垂直矩陣滿足 \(Q Q^T = Q^T Q = I\)）。
+
+\item {} 
+\(R\)則表示一 \(N \times N\) 上三角矩陣。
+
+\end{itemize}
+
+c. Cholesky 分解
+
+當 \(A\) 為 \(N \times N\) 正定對稱矩陣（positive definite symmetric matrix）時（在此，我們先不對「正定」一詞多做解釋，其在矩陣中扮演類似正數的概念），則其存在 \sphinxstylestrong{Cholesky 分解}：
+\begin{equation*}
+\begin{split}
+A = LL^T
+\end{split}
+\end{equation*}\begin{itemize}
+\item {} 
+\(L\)表示一 \(N \times N\) 下三角矩陣，\(L^T\) 表示 \(L\) 的轉置
+
+\end{itemize}
+
+d. 特徵值分解
+
+當 \(A\) 為 \(N \times N\) 對稱矩陣時，其存在以下之\sphinxstylestrong{特徵值分解}（eigendecomposition）
+\begin{equation*}
+\begin{split}
+A = Q \Lambda Q ^T
+\end{split}
+\end{equation*}\begin{itemize}
+\item {} 
+\(\Lambda\) 表示一 \(N \times N\) 對角矩陣，其對角線元素為 \(A\) 的特徵值。
+
+\item {} 
+\(Q\) 表示一 \(N \times N\) 的垂直矩陣，其第 \(n\) 個直行表示 \(\Lambda\) 第 \(n\) 個元素所對應之特徵向量。
+
+\end{itemize}
+
+e. 奇異值分解
+
+對於任何的 \(M \times N\)矩陣 \(A\)，其存在\sphinxstylestrong{奇異值分解}（singular value decomposition）：
+\begin{equation*}
+\begin{split}
+A = U \Sigma V^T
+\end{split}
+\end{equation*}\begin{itemize}
+\item {} 
+\(\Sigma\) 表示一 \(M \times N\) 的長方對角矩陣（rectangular diagonal matrix），其對角線元素為 \(A\) 的\sphinxstylestrong{奇異值}（singular value）
+
+\item {} 
+\(U\) 表示一 \(M \times M\) 的垂直矩陣。
+
+\item {} 
+\(V\) 表示一 \(N \times N\) 的垂直矩陣。
+
+\end{itemize}
+
+
+\section{微分}
+\label{\detokenize{notebook/mathematics-prerequisite:id11}}
+\sphinxstylestrong{微分}（differentiation）乃微積分（calculus）此科目中，用於瞭解函數局部訊息的重要技術。在統計領域，此技術常用於逼近目標函數，以及求得參數解有關。
+
+若讀者對於微分的概念很不熟悉的話，可以參考台灣大學開放式課程的\sphinxhref{http://ocw.aca.ntu.edu.tw/ntu-ocw/ocw/cou/103S121}{影片}，特別是單元5跟6，以及28和29的內容。
+
+
+\subsection{何謂微分？}
+\label{\detokenize{notebook/mathematics-prerequisite:id12}}
+給定一函數 \(f(x)\)，其將一實數變量 \(x\)，從其\sphinxstylestrong{定義域}（domain）透過轉換（transformation）送至其\sphinxstylestrong{值域}（range）。若 \(f(x)\) 在 \(x=x^*\) 此位置為\sphinxstylestrong{可微分}（differentiable）的話，我們使用 \(f'(x^*)\) 來表示此微分值，其計算方式為
+\begin{equation*}
+\begin{split}
+f'(x^*) = \lim_{\Delta x \to 0} \frac{f(x^* + \Delta x) - f(x^*)}{\Delta x}
+\end{split}
+\end{equation*}
+由於 \(\frac{f(x^* + \Delta x) - f(x^*)}{\Delta x}\) 可視為對函數 \(f\) 於 \(x^*\) 位置斜率之逼近，透過使用極限（limit）的運算將 \(\Delta x\) 趨近於0，事實上，\(f'(x^*)\) 表徵的就是 \(f\) 於 \(x^*\) 位置切線之斜率。
+
+實務上，我們常使用以下的符號來表示對函數 \(f\) 的 \(x\) 進行微分
+\begin{equation*}
+\begin{split}
+f'(x) = \frac{\text{d} f(x)}{\text{d} x}
+\end{split}
+\end{equation*}
+注意，在這邊 \(f'(x)\) 與 \(f'(x^*)\) 表徵的事情略有不同。\(f'(x)\) 表徵的是函數 \(f\) 的\sphinxstylestrong{一階導數}（first\sphinxhyphen{}order derivative），其為一函數，帶入不同的 \(x\) 則 \(f'(x)\) 會輸出不同的數值來，而 \(f'(x^*)\) 強調的是，該一階導數於 \(x = x^*\) 之數值。一般來說，比較精確的寫法是
+\begin{equation*}
+\begin{split}
+f'(x^*) = \frac{\text{d} f(x)}{\text{d} x} \bigg|_{x = x^*}
+\end{split}
+\end{equation*}
+下表呈現了一些常見函數的一階導數
+
+
+\begin{savenotes}\sphinxattablestart
+\centering
+\begin{tabulary}{\linewidth}[t]{|T|T|T|}
+\hline
+\sphinxstyletheadfamily 
+函數名稱
+&\sphinxstyletheadfamily 
+函數形式
+&\sphinxstyletheadfamily 
+一階導數
+\\
+\hline
+常數函數
+&
+\(f(x)=c\)
+&
+\(f'(x)=0\)
+\\
+\hline
+單位函數
+&
+\(f(x)=x\)
+&
+\(f'(x)=1\)
+\\
+\hline
+多項式函數
+&
+\(f(x)=x^K\)
+&
+\(f'(x)=K x^{K-1}\)
+\\
+\hline
+對數函數
+&
+\(f(x)=\log(x)\)
+&
+\(f'(x)=\frac{1}{x}\)
+\\
+\hline
+指數函數
+&
+\(f(x)=\exp(x)\)
+&
+\(f'(x)=\exp(x)\)
+\\
+\hline
+\end{tabulary}
+\par
+\sphinxattableend\end{savenotes}
+
+在獲得了 \(f(x)\) 的一階導數 \(f'(x)\) 後，我們也可以將 \(f'(x)\) 視為一新的函數再去計算其導數，此時，我們等同於計算 \(f(x)\) 的二階導數
+\begin{equation*}
+\begin{split}
+f''(x) = \frac{\text{d}^2 f(x)}{\text{d} x^2} = \frac{\text{d} f'(x)}{\text{d} x}
+\end{split}
+\end{equation*}
+
+\subsection{微分的規則}
+\label{\detokenize{notebook/mathematics-prerequisite:id13}}
+前一小節的表格，呈現的都是一些較為簡單形式的函數，面對實務的問題，研究者常須處理較為複雜的函數，這時，我們會需要一些微分的規則。令 \(f(x)\) 與 \(g(x)\) 表示兩定義於 \(x\) 此變數之函數，假設 \(f(x)\) 與 \(g(x)\) 皆為可微分之函數，則我們有以下的規則
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{線性規則}：\(\frac{\text{d} }{\text{d}x} ( a f(x) + b g(x)) = a f'(x) + b g'(x)\)
+
+\item {} 
+\sphinxstylestrong{乘法規則}：\(\frac{\text{d} }{\text{d}x} (f(x) g(x)) = f'(x) g(x) + f(x) g'(x)\)
+
+\item {} 
+\sphinxstylestrong{除法規則}：\(\frac{\text{d} }{\text{d}x} (f(x)/g(x)) = \frac{f'(x) g(x) - f(x) g'(x)}{[g(x)]^2}\)（\(g(x)\) 不可為0）
+
+\end{itemize}
+
+除此之外，\sphinxstylestrong{連鎖規則}（chain rule）亦為一相當重要的手法。令 \(g(x)\) 表示一定義於 \(x\) 變數的函數，其輸出為 \(y\)，而 \(f(y)\) 表示一定義於變數 \(y\) 之函數，其輸出為 \(z\)。考慮一組成函數（composition function）\(h\)，其建構方式為\(h =f \circ g\)，意思是，\(h(x) = f(g(x))\)。根據連鎖規則，\(h\) 的一階導數可透過以下的公式計算
+\begin{equation*}
+\begin{split}
+h'(x) = f'(g(x))  g'(x)
+\end{split}
+\end{equation*}
+
+\subsection{多變數函數的微分}
+\label{\detokenize{notebook/mathematics-prerequisite:id14}}
+在統計的問題中，研究者常須處理多變數的實函數，意即，一函數\(f\) 其定義於 \(x_1,x_2,...,x_N\)，並透過一轉換將此 \(N\) 個變數送到一實數空間。在面對此類函數時，我們需要利用\sphinxstylestrong{偏微分}（partial differentiation）的技術，計算 \(f(x)=f(x_1,x_2,...,x_N)\) 於各 \(x_n\) 方向上的\sphinxstylestrong{偏導數}（partial derivative），其定義為
+\begin{equation*}
+\begin{split}
+\frac{\partial  f(x)}{\partial x_n}  = \lim_{\Delta x_n \to 0} \frac{f(x_1,...,x_n + \Delta x_n,...,x_N) - f(x_1,...,x_n,...,x_N)}{\Delta x_n}
+\end{split}
+\end{equation*}
+在實作上，計算 \(\frac{\partial f(x)}{\partial x_n}\)時，僅須將 \(f(x)\) 視為 \(x_n\) 的函數，其它的變數視為常數即可。
+
+在獲得 \(f(x)\) 對於每個 \(x_n\) 的偏導數後，我們可以將這些導數收集起來排成一 \(N\) 維之向量，即
+\begin{equation*}
+\begin{split}
+\nabla f(x) =
+\begin{pmatrix}
+\frac{\partial  f(x)}{\partial x_1} \\
+\frac{\partial  f(x)}{\partial x_2} \\
+\vdots \\
+\frac{\partial  f(x)}{\partial x_N} \\
+\end{pmatrix}
+\end{split}
+\end{equation*}
+我們將 \(\nabla f(x)\) 稱作\sphinxstylestrong{梯度}（gradient），其在了解多變數函數時，提供了相當重要的訊息：
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+梯度的第 \(n\) 個成分，表徵了該函數於 \(x_n\) 方向上切線的斜率訊息。
+
+\item {} 
+給定一具體的方向 \(d\)，則該函數於方向 \(d\) 的方向導數（directional derivative）可以寫為 \(\langle \nabla f(x),d/||d|| \rangle\)。
+
+\end{enumerate}
+
 
 \chapter{線性迴歸}
 \label{\detokenize{notebook/linear-regression:id1}}\label{\detokenize{notebook/linear-regression::doc}}
@@ -398,13 +1083,11 @@ diagonal matrix
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 tensor with random elements from uniform(0, 1) 
- [[0.02895176 0.94688255 0.41787893 0.5014122  0.25421917 0.8561887 ]
- [0.02338874 0.30045998 0.8770489  0.9453684  0.5081183  0.68974465]]
+ [[0.02196592 0.78253865 0.39747602 0.31172973 0.00485885 0.3159684 ]
+ [0.46485758 0.14995414 0.5118554  0.04464334 0.35136598 0.99198097]]
 tensor with uninitialized data 
- [[ 2.4259038e\PYGZhy{}18  1.7516231e\PYGZhy{}43  1.4012985e\PYGZhy{}45  2.3510604e\PYGZhy{}38
-  \PYGZhy{}2.2662319e\PYGZhy{}34 \PYGZhy{}8.5920297e+09]
- [\PYGZhy{}2.4576386e\PYGZhy{}34 \PYGZhy{}8.5920297e+09  7.0064923e\PYGZhy{}45 \PYGZhy{}8.5899346e+09
-   0.0000000e+00 \PYGZhy{}8.5899346e+09]]
+ [[1.e\PYGZhy{}44 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]
+ [0.e+00 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]]
 \end{sphinxVerbatim}
 
 
@@ -889,19 +1572,19 @@ calculate mean for each row
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYGZlt{}torch.\PYGZus{}C.Generator at 0x7fe88887dfb0\PYGZgt{}
+\PYGZlt{}torch.\PYGZus{}C.Generator at 0x7f8df8667fb0\PYGZgt{}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} define a function to generate x and y}
-\PYG{k}{def} \PYG{n+nf}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{n}{coef}\PYG{p}{,}
-                  \PYG{n}{intercept} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
+\PYG{k}{def} \PYG{n+nf}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{,}
+                  \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
                   \PYG{n}{std\PYGZus{}residual} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
                   \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
                   \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
                   \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{coef} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{n}{coef}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
-    \PYG{n}{n\PYGZus{}feature} \PYG{o}{=} \PYG{n}{coef}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{n}{weight}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
+    \PYG{n}{n\PYGZus{}feature} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
     \PYG{n}{x} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{normal}\PYG{p}{(}\PYG{n}{mean} \PYG{o}{=} \PYG{n}{mean\PYGZus{}feature}\PYG{p}{,}
                      \PYG{n}{std} \PYG{o}{=} \PYG{n}{std\PYGZus{}feature}\PYG{p}{,}
                      \PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{n}{n\PYGZus{}feature}\PYG{p}{)}\PYG{p}{,}
@@ -910,16 +1593,16 @@ calculate mean for each row
                      \PYG{n}{std} \PYG{o}{=} \PYG{n}{std\PYGZus{}residual}\PYG{p}{,}
                      \PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}
                      \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
-    \PYG{n}{coef} \PYG{o}{=} \PYG{n}{coef}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
-    \PYG{n}{y} \PYG{o}{=} \PYG{n}{intercept} \PYG{o}{+} \PYG{n}{x} \PYG{o}{@} \PYG{n}{coef} \PYG{o}{+} \PYG{n}{e}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{y} \PYG{o}{=} \PYG{n}{bias} \PYG{o}{+} \PYG{n}{x} \PYG{o}{@} \PYG{n}{weight} \PYG{o}{+} \PYG{n}{e}
     \PYG{k}{return} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} run generate\PYGZus{}data}
 \PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{n}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
-                     \PYG{n}{coef} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
-                     \PYG{n}{intercept} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,}
+                     \PYG{n}{weight} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
+                     \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,}
                      \PYG{n}{std\PYGZus{}residual} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
                      \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
                      \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{p}{,}
@@ -969,29 +1652,29 @@ response vector y is
     \PYG{n}{parameter} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{inverse}\PYG{p}{(}
         \PYG{n}{torch}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{n}{x\PYGZus{}design}\PYG{p}{,} \PYG{n}{dim0}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{dim1}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{@} \PYG{n}{x\PYGZus{}design}\PYG{p}{)} \PYG{o}{@} \PYGZbs{}
                 \PYG{n}{torch}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{n}{x\PYGZus{}design}\PYG{p}{,} \PYG{n}{dim0}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{dim1}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{@} \PYG{n}{y}
-    \PYG{n}{intercept} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
-    \PYG{n}{coef} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
-    \PYG{k}{return} \PYG{n}{intercept}\PYG{p}{,} \PYG{n}{coef}
+    \PYG{n}{bias} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{k}{return} \PYG{n}{bias}\PYG{p}{,} \PYG{n}{weight}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{c+c1}{\PYGZsh{} run calculate\PYGZus{}parameter}
 \PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{n}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{l+m+mi}{1000}\PYG{p}{,}
-                     \PYG{n}{coef} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
-                     \PYG{n}{intercept} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,}
+                     \PYG{n}{weight} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
+                     \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{5}\PYG{p}{,}
                      \PYG{n}{std\PYGZus{}residual} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
                      \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
                      \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{p}{,}
                      \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}
-\PYG{n}{intercept}\PYG{p}{,} \PYG{n}{coef} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}parameter}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{intercept estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{intercept}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{coefficient estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{coef}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{bias}\PYG{p}{,} \PYG{n}{weight} \PYG{o}{=} \PYG{n}{calculate\PYGZus{}parameter}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bias estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{bias}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{weight estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-intercept estimate is 
+bias estimate is 
  4.996612423766793
-coefficient estimate is 
+weight estimate is 
  [\PYGZhy{}4.98003037  2.98762589 \PYGZhy{}0.00737968]
 \end{sphinxVerbatim}
 
@@ -1003,8 +1686,8 @@ coefficient estimate is
 \PYG{k}{class} \PYG{n+nc}{LinearRegression}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
     \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}\PYG{p}{:}
         \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{intercept} \PYG{o}{=} \PYG{k+kc}{None}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{coef} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight} \PYG{o}{=} \PYG{k+kc}{None}
     \PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}\PYG{p}{:}
         \PYG{k}{if} \PYG{n}{x}\PYG{o}{.}\PYG{n}{dtype} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{:}
             \PYG{n}{x} \PYG{o}{=} \PYG{n}{x}\PYG{o}{.}\PYG{n}{type}\PYG{p}{(}\PYG{n}{dtype} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{)}
@@ -1015,21 +1698,23 @@ coefficient estimate is
         \PYG{n}{parameter} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{inverse}\PYG{p}{(}
             \PYG{n}{torch}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{n}{x\PYGZus{}design}\PYG{p}{,} \PYG{n}{dim0}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{dim1}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{@} \PYG{n}{x\PYGZus{}design}\PYG{p}{)} \PYG{o}{@} \PYGZbs{}
                     \PYG{n}{torch}\PYG{o}{.}\PYG{n}{transpose}\PYG{p}{(}\PYG{n}{x\PYGZus{}design}\PYG{p}{,} \PYG{n}{dim0}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{dim1}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{@} \PYG{n}{y}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{intercept} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
-        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{coef} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight} \PYG{o}{=} \PYG{n}{parameter}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}
         \PYG{k}{return} \PYG{n+nb+bp}{self}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-\PYG{n}{linear\PYGZus{}regression} \PYG{o}{=} \PYG{n}{LinearRegression}\PYG{p}{(}\PYG{p}{)}
-\PYG{n}{linear\PYGZus{}regression}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{linear\PYGZus{}regression}\PYG{o}{.}\PYG{n}{intercept}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{linear\PYGZus{}regression}\PYG{o}{.}\PYG{n}{coef}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{model\PYGZus{}lr} \PYG{o}{=} \PYG{n}{LinearRegression}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bias estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{bias}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{weight estimate is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{weight}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-4.996612423766793
-[\PYGZhy{}4.98003037  2.98762589 \PYGZhy{}0.00737968]
+bias estimate is 
+ 4.996612423766793
+weight estimate is 
+ [\PYGZhy{}4.98003037  2.98762589 \PYGZhy{}0.00737968]
 \end{sphinxVerbatim}
 
 
@@ -1407,16 +2092,18 @@ iter 20, f(x) = 0.000, x = tensor([2., 2., 2.])
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{tol} \PYG{o}{=} \PYG{l+m+mf}{1e\PYGZhy{}5}
+\PYG{n}{epochs} \PYG{o}{=} \PYG{l+m+mi}{20}
 \PYG{n}{x} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,}
                  \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float}\PYG{p}{,}
                  \PYG{n}{requires\PYGZus{}grad}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
 \PYG{n}{z} \PYG{o}{=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{)}\PYG{p}{:}
+\PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{epochs}\PYG{p}{)}\PYG{p}{:}
     \PYG{n}{z}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)}
     \PYG{k}{with} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{no\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
         \PYG{n}{x}\PYG{o}{.}\PYG{n}{sub\PYGZus{}}\PYG{p}{(}\PYG{n}{lr} \PYG{o}{*} \PYG{n}{x}\PYG{o}{.}\PYG{n}{grad}\PYG{p}{)}
     \PYG{n}{z} \PYG{o}{=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
-    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{iter }\PYG{l+s+si}{\PYGZob{}:2.0f\PYGZcb{}}\PYG{l+s+s2}{, z = }\PYG{l+s+si}{\PYGZob{}:2.3f\PYGZcb{}}\PYG{l+s+s2}{, x = }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{z}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{x}\PYG{o}{.}\PYG{n}{data}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{iter }\PYG{l+s+si}{\PYGZob{}:2.0f\PYGZcb{}}\PYG{l+s+s2}{, z = }\PYG{l+s+si}{\PYGZob{}:2.3f\PYGZcb{}}\PYG{l+s+s2}{, x = }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}
+        \PYG{n}{epoch} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{z}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{x}\PYG{o}{.}\PYG{n}{data}\PYG{p}{)}\PYG{p}{)}
     \PYG{k}{if} \PYG{p}{(}\PYG{n}{x}\PYG{o}{.}\PYG{n}{grad}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{tol}\PYG{p}{)}\PYG{p}{:}
         \PYG{k}{break}
     \PYG{n}{x}\PYG{o}{.}\PYG{n}{grad}\PYG{o}{.}\PYG{n}{zero\PYGZus{}}\PYG{p}{(}\PYG{p}{)}
@@ -1450,11 +2137,12 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
                  \PYG{n}{requires\PYGZus{}grad}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
 \PYG{n}{opt} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{SGD}\PYG{p}{(}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{p}{)}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{o}{.}\PYG{l+m+mi}{1}\PYG{p}{)}
 \PYG{n}{z} \PYG{o}{=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
-\PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{)}\PYG{p}{:}
+\PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{epochs}\PYG{p}{)}\PYG{p}{:}
     \PYG{n}{z}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)}
     \PYG{n}{opt}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
     \PYG{n}{z} \PYG{o}{=} \PYG{n}{f}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}
-    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{iter }\PYG{l+s+si}{\PYGZob{}:2.0f\PYGZcb{}}\PYG{l+s+s2}{, z = }\PYG{l+s+si}{\PYGZob{}:2.3f\PYGZcb{}}\PYG{l+s+s2}{, x = }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{z}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{x}\PYG{o}{.}\PYG{n}{data}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{iter }\PYG{l+s+si}{\PYGZob{}:2.0f\PYGZcb{}}\PYG{l+s+s2}{, z = }\PYG{l+s+si}{\PYGZob{}:2.3f\PYGZcb{}}\PYG{l+s+s2}{, x = }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}
+        \PYG{n}{epoch} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{z}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{x}\PYG{o}{.}\PYG{n}{data}\PYG{p}{)}\PYG{p}{)}
     \PYG{k}{if} \PYG{p}{(}\PYG{n}{x}\PYG{o}{.}\PYG{n}{grad}\PYG{o}{.}\PYG{n}{abs}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{max}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{tol}\PYG{p}{)}\PYG{p}{:}
         \PYG{k}{break}
     \PYG{n}{opt}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
@@ -1508,6 +2196,83 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 
 \end{itemize}
 
+讀者可自行深入了解這些方法。
+
+
+\section{實徵範例}
+\label{\detokenize{notebook/lab-torch-diff-opt:id7}}
+
+\subsection{產生邏吉斯迴歸資料}
+\label{\detokenize{notebook/lab-torch-diff-opt:id8}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{torch}\PYG{o}{.}\PYG{n}{manual\PYGZus{}seed}\PYG{p}{(}\PYG{l+m+mi}{48}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYGZlt{}torch.\PYGZus{}C.Generator at 0x7fdf402fefb0\PYGZgt{}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{distributions} \PYG{k+kn}{import} \PYG{n}{Bernoulli}
+\PYG{k}{def} \PYG{n+nf}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,}
+                  \PYG{n}{weight}\PYG{p}{,}
+                  \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
+                  \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
+                  \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
+                  \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{n}{weight}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
+    \PYG{n}{n\PYGZus{}feature} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{normal}\PYG{p}{(}\PYG{n}{mean} \PYG{o}{=} \PYG{n}{mean\PYGZus{}feature}\PYG{p}{,}
+                     \PYG{n}{std} \PYG{o}{=} \PYG{n}{std\PYGZus{}feature}\PYG{p}{,}
+                     \PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{n}{n\PYGZus{}feature}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{logit} \PYG{o}{=} \PYG{n}{bias} \PYG{o}{+} \PYG{n}{x} \PYG{o}{@} \PYG{n}{weight}
+    \PYG{n}{bernoulli} \PYG{o}{=} \PYG{n}{Bernoulli}\PYG{p}{(}\PYG{n}{logits} \PYG{o}{=} \PYG{n}{logit}\PYG{p}{)}
+    \PYG{n}{y} \PYG{o}{=} \PYG{n}{bernoulli}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} run generate\PYGZus{}data}
+\PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{n}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{l+m+mi}{1000}\PYG{p}{,}
+                     \PYG{n}{weight} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
+                     \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{,}
+                     \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
+                     \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{p}{,}
+                     \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{feature matrix x is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{x}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{[}\PYG{p}{:}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{response vector y is }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{y}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}\PYG{p}{[}\PYG{p}{:}\PYG{l+m+mi}{10}\PYG{p}{,}\PYG{p}{:}\PYG{p}{]}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+feature matrix x is 
+ [[10.86425232  2.85930239 12.99748957]
+ [ 7.98709525  9.79137811 12.98202577]
+ [ 8.40585824 13.31645195  4.51125723]
+ [10.52843635 10.28388618  8.43102705]
+ [11.25624976 12.04005459 16.67369106]
+ [ 8.69996305  7.24918979  6.04079975]
+ [11.15669941  7.70897067  6.53992666]
+ [ 9.84083719  3.8656981   9.92935665]
+ [ 7.08780983  7.95524324  8.11661451]
+ [ 8.9847464  11.48372895 10.09772223]]
+response vector y is 
+ [[0.]
+ [0.]
+ [1.]
+ [0.]
+ [0.]
+ [0.]
+ [0.]
+ [0.]
+ [0.]
+ [0.]]
+\end{sphinxVerbatim}
+
 
 \chapter{機率分佈}
 \label{\detokenize{notebook/probability-distribution:id1}}\label{\detokenize{notebook/probability-distribution::doc}}
@@ -1521,6 +2286,9 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 \PYG{k+kn}{import} \PYG{n+nn}{torch}
 \end{sphinxVerbatim}
 
+
+\section{\sphinxstyleliteralintitle{\sphinxupquote{torch}} 分配物件}
+\label{\detokenize{notebook/lab-torch-mle:torch}}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{from} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{distributions} \PYG{k+kn}{import} \PYG{n}{Normal}
 \PYG{n}{normal} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{(}\PYG{n}{loc}\PYG{o}{=}\PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{n}{scale}\PYG{o}{=}\PYG{l+m+mf}{1.}\PYG{p}{)}
@@ -1537,12 +2305,12 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 random sample with shape ():
- tensor(\PYGZhy{}0.4205)
+ tensor(0.3471)
 random sample with shape (3,):
- tensor([\PYGZhy{}1.3577,  0.2594, \PYGZhy{}0.3872])
+ tensor([ 0.2764,  1.3294, \PYGZhy{}0.0920])
 random sample with shape (2,3):
- tensor([[\PYGZhy{}0.3462,  0.0221,  0.5617],
-        [\PYGZhy{}1.1793,  0.1680, \PYGZhy{}0.2688]])
+ tensor([[ 2.6177,  0.8466,  1.3437],
+        [\PYGZhy{}1.4105,  1.9438,  0.5512]])
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1625,21 +2393,21 @@ Normal(loc: torch.Size([2]), scale: torch.Size([2]))
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 random sample with sample\PYGZus{}shape ():
- tensor([0.3196, 2.1923]) 
+ tensor([0.4789, 1.5501]) 
 
 random sample with sample\PYGZus{}shape (3,):
- tensor([[ 0.0940,  0.1338],
-        [\PYGZhy{}0.3400,  2.4002],
-        [\PYGZhy{}1.0516, \PYGZhy{}0.1826]]) 
+ tensor([[ 0.4099, \PYGZhy{}1.1181],
+        [ 1.0750, \PYGZhy{}0.2275],
+        [ 0.6607,  0.8156]]) 
 
 random sample with sample\PYGZus{}shape (2,3):
- tensor([[[ 0.1398,  4.7928],
-         [\PYGZhy{}0.1455, \PYGZhy{}0.5193],
-         [\PYGZhy{}1.4244, \PYGZhy{}0.6089]],
+ tensor([[[\PYGZhy{}0.3418,  2.8886],
+         [ 0.5395,  3.4939],
+         [ 0.4751,  1.0449]],
 
-        [[\PYGZhy{}0.1050,  2.6404],
-         [\PYGZhy{}1.6125,  1.1516],
-         [ 0.2476,  1.0377]]])
+        [[\PYGZhy{}0.6914,  0.2891],
+         [\PYGZhy{}1.2024,  0.6521],
+         [\PYGZhy{}0.9135,  0.6125]]])
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1686,21 +2454,21 @@ MultivariateNormal(loc: torch.Size([2]), scale\PYGZus{}tril: torch.Size([2, 2]))
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 random sample with sample\PYGZus{}shape ():
- tensor([2.2865, 0.6410]) 
+ tensor([0.1373, 1.4793]) 
 
 random sample with sample\PYGZus{}shape (3,):
- tensor([[\PYGZhy{}0.1174,  0.8089],
-        [ 1.7223,  2.2532],
-        [ 0.7753,  2.0000]]) 
+ tensor([[1.7331, 2.1149],
+        [0.1035, 0.5050],
+        [0.3499, 0.9203]]) 
 
 random sample with sample\PYGZus{}shape (2, 3):
- tensor([[[\PYGZhy{}0.0497,  2.2984],
-         [\PYGZhy{}0.5064,  0.9095],
-         [ 0.2189,  1.6590]],
+ tensor([[[\PYGZhy{}0.0942,  2.6992],
+         [ 0.4968,  1.4207],
+         [ 0.7308,  0.2046]],
 
-        [[ 0.5981,  1.3462],
-         [ 1.7386,  0.7478],
-         [\PYGZhy{}0.4982,  1.1488]]])
+        [[ 0.0976,  0.4487],
+         [ 1.9930,  0.9622],
+         [\PYGZhy{}0.0584,  0.3790]]])
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1752,57 +2520,60 @@ MultivariateNormal(loc: torch.Size([3, 2]), scale\PYGZus{}tril: torch.Size([3, 2
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 random sample with sample\PYGZus{}shape ():
- tensor([[1.1275, 1.7382],
-        [0.5327, 2.4657],
-        [2.4923, 2.9444]]) 
+ tensor([[\PYGZhy{}0.9025,  0.7102],
+        [\PYGZhy{}1.4402,  0.8393],
+        [ 1.4704,  3.6990]]) 
 
 random sample with sample\PYGZus{}shape (3,):
- tensor([[[ 1.7485e\PYGZhy{}03,  1.1704e+00],
-         [\PYGZhy{}7.7522e\PYGZhy{}01,  1.0061e+00],
-         [ 3.8714e+00,  2.9748e+00]],
+ tensor([[[\PYGZhy{}2.1170,  1.3513],
+         [ 1.5338,  1.4740],
+         [ 2.7437,  2.3366]],
 
-        [[ 3.0326e\PYGZhy{}01,  4.6701e\PYGZhy{}01],
-         [\PYGZhy{}3.1945e\PYGZhy{}01,  3.0077e\PYGZhy{}01],
-         [ 3.7882e+00,  2.7624e+00]],
+        [[ 0.2841,  0.7145],
+         [ 0.4565,  3.0112],
+         [ 0.8437,  3.9906]],
 
-        [[\PYGZhy{}1.1375e+00,  3.3560e\PYGZhy{}01],
-         [ 7.5519e\PYGZhy{}01,  2.2413e+00],
-         [ 3.0676e+00,  3.7033e+00]]]) 
+        [[ 0.5743,  0.8828],
+         [ 1.8611,  2.7959],
+         [ 3.2177,  3.9537]]]) 
 
 random sample with sample\PYGZus{}shape (2, 3):
- tensor([[[[\PYGZhy{}0.8206,  0.4010],
-          [ 1.1678,  2.1332],
-          [ 1.0008,  2.4261]],
+ tensor([[[[ 0.2302,  0.1240],
+          [ 0.0167,  0.5930],
+          [ 1.0884,  1.6395]],
 
-         [[\PYGZhy{}0.2140, \PYGZhy{}0.2980],
-          [ 1.1422,  2.5305],
-          [ 1.4001,  3.7645]],
+         [[ 0.8134,  1.7372],
+          [ 1.5693,  2.0849],
+          [ 4.6024,  2.9109]],
 
-         [[ 0.9449,  0.4744],
-          [ 1.0263,  3.2151],
-          [ 1.9302,  3.2841]]],
+         [[ 0.0443,  0.3992],
+          [ 1.2023,  2.6121],
+          [ 2.3752,  4.1484]]],
 
 
-        [[[ 1.6932,  1.7799],
-          [ 0.8284,  1.8066],
-          [ 3.0099,  3.1478]],
+        [[[\PYGZhy{}0.7692,  1.5281],
+          [ 0.0667,  0.8561],
+          [ 1.9542,  4.6272]],
 
-         [[ 0.3715,  0.4171],
-          [ 0.2260,  1.6781],
-          [ 1.0694,  2.1480]],
+         [[ 0.9022,  0.7512],
+          [ 2.5382,  2.2632],
+          [ 0.8168,  3.9857]],
 
-         [[\PYGZhy{}0.0609,  0.9179],
-          [ 1.5631,  2.2728],
-          [ 3.8856,  3.7695]]]])
+         [[ 0.0511,  1.4663],
+          [ 0.4689,  2.6174],
+          [ 1.5000,  2.6020]]]])
 \end{sphinxVerbatim}
 
+
+\section{計算最大概似估計值}
+\label{\detokenize{notebook/lab-torch-mle:id1}}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{mu\PYGZus{}true} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{5.}\PYG{p}{]}\PYG{p}{)}
 \PYG{n}{sigma\PYGZus{}true} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{2.}\PYG{p}{]}\PYG{p}{)}
-\PYG{n}{normal\PYGZus{}model\PYGZus{}true} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{(}
+\PYG{n}{model\PYGZus{}normal\PYGZus{}true} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{(}
     \PYG{n}{loc}\PYG{o}{=}\PYG{n}{mu\PYGZus{}true}\PYG{p}{,}
     \PYG{n}{scale}\PYG{o}{=}\PYG{n}{sigma\PYGZus{}true}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{normal model:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{normal\PYGZus{}model\PYGZus{}true}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{normal model:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{model\PYGZus{}normal\PYGZus{}true}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1813,13 +2584,13 @@ normal model:
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{sample\PYGZus{}size} \PYG{o}{=} \PYG{l+m+mi}{1000}
-\PYG{n}{x} \PYG{o}{=} \PYG{n}{normal\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{sample\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{sample\PYGZus{}size}\PYG{p}{,}\PYG{p}{)}\PYG{p}{)}
-\PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{normal\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{,} \PYG{n}{dim} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{model\PYGZus{}normal\PYGZus{}true}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{sample\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{sample\PYGZus{}size}\PYG{p}{,}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{model\PYGZus{}normal\PYGZus{}true}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{,} \PYG{n}{dim} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
 \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{negative likelihood value is}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loss\PYGZus{}value}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-negative likelihood value is tensor(2.1462)
+negative likelihood value is tensor(2.0891)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1827,13 +2598,13 @@ negative likelihood value is tensor(2.1462)
 \PYG{n}{lr} \PYG{o}{=} \PYG{l+m+mf}{1.0}
 \PYG{n}{mu} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{0.}\PYG{p}{]}\PYG{p}{,} \PYG{n}{requires\PYGZus{}grad}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
 \PYG{n}{sigma} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{1.}\PYG{p}{]}\PYG{p}{,} \PYG{n}{requires\PYGZus{}grad}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
-\PYG{n}{optimizer} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{p}{[}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{sigma}\PYG{p}{]}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{o}{.}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{n}{opt} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{p}{[}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{sigma}\PYG{p}{]}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{o}{.}\PYG{l+m+mi}{5}\PYG{p}{)}
 \PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{epochs}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{normal\PYGZus{}model} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{(}\PYG{n}{loc}\PYG{o}{=}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{scale}\PYG{o}{=}\PYG{n}{sigma}\PYG{p}{)}
-    \PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{normal\PYGZus{}model}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
-    \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{model\PYGZus{}normal} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{(}\PYG{n}{loc}\PYG{o}{=}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{scale}\PYG{o}{=}\PYG{n}{sigma}\PYG{p}{)}
+    \PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{model\PYGZus{}normal}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{opt}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
     \PYG{n}{loss\PYGZus{}value}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} compute the gradient}
-    \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{opt}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1842,8 +2613,8 @@ negative likelihood value is tensor(2.1462)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-ML mean by gradient descent: tensor([4.8263], requires\PYGZus{}grad=True)
-ML std by gradient descent: tensor([2.0574], requires\PYGZus{}grad=True)
+ML mean by gradient descent: tensor([5.0607], requires\PYGZus{}grad=True)
+ML std by gradient descent: tensor([1.9505], requires\PYGZus{}grad=True)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1852,18 +2623,18 @@ ML std by gradient descent: tensor([2.0574], requires\PYGZus{}grad=True)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-ML mean by formula: tensor(4.8261)
-ML std by formula: tensor(2.0598)
+ML mean by formula: tensor(5.0605)
+ML std by formula: tensor(1.9526)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{mu\PYGZus{}true} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{1.}\PYG{p}{]}\PYG{p}{)}
 \PYG{n}{sigma\PYGZus{}tril\PYGZus{}true} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mf}{3.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{2.}\PYG{p}{,} \PYG{l+m+mf}{1.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{o}{.}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{o}{.}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{o}{.}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
-\PYG{n}{mvn\PYGZus{}model\PYGZus{}true} \PYG{o}{=} \PYG{n}{MultivariateNormal}\PYG{p}{(}
+\PYG{n}{model\PYGZus{}mvn\PYGZus{}true} \PYG{o}{=} \PYG{n}{MultivariateNormal}\PYG{p}{(}
     \PYG{n}{loc}\PYG{o}{=}\PYG{n}{mu\PYGZus{}true}\PYG{p}{,}
     \PYG{n}{scale\PYGZus{}tril}\PYG{o}{=}\PYG{n}{sigma\PYGZus{}tril\PYGZus{}true}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{true mean vector: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{mvn\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{)}
-\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{true covariance matrix: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{mvn\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{covariance\PYGZus{}matrix}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{true mean vector: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{model\PYGZus{}mvn\PYGZus{}true}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{true covariance matrix: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{model\PYGZus{}mvn\PYGZus{}true}\PYG{o}{.}\PYG{n}{covariance\PYGZus{}matrix}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1877,13 +2648,13 @@ true covariance matrix:
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{n}{sample\PYGZus{}size} \PYG{o}{=} \PYG{l+m+mi}{1000}
-\PYG{n}{x} \PYG{o}{=} \PYG{n}{mvn\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{sample\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{sample\PYGZus{}size}\PYG{p}{,}\PYG{p}{)}\PYG{p}{)}
-\PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{mvn\PYGZus{}model\PYGZus{}true}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{x} \PYG{o}{=} \PYG{n}{model\PYGZus{}mvn\PYGZus{}true}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{sample\PYGZus{}shape}\PYG{o}{=}\PYG{p}{(}\PYG{n}{sample\PYGZus{}size}\PYG{p}{,}\PYG{p}{)}\PYG{p}{)}
+\PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{model\PYGZus{}mvn\PYGZus{}true}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
 \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{negative likelihood value is}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{loss\PYGZus{}value}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
-negative likelihood value is tensor(4.6442)
+negative likelihood value is tensor(4.6588)
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1894,16 +2665,16 @@ negative likelihood value is tensor(4.6442)
 \PYG{n}{sigma\PYGZus{}tril} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}
     \PYG{p}{[}\PYG{p}{[}\PYG{l+m+mf}{1.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{1.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{0.}\PYG{p}{,} \PYG{l+m+mf}{1.}\PYG{p}{]}\PYG{p}{]}\PYG{p}{,}
     \PYG{n}{requires\PYGZus{}grad}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
-\PYG{n}{optimizer} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{p}{[}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{sigma\PYGZus{}tril}\PYG{p}{]}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{n}{lr}\PYG{p}{)}
+\PYG{n}{opt} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{p}{[}\PYG{n}{mu}\PYG{p}{,} \PYG{n}{sigma\PYGZus{}tril}\PYG{p}{]}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{n}{lr}\PYG{p}{)}
 
 \PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{epochs}\PYG{p}{)}\PYG{p}{:}
-    \PYG{n}{mvn\PYGZus{}model} \PYG{o}{=} \PYG{n}{MultivariateNormal}\PYG{p}{(}
+    \PYG{n}{model\PYGZus{}mvn} \PYG{o}{=} \PYG{n}{MultivariateNormal}\PYG{p}{(}
     \PYG{n}{loc}\PYG{o}{=}\PYG{n}{mu}\PYG{p}{,}
     \PYG{n}{scale\PYGZus{}tril}\PYG{o}{=}\PYG{n}{sigma\PYGZus{}tril}\PYG{p}{)}
-    \PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{mvn\PYGZus{}model}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
-    \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{model\PYGZus{}mvn}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{opt}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
     \PYG{n}{loss\PYGZus{}value}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} compute the gradient}
-    \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{opt}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1915,11 +2686,11 @@ negative likelihood value is tensor(4.6442)
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 ML mean by gradient descent: 
- tensor([\PYGZhy{}0.9729, \PYGZhy{}0.0022,  0.9979], requires\PYGZus{}grad=True)
+ tensor([\PYGZhy{}1.0622, \PYGZhy{}0.0872,  0.9892], requires\PYGZus{}grad=True)
 ML covariance by gradient descent: 
- tensor([[9.5867, 6.1855, 1.1623],
-        [6.1855, 4.9734, 1.2497],
-        [1.1623, 1.2497, 0.6229]], grad\PYGZus{}fn=\PYGZlt{}MmBackward\PYGZgt{})
+ tensor([[8.4839, 5.6784, 1.1295],
+        [5.6784, 4.8110, 1.2631],
+        [1.1295, 1.2631, 0.6638]], grad\PYGZus{}fn=\PYGZlt{}MmBackward\PYGZgt{})
 \end{sphinxVerbatim}
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
@@ -1934,12 +2705,130 @@ ML covariance by gradient descent:
 
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 ML mean by formula: 
- tensor([\PYGZhy{}0.9729, \PYGZhy{}0.0022,  0.9979])
+ tensor([\PYGZhy{}1.0622, \PYGZhy{}0.0872,  0.9892])
 ML covariance by formula: 
- tensor([[9.5868, 6.1855, 1.1624],
-        [6.1855, 4.9734, 1.2497],
-        [1.1624, 1.2497, 0.6229]])
+ tensor([[8.4839, 5.6784, 1.1295],
+        [5.6784, 4.8110, 1.2631],
+        [1.1295, 1.2631, 0.6638]])
 \end{sphinxVerbatim}
+
+
+\section{實徵範例}
+\label{\detokenize{notebook/lab-torch-mle:id2}}
+
+\subsection{產生邏吉斯迴歸資料}
+\label{\detokenize{notebook/lab-torch-mle:id3}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{torch}\PYG{o}{.}\PYG{n}{manual\PYGZus{}seed}\PYG{p}{(}\PYG{l+m+mi}{48}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYGZlt{}torch.\PYGZus{}C.Generator at 0x7ff620fe6fb0\PYGZgt{}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{distributions} \PYG{k+kn}{import} \PYG{n}{Bernoulli}
+\PYG{k}{def} \PYG{n+nf}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,}
+                  \PYG{n}{weight}\PYG{p}{,}
+                  \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
+                  \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}
+                  \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,}
+                  \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{tensor}\PYG{p}{(}\PYG{n}{weight}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
+    \PYG{n}{n\PYGZus{}feature} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{normal}\PYG{p}{(}\PYG{n}{mean} \PYG{o}{=} \PYG{n}{mean\PYGZus{}feature}\PYG{p}{,}
+                     \PYG{n}{std} \PYG{o}{=} \PYG{n}{std\PYGZus{}feature}\PYG{p}{,}
+                     \PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{n}{n\PYGZus{}sample}\PYG{p}{,} \PYG{n}{n\PYGZus{}feature}\PYG{p}{)}\PYG{p}{,}
+                     \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}\PYG{p}{)}
+    \PYG{n}{weight} \PYG{o}{=} \PYG{n}{weight}\PYG{o}{.}\PYG{n}{view}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}
+    \PYG{n}{logit} \PYG{o}{=} \PYG{n}{bias} \PYG{o}{+} \PYG{n}{x} \PYG{o}{@} \PYG{n}{weight}
+    \PYG{n}{bernoulli} \PYG{o}{=} \PYG{n}{Bernoulli}\PYG{p}{(}\PYG{n}{logits} \PYG{o}{=} \PYG{n}{logit}\PYG{p}{)}
+    \PYG{n}{y} \PYG{o}{=} \PYG{n}{bernoulli}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} run generate\PYGZus{}data}
+\PYG{n}{x}\PYG{p}{,} \PYG{n}{y} \PYG{o}{=} \PYG{n}{generate\PYGZus{}data}\PYG{p}{(}\PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{l+m+mi}{1000}\PYG{p}{,}
+                     \PYG{n}{weight} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,}
+                     \PYG{n}{bias} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{,}
+                     \PYG{n}{mean\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{,}
+                     \PYG{n}{std\PYGZus{}feature} \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{p}{,}
+                     \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+
+\subsection{建立一進行邏吉斯迴歸分析之物件}
+\label{\detokenize{notebook/lab-torch-mle:id4}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} define a class to fit logistic regression}
+\PYG{k}{class} \PYG{n+nc}{LogisticRegression}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{dtype} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{float64}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype} \PYG{o}{=} \PYG{n}{dtype}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias} \PYG{o}{=} \PYG{k+kc}{None}
+    \PYG{k}{def} \PYG{n+nf}{log\PYGZus{}lik}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{logit} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias} \PYG{o}{+} \PYG{n}{x} \PYG{o}{@} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight}
+        \PYG{n}{bernoulli} \PYG{o}{=} \PYG{n}{Bernoulli}\PYG{p}{(}\PYG{n}{logits} \PYG{o}{=} \PYG{n}{logit}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{bernoulli}\PYG{o}{.}\PYG{n}{log\PYGZus{}prob}\PYG{p}{(}\PYG{n}{y}\PYG{p}{)}\PYG{p}{)}
+    \PYG{k}{def} \PYG{n+nf}{fit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{epochs} \PYG{o}{=} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{n}{lr} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{x}\PYG{o}{.}\PYG{n}{dtype} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{:}
+            \PYG{n}{x} \PYG{o}{=} \PYG{n}{x}\PYG{o}{.}\PYG{n}{type}\PYG{p}{(}\PYG{n}{dtype} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{y}\PYG{o}{.}\PYG{n}{dtype} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{:}
+            \PYG{n}{y} \PYG{o}{=} \PYG{n}{y}\PYG{o}{.}\PYG{n}{type}\PYG{p}{(}\PYG{n}{dtype} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{)}
+        \PYG{n}{n\PYGZus{}feature} \PYG{o}{=} \PYG{n}{x}\PYG{o}{.}\PYG{n}{size}\PYG{p}{(}\PYG{p}{)}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{p}{)}\PYG{p}{,}
+                                \PYG{n}{dtype} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{,}
+                                \PYG{n}{requires\PYGZus{}grad} \PYG{o}{=} \PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}\PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{n}{n\PYGZus{}feature}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{,}
+                                  \PYG{n}{dtype} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{dtype}\PYG{p}{,}
+                                  \PYG{n}{requires\PYGZus{}grad} \PYG{o}{=} \PYG{k+kc}{True}\PYG{p}{)}
+        \PYG{n}{opt} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{bias}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight}\PYG{p}{]}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{n}{lr}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{epoch} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{epochs}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{loss\PYGZus{}value} \PYG{o}{=} \PYG{o}{\PYGZhy{}} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{log\PYGZus{}lik}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+            \PYG{n}{opt}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{loss\PYGZus{}value}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} compute the gradient}
+            \PYG{n}{opt}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}
+\end{sphinxVerbatim}
+
+
+\subsection{計算模型參數}
+\label{\detokenize{notebook/lab-torch-mle:id5}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} fit logistic model}
+\PYG{n}{model\PYGZus{}lr} \PYG{o}{=} \PYG{n}{LogisticRegression}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{epochs} \PYG{o}{=} \PYG{l+m+mi}{2000}\PYG{p}{,} \PYG{n}{lr} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{bias}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{model\PYGZus{}lr}\PYG{o}{.}\PYG{n}{weight}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+tensor([3.8176], dtype=torch.float64, requires\PYGZus{}grad=True)
+tensor([[\PYGZhy{}4.6982],
+        [ 2.6668],
+        [\PYGZhy{}0.0054]], dtype=torch.float64, requires\PYGZus{}grad=True)
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} fit logistic model via sklearn}
+\PYG{c+c1}{\PYGZsh{} please install sklearn first}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn} \PYG{k+kn}{import} \PYG{n}{linear\PYGZus{}model}
+\PYG{n}{model\PYGZus{}lr\PYGZus{}sklearn} \PYG{o}{=} \PYG{n}{linear\PYGZus{}model}\PYG{o}{.}\PYG{n}{LogisticRegression}\PYG{p}{(}\PYG{n}{C}\PYG{o}{=}\PYG{l+m+mi}{10000}\PYG{p}{)}
+\PYG{n}{model\PYGZus{}lr\PYGZus{}sklearn}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{model\PYGZus{}lr\PYGZus{}sklearn}\PYG{o}{.}\PYG{n}{intercept\PYGZus{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{model\PYGZus{}lr\PYGZus{}sklearn}\PYG{o}{.}\PYG{n}{coef\PYGZus{}}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+[3.81736449]
+[[\PYGZhy{}4.69795962  2.66667074 \PYGZhy{}0.00543114]]
+\end{sphinxVerbatim}
+\begin{sphinxalltt}
+/Users/phhaung/Documents/PycharmProject/tism/venv/lib/python3.8/site\sphinxhyphen{}packages/sklearn/utils/validation.py:72: DataConversionWarning: A column\sphinxhyphen{}vector y was passed when a 1d array was expected. Please change the shape of y to (n\_samples, ), for example using ravel().
+  return f(**kwargs)
+
+\end{sphinxalltt}
 
 
 \chapter{概似推論}

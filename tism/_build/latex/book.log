@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.8.5)  28 AUG 2020 11:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.8.5)  11 SEP 2020 13:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -622,13 +622,15 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 81.
 LaTeX Info: Redefining \pageref on input line 81.
 LaTeX Info: Redefining \nameref on input line 81.
+ (./book.out) (./book.out)
 \@outlinefile=\write5
 \openout5 = `book.out'.
 
 Package hyperref Info: Option `pageanchor' set `false' on input line 84.
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 84
 .
- (/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/t1phv.fd
+
+(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 
 
@@ -662,7 +664,8 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? 
+? q
+OK, entering \batchmode...
 
 ! Package inputenc Error: Unicode character 計 (U+8A08)
 (inputenc)                not set up for use with LaTeX.
@@ -673,7 +676,9 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 建 (U+5EFA)
 (inputenc)                not set up for use with LaTeX.
@@ -684,10 +689,9 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? H
 You may provide a definition with
 \DeclareUnicodeCharacter 
-? 
+
 
 ! Package inputenc Error: Unicode character 模 (U+6A21)
 (inputenc)                not set up for use with LaTeX.
@@ -698,7 +702,9 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 技 (U+6280)
 (inputenc)                not set up for use with LaTeX.
@@ -709,7 +715,9 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 法 (U+6CD5)
 (inputenc)                not set up for use with LaTeX.
@@ -720,7 +728,9 @@ Type  H <return>  for immediate help.
                                                   
 l.84 \sphinxmaketitle
                      
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <10> not available
 (Font)              Font shape `T1/phv/b/sl' tried instead on input line 84.
 LaTeX Font Info:    Font shape `T1/phv/b/it' in size <17.28> not available
@@ -742,7 +752,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 
-]
+] (./book.toc)
 \tf@toc=\write6
 \openout6 = `book.toc'.
 
@@ -762,7 +772,9 @@ Type  H <return>  for immediate help.
 l.91 「
         心理計量學」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 心 (U+5FC3)
 (inputenc)                not set up for use with LaTeX.
@@ -774,7 +786,9 @@ Type  H <return>  for immediate help.
 l.91 「心
            理計量學」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 理 (U+7406)
 (inputenc)                not set up for use with LaTeX.
@@ -786,7 +800,9 @@ Type  H <return>  for immediate help.
 l.91 「心理
               計量學」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 計 (U+8A08)
 (inputenc)                not set up for use with LaTeX.
@@ -798,7 +814,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計
                  量學」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 量 (U+91CF)
 (inputenc)                not set up for use with LaTeX.
@@ -810,7 +828,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量
                     學」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 學 (U+5B78)
 (inputenc)                not set up for use with LaTeX.
@@ -822,7 +842,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量學
                        」（psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 」 (U+300D)
 (inputenc)                not set up for use with LaTeX.
@@ -834,7 +856,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量學」
                           （psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character （ (U+FF08)
 (inputenc)                not set up for use with LaTeX.
@@ -846,7 +870,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量學」（
                              psychometrics）為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character ） (U+FF09)
 (inputenc)                not set up for use with LaTeX.
@@ -858,7 +884,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量學」（psychometrics）
                                              為一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 為 (U+70BA)
 (inputenc)                not set up for use with LaTeX.
@@ -870,7 +898,9 @@ Type  H <return>  for immediate help.
 l.91 「心理計量學」（psychometrics）為
                                                 一探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 一 (U+4E00)
 (inputenc)                not set up for use with LaTeX.
@@ -882,7 +912,9 @@ Type  H <return>  for immediate help.
 l.91 ...��理計量學」（psychometrics）為一
                                                   探討如何使用數量�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 探 (U+63A2)
 (inputenc)                not set up for use with LaTeX.
@@ -894,7 +926,9 @@ Type  H <return>  for immediate help.
 l.91 ...��計量學」（psychometrics）為一探
                                                   討如何使用數量模�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 討 (U+8A0E)
 (inputenc)                not set up for use with LaTeX.
@@ -906,7 +940,9 @@ Type  H <return>  for immediate help.
 l.91 ...��量學」（psychometrics）為一探討
                                                   如何使用數量模型�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 如 (U+5982)
 (inputenc)                not set up for use with LaTeX.
@@ -918,7 +954,9 @@ Type  H <return>  for immediate help.
 l.91 ...��學」（psychometrics）為一探討如
                                                   何使用數量模型，�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 何 (U+4F55)
 (inputenc)                not set up for use with LaTeX.
@@ -930,7 +968,9 @@ Type  H <return>  for immediate help.
 l.91 ...��」（psychometrics）為一探討如何
                                                   使用數量模型，刻�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 使 (U+4F7F)
 (inputenc)                not set up for use with LaTeX.
@@ -942,7 +982,9 @@ Type  H <return>  for immediate help.
 l.91 ...��（psychometrics）為一探討如何使
                                                   用數量模型，刻畫�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 用 (U+7528)
 (inputenc)                not set up for use with LaTeX.
@@ -954,7 +996,9 @@ Type  H <return>  for immediate help.
 l.91 ...��psychometrics）為一探討如何使用
                                                   數量模型，刻畫人�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 數 (U+6578)
 (inputenc)                not set up for use with LaTeX.
@@ -966,7 +1010,9 @@ Type  H <return>  for immediate help.
 l.91 ...sychometrics）為一探討如何使用數
                                                   量模型，刻畫人類�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 量 (U+91CF)
 (inputenc)                not set up for use with LaTeX.
@@ -978,7 +1024,9 @@ Type  H <return>  for immediate help.
 l.91 ...hometrics）為一探討如何使用數量
                                                   模型，刻畫人類外�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 模 (U+6A21)
 (inputenc)                not set up for use with LaTeX.
@@ -990,7 +1038,9 @@ Type  H <return>  for immediate help.
 l.91 ...etrics）為一探討如何使用數量模
                                                   型，刻畫人類外顯�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 型 (U+578B)
 (inputenc)                not set up for use with LaTeX.
@@ -1002,7 +1052,9 @@ Type  H <return>  for immediate help.
 l.91 ...ics）為一探討如何使用數量模型
                                                   ，刻畫人類外顯行�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character ， (U+FF0C)
 (inputenc)                not set up for use with LaTeX.
@@ -1014,7 +1066,9 @@ Type  H <return>  for immediate help.
 l.91 ...）為一探討如何使用數量模型，
                                                   刻畫人類外顯行為�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 刻 (U+523B)
 (inputenc)                not set up for use with LaTeX.
@@ -1026,7 +1080,9 @@ Type  H <return>  for immediate help.
 l.91 ...為一探討如何使用數量模型，刻
                                                   畫人類外顯行為與�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 畫 (U+756B)
 (inputenc)                not set up for use with LaTeX.
@@ -1038,7 +1094,9 @@ Type  H <return>  for immediate help.
 l.91 ...一探討如何使用數量模型，刻畫
                                                   人類外顯行為與內�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 人 (U+4EBA)
 (inputenc)                not set up for use with LaTeX.
@@ -1050,7 +1108,9 @@ Type  H <return>  for immediate help.
 l.91 ...探討如何使用數量模型，刻畫人
                                                   類外顯行為與內在�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 類 (U+985E)
 (inputenc)                not set up for use with LaTeX.
@@ -1062,7 +1122,9 @@ Type  H <return>  for immediate help.
 l.91 ...討如何使用數量模型，刻畫人類
                                                   外顯行為與內在歷�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 外 (U+5916)
 (inputenc)                not set up for use with LaTeX.
@@ -1074,7 +1136,9 @@ Type  H <return>  for immediate help.
 l.91 ...如何使用數量模型，刻畫人類外
                                                   顯行為與內在歷程�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 顯 (U+986F)
 (inputenc)                not set up for use with LaTeX.
@@ -1086,7 +1150,9 @@ Type  H <return>  for immediate help.
 l.91 ...何使用數量模型，刻畫人類外顯
                                                   行為與內在歷程之�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 行 (U+884C)
 (inputenc)                not set up for use with LaTeX.
@@ -1098,13 +1164,9 @@ Type  H <return>  for immediate help.
 l.91 ...使用數量模型，刻畫人類外顯行
                                                   為與內在歷程之學�...
 
-? ^^[
-Type <return> to proceed, S to scroll future error messages,
-R to run without stopping, Q to run quietly,
-I to insert something, E to edit your file,
-1 or ... or 9 to ignore the next 1 to 9 tokens of input,
-H for help, X to quit.
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 為 (U+70BA)
 (inputenc)                not set up for use with LaTeX.
@@ -1116,7 +1178,9 @@ Type  H <return>  for immediate help.
 l.91 ...用數量模型，刻畫人類外顯行為
                                                   與內在歷程之學門�...
 
-? 
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 與 (U+8207)
 (inputenc)                not set up for use with LaTeX.
@@ -1128,8 +1192,9 @@ Type  H <return>  for immediate help.
 l.91 ...數量模型，刻畫人類外顯行為與
                                                   內在歷程之學門。�...
 
-? q
-OK, entering \batchmode...
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
 
 ! Package inputenc Error: Unicode character 內 (U+5167)
 (inputenc)                not set up for use with LaTeX.
@@ -2092,446 +2157,12 @@ Type  H <return>  for immediate help.
                                                   
 l.91 ...d indicators）間關係之方法。因此
                                                   ，潛在構念（或稱�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character ， (U+FF0C)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...ndicators）間關係之方法。因此，
-                                                  潛在構念（或稱潛�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 潛 (U+6F5B)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...cators）間關係之方法。因此，潛
-                                                  在構念（或稱潛在�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 在 (U+5728)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...ors）間關係之方法。因此，潛在
-                                                  構念（或稱潛在變�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 構 (U+69CB)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...）間關係之方法。因此，潛在構
-                                                  念（或稱潛在變項�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 念 (U+5FF5)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...間關係之方法。因此，潛在構念
-                                                  （或稱潛在變項）�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character （ (U+FF08)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...關係之方法。因此，潛在構念（
-                                                  或稱潛在變項）的�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 或 (U+6216)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...係之方法。因此，潛在構念（或
-                                                  稱潛在變項）的出�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 稱 (U+7A31)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...之方法。因此，潛在構念（或稱
-                                                  潛在變項）的出現�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 潛 (U+6F5B)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...方法。因此，潛在構念（或稱潛
-                                                  在變項）的出現，�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 在 (U+5728)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...法。因此，潛在構念（或稱潛在
-                                                  變項）的出現，可�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 變 (U+8B8A)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...。因此，潛在構念（或稱潛在變
-                                                  項）的出現，可說�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 項 (U+9805)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...因此，潛在構念（或稱潛在變項
-                                                  ）的出現，可說是�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character ） (U+FF09)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...此，潛在構念（或稱潛在變項）
-                                                  的出現，可說是「�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 的 (U+7684)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...，潛在構念（或稱潛在變項）的
-                                                  出現，可說是「心�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 出 (U+51FA)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...潛在構念（或稱潛在變項）的出
-                                                  現，可說是「心理�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 現 (U+73FE)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...在構念（或稱潛在變項）的出現
-                                                  ，可說是「心理計�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character ， (U+FF0C)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...構念（或稱潛在變項）的出現，
-                                                  可說是「心理計量�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 可 (U+53EF)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...念（或稱潛在變項）的出現，可
-                                                  說是「心理計量模�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 說 (U+8AAA)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...（或稱潛在變項）的出現，可說
-                                                  是「心理計量模型�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 是 (U+662F)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...或稱潛在變項）的出現，可說是
-                                                  「心理計量模型」�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 「 (U+300C)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...稱潛在變項）的出現，可說是「
-                                                  心理計量模型」的�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 心 (U+5FC3)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...潛在變項）的出現，可說是「心
-                                                  理計量模型」的一�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 理 (U+7406)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...在變項）的出現，可說是「心理
-                                                  計量模型」的一大�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 計 (U+8A08)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...變項）的出現，可說是「心理計
-                                                  量模型」的一大特�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 量 (U+91CF)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...項）的出現，可說是「心理計量
-                                                  模型」的一大特色�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 模 (U+6A21)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...）的出現，可說是「心理計量模
-                                                  型」的一大特色，�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 型 (U+578B)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...的出現，可說是「心理計量模型
-                                                  」的一大特色，而�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 」 (U+300D)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...出現，可說是「心理計量模型」
-                                                  的一大特色，而如�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 的 (U+7684)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...現，可說是「心理計量模型」的
-                                                  一大特色，而如何�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 一 (U+4E00)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...，可說是「心理計量模型」的一
-                                                  大特色，而如何處�...
-
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-! Package inputenc Error: Unicode character 大 (U+5927)
-(inputenc)                not set up for use with LaTeX.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 ...可說是「心理計量模型」的一大
-                                                  特色，而如何處理�...
 (That makes 100 errors; please try again.) 
 Here is how much of TeX's memory you used:
- 13352 strings out of 480608
- 189110 string characters out of 5903631
- 462308 words of memory out of 5000000
- 28968 multiletter control sequences out of 15000+600000
+ 13348 strings out of 480608
+ 189104 string characters out of 5903631
+ 462412 words of memory out of 5000000
+ 28958 multiletter control sequences out of 15000+600000
  559305 words of font info for 54 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
  38i,11n,49p,650b,388s stack positions out of 5000i,500n,10000p,200000b,80000s

@@ -11,7 +11,7 @@ x_1 \\
 x_2 \\
 \vdots \\
 x_N
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 在此講義中，我們通常使用大寫的英文字母作為一組數列的元素個數，而該字母的小寫則作為索引使用，因此，$x$ 的元素個素為 $N$，我們用$x_n$ 來表示 $x$ 的第 $n$ 個元素。
@@ -22,7 +22,7 @@ $$
 x^T =
 \begin{pmatrix}
 x_1 & x_2 & \cdots & x_N
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 透過轉置，原本由上而下的排列，改成有左至右的排列。不過，請記得在文獻中向量一詞，大多指稱的是直行向量。
@@ -34,7 +34,7 @@ $$
 $$
 \begin{aligned}
 ||x|| &= \sqrt{x_1^2 + x_2^2 +...+x_N^2}\\
-& = \sqrt{ \sum_{n=1}^N x_n^2}
+& = \sqrt{ \sum_{n=1}^N x_n^2}.
 \end{aligned}
 $$
 
@@ -49,7 +49,7 @@ x^* = \frac{1}{||x||} x =
 \frac{1}{||x||} x_2 \\
 \vdots \\
 \frac{1}{||x||} x_N
-\end{pmatrix}
+\end{pmatrix}.
 $$
 這邊牽涉到純量對向量的乘法，請見下一小節。
 
@@ -78,7 +78,7 @@ x_1 + y_1 \\
 x_2 + y_2 \\
 \vdots \\
 x_N + y_N
-\end{pmatrix}
+\end{pmatrix}.
 \end{aligned}
 $$
 
@@ -106,7 +106,7 @@ x_1 - y_1 \\
 x_2 - y_2 \\
 \vdots \\
 x_N - y_N
-\end{pmatrix}
+\end{pmatrix}.
 \end{aligned}
 $$
 
@@ -130,7 +130,7 @@ x_N
 \alpha x_2 \\
 \vdots \\
 \alpha x_N
-\end{pmatrix}
+\end{pmatrix}.
 \end{aligned}
 $$
 
@@ -143,7 +143,7 @@ d(x, y) &= ||x - y|| \\
 &=
 \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + ... + (x_N - y_N)^2} \\
 &=
-\sqrt{\sum_{n=1}^N (x_n - y_n)^2 }
+\sqrt{\sum_{n=1}^N (x_n - y_n)^2 }.
 \end{aligned}
 $$
 
@@ -155,7 +155,7 @@ $$
 \begin{aligned}
 \langle x,y \rangle &=
 x_1 y_1 + x_2 y_2 + ... + x_N y_N \\
-& = \sum_{n=1}^N x_n y_n
+& = \sum_{n=1}^N x_n y_n.
 \end{aligned}
 $$
 
@@ -166,7 +166,7 @@ $$
 然而，內積並未考慮到 $x$ 和 $y$ 自身的長度，其數值大小較難直接做解釋。故此，令$\theta$ 表示兩向量之夾角，則其**餘弦值**（cosine）之計算，乃將兩向量之內積除上各自的長度，即
 
 $$
-\text{cos}(\theta) = \frac{\langle x,y \rangle}{||x|| ||y||}
+\text{cos}(\theta) = \frac{\langle x,y \rangle}{||x|| ||y||}.
 $$
 
 當兩向量夾角的餘弦值，可透過以下的方式解釋：
@@ -192,9 +192,9 @@ A =
    a_{2}^T \\
     \vdots \\
      a_{M}^T \\
- \end{pmatrix}
-
+ \end{pmatrix}.
 $$
+
 注意，在這邊，我們有過度使用符號的狀況，在前一小節，$a_n$用於表示向量 $a$ 的第 $n$ 個元素，但在這邊，$a_m$ 被用於表示第 $m$ 個 $N$ 維之向量，讀者應嘗試理解以具備獨立判斷的能力。
 
 若我們將前述的矩陣 $A$ 每一個元素寫開來，則可以表示為
@@ -206,7 +206,7 @@ A =
   a_{2,1} & a_{2,2} & \cdots & a_{2,N} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_{M,1} & a_{M,2} & \cdots & a_{M,N}
- \end{pmatrix}
+ \end{pmatrix}.
 $$
 
 這裡，$A$ 的第 $(m,n)$ 個元素，我們使用 $a_{m,n}$（或$a_{mn}$）來表示。
@@ -220,7 +220,7 @@ A^T =
   a_{12} & a_{22} & \cdots & a_{N2} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_{1M} & a_{2M} & \cdots & a_{NM}
- \end{pmatrix}
+ \end{pmatrix}.
 $$
 因此，$A^T$ 可視為將 $A$ 的直行與橫列訊息互換的結果，而 $A^T$ 的尺寸則轉為了 $N \times M$。
 
@@ -231,7 +231,7 @@ $$
   1 & 4 \\
   2 & 5 \\
   3 & 6
- \end{pmatrix}$
+ \end{pmatrix}$。
 
 
 在矩陣的世界中，有幾種特別的矩陣讀者需要特別認識：
@@ -258,7 +258,7 @@ A  + B=
   a_{21} \pm  b_{21} & a_{22}\pm  b_{22} & \cdots & a_{2N}\pm  b_{2N} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_{M1} \pm  b_{M1}& a_{M2}\pm  b_{M2} & \cdots & a_{MN}\pm  b_{MN}
- \end{pmatrix}
+ \end{pmatrix}.
 $$
 
 由於此為元素對元素的運算，因此，$A$ 和 $B$ 兩者的尺寸必須一樣。
@@ -294,7 +294,7 @@ x_N
   \sum_{n=1}^N a_{2n} x_n\\
   \vdots \\
   \sum_{n=1}^N a_{Mn} x_n
- \end{pmatrix}
+ \end{pmatrix}.
 \end{aligned}
 $$
 
@@ -326,7 +326,7 @@ $$
   \langle a_2,x \rangle \\
   \vdots \\
   \langle a_M,x \rangle
- \end{pmatrix}
+ \end{pmatrix}.
  $$
 
 我們可延伸前述的概念，來定義矩陣對矩陣的乘法。令 $A$ 與 $B$ 分別表示 $M \times N$ 與 $N \times P$ 之矩陣，其內部元素分別為 $a_{mn}$ 與 $b_{np}$，則 $A$ 與 $B$ 相乘被定義為
@@ -352,7 +352,7 @@ AB &=
   \sum_{n=1}^N a_{2n} b_{n1} & \sum_{n=1}^N a_{2n} b_{n2} & \cdots & \sum_{n=1}^N a_{2n} b_{nP} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   \sum_{n=1}^N a_{Nn} b_{n1} & \sum_{n=1}^N a_{Nn} b_{n2} & \cdots & \sum_{n=1}^N a_{Nn} b_{nP}
- \end{pmatrix}}_{M \times P}
+ \end{pmatrix}}_{M \times P}.
  \end{aligned}
 $$
 
@@ -371,7 +371,7 @@ A =
  B =
 \begin{pmatrix}
   b_1 & b_2  & \cdots & b_{P}
- \end{pmatrix}
+ \end{pmatrix}.
 $$
 
 這裡，$a_m^T$ 表示由 $A$ 的第 $m$ 個橫列形成的橫列向量，$b_p$ 表示由 $B$ 的第 $p$ 個直行形成的直行向量，則 $AB$ 可寫為
@@ -383,7 +383,7 @@ AB =
   a_2^T b_1 & a_2^T b_2 & \cdots & a_2^T b_P \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_M^T b_1 & a_M^T b_2 & \cdots & a_M^T b_P \\
- \end{pmatrix}
+ \end{pmatrix}.
 $$
 
 
@@ -391,7 +391,7 @@ $$
 當 $A$ 為 $N \times N$之方陣，且其行或列並未包含累贅的（redundant）訊息時，則 $A$ 存在**反矩陣**（inverse）。意即，存在一 $N \times N$ 矩陣 $A^{-1}$，其滿足
 
 $$
-A^{-1} A = A A^{-1} = I
+A^{-1} A = A A^{-1} = I.
 $$
 
 這裡 $I$ 為 $N \times N$ 單位矩陣。當反矩陣存在時，其為獨特的（unique），意思是，反矩陣只會有一個。
@@ -400,17 +400,17 @@ $$
 
 $$
 \begin{cases}
-a_{11} x_1 + a_{12} x_2 + ... + a_{1N} x_N = b_1 \\
-a_{21} x_1 + a_{22} x_2 + ... + a_{2N} x_N = b_2 \\
+a_{11} x_1 + a_{12} x_2 + ... + a_{1N} x_N = b_1, \\
+a_{21} x_1 + a_{22} x_2 + ... + a_{2N} x_N = b_2, \\
 \vdots \\
-a_{N1} x_1 + a_{N2} x_2 + ... + a_{NN} x_N = b_N \\
+a_{N1} x_1 + a_{N2} x_2 + ... + a_{NN} x_N = b_N. \\
 \end{cases}
 $$
 
 在此方程組中，有$x_1, x_2,...,x_N$ 共 $N$ 個未知數，並有 $N$ 條式子。令$A$表示由 $a_{mn}$組成的 $N \times N$ 矩陣（$1 \leq m,n\leq N$），$x$ 與 $b$ 則表示由 $x_n$ 與 $b_n$ 形成的 $N$ 維向量。前述方程組可以用矩陣向量乘法的形式來表徵
 
 $$
-Ax=b
+Ax=b.
 $$
 
 因此，若可以獲得 $A^{-1}$，則根據 $A^{-1}Ax=A^{-1}b$，方程組的解即為 $x=A^{-1}b$。
@@ -427,7 +427,7 @@ a. $LU$ 分解
 當 $A$ 為 $N \times N$ 可逆方陣時，則其存在 **$LU$ 分解**：
 
 $$
-A = LU
+A = LU.
 $$
 
 + $L$表示一 $N \times N$ 下三角矩陣。
@@ -439,7 +439,7 @@ b. $QR$ 分解
 當 $A$ 為 $N \times N$ 可逆方陣時，則其存在 **$QR$ 分解**：
 
 $$
-A = QR
+A = QR.
 $$
 
 + $Q$ 表示一 $N \times N$ 的**垂直矩陣**（orthogonal matrix）（垂直矩陣滿足 $Q Q^T = Q^T Q = I$）。
@@ -451,7 +451,7 @@ c. Cholesky 分解
 當 $A$ 為 $N \times N$ 正定對稱矩陣（positive definite symmetric matrix）時（在此，我們先不對「正定」一詞多做解釋，其在矩陣中扮演類似正數的概念），則其存在 **Cholesky 分解**：
 
 $$
-A = LL^T
+A = LL^T.
 $$
 
 + $L$表示一 $N \times N$ 下三角矩陣，$L^T$ 表示 $L$ 的轉置
@@ -462,7 +462,7 @@ d. 特徵值分解
 當 $A$ 為 $N \times N$ 對稱矩陣時，其存在以下之**特徵值分解**（eigendecomposition）
 
 $$
-A = Q \Lambda Q ^T
+A = Q \Lambda Q ^T.
 $$
 
 + $\Lambda$ 表示一 $N \times N$ 對角矩陣，其對角線元素為 $A$ 的特徵值。
@@ -474,7 +474,7 @@ e. 奇異值分解
 對於任何的 $M \times N$矩陣 $A$，其存在**奇異值分解**（singular value decomposition）：
 
 $$
-A = U \Sigma V^T
+A = U \Sigma V^T.
 $$
 
 + $\Sigma$ 表示一 $M \times N$ 的長方對角矩陣（rectangular diagonal matrix），其對角線元素為 $A$ 的**奇異值**（singular value）
@@ -493,7 +493,7 @@ $$
 給定一函數 $f(x)$，其將一實數變量 $x$，從其**定義域**（domain）透過轉換（transformation）送至其**值域**（range）。若 $f(x)$ 在 $x=x^*$ 此位置為**可微分**（differentiable）的話，我們使用 $f'(x^*)$ 來表示此微分值，其計算方式為
 
 $$
-f'(x^*) = \lim_{\Delta x \to 0} \frac{f(x^* + \Delta x) - f(x^*)}{\Delta x}
+f'(x^*) = \lim_{\Delta x \to 0} \frac{f(x^* + \Delta x) - f(x^*)}{\Delta x}.
 $$
 
 由於 $\frac{f(x^* + \Delta x) - f(x^*)}{\Delta x}$ 可視為對函數 $f$ 於 $x^*$ 位置斜率之逼近，透過使用極限（limit）的運算將 $\Delta x$ 趨近於0，事實上，$f'(x^*)$ 表徵的就是 $f$ 於 $x^*$ 位置切線之斜率。
@@ -501,13 +501,13 @@ $$
 實務上，我們常使用以下的符號來表示對函數 $f$ 的 $x$ 進行微分
 
 $$
-f'(x) = \frac{\text{d} f(x)}{\text{d} x}
+f'(x) = \frac{\text{d} f(x)}{\text{d} x}.
 $$
 
 注意，在這邊 $f'(x)$ 與 $f'(x^*)$ 表徵的事情略有不同。$f'(x)$ 表徵的是函數 $f$ 的**一階導數**（first-order derivative），其為一函數，帶入不同的 $x$ 則 $f'(x)$ 會輸出不同的數值來，而 $f'(x^*)$ 強調的是，該一階導數於 $x = x^*$ 之數值。一般來說，比較精確的寫法是
 
 $$
-f'(x^*) = \frac{\text{d} f(x)}{\text{d} x} \bigg|_{x = x^*}
+f'(x^*) = \frac{\text{d} f(x)}{\text{d} x} \bigg|_{x = x^*}.
 $$
 
 下表呈現了一些常見函數的一階導數
@@ -523,7 +523,7 @@ $$
 在獲得了 $f(x)$ 的一階導數 $f'(x)$ 後，我們也可以將 $f'(x)$ 視為一新的函數再去計算其導數，此時，我們等同於計算 $f(x)$ 的二階導數
 
 $$
-f''(x) = \frac{\text{d}^2 f(x)}{\text{d} x^2} = \frac{\text{d} f'(x)}{\text{d} x}
+f''(x) = \frac{\text{d}^2 f(x)}{\text{d} x^2} = \frac{\text{d} f'(x)}{\text{d} x}.
 $$
 
 
@@ -531,16 +531,16 @@ $$
 
 前一小節的表格，呈現的都是一些較為簡單形式的函數，面對實務的問題，研究者常須處理較為複雜的函數，這時，我們會需要一些微分的規則。令 $f(x)$ 與 $g(x)$ 表示兩定義於 $x$ 此變數之函數，假設 $f(x)$ 與 $g(x)$ 皆為可微分之函數，則我們有以下的規則
 
-+ **線性規則**：$\frac{\text{d} }{\text{d}x} ( a f(x) + b g(x)) = a f'(x) + b g'(x)$
++ **線性規則**：$\frac{\text{d} }{\text{d}x} ( a f(x) + b g(x)) = a f'(x) + b g'(x)$。
 
-+ **乘法規則**：$\frac{\text{d} }{\text{d}x} (f(x) g(x)) = f'(x) g(x) + f(x) g'(x)$
++ **乘法規則**：$\frac{\text{d} }{\text{d}x} (f(x) g(x)) = f'(x) g(x) + f(x) g'(x)$。
 
-+ **除法規則**：$\frac{\text{d} }{\text{d}x} (f(x)/g(x)) = \frac{f'(x) g(x) - f(x) g'(x)}{[g(x)]^2}$（$g(x)$ 不可為0）
++ **除法規則**：$\frac{\text{d} }{\text{d}x} (f(x)/g(x)) = \frac{f'(x) g(x) - f(x) g'(x)}{[g(x)]^2}$（$g(x)$ 不可為0）。
 
 除此之外，**連鎖規則**（chain rule）亦為一相當重要的手法。令 $g(x)$ 表示一定義於 $x$ 變數的函數，其輸出為 $y$，而 $f(y)$ 表示一定義於變數 $y$ 之函數，其輸出為 $z$。考慮一組成函數（composition function）$h$，其建構方式為$h =f \circ g$，意思是，$h(x) = f(g(x))$。根據連鎖規則，$h$ 的一階導數可透過以下的公式計算
 
 $$
-h'(x) = f'(g(x))  g'(x)
+h'(x) = f'(g(x))  g'(x).
 $$
 
 
@@ -548,7 +548,7 @@ $$
 在統計的問題中，研究者常須處理多變數的實函數，意即，一函數$f$ 其定義於 $x_1,x_2,...,x_N$，並透過一轉換將此 $N$ 個變數送到一實數空間。在面對此類函數時，我們需要利用**偏微分**（partial differentiation）的技術，計算 $f(x)=f(x_1,x_2,...,x_N)$ 於各 $x_n$ 方向上的**偏導數**（partial derivative），其定義為
 
 $$
-\frac{\partial  f(x)}{\partial x_n}  = \lim_{\Delta x_n \to 0} \frac{f(x_1,...,x_n + \Delta x_n,...,x_N) - f(x_1,...,x_n,...,x_N)}{\Delta x_n}
+\frac{\partial  f(x)}{\partial x_n}  = \lim_{\Delta x_n \to 0} \frac{f(x_1,...,x_n + \Delta x_n,...,x_N) - f(x_1,...,x_n,...,x_N)}{\Delta x_n}.
 $$
 
 在實作上，計算 $\frac{\partial f(x)}{\partial x_n}$時，僅須將 $f(x)$ 視為 $x_n$ 的函數，其它的變數視為常數即可。
@@ -562,7 +562,7 @@ $$
 \frac{\partial  f(x)}{\partial x_2} \\
 \vdots \\
 \frac{\partial  f(x)}{\partial x_N} \\
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 我們將 $\nabla f(x)$ 稱作**梯度**（gradient），其在了解多變數函數時，提供了相當重要的訊息：
