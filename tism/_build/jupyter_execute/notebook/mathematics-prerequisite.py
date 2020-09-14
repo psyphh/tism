@@ -187,12 +187,12 @@ $$
 
 $$
 A =
-\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   a_{1}^T \\
    a_{2}^T \\
     \vdots \\
      a_{M}^T \\
- \end{pmatrix}.
+ \end{pmatrix}}_{M \times N}.
 $$
 
 注意，在這邊，我們有過度使用符號的狀況，在前一小節，$a_n$用於表示向量 $a$ 的第 $n$ 個元素，但在這邊，$a_m$ 被用於表示第 $m$ 個 $N$ 維之向量，讀者應嘗試理解以具備獨立判斷的能力。
@@ -201,12 +201,12 @@ $$
 
 $$
 A =
- \begin{pmatrix}
+ \underbrace{\begin{pmatrix}
   a_{1,1} & a_{1,2} & \cdots & a_{1,N} \\
   a_{2,1} & a_{2,2} & \cdots & a_{2,N} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_{M,1} & a_{M,2} & \cdots & a_{M,N}
- \end{pmatrix}.
+ \end{pmatrix}}_{M \times N}.
 $$
 
 這裡，$A$ 的第 $(m,n)$ 個元素，我們使用 $a_{m,n}$（或$a_{mn}$）來表示。
@@ -215,12 +215,12 @@ $$
 
 $$
 A^T =
- \begin{pmatrix}
-  a_{11} & a_{21} & \cdots & a_{N1} \\
-  a_{12} & a_{22} & \cdots & a_{N2} \\
+ \underbrace{\begin{pmatrix}
+  a_{11} & a_{21} & \cdots & a_{1M} \\
+  a_{12} & a_{22} & \cdots & a_{2M} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
-  a_{1M} & a_{2M} & \cdots & a_{NM}
- \end{pmatrix}.
+  a_{1N} & a_{2N} & \cdots & a_{MN}
+ \end{pmatrix}}_{N \times M}.
 $$
 因此，$A^T$ 可視為將 $A$ 的直行與橫列訊息互換的結果，而 $A^T$ 的尺寸則轉為了 $N \times M$。
 
@@ -289,12 +289,12 @@ x_N
   a_{M1} x_1 + a_{M2} x_2 + ... + a_{MN} x_N
  \end{pmatrix}}_{M \times 1}\\
 &=
-\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   \sum_{n=1}^N a_{1n} x_n \\
   \sum_{n=1}^N a_{2n} x_n\\
   \vdots \\
   \sum_{n=1}^N a_{Mn} x_n
- \end{pmatrix}.
+ \end{pmatrix}}_{M \times 1}.
 \end{aligned}
 $$
 
