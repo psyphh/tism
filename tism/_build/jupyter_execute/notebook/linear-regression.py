@@ -50,7 +50,7 @@ $$\begin{aligned}
 = &\frac{1}{N} \sum_{n=1}^N \left (y_n - x_n^T w \right )^2
 \end{aligned}$$
 
-由於迴歸模型假設 $y=f(x)+\epsilon$，且線性迴歸僅考慮線性的關係 $f(x) = w_0 + \sum_{p=1}^P w_p x_p = x_n^T w$，因此，第 $n$ 筆觀測值對應之殘差可寫為 $\epsilon_n = y_n - x_n^T w$，而 LS 估計準則可簡單地寫為
+由於迴歸模型假設 $y=f(x)+\epsilon$，且線性迴歸僅考慮線性的關係 $f(x) = x_n^T w$，因此，第 $n$ 筆觀測值對應之殘差可寫為 $\epsilon_n = y_n - x_n^T w$，而 LS 估計準則可簡單地寫為
 
 $$
 \begin{aligned}
