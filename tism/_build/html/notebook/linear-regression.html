@@ -281,13 +281,13 @@ f(x) = x^T w
 </div>
 <div class="section" id="id3">
 <h2><span class="section-number">2.2. </span>最小平方估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>線性迴歸分析主要採用最小平方法（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則可寫為</p>
+<p>線性迴歸分析主要採用最小平方法（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則定義為</p>
 <div class="math notranslate nohighlight">
 \[\begin{aligned}
 \mathcal{D}(w)
-= &amp;\frac{1}{N} \sum_{n=1}^N \left (y_n - w_0 - \sum_{p=1}^P w_p x_{np} \right )^2
+= &amp;\frac{1}{N} \sum_{n=1}^N \left (y_n - x_n^T w \right )^2
 \end{aligned}\]</div>
-<p>由於迴歸模型假設 <span class="math notranslate nohighlight">\(y=f(x)+\epsilon\)</span>，且線性迴歸僅考慮線性的關係 <span class="math notranslate nohighlight">\(f(x) = w_0 + \sum_{p=1}^P w_p x_p\)</span>，因此，第 <span class="math notranslate nohighlight">\(n\)</span> 筆觀測值對應之殘差可寫為 <span class="math notranslate nohighlight">\(\epsilon_n = y_n - f(x_n)\)</span>，LS 估計準則亦可簡單地寫為</p>
+<p>由於迴歸模型假設 <span class="math notranslate nohighlight">\(y=f(x)+\epsilon\)</span>，且線性迴歸僅考慮線性的關係 <span class="math notranslate nohighlight">\(f(x) = w_0 + \sum_{p=1}^P w_p x_p = x_n^T w\)</span>，因此，第 <span class="math notranslate nohighlight">\(n\)</span> 筆觀測值對應之殘差可寫為 <span class="math notranslate nohighlight">\(\epsilon_n = y_n - x_n^T w\)</span>，而 LS 估計準則可簡單地寫為</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
