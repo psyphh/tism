@@ -114,7 +114,7 @@ $$
     \cdots & \frac{\partial^2 \mathcal{D}(\widehat{w})}{\partial w_P \partial w_P}
  \end{pmatrix}
 $$
-這裡，$\nabla^2 \mathcal{D}(\widehat{w})$ 為 $\mathcal{D}(\widehat{w})$ 的二階微分矩陣，尺寸為 $P \times P$，其亦被稱作黑塞矩陣（hessian matrix）。若 $\nabla^2 \mathcal{D}(\widehat{w})$為正定矩陣，則意味著對於所有不為0的 $P+1$ 維向量 $v$，我們有$v^T\nabla^2 \mathcal{D}(\widehat{w}) v >0$，這表示在 $\widehat{w}$ 附近，考慮任何方向的向量 $v$，其切線皆展現遞增的狀況，故 $\widehat{w}$ 為局部極小元。
+這裡，$\nabla^2 \mathcal{D}(\widehat{w})$ 為 $\mathcal{D}(\widehat{w})$ 的二階微分矩陣，尺寸為 $(P +1) \times (P + 1)$，其亦被稱作黑塞矩陣（hessian matrix）。若 $\nabla^2 \mathcal{D}(\widehat{w})$為正定矩陣，則意味著對於所有不為0的 $P+1$ 維向量 $v$，我們有$v^T\nabla^2 \mathcal{D}(\widehat{w}) v >0$，這表示在 $\widehat{w}$ 附近，考慮任何方向的向量 $v$，其切線皆展現遞增的狀況，故 $\widehat{w}$ 為局部極小元。
 
 因此，根據一階與二階最適條件，當要對 $\mathcal{D}(w)$ 進行最小化，求得 $\widehat{w}$時，其步驟為：
 
