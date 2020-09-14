@@ -216,8 +216,8 @@ $$
 $$
 A^T =
  \underbrace{\begin{pmatrix}
-  a_{11} & a_{21} & \cdots & a_{1M} \\
-  a_{12} & a_{22} & \cdots & a_{2M} \\
+  a_{11} & a_{21} & \cdots & a_{M1} \\
+  a_{12} & a_{22} & \cdots & a_{M2} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   a_{1N} & a_{2N} & \cdots & a_{MN}
  \end{pmatrix}}_{N \times M}.
