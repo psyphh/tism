@@ -236,7 +236,12 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id5">
-   2.4. 線性代數與迴歸
+   2.4. 計算範例：簡單線性迴歸
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   2.5. 線性代數與迴歸
   </a>
  </li>
 </ul>
@@ -355,24 +360,104 @@ f(x) = x^T w
 </ol>
 </div>
 <div class="section" id="id5">
-<h2><span class="section-number">2.4. </span>線性代數與迴歸<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>計算範例：簡單線性迴歸<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>在此，我們以簡單線性迴歸（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 <span class="math notranslate nohighlight">\(P=1\)</span> 的情境，因此，對於任一觀測值 <span class="math notranslate nohighlight">\((y_n, x_n)\)</span>，其模型表達式為：</p>
+<div class="math notranslate nohighlight">
+\[
+y_n = w_0 + w_1 x_n + \epsilon_n
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(x_n\)</span>僅為一純量，而簡單線性迴歸的 LS 估計準則為：</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}(w) = \frac{1}{N}\sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2
+\]</div>
+<p>於前述估計準則分別對 <span class="math notranslate nohighlight">\(w_0\)</span> 與 <span class="math notranslate nohighlight">\(w_1\)</span> 進行偏微分，我們可得</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial  \mathcal{D}(w)} {\partial w_0}
+&amp;= \frac{\partial} {\partial w_0}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n)
+\end{aligned}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial  \mathcal{D}(w)} {\partial w_1}
+&amp;= \frac{\partial} {\partial w_1}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
+&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n)
+\end{aligned}
+\end{split}\]</div>
+<p>因此，在簡單線性迴歸的架構下，LS 估計準則的一階條件為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla \mathcal{D}(\widehat{w}) =
+\begin{pmatrix}
+ -\frac{2}{N}\sum_{n=1}^N (y_n - \widehat{w}_0 - \widehat{w}_1 x_n) \\
+ -\frac{2}{N}\sum_{n=1}^N x_n (y_n - \widehat{w}_0 - \widehat{w}_1 x_n)
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+\end{split}\]</div>
+<p>而模型參數的 LS 估計式，即為以下二元一次方程組的解：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+\sum_{n=1}^N y_n - N\widehat{w}_0 - \left( \sum_{n=1}^N x_n \right ) \widehat{w}_1  &amp;=&amp; 0 &amp; \cdots (a) \\
+ \sum_{n=1}^N x_n y_n - \left( \sum_{n=1}^N x_n \right) \widehat{w}_0  - \left( \sum_{n=1}^N x_n^2 \right)\widehat{w}_1  &amp;=&amp; 0 &amp; \cdots  (b)
+\end{cases}
+\end{split}\]</div>
+<p>根據 <span class="math notranslate nohighlight">\((a)\)</span>，我們可得 <span class="math notranslate nohighlight">\(m_Y  -  m_X \widehat{w}_1  = \widehat{w}_0\)</span>，這裡，<span class="math notranslate nohighlight">\(m_Y= \frac{1}{N}\sum_{n=1}^N y_n\)</span> 與 <span class="math notranslate nohighlight">\(m_X= \frac{1}{N} \sum_{n=1}^N x_n\)</span>。將前述關係式帶入 <span class="math notranslate nohighlight">\((b)\)</span>，即可得</p>
+<div class="math notranslate nohighlight">
+\[
+ \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0
+\]</div>
+<p>透過整理，可進一步得到</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1
+\]</div>
+<p>因此，<span class="math notranslate nohighlight">\(\widehat{w}_1\)</span> 的表達式為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+ \widehat{w}_1 &amp;= \frac{\sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  m_Y}{\sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X } \\
+ &amp;= \frac{ \frac{1}{N}\sum_{n=1}^N x_n y_n - \frac{1}{N}\sum_{n=1}^N x_n  m_Y}{\frac{1}{N} \sum_{n=1}^N x_n^2  -  \frac{1}{N} \sum_{n=1}^N x_n    m_X } \\
+  &amp;= \frac{ s_{YX}}{s_{X}^2 } \\
+ \end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(s_{YX}\)</span> 與 <span class="math notranslate nohighlight">\(s_X^2\)</span> 分別表示 <span class="math notranslate nohighlight">\(Y\)</span> 與 <span class="math notranslate nohighlight">\(X\)</span> 的共變數，以及 <span class="math notranslate nohighlight">\(X\)</span> 的變異數。而 <span class="math notranslate nohighlight">\(\widehat{w}_0\)</span> 即可透過 <span class="math notranslate nohighlight">\(\widehat{w}_0=m_Y  -  m_X \widehat{w}_1\)</span> 獲得。</p>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">2.5. </span>線性代數與迴歸<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>線性迴歸的問題可以簡單的使用矩陣與向量的方式來表徵</p>
 <div class="math notranslate nohighlight">
-\[y = X w + \epsilon,\]</div>
+\[
+y = Xw + \epsilon,
+\]</div>
+<p>其內部具體的元素為</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\mathop{\begin{pmatrix}
+\[\begin{split}\underbrace{\begin{pmatrix}
   y_{1} \\
   y_{2} \\
   \vdots \\
   y_{N}
  \end{pmatrix}}_{N \times 1}=
-\mathop{\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   1 &amp; x_{11} &amp; \cdots &amp; x_{1P} \\
   1 &amp; x_{21} &amp; \cdots &amp; x_{2P} \\
   \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
   1 &amp; x_{N1} &amp; \cdots &amp; x_{NP}
  \end{pmatrix}}_{N \times (P+1)}
-\mathop{\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   w_0 \\
   w_{1} \\
   \vdots \\
@@ -406,7 +491,7 @@ f(x) = x^T w
 <p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
 <div class="math notranslate nohighlight">
 \[
-X^T X\widehat{w}=X^Ty.
+\underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
 \]</div>
 <p>因此，若 <span class="math notranslate nohighlight">\(X^T X\)</span> 存在反矩陣，則迴歸係數的 LS 估計值可寫為</p>
 <div class="math notranslate nohighlight">

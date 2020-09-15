@@ -123,25 +123,115 @@ $$
 3. 檢驗 $\nabla^2 \mathcal{D}(\widehat{w})$ 此矩陣是否為正定矩陣。
 
 
+## 計算範例：簡單線性迴歸
+
+在此，我們以簡單線性迴歸（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 $P=1$ 的情境，因此，對於任一觀測值 $(y_n, x_n)$，其模型表達式為：
+
+$$
+y_n = w_0 + w_1 x_n + \epsilon_n
+$$
+
+這裡，$x_n$僅為一純量，而簡單線性迴歸的 LS 估計準則為：
+
+$$
+\mathcal{D}(w) = \frac{1}{N}\sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2
+$$
+
+於前述估計準則分別對 $w_0$ 與 $w_1$ 進行偏微分，我們可得
+
+$$
+\begin{aligned}
+\frac{\partial  \mathcal{D}(w)} {\partial w_0}
+&= \frac{\partial} {\partial w_0}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
+&=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
+&=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
+&=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n)
+\end{aligned}
+$$
+
+與
+
+$$
+\begin{aligned}
+\frac{\partial  \mathcal{D}(w)} {\partial w_1}
+&= \frac{\partial} {\partial w_1}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
+&=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
+&=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
+&=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n)
+\end{aligned}
+$$
+
+因此，在簡單線性迴歸的架構下，LS 估計準則的一階條件為
+
+$$
+\nabla \mathcal{D}(\widehat{w}) =
+\begin{pmatrix}
+ -\frac{2}{N}\sum_{n=1}^N (y_n - \widehat{w}_0 - \widehat{w}_1 x_n) \\
+ -\frac{2}{N}\sum_{n=1}^N x_n (y_n - \widehat{w}_0 - \widehat{w}_1 x_n)
+\end{pmatrix}
+=
+\begin{pmatrix}
+0 \\
+0
+\end{pmatrix}
+$$
+
+而模型參數的 LS 估計式，即為以下二元一次方程組的解：
+
+$$
+\begin{cases}
+\sum_{n=1}^N y_n - N\widehat{w}_0 - \left( \sum_{n=1}^N x_n \right ) \widehat{w}_1  &=& 0 & \cdots (a) \\
+ \sum_{n=1}^N x_n y_n - \left( \sum_{n=1}^N x_n \right) \widehat{w}_0  - \left( \sum_{n=1}^N x_n^2 \right)\widehat{w}_1  &=& 0 & \cdots  (b)
+\end{cases}
+$$
+
+根據 $(a)$，我們可得 $m_Y  -  m_X \widehat{w}_1  = \widehat{w}_0$，這裡，$m_Y= \frac{1}{N}\sum_{n=1}^N y_n$ 與 $m_X= \frac{1}{N} \sum_{n=1}^N x_n$。將前述關係式帶入 $(b)$，即可得
+
+$$
+ \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0
+$$
+
+透過整理，可進一步得到
+
+$$
+\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1
+$$
+
+因此，$\widehat{w}_1$ 的表達式為
+
+$$
+\begin{aligned}
+ \widehat{w}_1 &= \frac{\sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  m_Y}{\sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X } \\
+ &= \frac{ \frac{1}{N}\sum_{n=1}^N x_n y_n - \frac{1}{N}\sum_{n=1}^N x_n  m_Y}{\frac{1}{N} \sum_{n=1}^N x_n^2  -  \frac{1}{N} \sum_{n=1}^N x_n    m_X } \\
+  &= \frac{ s_{YX}}{s_{X}^2 } \\
+ \end{aligned}
+$$
+
+這裡，$s_{YX}$ 與 $s_X^2$ 分別表示 $Y$ 與 $X$ 的共變數，以及 $X$ 的變異數。而 $\widehat{w}_0$ 即可透過 $\widehat{w}_0=m_Y  -  m_X \widehat{w}_1$ 獲得。
 
 
 ## 線性代數與迴歸
 線性迴歸的問題可以簡單的使用矩陣與向量的方式來表徵
 
-$$y = X w + \epsilon,$$
-$$\mathop{\begin{pmatrix}
+$$
+y = Xw + \epsilon,
+$$
+
+其內部具體的元素為
+
+$$\underbrace{\begin{pmatrix}
   y_{1} \\
   y_{2} \\
   \vdots \\
   y_{N}
  \end{pmatrix}}_{N \times 1}=
-\mathop{\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   1 & x_{11} & \cdots & x_{1P} \\
   1 & x_{21} & \cdots & x_{2P} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   1 & x_{N1} & \cdots & x_{NP}
  \end{pmatrix}}_{N \times (P+1)}
-\mathop{\begin{pmatrix}
+\underbrace{\begin{pmatrix}
   w_0 \\
   w_{1} \\
   \vdots \\
@@ -178,7 +268,7 @@ $$\begin{aligned}
 此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 $b$ 與各個 $w_p$ 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於[純量對向量微分之規則](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities)。$-\frac{2}{N} X^T(y-X\widehat{w})=0$ 意味著 $\widehat{w}$ 需滿足以下的等式
 
 $$
-X^T X\widehat{w}=X^Ty.
+\underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
 $$
 
 因此，若 $X^T X$ 存在反矩陣，則迴歸係數的 LS 估計值可寫為
