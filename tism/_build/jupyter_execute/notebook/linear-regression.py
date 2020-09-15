@@ -39,7 +39,7 @@ $$
 這裡，$x^T$ 表示 $x=(1,x_1,x_2,...,x_P)$ 此 $P + 1$ 維向量之轉置（transpose）。
 
 
-線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 $w$ 之估計 $\widehat{w}$，一方面對於斜率與截距進行推論，二方面則是使用 $\widehat{f}(x) = x^T \widehat{w} $ 對 $y$ 進行預測。
+線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 $w$ 之估計 $\widehat{w}$，一方面對於斜率與截距進行推論，二方面則是使用 $\widehat{f}(x) = x^T \widehat{w}$ 對 $y$ 進行預測。
 
 
 ## 最小平方估計法
@@ -142,7 +142,7 @@ $$\mathop{\begin{pmatrix}
   1 & x_{N1} & \cdots & x_{NP}
  \end{pmatrix}}_{N \times (P+1)}
 \mathop{\begin{pmatrix}
-  b \\
+  w_0 \\
   w_{1} \\
   \vdots \\
   w_{P}
