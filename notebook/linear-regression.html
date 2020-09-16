@@ -276,7 +276,7 @@
 <p>這裡，<span class="math notranslate nohighlight">\(w_p\)</span> 為 <span class="math notranslate nohighlight">\(x_p\)</span> 所對應之迴歸係數（regression coefficient），其亦被稱作權重（weight），反映 <span class="math notranslate nohighlight">\(x_p\)</span> 每變動一個單位時，預期 <span class="math notranslate nohighlight">\(y\)</span> 跟著變動的量，<span class="math notranslate nohighlight">\(w_0\)</span> 則稱作截距（intercept），亦稱作偏誤（bias），其反映當 <span class="math notranslate nohighlight">\(x_1,x_2,..,x_P\)</span>皆為0時，我們預期 <span class="math notranslate nohighlight">\(y\)</span> 的數值。利用連加的符號，<span class="math notranslate nohighlight">\(f(x)\)</span>可簡單的寫為</p>
 <div class="math notranslate nohighlight">
 \[f(x) = w_0 + \sum_{p=1}^P w_p x_p\]</div>
-<p>無論是迴歸係數 <span class="math notranslate nohighlight">\(w_p\)</span> 或是截距 <span class="math notranslate nohighlight">\(w_0\)</span>，由於其刻畫了 <span class="math notranslate nohighlight">\(f(x)\)</span> 的形狀，故其皆被稱作模型參數（model parameter），文獻中常簡單以一 <span class="math notranslate nohighlight">\(P+1\)</span> 維之向量 <span class="math notranslate nohighlight">\(w = (w_0, \beta_1, ..., \beta_P)\)</span> 來表示模型中的所有參數，透過此向量的形式表徵，我們可以將 <span class="math notranslate nohighlight">\(f(x)\)</span> 寫為以下更簡單的形式</p>
+<p>無論是迴歸係數 <span class="math notranslate nohighlight">\(w_p\)</span> 或是截距 <span class="math notranslate nohighlight">\(w_0\)</span>，由於其刻畫了 <span class="math notranslate nohighlight">\(f(x)\)</span> 的形狀，故其皆被稱作模型參數（model parameter），文獻中常簡單以一 <span class="math notranslate nohighlight">\(P+1\)</span> 維之向量 <span class="math notranslate nohighlight">\(w = (w_0, w_1, ..., w_P)\)</span> 來表示模型中的所有參數，透過此向量的形式表徵，我們可以將 <span class="math notranslate nohighlight">\(f(x)\)</span> 寫為以下更簡單的形式</p>
 <div class="math notranslate nohighlight">
 \[
 f(x) = x^T w
