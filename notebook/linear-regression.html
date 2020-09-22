@@ -244,6 +244,16 @@
    2.5. 線性代數與迴歸
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   2.6. 模型適配度
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   2.7. 延伸閱讀
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -256,7 +266,7 @@
                 
   <div class="section" id="id1">
 <h1><span class="section-number">2. </span>線性迴歸<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>線性迴歸（linear regression）可說是統計建模的基礎，其試圖建立一線性函數（linear function），以描述兩變項 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係。這裡，<span class="math notranslate nohighlight">\(x=(x_1,x_2,..., x_P)\)</span>為一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量，其常被稱獨變項（independent variable）、共變量（covariate），或是特徵（feature），而 <span class="math notranslate nohighlight">\(y\)</span> 則為一純量（scalar），其常被稱作依變項（dependent variable）或是反應變項（response variable）。</p>
+<p><strong>線性迴歸</strong>（linear regression）可說是統計建模的基礎，其試圖建立一線性函數（linear function），以描述兩變項 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係。這裡，<span class="math notranslate nohighlight">\(x=(x_1,x_2,..., x_P)\)</span>為一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量，其常被稱<strong>獨變項</strong>（independent variable）、<strong>共變量</strong>（covariate），或是<strong>特徵</strong>（feature），而 <span class="math notranslate nohighlight">\(y\)</span> 則為一純量（scalar），其常被稱作<strong>依變項</strong>（dependent variable）或是<strong>反應變項</strong>（response variable）。</p>
 <p>在此主題中，我們將會學習以下的重點：</p>
 <ol class="simple">
 <li><p>使用線性函數刻畫兩變項間的關係。</p></li>
@@ -269,24 +279,24 @@
 <p>廣義來說，迴歸分析試圖使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，其假設 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 存在以下的關係</p>
 <div class="math notranslate nohighlight">
 \[y=f(x)+\epsilon\]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(f(x)\)</span> 表示一函數，其描述了 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 系統性的關係，而 <span class="math notranslate nohighlight">\(\epsilon\)</span> 則表示一隨機誤差，其平均數為0，變異數為 <span class="math notranslate nohighlight">\(\sigma_{\epsilon}^2\)</span>，即 <span class="math notranslate nohighlight">\(\epsilon \sim (0,\sigma_{\epsilon}^2)\)</span>。</p>
-<p>線性迴歸模型假設 <span class="math notranslate nohighlight">\(f(x)\)</span> 為一線性函數，即</p>
+<p>這裡，<span class="math notranslate nohighlight">\(f(x)\)</span> 表示一<strong>迴歸函數</strong>（regression function），其描述了 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 系統性的關係，而 <span class="math notranslate nohighlight">\(\epsilon\)</span> 則表示一隨機誤差，其平均數為0，變異數為 <span class="math notranslate nohighlight">\(\sigma_{\epsilon}^2\)</span>，即 <span class="math notranslate nohighlight">\(\epsilon \sim (0,\sigma_{\epsilon}^2)\)</span>。</p>
+<p>線性迴歸模型假設 <span class="math notranslate nohighlight">\(f(x)\)</span> 為一線性函數（linear function），即</p>
 <div class="math notranslate nohighlight">
 \[f(x) = w_0 + w_1 x_1 + w_2 x_2 + ... + w_P x_P\]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(w_p\)</span> 為 <span class="math notranslate nohighlight">\(x_p\)</span> 所對應之迴歸係數（regression coefficient），其亦被稱作權重（weight），反映 <span class="math notranslate nohighlight">\(x_p\)</span> 每變動一個單位時，預期 <span class="math notranslate nohighlight">\(y\)</span> 跟著變動的量，<span class="math notranslate nohighlight">\(w_0\)</span> 則稱作截距（intercept），亦稱作偏誤（bias），其反映當 <span class="math notranslate nohighlight">\(x_1,x_2,..,x_P\)</span>皆為0時，我們預期 <span class="math notranslate nohighlight">\(y\)</span> 的數值。利用連加的符號，<span class="math notranslate nohighlight">\(f(x)\)</span>可簡單的寫為</p>
 <div class="math notranslate nohighlight">
 \[f(x) = w_0 + \sum_{p=1}^P w_p x_p\]</div>
-<p>無論是迴歸係數 <span class="math notranslate nohighlight">\(w_p\)</span> 或是截距 <span class="math notranslate nohighlight">\(w_0\)</span>，由於其刻畫了 <span class="math notranslate nohighlight">\(f(x)\)</span> 的形狀，故其皆被稱作模型參數（model parameter），文獻中常簡單以一 <span class="math notranslate nohighlight">\(P+1\)</span> 維之向量 <span class="math notranslate nohighlight">\(w = (w_0, w_1, ..., w_P)\)</span> 來表示模型中的所有參數，透過此向量的形式表徵，我們可以將 <span class="math notranslate nohighlight">\(f(x)\)</span> 寫為以下更簡單的形式</p>
+<p>無論是迴歸係數 <span class="math notranslate nohighlight">\(w_p\)</span> 或是截距 <span class="math notranslate nohighlight">\(w_0\)</span>，由於其刻畫了 <span class="math notranslate nohighlight">\(f(x)\)</span> 的形狀，故其皆被稱作<strong>模型參數</strong>（model parameter），文獻中常簡單以一 <span class="math notranslate nohighlight">\(P+1\)</span> 維之向量 <span class="math notranslate nohighlight">\(w = (w_0, w_1, ..., w_P)\)</span> 來表示模型中的所有參數，透過此向量的形式表徵，我們可以將 <span class="math notranslate nohighlight">\(f(x)\)</span> 寫為以下更簡單的形式</p>
 <div class="math notranslate nohighlight">
 \[
 f(x) = x^T w
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(x^T\)</span> 表示 <span class="math notranslate nohighlight">\(x=(1,x_1,x_2,...,x_P)\)</span> 此 <span class="math notranslate nohighlight">\(P + 1\)</span> 維向量之轉置（transpose）。</p>
-<p>線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 <span class="math notranslate nohighlight">\(w\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，一方面對於斜率與截距進行推論，二方面則是使用 <span class="math notranslate nohighlight">\(\widehat{f}(x) = x^T \widehat{w}\)</span> 對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
+<p>線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 <span class="math notranslate nohighlight">\(w\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，一方面對於斜率與截距進行推論，二方面則是使用 <span class="math notranslate nohighlight">\(\widehat{y} = \widehat{f}(x) = x^T \widehat{w}\)</span> 對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
 </div>
 <div class="section" id="id3">
 <h2><span class="section-number">2.2. </span>最小平方估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>線性迴歸分析主要採用最小平方法（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則定義為</p>
+<p>線性迴歸分析主要採用<strong>最小平方法</strong>（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則定義為</p>
 <div class="math notranslate nohighlight">
 \[\begin{aligned}
 \mathcal{D}(w)
@@ -300,7 +310,7 @@ f(x) = x^T w
 = &amp;\frac{1}{N} \sum_{n=1}^N \epsilon_n^2
 \end{aligned}
 \]</div>
-<p>LS估計法的目標在於找到一估計值 <span class="math notranslate nohighlight">\(\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)\)</span>，其最小化 LS 估計準則，意即，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 可最小化樣本資料中所有殘差的平方和。</p>
+<p>LS估計法的目標在於找到一估計值（estimate） <span class="math notranslate nohighlight">\(\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)\)</span>，其最小化 LS 估計準則，意即，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 可最小化樣本資料中所有殘差的平方和。</p>
 </div>
 <div class="section" id="id4">
 <h2><span class="section-number">2.3. </span>一階導數與最適條件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -334,7 +344,7 @@ f(x) = x^T w
  \end{pmatrix}
 \end{aligned}
 \end{split}\]</div>
-<p>意即，<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度（gradient），在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 的數值上必須等於0，此條件被稱作一階最適條件（first-order optimality condition）。由於一階最適條件，僅為 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 作為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 局部極小元之必要條件，而非充分必要條件（sufficient and necessary condition），因此，我們仍需透過二階最適條件（second-order optimality condition）來檢驗，即判斷以下矩陣是否為正定矩陣（positive definite matrix）</p>
+<p>意即，<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度（gradient），在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 的數值上必須等於0，此條件被稱作<strong>一階最適條件</strong>（first-order optimality condition）。由於一階最適條件，僅為 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 作為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 局部極小元之必要條件，而非充分必要條件（sufficient and necessary condition），因此，我們仍需透過<strong>二階最適條件</strong>（second-order optimality condition）來檢驗，即判斷以下矩陣是否為正定矩陣（positive definite matrix）</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \nabla^2 \mathcal{D}(\widehat{w}) =
@@ -351,7 +361,7 @@ f(x) = x^T w
     \cdots &amp; \frac{\partial^2 \mathcal{D}(\widehat{w})}{\partial w_P \partial w_P}
  \end{pmatrix}
 \end{split}\]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的二階微分矩陣，尺寸為 <span class="math notranslate nohighlight">\((P +1) \times (P + 1)\)</span>，其亦被稱作黑塞矩陣（hessian matrix）。若 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為正定矩陣，則意味著對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span>，我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v &gt;0\)</span>，這表示在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 附近，考慮任何方向的向量 <span class="math notranslate nohighlight">\(v\)</span>，其切線皆展現遞增的狀況，故 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元。</p>
+<p>這裡，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的二階微分矩陣，尺寸為 <span class="math notranslate nohighlight">\((P +1) \times (P + 1)\)</span>，其亦被稱作<strong>黑塞矩陣</strong>（hessian matrix）。若 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為正定矩陣（positive definite matrix），則意味著對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span>，我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v &gt;0\)</span>，這表示在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 附近，考慮任何方向的向量 <span class="math notranslate nohighlight">\(v\)</span>，其切線皆展現遞增的狀況，故 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元。</p>
 <p>因此，根據一階與二階最適條件，當要對 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 進行最小化，求得 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>時，其步驟為：</p>
 <ol class="simple">
 <li><p>計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之梯度，即 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(w)\)</span>。</p></li>
@@ -361,7 +371,7 @@ f(x) = x^T w
 </div>
 <div class="section" id="id5">
 <h2><span class="section-number">2.4. </span>計算範例：簡單線性迴歸<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>在此，我們以簡單線性迴歸（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 <span class="math notranslate nohighlight">\(P=1\)</span> 的情境，因此，對於任一觀測值 <span class="math notranslate nohighlight">\((y_n, x_n)\)</span>，其模型表達式為：</p>
+<p>在此，我們以<strong>簡單線性迴歸</strong>（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 <span class="math notranslate nohighlight">\(P=1\)</span> 的情境，因此，對於任一觀測值 <span class="math notranslate nohighlight">\((y_n, x_n)\)</span>，其模型表達式為：</p>
 <div class="math notranslate nohighlight">
 \[
 y_n = w_0 + w_1 x_n + \epsilon_n
@@ -435,6 +445,7 @@ y_n = w_0 + w_1 x_n + \epsilon_n
  \end{aligned}
 \end{split}\]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(s_{YX}\)</span> 與 <span class="math notranslate nohighlight">\(s_X^2\)</span> 分別表示 <span class="math notranslate nohighlight">\(Y\)</span> 與 <span class="math notranslate nohighlight">\(X\)</span> 的共變數，以及 <span class="math notranslate nohighlight">\(X\)</span> 的變異數。而 <span class="math notranslate nohighlight">\(\widehat{w}_0\)</span> 即可透過 <span class="math notranslate nohighlight">\(\widehat{w}_0=m_Y  -  m_X \widehat{w}_1\)</span> 獲得。</p>
+<p>至於 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的黑塞矩陣是否為正定矩陣，我們將在下一小節回答。</p>
 </div>
 <div class="section" id="id6">
 <h2><span class="section-number">2.5. </span>線性代數與迴歸<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
@@ -476,7 +487,7 @@ y = Xw + \epsilon,
   &amp; = \frac{1}{N} \epsilon^T \epsilon\\
  &amp; =  \frac{1}{N} (y-Xw)^T(y-Xw).
 \end{aligned}\end{split}\]</div>
-<p>透過對 <span class="math notranslate nohighlight">\(w\)</span> 的每一個成分做偏微分，即計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度（gradient），我們可以得到刻畫 LS 解的一階條件</p>
+<p>透過對 <span class="math notranslate nohighlight">\(w\)</span> 的每一個成分做偏微分，即計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度，我們可以得到刻畫 LS 解的一階條件</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \nabla \mathcal{D}(\widehat{w}) &amp;=
@@ -488,7 +499,7 @@ y = Xw + \epsilon,
  \end{pmatrix} \\
 &amp;=-\frac{2}{N} X^T(y-X\widehat{w})=0.
 \end{aligned}\end{split}\]</div>
-<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
+<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>，或是閱讀 Magnus 與 Neudecker（2019）之 <a class="reference external" href="https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0">專書</a>。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
 <div class="math notranslate nohighlight">
 \[
 \underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
@@ -499,6 +510,58 @@ y = Xw + \epsilon,
 \widehat{w} = (X^T X)^{-1} X^Ty
 \]</div>
 <p>確保 <span class="math notranslate nohighlight">\(X^T X\)</span> 存在反矩陣的數學條件為其各直行向量（column vector）間並未存在線性相依（linear dependence）的狀況。所謂向量間有線性相依指的是某個向量，可以寫為其它向量的線性組合。一般來說，當樣本數大於變項數（<span class="math notranslate nohighlight">\(N &gt; P\)</span>），各變項間變異數皆大於0，且皆存在其獨特的訊息時，<span class="math notranslate nohighlight">\(X^T X\)</span> 為可逆的。<span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span> 的計算，可採用<a class="reference external" href="https://en.wikipedia.org/wiki/Gaussian_elimination">高斯消去法</a>（Gaussian elimination）或是<a class="reference external" href="https://en.wikipedia.org/wiki/QR_decomposition">QR分解</a>（QR decomposition），其計算複雜度皆為 <span class="math notranslate nohighlight">\(O(P^3)\)</span>。</p>
+<p>在此矩陣表達式之下，LS 估計準則的黑塞矩陣為</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla^2 \mathcal{D}(\widehat{w}) = \frac{2}{N} X^T X
+\]</div>
+<p>在此矩陣表達式之下，若要說明 <span class="math notranslate nohighlight">\(\widehat{w} = (X^T X)^{-1} X^Ty\)</span> 為局部極小元，僅需說明 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣。給定一 <span class="math notranslate nohighlight">\((P+1)\)</span> 維之向量 <span class="math notranslate nohighlight">\(u\)</span>，考慮以下的二次式（quadratic form）</p>
+<div class="math notranslate nohighlight">
+\[
+u^T \nabla^2 \mathcal{D}(\widehat{w}) u = \frac{2}{N} u^T X^T X u
+\]</div>
+<p>根據 <span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span> 此轉置的規則，<span class="math notranslate nohighlight">\(u^T X^T = (Xu)^T = v^T\)</span>，因此，我們有</p>
+<div class="math notranslate nohighlight">
+\[
+u^T \nabla^2 \mathcal{D}(\widehat{w}) u = \frac{2}{N} v^T v = \frac{2}{N} ||v||
+\]</div>
+<p>由於對於非0的<span class="math notranslate nohighlight">\(v\)</span>來說，<span class="math notranslate nohighlight">\(||v||&gt;0\)</span>，只要我們確保 <span class="math notranslate nohighlight">\(v = Xu\)</span> 不為 0，則 <span class="math notranslate nohighlight">\(u^T \nabla^2 \mathcal{D}(\widehat{w}) u\)</span> 一定得大於 0。事實上，如果 <span class="math notranslate nohighlight">\(X\)</span> 的各直行為線性獨立，且 <span class="math notranslate nohighlight">\(u \neq 0\)</span>時，則<span class="math notranslate nohighlight">\(v = Xu \neq 0\)</span>（否則，會得到 <span class="math notranslate nohighlight">\(X\)</span> 的各直行並非線性獨立的結論）。故此，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，而 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元，事實上，其亦為整體極小元（global minimizer）。</p>
+</div>
+<div class="section" id="id7">
+<h2><span class="section-number">2.6. </span>模型適配度<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>線性迴歸模型使用一線性函數 <span class="math notranslate nohighlight">\(\widehat{f}(x) = x^T \widehat{w}\)</span> 來解釋 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係，然而，究竟 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 是否作出了好的刻畫，如屬一尚待評估之問題。</p>
+<p>在統計上，評估模型用於解釋資料的適切性（appropriateness），甚至正確性（correctness），常透過<strong>模型適配度</strong>（goodness-of-fit）指標來進行刻畫。最簡單的適配度指標，即為估計準則在給定參數估計量下之數值，以線性迴歸搭配 LS 準則為例，該指標即為所謂的<strong>均方誤</strong>（mean squared error，簡稱 MSE）</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}(\widehat{w}) = \frac{1}{N}\sum_{n=1}^N (y_n - \widehat{y}_n)^2
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\widehat{y} = f(\widehat{w})= x_n^T \widehat{w}\)</span> 表示對 <span class="math notranslate nohighlight">\(y_n\)</span> 之預測值。當 MSE 為 0 時，則表示該模型於該資料上有完美之適配。然而，MSE 會受到變項尺度之影響而改變，且其數值意涵較難直接解讀，因此，在資料分析實務上，較少被用來評估單一模型之適配度，大多用於模型間之比較。</p>
+<p>在統計實務上，最常用來評估線性迴歸模型（非線性的亦可）之指標應為<strong>決定係數</strong>（coefficient of determination），或稱作 <strong><span class="math notranslate nohighlight">\(R^2\)</span></strong>，該指標被定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+R^2 &amp;= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})} \\
+&amp;=  \frac{\sum_{n=1}^N (y_n - m_Y)^2 - \sum_{n=1}^N (y_n - \widehat{y}_n)^2 }{\sum_{n=1}^N (y_n - m_Y)^2}
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\widetilde{w}\)</span> 指的是在虛無模型（null model）下之估計量，即限制所有變項迴歸係數皆為 0，因此，<span class="math notranslate nohighlight">\(\widetilde{w}\)</span>僅對截距項進行估計，其數值為 <span class="math notranslate nohighlight">\(y\)</span> 的樣本平均數 <span class="math notranslate nohighlight">\(m_Y\)</span>。決定係數之所以被稱作 <span class="math notranslate nohighlight">\(R^2\)</span> 的原因在於，其數值等同於 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\widehat{y}\)</span> 相關之平方。</p>
+<p><span class="math notranslate nohighlight">\(R^2\)</span> 以虛無模型所對應之 MSE 為出發點，計算 <span class="math notranslate nohighlight">\(\widehat{y}=f(\widehat{w})=x_n^T \widehat{w}\)</span> 此模型可降低多少百分比之誤差。在單一樣本資料下，<span class="math notranslate nohighlight">\(R^2\)</span> 介於 0 到 1 之間，當 <span class="math notranslate nohighlight">\(R^2=0\)</span> 時，表示模型相較於虛無模型並沒有增加額外的預測力，而當 <span class="math notranslate nohighlight">\(R^2=1\)</span> 時，則表示模型在樣本上達到完美的預測。</p>
+<p>不過，在這邊要特別注意的是，<span class="math notranslate nohighlight">\(R^2\)</span> 很靠近 1 未必代表所建構的 <span class="math notranslate nohighlight">\(\widehat{f}(w)\)</span> 是所謂「正確的」（correct），<span class="math notranslate nohighlight">\(\widehat{f}(w)\)</span> 可能有過度適配（over-fitting）之現象，意即，其僅在手邊的樣本資料獲得好的適配，但卻無法在來自相同母群的資料做出好的預測。另外，即使 <span class="math notranslate nohighlight">\(R^2\)</span> 數值不大，也不代表模型一定是錯的。倘若 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(x\)</span> 的真實關係為：</p>
+<div class="math notranslate nohighlight">
+\[
+y = f^0(x) + \epsilon
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(f^0(x)\)</span> 表示了真實的迴歸函數。在此建構下，沒有任何的 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 可以表現得比 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 來得好，但即使是 <span class="math notranslate nohighlight">\(f^0(x)\)</span>，其仍因爲殘差 <span class="math notranslate nohighlight">\(\epsilon\)</span> 的存在，並沒有辦法做出完美的預測。</p>
+<p>總結來說，若要評估一迴歸模型的正確性，應該是要看 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 與 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 的差異性。由於 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 乃未知的函數，故前述比較在統計實務上是不可能的任務。因此，研究者採用模型選擇（model selection）之策略，透過建立多個迴歸函數，利用模型選擇指標（model selection criteria），如赤池訊息指標（Akaike information criterion，簡稱AIC）、貝氏訊息指標（Bayesian information criterion，簡稱BIC），或是交叉檢驗（cross-validation，簡稱CV），評估這些模型之相對表現，藉此說明某一個模型相較之下較為正確。不過，此取向，我們不在此做詳細的說明，有興趣之讀者可以參考 Konishi 與 Kitagawa（2007）之<a class="reference external" href="https://www.amazon.com/Information-Criteria-Statistical-Modeling-Statistics/dp/0387718869">專書</a>。</p>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">2.7. </span>延伸閱讀<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2019). <em>Applied Linear Statistical Models：Applied Linear Regression Models</em> (5th ed.). New York: McGraw-Hill.</p></li>
+<li><p>Magnus, J. R., &amp; Neudecker, H. (2019). <em>Matrix differential calculus with applications in statistics and econometrics</em>. Chichester: Wiley.</p></li>
+<li><p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em>. Hoboken: Wiley &amp; Sons.</p></li>
+<li><p>Konishi, S., &amp; Kitagawa, G. (2008). <em>Information criteria and statistical modeling</em>. New York: Springer.</p></li>
+</ol>
 </div>
 </div>
 
