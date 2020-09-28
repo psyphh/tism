@@ -11,7 +11,7 @@ Lab: 張量與線性代數
 
 4. 應用前述之知識，建立一可進行線性迴歸分析之類型（class）。
 
-`torch`之安裝與基礎教學，可參考 [PyTorch官方網頁](https://pytorch.org/get-started/locally)。在安裝完成後，可透過以下的指令載入
+`torch`之安裝與基礎教學，可參考 [PyTorch官方網頁](https://pytorch.org/get-started/locally)，如果讀者使用的是Google的Colab服務，則不需要另外安裝 `torch`。在安裝完 `torch` 後，可透過以下的指令載入
 
 import torch
 
@@ -36,18 +36,20 @@ print(a)
 
 除此之外，`a` 還有兩個重要的屬性並未顯示在列印的結果中：
 
-+ `a` 的尺寸（size）為 `(3, 4)`，表示 `a` 為一 $3 \times 4$ 之張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則。
++ `a` 的尺寸（size）為 `(3, 4)`，表示 `a` 為一 $3 \times 4$ 之 2d 張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則。
 + `a` 的資料類型（data type）為 `int64`，表示64位元的整數。在進行運算時，張量間的類型須相同。
 
 稍後，我們會討論如何獲得 `torch` 張量的尺寸與資料類型。
 
 
 ### 張量之數值
-若要獲得張量的資料數值（value），可透過 `.numpy()`獲得，其回傳該張量對應之 `numpy` 陣列
+若要擷取 `torch` 張量的資料數值（value），則可透過 `.numpy()`獲得，其回傳該張量對應之 `numpy` 陣列
 
 print("data of tensor is: \n", a.numpy())
 
- `numpy` 陣列是 `python` 進行科學運算時，幾乎都會仰賴的資料格式。`torch` 內建了多種函數，以協助產生具有特別數值結構之張量：
+`numpy` 陣列是 `python` 進行科學運算時，幾乎都會仰賴的資料格式。因此，`.numpy()` 此指令主要用於不同套件間的資料交換，或是希望列印出來的結果比較簡單使用。
+
+`torch` 內建了多種函數，以協助產生具有特別數值結構之張量：
 
 print("tensor with all elements being ones \n",
       torch.ones(size = (4, 1)).numpy())
@@ -58,7 +60,7 @@ print("identity-like tensor \n",
 print("diagonal matrix \n",
       torch.diag(input = torch.tensor([1, 2, 3, 4])).numpy())
 
-`torch` 亦可指定分配產生隨機的資料
+`torch` 亦可隨機地產生資料，或是直接使用尚未起始化的資料：
 
 print("tensor with random elements from uniform(0, 1) \n",
       torch.rand(size = (2, 6)).numpy())
@@ -89,6 +91,27 @@ print("tensor with shape (12,): \n",
 
 注意，`(12, 1)` 與 `(12,)` 兩種形狀是不一樣的，前者為2d的張量，後者為1d的張量。在進行張量操弄時，若將兩者混淆，很可能會帶來錯誤的計算結果。另外，-1表示該面向對應之尺寸，由其它面向決定。
 
+`.view()` 所回傳的張量，即為原本張量之資料在不同尺寸下對應之張量，`torch` 並未對資料進行拷貝（copy）。考慮以下的程式碼
+
+c = torch.zeros(4, 2)
+d = c.view((8, ))
+print("tensor c is: \n",
+      c.numpy())
+print("tensor c is: \n",
+      d.numpy())
+
+如預期地，`c` 與 `d` 內部有著相同的數值，僅差在尺寸有所不同。接著，我們將 `c` 的內部全部填入1，我們會觀察到 `d` 的數值也跟著改變了：
+
+c.fill_(1)
+print("tensor c is: \n",
+      c.numpy())
+print("tensor d is: \n",
+      d.numpy())
+
+這顯示 `c` 與 `d` 背後有著共享的資料內容。在此，讀者需特別注意的是，`torch` 中若有方法的尾端是底線 `_` 的話，則意味著該方法會取代原有物件中的資料，如 `c` 此張量內的數字直接被取代掉了，不需要另外寫 `c = c.fill_(1)`。
+
+
+在0.4版之後，`.reshape()` 此方法亦可改變張量的尺寸，但其有可能會對資料進行拷貝，不過，當資料本身的排列不具有連續性時，僅 `.reshape()` 能夠使用。因此，在 `torch` 的[官方文件](https://pytorch.org/docs/master/tensors.html#torch.Tensor.view)中，建議使用 `.reshape()`此指令。
 
 ### 張量之資料類型
 張量的資料類型，可透過 `.dtype` 方法獲得
@@ -99,9 +122,17 @@ print("data type of tensor is", a.dtype)
 
 print(a.type(torch.float64))
 
-`torch` 內建多種資料類型，包含整數類型（如 `torch.int32` 與 `torch.int64`）與浮點數類型（如 `torch.float32` 與 `torch.float64`），完整的資料類型請見 [torch.Tensor文件](https://pytorch.org/docs/stable/tensors.html)。
+`torch` 內建多種資料類型，包含整數類型（如 `torch.int32` 與 `torch.int64`）與浮點數類型（如 `torch.float32` 與 `torch.float64`），完整的資料類型請見 [`torch.Tensor`文件](https://pytorch.org/docs/stable/tensors.html)之 `dtype` 欄位。
 
 在進行張量的數學運算時，請務必確認張量間的資料類型都是一致的，而 `torch` 常用之資料類型為 `torch.float32` 與 `torch.float64`，前者所需的記憶體較小，但運算結果的數值誤差較大。
+
+
+除了利用 `torch.tensor()` 搭配 `dtype` 產生張量外，另一種產生張量的方法為，直接利用特定資料型態張量的建構式，再利用特定的方法填入數值。例如，以下的程式碼在 CPU 先產稱了一資料類型為 `torch.float64` 之張量，再利用均勻分配隨機生成資料填入：
+
+c = torch.FloatTensor(2, 4).uniform_()
+
+
+前述之張量建構風格，在後續討論到 GPU 計算時會很有幫助。不同資料類型之建構式，可同樣參考 [torch.Tensor文件](https://pytorch.org/docs/stable/tensors.html) 之 `CPU tensor` 欄位（若要在 GPU 上建構張量，則是參考 `GPU tensor` 之欄位）。
 
 
 ## 張量之操弄
@@ -177,6 +208,8 @@ print("element-wise divide \n", a / b)
 a_t = torch.transpose(input=a, dim0=0, dim1=1)
 print("transpose of a is \n",
       a_t.numpy())
+print("transpose of a is \n",
+      a.t().numpy())
 
 + 矩陣乘法（matrix multiplication）
 
@@ -248,6 +281,61 @@ print("calculate mean for each row \n",
       torch.mean(input = a, dim=1).numpy())
 
 其它的化約函數，可以參考[官方文件](https://pytorch.org/docs/stable/torch.html#reduction-ops)。
+
+### GPU運算
+當執行程式碼之機器支援GPU運算時，`torch` 可利用GPU獲得高效能之運算。而機器是否具有GPU 支援，可透過 `torch.cuda.is_available()` 此指令進行判定。若使用 Google 的 Colab 服務，進行 GPU 運算需要點選 `Runtime\Change runtime type`，在 `Hardware accelerator` 處點選 `GPU`，才會轉移到具有 GPU 之機器進行計算。
+
+為了瞭解 GPU 在計算上的幫助，我們撰寫了一個函數 `math_speed_test`，其內部生成一 `(n, n)` 之方陣 `a`，接著對其連續進行 `iter_max` 次的連加，並記錄完成整個工作所需的時間。
+
+import time
+def math_speed_test(n, iter_max, device):
+    a = torch.zeros((n, n), dtype = torch.float64).to(device)
+    start_time = time.time()
+    for _ in range(iter_max):
+        a += a
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(device.upper(), 'time =', elapsed_time)
+
+`torch` 進行 GPU 運算的關鍵步驟在於，利用 `.to("cuda")` 方法將資料送到 GPU 上，而如果將指令改為 `.to("cpu")`，則意味著我們將使用一般的 CPU 進行運算。
+
+接下來的程式碼，我們將 `iter_max` 設為 100，`n` 設為 `10`、`100`、以及`1000`，觀察計算時間的變化（注意，下述程式碼得在支援 GPU 之機器上執行，才可以看見 GPU 之計算時間，否則僅會呈現 CPU 的結果）：
+
+iter_max = 100
+for n in [10, 100, 1000]:
+    print("n =", n)
+    math_speed_test(n = n, iter_max = iter_max, device = "cpu")
+    if torch.cuda.is_available():
+        math_speed_test(n = n, iter_max = iter_max, device = "cuda")
+
+大體上，我們可以觀察到在 `n` 數值為 `10` 或 `100` 時，GPU並沒有顯著的幫助，甚至可能表現得更差。然而，在 `n = 1000`，GPU 可大幅提升計算的速度。
+
+除了數學運算外，隨機亂數之生成亦可透過 GPU 顯著的加速，可參考以下之程式碼：
+
+def random_speed_test(n, iter_max, device):
+    start_time = time.time()
+    for _ in range(iter_max):
+        if device == "cpu":
+            torch.FloatTensor(n, n).uniform_()
+        elif device == "cuda":
+            torch.cuda.FloatTensor(n, n).uniform_()
+        else:
+            None
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(device.upper(), 'time =', elapsed_time)
+
+iter_max = 100
+for n in [10, 100, 1000]:
+    print("n =", n)
+    random_speed_test(n = n, iter_max = iter_max, device = "cpu")
+    if torch.cuda.is_available():
+        random_speed_test(n = n, iter_max = iter_max, device = "cuda")
+
+在實務上，我們可以透過以下的程式碼來檢驗機器是否有可供使用的GPU，以動態決定 `device` 應為何：
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(device)
 
 ## 實徵範例
 
