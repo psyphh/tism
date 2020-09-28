@@ -273,6 +273,7 @@
 <li><p>使用最小平方法（least squares method）來建立參數之估計準則。</p></li>
 <li><p>使用一階導數（derivative）來刻畫最小平方估計值（estimate）之最適條件（optimality condition）</p></li>
 <li><p>使用線性代數來解決線性迴歸之問題。</p></li>
+<li><p>利用 LS 估計準則來刻畫模型之適配度。</p></li>
 </ol>
 <div class="section" id="id2">
 <h2><span class="section-number">2.1. </span>線性迴歸模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -291,7 +292,7 @@
 \[
 f(x) = x^T w
 \]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(x^T\)</span> 表示 <span class="math notranslate nohighlight">\(x=(1,x_1,x_2,...,x_P)\)</span> 此 <span class="math notranslate nohighlight">\(P + 1\)</span> 維向量之轉置（transpose）。</p>
+<p>這裡，<span class="math notranslate nohighlight">\(x^T\)</span> 表示 <span class="math notranslate nohighlight">\(x=(1,x_1,x_2,...,x_P)\)</span> 此 <span class="math notranslate nohighlight">\(P + 1\)</span> 維向量之轉置（transpose）。讀者需特別注意的是，在進入本章節時，<span class="math notranslate nohighlight">\(x = (x_1,x_2,...,x_P)\)</span> 用於表示一 <span class="math notranslate nohighlight">\(P\)</span> 維之共變量向量，但從此段落後，我們將 <span class="math notranslate nohighlight">\(x\)</span> 重新定義為 <span class="math notranslate nohighlight">\(x = (1, x)\)</span>，以對模型做更為簡潔的表達。</p>
 <p>線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 <span class="math notranslate nohighlight">\(w\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，一方面對於斜率與截距進行推論，二方面則是使用 <span class="math notranslate nohighlight">\(\widehat{y} = \widehat{f}(x) = x^T \widehat{w}\)</span> 對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
 </div>
 <div class="section" id="id3">

@@ -283,6 +283,11 @@
      3.3.3. 對張量之數值進行摘要
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#gpu">
+     3.3.4. GPU運算
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -326,7 +331,7 @@
 <li><p>使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行線性代數之運算。</p></li>
 <li><p>應用前述之知識，建立一可進行線性迴歸分析之類型（class）。</p></li>
 </ol>
-<p><code class="docutils literal notranslate"><span class="pre">torch</span></code>之安裝與基礎教學，可參考 <a class="reference external" href="https://pytorch.org/get-started/locally">PyTorch官方網頁</a>。在安裝完成後，可透過以下的指令載入</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code>之安裝與基礎教學，可參考 <a class="reference external" href="https://pytorch.org/get-started/locally">PyTorch官方網頁</a>，如果讀者使用的是Google的Colab服務，則不需要另外安裝 <code class="docutils literal notranslate"><span class="pre">torch</span></code>。在安裝完 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 後，可透過以下的指令載入</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -375,14 +380,14 @@
 </ul>
 <p>除此之外，<code class="docutils literal notranslate"><span class="pre">a</span></code> 還有兩個重要的屬性並未顯示在列印的結果中：</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的尺寸（size）為 <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">4)</span></code>，表示 <code class="docutils literal notranslate"><span class="pre">a</span></code> 為一 <span class="math notranslate nohighlight">\(3 \times 4\)</span> 之張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的尺寸（size）為 <code class="docutils literal notranslate"><span class="pre">(3,</span> <span class="pre">4)</span></code>，表示 <code class="docutils literal notranslate"><span class="pre">a</span></code> 為一 <span class="math notranslate nohighlight">\(3 \times 4\)</span> 之 2d 張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> 的資料類型（data type）為 <code class="docutils literal notranslate"><span class="pre">int64</span></code>，表示64位元的整數。在進行運算時，張量間的類型須相同。</p></li>
 </ul>
 <p>稍後，我們會討論如何獲得 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的尺寸與資料類型。</p>
 </div>
 <div class="section" id="id3">
 <h3><span class="section-number">3.1.2. </span>張量之數值<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>若要獲得張量的資料數值（value），可透過 <code class="docutils literal notranslate"><span class="pre">.numpy()</span></code>獲得，其回傳該張量對應之 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列</p>
+<p>若要擷取 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的資料數值（value），則可透過 <code class="docutils literal notranslate"><span class="pre">.numpy()</span></code>獲得，其回傳該張量對應之 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data of tensor is: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
@@ -398,7 +403,8 @@
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列是 <code class="docutils literal notranslate"><span class="pre">python</span></code> 進行科學運算時，幾乎都會仰賴的資料格式。<code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建了多種函數，以協助產生具有特別數值結構之張量：</p>
+<p><code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列是 <code class="docutils literal notranslate"><span class="pre">python</span></code> 進行科學運算時，幾乎都會仰賴的資料格式。因此，<code class="docutils literal notranslate"><span class="pre">.numpy()</span></code> 此指令主要用於不同套件間的資料交換，或是希望列印出來的結果比較簡單使用。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建了多種函數，以協助產生具有特別數值結構之張量：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor with all elements being ones </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -434,7 +440,7 @@ diagonal matrix
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 亦可指定分配產生隨機的資料</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 亦可隨機地產生資料，或是直接使用尚未起始化的資料：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor with random elements from uniform(0, 1) </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -446,13 +452,11 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.03111565 0.32574314 0.37005347 0.7049772  0.348562   0.7954067 ]
- [0.93835694 0.49906158 0.47872198 0.6512624  0.34746003 0.1160813 ]]
+ [[0.5682618  0.46832812 0.30580443 0.24334097 0.47047102 0.20063502]
+ [0.7609221  0.8871692  0.84090495 0.49941212 0.65394753 0.97203535]]
 tensor with uninitialized data 
- [[0.0000000e+00 3.6893488e+19 0.0000000e+00 3.6893488e+19 9.8090893e-45
-  0.0000000e+00]
- [0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00 1.8754495e+28
-  4.1585783e-05]]
+ [[1.1e-44 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
+ [0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]]
 </pre></div>
 </div>
 </div>
@@ -538,6 +542,55 @@ tensor with shape (12,):
 </div>
 </div>
 <p>注意，<code class="docutils literal notranslate"><span class="pre">(12,</span> <span class="pre">1)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">(12,)</span></code> 兩種形狀是不一樣的，前者為2d的張量，後者為1d的張量。在進行張量操弄時，若將兩者混淆，很可能會帶來錯誤的計算結果。另外，-1表示該面向對應之尺寸，由其它面向決定。</p>
+<p><code class="docutils literal notranslate"><span class="pre">.view()</span></code> 所回傳的張量，即為原本張量之資料在不同尺寸下對應之張量，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 並未對資料進行拷貝（copy）。考慮以下的程式碼</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">view</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span> <span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor c is: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">c</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor c is: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">d</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor c is: 
+ [[0. 0.]
+ [0. 0.]
+ [0. 0.]
+ [0. 0.]]
+tensor c is: 
+ [0. 0. 0. 0. 0. 0. 0. 0.]
+</pre></div>
+</div>
+</div>
+</div>
+<p>如預期地，<code class="docutils literal notranslate"><span class="pre">c</span></code> 與 <code class="docutils literal notranslate"><span class="pre">d</span></code> 內部有著相同的數值，僅差在尺寸有所不同。接著，我們將 <code class="docutils literal notranslate"><span class="pre">c</span></code> 的內部全部填入1，我們會觀察到 <code class="docutils literal notranslate"><span class="pre">d</span></code> 的數值也跟著改變了：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor c is: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">c</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tensor d is: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">d</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor c is: 
+ [[1. 1.]
+ [1. 1.]
+ [1. 1.]
+ [1. 1.]]
+tensor d is: 
+ [1. 1. 1. 1. 1. 1. 1. 1.]
+</pre></div>
+</div>
+</div>
+</div>
+<p>這顯示 <code class="docutils literal notranslate"><span class="pre">c</span></code> 與 <code class="docutils literal notranslate"><span class="pre">d</span></code> 背後有著共享的資料內容。在此，讀者需特別注意的是，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 中若有方法的尾端是底線 <code class="docutils literal notranslate"><span class="pre">_</span></code> 的話，則意味著該方法會取代原有物件中的資料，如 <code class="docutils literal notranslate"><span class="pre">c</span></code> 此張量內的數字直接被取代掉了，不需要另外寫 <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">c.fill_(1)</span></code>。</p>
+<p>在0.4版之後，<code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> 此方法亦可改變張量的尺寸，但其有可能會對資料進行拷貝，不過，當資料本身的排列不具有連續性時，僅 <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> 能夠使用。因此，在 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor.view">官方文件</a>中，建議使用 <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code>此指令。</p>
 </div>
 <div class="section" id="id5">
 <h3><span class="section-number">3.1.4. </span>張量之資料類型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
@@ -569,8 +622,17 @@ tensor with shape (12,):
 </div>
 </div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建多種資料類型，包含整數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.int32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.int64</span></code>）與浮點數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code>），完整的資料類型請見 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">torch.Tensor文件</a>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 內建多種資料類型，包含整數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.int32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.int64</span></code>）與浮點數類型（如 <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code>），完整的資料類型請見 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html"><code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code>文件</a>之 <code class="docutils literal notranslate"><span class="pre">dtype</span></code> 欄位。</p>
 <p>在進行張量的數學運算時，請務必確認張量間的資料類型都是一致的，而 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 常用之資料類型為 <code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> 與 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code>，前者所需的記憶體較小，但運算結果的數值誤差較大。</p>
+<p>除了利用 <code class="docutils literal notranslate"><span class="pre">torch.tensor()</span></code> 搭配 <code class="docutils literal notranslate"><span class="pre">dtype</span></code> 產生張量外，另一種產生張量的方法為，直接利用特定資料型態張量的建構式，再利用特定的方法填入數值。例如，以下的程式碼在 CPU 先產稱了一資料類型為 <code class="docutils literal notranslate"><span class="pre">torch.float64</span></code> 之張量，再利用均勻分配隨機生成資料填入：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">uniform_</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>前述之張量建構風格，在後續討論到 GPU 計算時會很有幫助。不同資料類型之建構式，可同樣參考 <a class="reference external" href="https://pytorch.org/docs/stable/tensors.html">torch.Tensor文件</a> 之 <code class="docutils literal notranslate"><span class="pre">CPU</span> <span class="pre">tensor</span></code> 欄位（若要在 GPU 上建構張量，則是參考 <code class="docutils literal notranslate"><span class="pre">GPU</span> <span class="pre">tensor</span></code> 之欄位）。</p>
 </div>
 </div>
 <div class="section" id="id6">
@@ -755,11 +817,16 @@ element-wise divide
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">a</span><span class="p">,</span> <span class="n">dim0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim1</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;transpose of a is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
       <span class="n">a_t</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;transpose of a is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">a</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>transpose of a is 
+ [[1. 3. 5.]
+ [2. 4. 6.]]
+transpose of a is 
  [[1. 3. 5.]
  [2. 4. 6.]]
 </pre></div>
@@ -954,6 +1021,107 @@ calculate mean for each row
 </div>
 <p>其它的化約函數，可以參考<a class="reference external" href="https://pytorch.org/docs/stable/torch.html#reduction-ops">官方文件</a>。</p>
 </div>
+<div class="section" id="gpu">
+<h3><span class="section-number">3.3.4. </span>GPU運算<a class="headerlink" href="#gpu" title="Permalink to this headline">¶</a></h3>
+<p>當執行程式碼之機器支援GPU運算時，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 可利用GPU獲得高效能之運算。而機器是否具有GPU 支援，可透過 <code class="docutils literal notranslate"><span class="pre">torch.cuda.is_available()</span></code> 此指令進行判定。若使用 Google 的 Colab 服務，進行 GPU 運算需要點選 <code class="docutils literal notranslate"><span class="pre">Runtime\Change</span> <span class="pre">runtime</span> <span class="pre">type</span></code>，在 <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">accelerator</span></code> 處點選 <code class="docutils literal notranslate"><span class="pre">GPU</span></code>，才會轉移到具有 GPU 之機器進行計算。</p>
+<p>為了瞭解 GPU 在計算上的幫助，我們撰寫了一個函數 <code class="docutils literal notranslate"><span class="pre">math_speed_test</span></code>，其內部生成一 <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">n)</span></code> 之方陣 <code class="docutils literal notranslate"><span class="pre">a</span></code>，接著對其連續進行 <code class="docutils literal notranslate"><span class="pre">iter_max</span></code> 次的連加，並記錄完成整個工作所需的時間。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="k">def</span> <span class="nf">math_speed_test</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iter_max</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">+=</span> <span class="n">a</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;time =&#39;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行 GPU 運算的關鍵步驟在於，利用 <code class="docutils literal notranslate"><span class="pre">.to(&quot;cuda&quot;)</span></code> 方法將資料送到 GPU 上，而如果將指令改為 <code class="docutils literal notranslate"><span class="pre">.to(&quot;cpu&quot;)</span></code>，則意味著我們將使用一般的 CPU 進行運算。</p>
+<p>接下來的程式碼，我們將 <code class="docutils literal notranslate"><span class="pre">iter_max</span></code> 設為 100，<code class="docutils literal notranslate"><span class="pre">n</span></code> 設為 <code class="docutils literal notranslate"><span class="pre">10</span></code>、<code class="docutils literal notranslate"><span class="pre">100</span></code>、以及<code class="docutils literal notranslate"><span class="pre">1000</span></code>，觀察計算時間的變化（注意，下述程式碼得在支援 GPU 之機器上執行，才可以看見 GPU 之計算時間，否則僅會呈現 CPU 的結果）：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iter_max</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n =&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">math_speed_test</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span> <span class="o">=</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">math_speed_test</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span> <span class="o">=</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
+CPU time = 0.0007619857788085938
+n = 100
+CPU time = 0.0010590553283691406
+n = 1000
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.055075883865356445
+</pre></div>
+</div>
+</div>
+</div>
+<p>大體上，我們可以觀察到在 <code class="docutils literal notranslate"><span class="pre">n</span></code> 數值為 <code class="docutils literal notranslate"><span class="pre">10</span></code> 或 <code class="docutils literal notranslate"><span class="pre">100</span></code> 時，GPU並沒有顯著的幫助，甚至可能表現得更差。然而，在 <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">1000</span></code>，GPU 可大幅提升計算的速度。</p>
+<p>除了數學運算外，隨機亂數之生成亦可透過 GPU 顯著的加速，可參考以下之程式碼：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">random_speed_test</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iter_max</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;cpu&quot;</span><span class="p">:</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">uniform_</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;cuda&quot;</span><span class="p">:</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">uniform_</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kc">None</span>
+    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;time =&#39;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">)</span>
+
+<span class="n">iter_max</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n =&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">random_speed_test</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span> <span class="o">=</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">random_speed_test</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">iter_max</span> <span class="o">=</span> <span class="n">iter_max</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0011761188507080078
+n = 100
+CPU time = 0.006195068359375
+n = 1000
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.6125481128692627
+</pre></div>
+</div>
+</div>
+</div>
+<p>在實務上，我們可以透過以下的程式碼來檢驗機器是否有可供使用的GPU，以動態決定 <code class="docutils literal notranslate"><span class="pre">device</span></code> 應為何：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>cpu
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="id13">
 <h2><span class="section-number">3.4. </span>實徵範例<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
@@ -967,7 +1135,7 @@ calculate mean for each row
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7ffad863efb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fa068727fb0&gt;
 </pre></div>
 </div>
 </div>
@@ -1085,9 +1253,6 @@ response vector y is
  4.996612423766793
 weight estimate is 
  [-4.98003037  2.98762589 -0.00737968]
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

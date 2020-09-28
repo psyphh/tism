@@ -299,12 +299,12 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(-0.3928)
+ tensor(-1.8298)
 random sample with shape (3,):
- tensor([-1.3024,  0.5673, -0.7241])
+ tensor([-0.8925,  0.4637, -1.3890])
 random sample with shape (2,3):
- tensor([[-1.7103, -1.1960, -0.1491],
-        [-0.8045, -0.2008, -0.3264]])
+ tensor([[ 1.1207, -0.4670, -1.5655],
+        [-0.7139,  0.3801,  1.1125]])
 </pre></div>
 </div>
 </div>
@@ -411,21 +411,21 @@ torch.Size([])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([2.2823, 2.0313]) 
+ tensor([-0.8357, -1.2257]) 
 
 random sample with sample_shape (3,):
- tensor([[ 0.5562,  0.5906],
-        [ 0.9478,  1.6389],
-        [-1.3332, -0.2785]]) 
+ tensor([[-0.4238,  0.3947],
+        [ 0.1365, -0.8724],
+        [ 0.6504,  0.6819]]) 
 
 random sample with sample_shape (2,3):
- tensor([[[ 0.0256,  0.9709],
-         [-0.2821, -1.8753],
-         [ 0.8322,  2.2881]],
+ tensor([[[ 0.7630, -1.2074],
+         [-0.4039,  2.7326],
+         [-2.4301,  1.1138]],
 
-        [[-0.1398,  1.5929],
-         [ 0.1419, -1.1636],
-         [-0.3617,  0.7002]]])
+        [[ 0.1333, -0.1076],
+         [-0.9569,  1.0467],
+         [-0.9119, -0.0142]]])
 </pre></div>
 </div>
 </div>
@@ -484,21 +484,21 @@ log-probability given value with shape (2,1):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([0.8104, 0.8740]) 
+ tensor([0.2843, 0.8909]) 
 
 random sample with sample_shape (3,):
- tensor([[1.1261, 0.9605],
-        [1.1375, 0.6623],
-        [2.0399, 0.8764]]) 
+ tensor([[-0.1150,  0.2172],
+        [-0.0252, -0.1034],
+        [ 0.4730,  0.4007]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[-0.4795,  0.7012],
-         [ 0.4866,  0.6868],
-         [ 1.5726,  1.4272]],
+ tensor([[[ 0.6561,  0.3213],
+         [ 0.1755, -0.0363],
+         [ 1.2135,  0.5264]],
 
-        [[ 0.5580,  1.9129],
-         [-0.2727,  1.5926],
-         [-0.7278,  1.6601]]])
+        [[ 0.2440,  1.1450],
+         [ 0.7525,  1.8254],
+         [ 0.1223,  0.5367]]])
 </pre></div>
 </div>
 </div>
@@ -566,48 +566,48 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([[0.4927, 0.8543],
-        [0.2390, 2.3257],
-        [3.7066, 2.8771]]) 
+ tensor([[0.5387, 1.1184],
+        [1.2575, 1.3901],
+        [1.3177, 2.2904]]) 
 
 random sample with sample_shape (3,):
- tensor([[[0.4614, 1.7635],
-         [1.0031, 1.7796],
-         [2.5332, 3.9563]],
+ tensor([[[ 0.0920,  0.8389],
+         [ 1.1783,  1.8747],
+         [ 1.4882,  3.6123]],
 
-        [[0.7801, 2.5183],
-         [1.8002, 2.7732],
-         [1.8520, 2.6230]],
+        [[-1.3812, -0.7643],
+         [ 1.6537,  1.8568],
+         [ 3.0792,  3.6590]],
 
-        [[1.0190, 1.7015],
-         [0.0054, 1.5790],
-         [2.3277, 3.8149]]]) 
+        [[ 0.1097,  0.6339],
+         [ 0.7720,  1.5574],
+         [ 2.3198,  3.2755]]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[[ 0.1078,  1.2458],
-          [ 1.0050,  0.7558],
-          [ 1.3435,  3.0010]],
+ tensor([[[[-3.1103, -0.0619],
+          [ 0.4550,  2.7118],
+          [ 1.6152,  3.7901]],
 
-         [[-0.9371,  0.2344],
-          [ 0.9650,  2.4869],
-          [ 2.6279,  2.9655]],
+         [[ 0.4638,  2.7971],
+          [ 1.9913,  1.4127],
+          [ 1.9089,  2.5743]],
 
-         [[-0.4670,  1.3447],
-          [ 1.5154,  1.7639],
-          [ 2.4210,  2.8851]]],
+         [[-0.6809,  0.5867],
+          [ 0.4002,  2.0383],
+          [ 1.7226,  3.3009]]],
 
 
-        [[[-1.0814, -0.0753],
-          [ 0.4217,  0.9100],
-          [ 1.6339,  3.4832]],
+        [[[-0.6001,  0.6087],
+          [ 0.7697,  1.5886],
+          [ 3.2563,  3.3999]],
 
-         [[-1.3910,  0.7438],
-          [ 0.4115,  3.1093],
-          [ 1.6127,  2.8018]],
+         [[ 0.7557,  0.7906],
+          [ 1.3797,  1.7520],
+          [ 2.8743,  3.0163]],
 
-         [[-0.3251,  1.0216],
-          [ 1.0163,  2.5736],
-          [ 2.3716,  3.2669]]]])
+         [[ 1.9530,  1.9643],
+          [ 1.4392,  2.1948],
+          [ 2.9696,  3.0859]]]])
 </pre></div>
 </div>
 </div>
@@ -644,7 +644,7 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.0444)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.1429)
 </pre></div>
 </div>
 </div>
@@ -674,8 +674,8 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: tensor([5.0044], requires_grad=True)
-ML std by gradient descent: tensor([1.8556], requires_grad=True)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: tensor([4.9664], requires_grad=True)
+ML std by gradient descent: tensor([2.0603], requires_grad=True)
 </pre></div>
 </div>
 </div>
@@ -688,8 +688,8 @@ ML std by gradient descent: tensor([1.8556], requires_grad=True)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: tensor(5.0043)
-ML std by formula: tensor(1.8598)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: tensor(4.9664)
+ML std by formula: tensor(2.0604)
 </pre></div>
 </div>
 </div>
@@ -727,7 +727,7 @@ true covariance matrix:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6625)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6392)
 </pre></div>
 </div>
 </div>
@@ -766,11 +766,11 @@ true covariance matrix:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
- tensor([-1.0107,  0.0472,  1.0554], requires_grad=True)
+ tensor([-0.8957,  0.0802,  1.0058], requires_grad=True)
 ML covariance by gradient descent: 
- tensor([[8.5641, 5.7108, 1.1811],
-        [5.7108, 4.8554, 1.2967],
-        [1.1811, 1.2967, 0.6589]], grad_fn=&lt;MmBackward&gt;)
+ tensor([[9.2037, 6.1752, 1.2807],
+        [6.1752, 5.0788, 1.3221],
+        [1.2807, 1.3221, 0.6554]], grad_fn=&lt;MmBackward&gt;)
 </pre></div>
 </div>
 </div>
@@ -789,11 +789,11 @@ ML covariance by gradient descent:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([-1.0107,  0.0472,  1.0554])
+ tensor([-0.8957,  0.0802,  1.0058])
 ML covariance by formula: 
- tensor([[8.5641, 5.7108, 1.1811],
-        [5.7108, 4.8554, 1.2967],
-        [1.1811, 1.2967, 0.6589]])
+ tensor([[9.2037, 6.1753, 1.2807],
+        [6.1753, 5.0789, 1.3221],
+        [1.2807, 1.3221, 0.6554]])
 </pre></div>
 </div>
 </div>
@@ -810,7 +810,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7feca8e86fb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7f9c386d6fb0&gt;
 </pre></div>
 </div>
 </div>
