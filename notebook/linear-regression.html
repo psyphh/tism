@@ -325,7 +325,7 @@ f(x) = x^T w
 \widehat{w} = \text{argmin}_{w} \mathcal{D}(w)
 \]</div>
 <p>意即，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 是那一個唯一最小化 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的數值。</p>
-<p>根據優化理論（optimization theory），當 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 為可微分之函數時，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 局部極小元（local minimizer）的必要條件（necessary condition）為</p>
+<p>若 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 局部極小元（local minimizer），即對於 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊的 <span class="math notranslate nohighlight">\(w\)</span> 來說（<span class="math notranslate nohighlight">\(w \neq \widehat{w}\)</span>），<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 滿足 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w}) \leq \mathcal{D}(w)\)</span>，則根據優化理論（optimization theory），當 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 為可微分之函數時，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元之必要條件（necessary condition）為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -344,7 +344,8 @@ f(x) = x^T w
  \end{pmatrix}
 \end{aligned}
 \end{split}\]</div>
-<p>意即，<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度（gradient），在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 的數值上必須等於0，此條件被稱作<strong>一階最適條件</strong>（first-order optimality condition）。由於一階最適條件，僅為 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 作為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 局部極小元之必要條件，而非充分必要條件（sufficient and necessary condition），因此，我們仍需透過<strong>二階最適條件</strong>（second-order optimality condition）來檢驗，即判斷以下矩陣是否為正定矩陣（positive definite matrix）</p>
+<p>意即，<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度（gradient），在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 的數值上必須等於0，此條件被稱作<strong>一階最適條件</strong>（first-order optimality condition）。</p>
+<p><strong>二階最適條件</strong>（second-order optimality condition）則進一步說明，當 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元時，<span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的二次微分矩陣於 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 處需進一步滿足半正定矩陣（positive semidefinite matrix）之條件。<span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的二次微分矩陣定義為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \nabla^2 \mathcal{D}(\widehat{w}) =
@@ -361,8 +362,16 @@ f(x) = x^T w
     \cdots &amp; \frac{\partial^2 \mathcal{D}(\widehat{w})}{\partial w_P \partial w_P}
  \end{pmatrix}
 \end{split}\]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的二階微分矩陣，尺寸為 <span class="math notranslate nohighlight">\((P +1) \times (P + 1)\)</span>，其亦被稱作<strong>黑塞矩陣</strong>（hessian matrix）。若 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為正定矩陣（positive definite matrix），則意味著對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span>，我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v &gt;0\)</span>，這表示在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 附近，考慮任何方向的向量 <span class="math notranslate nohighlight">\(v\)</span>，其切線皆展現遞增的狀況，故 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元。</p>
-<p>因此，根據一階與二階最適條件，當要對 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 進行最小化，求得 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>時，其步驟為：</p>
+<p>此二階微分矩陣的尺寸為 <span class="math notranslate nohighlight">\((P +1) \times (P + 1)\)</span>，其亦被稱作<strong>黑塞矩陣</strong>（hessian matrix）。若 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為半正定矩陣，則意味著對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span>，我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v \geq 0\)</span>，這表示在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 附近，考慮任何方向之向量 <span class="math notranslate nohighlight">\(v\)</span>，其切線之速率皆展現維持水平或是遞增之狀況。</p>
+<p>我們在此將可微分函數最小化有關之性質，以定理之方式呈現（見Nocedal &amp; Wright, 1999之第二章）：</p>
+<p><strong>定理（一階必要條件）</strong></p>
+<p>若 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之局部極小元，且 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合（open neighborhood）為連續可微（continuously differentiable），則 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>。</p>
+<p><strong>定理（二階必要條件）</strong></p>
+<p>若 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之局部極小元，且 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合為二次連續可微，則 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>，且 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為半正定矩陣。</p>
+<p>另外，若 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>，再進一步搭配 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為正定矩陣（positive definite），即對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span> 我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v &gt; 0\)</span>，則我們可推論 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為嚴格的局部極小元（strictly local minimizer），意即，對於 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊的 <span class="math notranslate nohighlight">\(w\)</span> 來說（<span class="math notranslate nohighlight">\(w \neq \widehat{w}\)</span>），<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 滿足 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w}) &lt; \mathcal{D}(w)\)</span>。前述之充分條件，以定理的形式表達即為（見Nocedal &amp; Wright, 1999之第二章）：</p>
+<p><strong>定理（二階充分條件）</strong></p>
+<p>若 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合為二次連續可微，且滿足 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span> 與 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，則 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> 之嚴格局部極小元。</p>
+<p>因此，根據前述之充分條件，當要對 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 進行最小化，求得 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>時，其步驟為：</p>
 <ol class="simple">
 <li><p>計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之梯度，即 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(w)\)</span>。</p></li>
 <li><p>獲得 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w})=0\)</span> 此聯立方程組之解。</p></li>
@@ -499,7 +508,7 @@ y = Xw + \epsilon,
  \end{pmatrix} \\
 &amp;=-\frac{2}{N} X^T(y-X\widehat{w})=0.
 \end{aligned}\end{split}\]</div>
-<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>，或是閱讀 Magnus 與 Neudecker（2019）之 <a class="reference external" href="https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0">專書</a>。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
+<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>，閱讀 Magnus 與 Neudecker（2019）之 <a class="reference external" href="https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0">專書</a>，或是參考 Pedersen 與 Pedersen（2012）的 <a class="reference external" href="http://www2.imm.dtu.dk/pubdb/pubs/3274-full.html">The Matrix Cookbook</a> 。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
 <div class="math notranslate nohighlight">
 \[
 \underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
@@ -510,22 +519,22 @@ y = Xw + \epsilon,
 \widehat{w} = (X^T X)^{-1} X^Ty
 \]</div>
 <p>確保 <span class="math notranslate nohighlight">\(X^T X\)</span> 存在反矩陣的數學條件為其各直行向量（column vector）間並未存在線性相依（linear dependence）的狀況。所謂向量間有線性相依指的是某個向量，可以寫為其它向量的線性組合。一般來說，當樣本數大於變項數（<span class="math notranslate nohighlight">\(N &gt; P\)</span>），各變項間變異數皆大於0，且皆存在其獨特的訊息時，<span class="math notranslate nohighlight">\(X^T X\)</span> 為可逆的。<span class="math notranslate nohighlight">\((X^T X)^{-1}\)</span> 的計算，可採用<a class="reference external" href="https://en.wikipedia.org/wiki/Gaussian_elimination">高斯消去法</a>（Gaussian elimination）或是<a class="reference external" href="https://en.wikipedia.org/wiki/QR_decomposition">QR分解</a>（QR decomposition），其計算複雜度皆為 <span class="math notranslate nohighlight">\(O(P^3)\)</span>。</p>
-<p>在此矩陣表達式之下，LS 估計準則的黑塞矩陣為</p>
+<p>在前述矩陣表達式之下，LS 估計準則的黑塞矩陣為</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla^2 \mathcal{D}(\widehat{w}) = \frac{2}{N} X^T X
 \]</div>
-<p>在此矩陣表達式之下，若要說明 <span class="math notranslate nohighlight">\(\widehat{w} = (X^T X)^{-1} X^Ty\)</span> 為局部極小元，僅需說明 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣。給定一 <span class="math notranslate nohighlight">\((P+1)\)</span> 維之向量 <span class="math notranslate nohighlight">\(u\)</span>，考慮以下的二次式（quadratic form）</p>
+<p>在此矩陣表達式之下，若要說明 <span class="math notranslate nohighlight">\(\widehat{w} = (X^T X)^{-1} X^Ty\)</span> 為局部極小元，僅需說明 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣。給定一 <span class="math notranslate nohighlight">\((P+1)\)</span> 維之向量 <span class="math notranslate nohighlight">\(v\)</span>，考慮以下的二次式（quadratic form）</p>
 <div class="math notranslate nohighlight">
 \[
-u^T \nabla^2 \mathcal{D}(\widehat{w}) u = \frac{2}{N} u^T X^T X u
+v^T \nabla^2 \mathcal{D}(\widehat{w}) v = \frac{2}{N} v^T X^T X v
 \]</div>
-<p>根據 <span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span> 此轉置的規則，<span class="math notranslate nohighlight">\(u^T X^T = (Xu)^T = v^T\)</span>，因此，我們有</p>
+<p>根據 <span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span> 此轉置的規則，<span class="math notranslate nohighlight">\(v^T X^T = (Xv)^T = u^T\)</span>，因此，我們有</p>
 <div class="math notranslate nohighlight">
 \[
-u^T \nabla^2 \mathcal{D}(\widehat{w}) u = \frac{2}{N} v^T v = \frac{2}{N} ||v||
+v^T \nabla^2 \mathcal{D}(\widehat{w}) v = \frac{2}{N} u^T u = \frac{2}{N} ||u||
 \]</div>
-<p>由於對於非0的<span class="math notranslate nohighlight">\(v\)</span>來說，<span class="math notranslate nohighlight">\(||v||&gt;0\)</span>，只要我們確保 <span class="math notranslate nohighlight">\(v = Xu\)</span> 不為 0，則 <span class="math notranslate nohighlight">\(u^T \nabla^2 \mathcal{D}(\widehat{w}) u\)</span> 一定得大於 0。事實上，如果 <span class="math notranslate nohighlight">\(X\)</span> 的各直行為線性獨立，且 <span class="math notranslate nohighlight">\(u \neq 0\)</span>時，則<span class="math notranslate nohighlight">\(v = Xu \neq 0\)</span>（否則，會得到 <span class="math notranslate nohighlight">\(X\)</span> 的各直行並非線性獨立的結論）。故此，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，而 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為局部極小元，事實上，其亦為整體極小元（global minimizer）。</p>
+<p>由於對於非0的 <span class="math notranslate nohighlight">\(u\)</span> 來說，<span class="math notranslate nohighlight">\(||u||&gt;0\)</span>，只要我們確保 <span class="math notranslate nohighlight">\(u = Xv\)</span> 不為 0，則 <span class="math notranslate nohighlight">\(v^T \nabla^2 \mathcal{D}(\widehat{w}) v\)</span> 一定得大於 0。事實上，如果 <span class="math notranslate nohighlight">\(X\)</span> 的各直行為線性獨立，且 <span class="math notranslate nohighlight">\(v \neq 0\)</span>時，則<span class="math notranslate nohighlight">\(u = Xv \neq 0\)</span> 必須成立，否則，會得到 <span class="math notranslate nohighlight">\(X\)</span> 的各直行並非線性獨立的結論。故此，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，而 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為嚴格的局部極小元，事實上，其亦為整體嚴格的極小元（global strict minimizer）。</p>
 </div>
 <div class="section" id="id7">
 <h2><span class="section-number">2.6. </span>模型適配度<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
@@ -558,8 +567,10 @@ y = f^0(x) + \epsilon
 <h2><span class="section-number">2.7. </span>延伸閱讀<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2019). <em>Applied Linear Statistical Models：Applied Linear Regression Models</em> (5th ed.). New York: McGraw-Hill.</p></li>
-<li><p>Magnus, J. R., &amp; Neudecker, H. (2019). <em>Matrix differential calculus with applications in statistics and econometrics</em>. Chichester: Wiley.</p></li>
 <li><p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em>. Hoboken: Wiley &amp; Sons.</p></li>
+<li><p>Magnus, J. R., &amp; Neudecker, H. (2019). <em>Matrix differential calculus with applications in statistics and econometrics</em>. Chichester: Wiley.</p></li>
+<li><p>Petersen, K. B. &amp; Pedersen, M. S. (2008). <em>The Matrix Cookbook</em>. Technical University of Denmark</p></li>
+<li><p>Nocedal, J., &amp; Wright, S. J. (1999). <em>Numerical optimization</em>. New York: Springer.</p></li>
 <li><p>Konishi, S., &amp; Kitagawa, G. (2008). <em>Information criteria and statistical modeling</em>. New York: Springer.</p></li>
 </ol>
 </div>
