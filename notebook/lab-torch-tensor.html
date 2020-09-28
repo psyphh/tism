@@ -452,11 +452,11 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.5682618  0.46832812 0.30580443 0.24334097 0.47047102 0.20063502]
- [0.7609221  0.8871692  0.84090495 0.49941212 0.65394753 0.97203535]]
+ [[0.66582    0.27870363 0.6760433  0.9562027  0.24594074 0.6353839 ]
+ [0.73821276 0.26924086 0.20898557 0.77752197 0.628296   0.29937774]]
 tensor with uninitialized data 
- [[1.1e-44 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
- [0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]]
+ [[1.e-44 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]
+ [0.e+00 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]]
 </pre></div>
 </div>
 </div>
@@ -1055,13 +1055,13 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0007619857788085938
+CPU time = 0.0006461143493652344
 n = 100
-CPU time = 0.0010590553283691406
+CPU time = 0.0008242130279541016
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.055075883865356445
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.04154801368713379
 </pre></div>
 </div>
 </div>
@@ -1094,15 +1094,15 @@ n = 1000
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
+CPU time = 0.0013129711151123047
+n = 100
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0011761188507080078
-n = 100
-CPU time = 0.006195068359375
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.005858182907104492
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.6125481128692627
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.5021109580993652
 </pre></div>
 </div>
 </div>
@@ -1127,7 +1127,7 @@ n = 1000
 <h2><span class="section-number">3.4. </span>實徵範例<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
 <h3><span class="section-number">3.4.1. </span>產生線性迴歸資料<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<p>在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">manual_seed</span></code> 僅適用於CPU，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
+<p>在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">torch.manual_seed</span></code> 僅適用於 CPU 之張量，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
@@ -1135,7 +1135,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fa068727fb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fcbf8b86fb0&gt;
 </pre></div>
 </div>
 </div>
@@ -1178,7 +1178,6 @@ n = 1000
                      <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;feature matrix x is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;response vector y is </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-
 </pre></div>
 </div>
 </div>
