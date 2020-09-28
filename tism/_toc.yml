@@ -1,6 +1,6 @@
 - file: intro
   numbered: true
-- file: notebook/mathematics-prerequisite
+- file: notebook/math-prerequisite
 - file: notebook/linear-regression
 - file: notebook/lab-torch-tensor
 - file: notebook/logistic-regression
