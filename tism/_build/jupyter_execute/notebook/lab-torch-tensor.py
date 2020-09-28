@@ -341,10 +341,9 @@ print(device)
 
 ### 產生線性迴歸資料
 
-在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 `manual_seed` 僅適用於CPU，若使用GPU，請改為 `torch.cuda.manual_seed`）。
+在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 `torch.manual_seed` 僅適用於 CPU 之張量，若使用GPU，請改為 `torch.cuda.manual_seed`）。
 
 torch.manual_seed(48)
-
 
 # define a function to generate x and y
 def generate_data(n_sample, weight,
@@ -378,8 +377,6 @@ x, y = generate_data(n_sample = 10,
 print("feature matrix x is \n", x.numpy())
 print("response vector y is \n", y.numpy())
 
-
-
 ### 計算模型參數
 
 # define a function to calculate model parameter
@@ -408,7 +405,6 @@ x, y = generate_data(n_sample = 1000,
 bias, weight = calculate_parameter(x, y)
 print("bias estimate is \n", bias.numpy())
 print("weight estimate is \n", weight.numpy())
-
 
 ### 建立一進行迴歸分析之物件
 
