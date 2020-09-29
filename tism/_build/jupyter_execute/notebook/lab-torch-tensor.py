@@ -49,6 +49,34 @@ print("data of tensor is: \n", a.numpy())
 
 `numpy` 陣列是 `python` 進行科學運算時，幾乎都會仰賴的資料格式。因此，`.numpy()` 此指令主要用於不同套件間的資料交換，或是希望列印出來的結果比較簡單使用。
 
+在形成張量時，要記得張量的變數名稱，僅為其表徵資料的一個標籤，而相同的資料，可以有許多不同的標籤指稱其。舉例來說，考慮一下的程式碼
+
+c = torch.tensor([[1, 1, 1], [2, 2, 2]])
+d = c
+print("tensor c is: \n",
+      c.numpy())
+print("tensor d is: \n",
+      d.numpy())
+
+
+沒有意外的，`c` 和 `d` 內部的數值是一樣的。然而，若我們利用 `.fill_()` 方法，將 `c` 的內部全部填入 0 的話，則我們可以看到不僅是 `c`，`d` 內部的資料亦改變了。
+
+c.fill_(0)
+print("tensor c is: \n",
+      c.numpy())
+print("tensor d is: \n",
+      d.numpy())
+
+在此，讀者需特別注意的是，`torch` 中若有方法的尾端是底線 `_` 的話，則意味著該方法會取代原有物件中的資料，如 `c` 此張量對應的資料直接被取代掉了，不需要另外寫 `c = c.fill_(0)`。
+
+前述的設計，主要是為了避免資料的拷貝，以減少記憶體的使用。如果說希望 `d` 表徵的資料為 `c` 對應資料的拷貝的話，可以使用 `.clone()`此方法：
+
+d = c.clone()
+
+
+如此，就不會出現更動 `c` 的資料，`d` 也跟著動的狀況發生。
+
+
 `torch` 內建了多種函數，以協助產生具有特別數值結構之張量：
 
 print("tensor with all elements being ones \n",
@@ -66,6 +94,7 @@ print("tensor with random elements from uniform(0, 1) \n",
       torch.rand(size = (2, 6)).numpy())
 print("tensor with uninitialized data \n",
       torch.empty(size = (2, 6)).numpy())
+
 
 ### 張量之形狀
 
@@ -97,7 +126,7 @@ c = torch.zeros(4, 2)
 d = c.view((8, ))
 print("tensor c is: \n",
       c.numpy())
-print("tensor c is: \n",
+print("tensor d is: \n",
       d.numpy())
 
 如預期地，`c` 與 `d` 內部有著相同的數值，僅差在尺寸有所不同。接著，我們將 `c` 的內部全部填入1，我們會觀察到 `d` 的數值也跟著改變了：
@@ -108,7 +137,7 @@ print("tensor c is: \n",
 print("tensor d is: \n",
       d.numpy())
 
-這顯示 `c` 與 `d` 背後有著共享的資料內容。在此，讀者需特別注意的是，`torch` 中若有方法的尾端是底線 `_` 的話，則意味著該方法會取代原有物件中的資料，如 `c` 此張量內的數字直接被取代掉了，不需要另外寫 `c = c.fill_(1)`。
+這顯示 `c` 與 `d` 背後有著共享的資料內容。
 
 
 在0.4版之後，`.reshape()` 此方法亦可改變張量的尺寸，但其有可能會對資料進行拷貝，不過，當資料本身的排列不具有連續性時，僅 `.reshape()` 能夠使用。因此，在 `torch` 的[官方文件](https://pytorch.org/docs/master/tensors.html#torch.Tensor.view)中，建議使用 `.reshape()`此指令。
@@ -282,6 +311,47 @@ print("calculate mean for each row \n",
 
 其它的化約函數，可以參考[官方文件](https://pytorch.org/docs/stable/torch.html#reduction-ops)。
 
+
+## 張量運算之進階議題
+
+### 廣播
+在先前討論到兩張量進行元素對元素的加減乘除時，有一個條件是兩張量的尺寸必須相等。然而，此條件並非必要的。考慮以下的範例：
+
+a = torch.tensor([[1, 2, 3]],
+                 dtype = torch.float64)
+b = torch.tensor([2],
+                 dtype = torch.float64)
+print("a * b is \n", a * b)
+
+我們可以看到，雖然 `a` 和 `b` 的尺寸並不相同，但 `torch` 仍然會根據某種規則，將 `b` 的數值分配給 `a` 進行元素對元素的運算，這樣的特性被稱作廣播（broadcasting）。廣播的優點在於，其一方面可以處理不同尺寸張量的運算，二方面則是提供了高效率的計算。
+
+廣播的概念承襲自 `numpy` 套件，其詳細的運作機制可以參考 [Array Broadcasting in Numpy](https://numpy.org/doc/stable/user/theory.broadcasting.html) 一文。當以下條件滿足時，則 `torch` 可進行廣播：
+
++ 兩張量從尾端軸（trailing axes）往前算回來的尺寸相同，或是其中一張量之維度必須是 1。
+
+以下之範例為尺寸 `(2, 3)` 與 `(3, )` 兩張量之乘法，由於兩張量從尾端軸算回來的維度都是 `(3, )`，故符合前述條件。
+
+a = torch.tensor([[1, 2, 3], [4, 5, 6]],
+                 dtype = torch.float64)
+b = torch.tensor([0, 1, 2],
+                 dtype = torch.float64)
+print("tensor a is \n", a)
+print("tensor b is \n", b)
+print("tensor a * b is \n", a * b)
+
+以下之範例為尺寸 `(2, 3)` 與 `(2, 1)` 兩張量之乘法，其從尾端軸算回來的維度為相等或是其中一張量等於1，亦符合廣播條件
+
+a = torch.tensor([[1, 2, 3], [4, 5, 6]],
+                 dtype = torch.float64)
+b = torch.tensor([[0], [1]],
+                 dtype = torch.float64)
+print("tensor a is \n", a)
+print("tensor b is \n", b)
+print("tensor a * b is \n", a * b)
+
+然而，若是尺寸為 `(2, 3)` 與 `(2, )` 之張量相乘的，則不符合廣播條件，會產生錯誤訊息。
+
+
 ### GPU運算
 當執行程式碼之機器支援GPU運算時，`torch` 可利用GPU獲得高效能之運算。而機器是否具有GPU 支援，可透過 `torch.cuda.is_available()` 此指令進行判定。若使用 Google 的 Colab 服務，進行 GPU 運算需要點選 `Runtime\Change runtime type`，在 `Hardware accelerator` 處點選 `GPU`，才會轉移到具有 GPU 之機器進行計算。
 
@@ -312,32 +382,40 @@ for n in [10, 100, 1000]:
 
 除了數學運算外，隨機亂數之生成亦可透過 GPU 顯著的加速，可參考以下之程式碼：
 
-def random_speed_test(n, iter_max, device):
-    start_time = time.time()
-    for _ in range(iter_max):
-        if device == "cpu":
-            torch.FloatTensor(n, n).uniform_()
-        elif device == "cuda":
-            torch.cuda.FloatTensor(n, n).uniform_()
-        else:
-            None
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(device.upper(), 'time =', elapsed_time)
+n = 1000
 
-iter_max = 100
-for n in [10, 100, 1000]:
-    print("n =", n)
-    random_speed_test(n = n, iter_max = iter_max, device = "cpu")
-    if torch.cuda.is_available():
-        random_speed_test(n = n, iter_max = iter_max, device = "cuda")
+%timeit torch.FloatTensor(n, n).uniform_()
+
+if torch.cuda.is_available():
+    %timeit torch.cuda.FloatTensor(n, n).uniform_()
+
+在這裡，我們使用了 `IPython` 的魔術指令 `%timeit` ，其可用於評估該行程式碼之計算時間。如果要評估的是整個程式塊（code block）的時間的話，可以改為使用 `%%timeit` 置於程式塊的開頭。
+
+另外，線性代數亦可獲得 GPU 之幫助
+
+%timeit torch.FloatTensor(n, n).uniform_() @ torch.FloatTensor(n, n).uniform_()
+
+if torch.cuda.is_available():
+    %timeit torch.cuda.FloatTensor(n, n).uniform_() @ torch.cuda.FloatTensor(n, n).uniform_()
+
+
+
+然而，部分線性代數的計算則未必可以獲得 GPU 的強力幫助，如計算反矩陣
+
+%timeit torch.FloatTensor(n, n).uniform_().inverse()
+
+if torch.cuda.is_available():
+    %timeit torch.cuda.FloatTensor(n, n).uniform_().inverse()
+
+一個數學運算是否能夠獲得 GPU 幫助的關鍵在於，該運算是否能夠被平行化。如果讀者曾經有使用過高斯消去法（Gaussian elimination）來解反矩陣的話，就知道高斯消去法是個得序列求解的方法，故 GPU 幫助不大。
+
 
 在實務上，我們可以透過以下的程式碼來檢驗機器是否有可供使用的GPU，以動態決定 `device` 應為何：
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
-## 實徵範例
+## 實作範例
 
 ### 產生線性迴歸資料
 
@@ -432,3 +510,13 @@ model_lr = LinearRegression()
 model_lr.fit(x, y)
 print("bias estimate is \n", model_lr.bias.numpy())
 print("weight estimate is \n", model_lr.weight.numpy())
+
+## 作業
+
+1. 請根據本章節的內容，進行一系列的實驗，以了解在哪些運算與張量尺寸上，GPU 計算才具有其優勢。
+
+2. 請在 `LinearRegression` 此類型中，加入以下新的功能：
++ 新增一個選項，以決定 `x` 是否需要進行標準化（每個變項的平均數為0，變異數為1，不准使用其它的套件）
++ 新增一個選項，以決定是否使用 GPU 進行運算。
++ 新增一方法 `predict()`，其輸入為一新的 `x`，輸出為在該 `x` 下，`y` 的預測值。
++ 新增一方法 `gradient()`，其可獲得在當前係數估計下，最小平方估計準則的梯度數值。
