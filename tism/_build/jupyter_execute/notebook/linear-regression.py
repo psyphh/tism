@@ -9,15 +9,15 @@
 
 2. 使用最小平方法（least squares method）來建立參數之估計準則。
 
-3. 使用一階導數（derivative）來刻畫最小平方估計值（estimate）之最適條件（optimality condition）
+3. 使用最適條件（optimality condition）來刻畫最小平方估計值（estimate）。
 
 4. 使用線性代數來解決線性迴歸之問題。
 
-5. 利用 LS 估計準則來刻畫模型之適配度。
+5. 利用最小平方法估計準則來刻畫模型之適配度。
 
 
-
-## 線性迴歸模型
+## 線性迴歸與最小平方法
+### 線性迴歸模型
 廣義來說，迴歸分析試圖使用一 $P$ 維之向量 $x$，對於 $y$ 進行預測，其假設 $x$ 與 $y$ 存在以下的關係
 
 $$y=f(x)+\epsilon$$
@@ -43,15 +43,23 @@ $$
 線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 $w$ 之估計 $\widehat{w}$，一方面對於斜率與截距進行推論，二方面則是使用 $\widehat{y} = \widehat{f}(x) = x^T \widehat{w}$ 對 $y$ 進行預測。
 
 
-## 最小平方估計法
-線性迴歸分析主要採用**最小平方法**（least squares method，簡稱 LS 法）以對模型參數進行估計。令$(x_n, y_n)$ 表示第 $n$ 位個體於 $x$ 與 $y$ 之觀測值，則給定一隨機樣本 $\{(x_n, y_n) \}_{n=1}^N$，LS 估計準則定義為
+### 最小平方估計法
+線性迴歸分析主要採用**最小平方法**（least squares method，簡稱 LS 法）以對模型參數進行估計。在建立 LS 估計準則之前，我們先定義平方損失函數（squared loss function）來度量 $y$ 與 $f(x)$ 之間的差異：
+
+$$
+L\left[ y, f(x) \right] = \left[ y - f(x) \right]^2
+$$
+
+在此損失函數之下，若 $y$ 與 $f(x)$ 越不一致，則 $L$ 所量出的差異性越大。因此，$L\left[ y, f(x) \right]$ 可以用來度量在特定的 $w$ 之下，資料 $y$ 與模型 $f(x) =x_n^T w$ 的適配性。
+
+令 $\{(x_n, y_n) \}_{n=1}^N$ 表示一隨機樣本，這裡，$(x_n, y_n)$ 表示第 $n$ 位個體於 $x$ 與 $y$ 之觀測值，則 LS 法之適配函數（fitting function），或稱差異函數（discrepancy function），被定義為個別資料損失之平均，即
 
 $$\begin{aligned}
 \mathcal{D}(w)
-= &\frac{1}{N} \sum_{n=1}^N \left (y_n - x_n^T w \right )^2
+= &\frac{1}{N} \sum_{n=1}^N L\left[ y_n, f(x_n) \right]
 \end{aligned}$$
 
-由於迴歸模型假設 $y=f(x)+\epsilon$，且線性迴歸僅考慮線性的關係 $f(x) = x_n^T w$，因此，第 $n$ 筆觀測值對應之殘差可寫為 $\epsilon_n = y_n - x_n^T w$，而 LS 估計準則可簡單地寫為
+由於線性迴歸模型假設 $y=x_n^T w+\epsilon$，因此，第 $n$ 筆觀測值對應之殘差可寫為 $\epsilon_n = y_n - x_n^T w$，而 LS 估計準則可簡單地寫為
 
 $$
 \begin{aligned}
@@ -60,10 +68,11 @@ $$
 \end{aligned}
 $$
 
-LS估計法的目標在於找到一估計值（estimate） $\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)$，其最小化 LS 估計準則，意即，$\widehat{w}$ 可最小化樣本資料中所有殘差的平方和。
+LS估計法的目標在於找到一估計值（estimate） $\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)$，其可最小化 LS 估計準則，意即，$\widehat{w}$ 能讓樣本資料中所有殘差的平方和達到最小。
 
 
-## 一階導數與最適條件
+## 適配函數之優化
+### 優化之最適條件
 根據定義，$w$ 的 LS 估計式 $\widehat{w}$ 必須最小化 LS 估計準則，即 $\widehat{w}$ 需滿足
 
 $$
@@ -151,12 +160,12 @@ $$
 3. 檢驗 $\nabla^2 \mathcal{D}(\widehat{w})$ 此矩陣是否為正定矩陣。
 
 
-## 計算範例：簡單線性迴歸
+### 計算範例：簡單線性迴歸
 
 在此，我們以**簡單線性迴歸**（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 $P=1$ 的情境，因此，對於任一觀測值 $(y_n, x_n)$，其模型表達式為：
 
 $$
-y_n = w_0 + w_1 x_n + \epsilon_n
+y_n = w_0 + w_1 x_n + \epsilon_n,
 $$
 
 這裡，$x_n$僅為一純量，而簡單線性迴歸的 LS 估計準則為：
@@ -173,7 +182,7 @@ $$
 &= \frac{\partial} {\partial w_0}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
 &=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
 &=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
-&=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n)
+&=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n).
 \end{aligned}
 $$
 
@@ -185,7 +194,7 @@ $$
 &= \frac{\partial} {\partial w_1}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
 &=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
 &=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
-&=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n)
+&=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n).
 \end{aligned}
 $$
 
@@ -201,7 +210,7 @@ $$
 \begin{pmatrix}
 0 \\
 0
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 而模型參數的 LS 估計式，即為以下二元一次方程組的解：
@@ -216,13 +225,13 @@ $$
 根據 $(a)$，我們可得 $m_Y  -  m_X \widehat{w}_1  = \widehat{w}_0$，這裡，$m_Y= \frac{1}{N}\sum_{n=1}^N y_n$ 與 $m_X= \frac{1}{N} \sum_{n=1}^N x_n$。將前述關係式帶入 $(b)$，即可得
 
 $$
- \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0
+ \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0.
 $$
 
 透過整理，可進一步得到
 
 $$
-\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1
+\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1.
 $$
 
 因此，$\widehat{w}_1$ 的表達式為
@@ -231,22 +240,33 @@ $$
 \begin{aligned}
  \widehat{w}_1 &= \frac{\sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  m_Y}{\sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X } \\
  &= \frac{ \frac{1}{N}\sum_{n=1}^N x_n y_n - \frac{1}{N}\sum_{n=1}^N x_n  m_Y}{\frac{1}{N} \sum_{n=1}^N x_n^2  -  \frac{1}{N} \sum_{n=1}^N x_n    m_X } \\
-  &= \frac{ s_{YX}}{s_{X}^2 } \\
+  &= \frac{ s_{YX}}{s_{X}^2 }. \\
  \end{aligned}
 $$
 
 這裡，$s_{YX}$ 與 $s_X^2$ 分別表示 $Y$ 與 $X$ 的共變數，以及 $X$ 的變異數。而 $\widehat{w}_0$ 即可透過 $\widehat{w}_0=m_Y  -  m_X \widehat{w}_1$ 獲得。
 
-至於 $\mathcal{D}(\widehat{w})$ 的黑塞矩陣是否為正定矩陣，我們將在下一小節回答。
+至於 $\mathcal{D}(\widehat{w})$ 之黑塞矩陣是否為正定矩陣，我們將在下一小節回答。
 
-## 線性代數與迴歸
-線性迴歸的問題可以簡單的使用矩陣與向量的方式來表徵
+儘管在此範例中，我們僅考慮簡單線性迴歸的情況，不過，再稍微加工計算一下，我可獲得一般情況下，LS 估計準則的一階導數與二階導數：
+
+$$
+\begin{aligned}
+ \frac{\partial  \mathcal{D}(w)}{ \partial w_j} & = -\frac{2}{N}\sum_{n=1}^N x_{nj} (y_n -x_n^T w),\\
+  \frac{\partial^2  \mathcal{D}(w)}{ \partial w_j \partial w_k} & = \frac{2}{N}\sum_{n=1}^N x_{nj} x_{nk}.
+\end{aligned}
+$$
+
+## 線性代數與線性迴歸
+
+### 線性迴歸之矩陣表徵
+線性迴歸的問題可以精簡地使用矩陣與向量的方式來表徵
 
 $$
 y = Xw + \epsilon,
 $$
 
-其內部具體的元素為
+這裡，$y$、$X$、以及 $\epsilon$ 內部具體之元素為
 
 $$\underbrace{\begin{pmatrix}
   y_{1} \\
@@ -273,7 +293,9 @@ $$\underbrace{\begin{pmatrix}
   \epsilon_{N}
  \end{pmatrix}}_{N \times 1}.$$
 
-在這邊我們於符號使用上有稍微偷懶， $y$ 與 $\epsilon$ 在這用於表徵 $N$ 維的向量。在前式的表徵下，LS 估計準則可以寫為
+在這邊，我們於符號使用上有稍微偷懶，原先 $y$ 與 $\epsilon$ 用於表徵純量，但在這邊，$y$ 與 $\epsilon$ 則皆用於表徵一 $N$ 維的向量，其包含了每筆觀測值之 $y_n$ 與 $\epsilon_n$。
+
+在前述的矩陣向量表徵下，LS 估計準則可以寫為
 
 $$\begin{aligned}
 \mathcal{D}(w) & =  \frac{1}{N} \sum_{n=1}^N \epsilon_n^2 \\
@@ -281,7 +303,10 @@ $$\begin{aligned}
  & =  \frac{1}{N} (y-Xw)^T(y-Xw).
 \end{aligned}$$
 
-透過對 $w$ 的每一個成分做偏微分，即計算 $\mathcal{D}(w)$ 的梯度，我們可以得到刻畫 LS 解的一階條件
+在下一小節，我們可以看到利用此矩陣向量表徵，可以將迴歸係數之 LS 估計，轉為一線性代數計算反矩陣之問題。
+
+### 最適條件之矩陣表徵
+透過對 $w$ 的每一個成分做偏微分，即計算 $\mathcal{D}(w)$ 之梯度，我們可以得到刻畫 LS 解的一階條件
 
 $$\begin{aligned}
 \nabla \mathcal{D}(\widehat{w}) &=
@@ -294,7 +319,9 @@ $$\begin{aligned}
 &=-\frac{2}{N} X^T(y-X\widehat{w})=0.
 \end{aligned}$$
 
-此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 $b$ 與各個 $w_p$ 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於[純量對向量微分之規則](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities)，閱讀 Magnus 與 Neudecker（2019）之 [專書](https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0)，或是參考 Pedersen 與 Pedersen（2012）的 [The Matrix Cookbook](http://www2.imm.dtu.dk/pubdb/pubs/3274-full.html) 。$-\frac{2}{N} X^T(y-X\widehat{w})=0$ 意味著 $\widehat{w}$ 需滿足以下的等式
+此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對各個 $w_p$ 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於[純量對向量微分之規則](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities)，閱讀 Magnus 與 Neudecker（2019）之 [專書](https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0)，或是參考 Pedersen 與 Pedersen（2012）的 [The Matrix Cookbook](http://www2.imm.dtu.dk/pubdb/pubs/3274-full.html) 。
+
+前述一階條件 $-\frac{2}{N} X^T(y-X\widehat{w})=0$ 意味著 $\widehat{w}$ 需滿足以下的等式
 
 $$
 \underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
@@ -328,6 +355,7 @@ v^T \nabla^2 \mathcal{D}(\widehat{w}) v = \frac{2}{N} u^T u = \frac{2}{N} ||u||
 $$
 
 由於對於非0的 $u$ 來說，$||u||>0$，只要我們確保 $u = Xv$ 不為 0，則 $v^T \nabla^2 \mathcal{D}(\widehat{w}) v$ 一定得大於 0。事實上，如果 $X$ 的各直行為線性獨立，且 $v \neq 0$時，則$u = Xv \neq 0$ 必須成立，否則，會得到 $X$ 的各直行並非線性獨立的結論。故此，$\nabla^2 \mathcal{D}(\widehat{w})$ 為正定矩陣，而 $\widehat{w}$ 為嚴格的局部極小元，事實上，其亦為整體嚴格的極小元（global strict minimizer）。
+
 
 ## 模型適配度
 

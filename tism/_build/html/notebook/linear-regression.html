@@ -221,37 +221,63 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
-   2.1. 線性迴歸模型
+   2.1. 線性迴歸與最小平方法
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
-   2.2. 最小平方估計法
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
-   2.3. 一階導數與最適條件
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     2.1.1. 線性迴歸模型
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     2.1.2. 最小平方估計法
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id5">
-   2.4. 計算範例：簡單線性迴歸
+   2.2. 適配函數之優化
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id6">
-   2.5. 線性代數與迴歸
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
-   2.6. 模型適配度
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     2.2.1. 優化之最適條件
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     2.2.2. 計算範例：簡單線性迴歸
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id8">
-   2.7. 延伸閱讀
+   2.3. 線性代數與線性迴歸
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     2.3.1. 線性迴歸之矩陣表徵
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     2.3.2. 最適條件之矩陣表徵
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   2.4. 模型適配度
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id12">
+   2.5. 延伸閱讀
   </a>
  </li>
 </ul>
@@ -271,12 +297,14 @@
 <ol class="simple">
 <li><p>使用線性函數刻畫兩變項間的關係。</p></li>
 <li><p>使用最小平方法（least squares method）來建立參數之估計準則。</p></li>
-<li><p>使用一階導數（derivative）來刻畫最小平方估計值（estimate）之最適條件（optimality condition）</p></li>
+<li><p>使用最適條件（optimality condition）來刻畫最小平方估計值（estimate）。</p></li>
 <li><p>使用線性代數來解決線性迴歸之問題。</p></li>
-<li><p>利用 LS 估計準則來刻畫模型之適配度。</p></li>
+<li><p>利用最小平方法估計準則來刻畫模型之適配度。</p></li>
 </ol>
 <div class="section" id="id2">
-<h2><span class="section-number">2.1. </span>線性迴歸模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.1. </span>線性迴歸與最小平方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">2.1.1. </span>線性迴歸模型<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>廣義來說，迴歸分析試圖使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，其假設 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 存在以下的關係</p>
 <div class="math notranslate nohighlight">
 \[y=f(x)+\epsilon\]</div>
@@ -295,15 +323,21 @@ f(x) = x^T w
 <p>這裡，<span class="math notranslate nohighlight">\(x^T\)</span> 表示 <span class="math notranslate nohighlight">\(x=(1,x_1,x_2,...,x_P)\)</span> 此 <span class="math notranslate nohighlight">\(P + 1\)</span> 維向量之轉置（transpose）。讀者需特別注意的是，在進入本章節時，<span class="math notranslate nohighlight">\(x = (x_1,x_2,...,x_P)\)</span> 用於表示一 <span class="math notranslate nohighlight">\(P\)</span> 維之共變量向量，但從此段落後，我們將 <span class="math notranslate nohighlight">\(x\)</span> 重新定義為 <span class="math notranslate nohighlight">\(x = (1, x)\)</span>，以對模型做更為簡潔的表達。</p>
 <p>線性迴歸分析的主要目的乃透過一樣本資料，獲得對於 <span class="math notranslate nohighlight">\(w\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，一方面對於斜率與截距進行推論，二方面則是使用 <span class="math notranslate nohighlight">\(\widehat{y} = \widehat{f}(x) = x^T \widehat{w}\)</span> 對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
 </div>
-<div class="section" id="id3">
-<h2><span class="section-number">2.2. </span>最小平方估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>線性迴歸分析主要採用<strong>最小平方法</strong>（least squares method，簡稱 LS 法）以對模型參數進行估計。令<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則給定一隨機樣本 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span>，LS 估計準則定義為</p>
+<div class="section" id="id4">
+<h3><span class="section-number">2.1.2. </span>最小平方估計法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>線性迴歸分析主要採用<strong>最小平方法</strong>（least squares method，簡稱 LS 法）以對模型參數進行估計。在建立 LS 估計準則之前，我們先定義平方損失函數（squared loss function）來度量 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(f(x)\)</span> 之間的差異：</p>
+<div class="math notranslate nohighlight">
+\[
+L\left[ y, f(x) \right] = \left[ y - f(x) \right]^2
+\]</div>
+<p>在此損失函數之下，若 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(f(x)\)</span> 越不一致，則 <span class="math notranslate nohighlight">\(L\)</span> 所量出的差異性越大。因此，<span class="math notranslate nohighlight">\(L\left[ y, f(x) \right]\)</span> 可以用來度量在特定的 <span class="math notranslate nohighlight">\(w\)</span> 之下，資料 <span class="math notranslate nohighlight">\(y\)</span> 與模型 <span class="math notranslate nohighlight">\(f(x) =x_n^T w\)</span> 的適配性。</p>
+<p>令 <span class="math notranslate nohighlight">\(\{(x_n, y_n) \}_{n=1}^N\)</span> 表示一隨機樣本，這裡，<span class="math notranslate nohighlight">\((x_n, y_n)\)</span> 表示第 <span class="math notranslate nohighlight">\(n\)</span> 位個體於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之觀測值，則 LS 法之適配函數（fitting function），或稱差異函數（discrepancy function），被定義為個別資料損失之平均，即</p>
 <div class="math notranslate nohighlight">
 \[\begin{aligned}
 \mathcal{D}(w)
-= &amp;\frac{1}{N} \sum_{n=1}^N \left (y_n - x_n^T w \right )^2
+= &amp;\frac{1}{N} \sum_{n=1}^N L\left[ y_n, f(x_n) \right]
 \end{aligned}\]</div>
-<p>由於迴歸模型假設 <span class="math notranslate nohighlight">\(y=f(x)+\epsilon\)</span>，且線性迴歸僅考慮線性的關係 <span class="math notranslate nohighlight">\(f(x) = x_n^T w\)</span>，因此，第 <span class="math notranslate nohighlight">\(n\)</span> 筆觀測值對應之殘差可寫為 <span class="math notranslate nohighlight">\(\epsilon_n = y_n - x_n^T w\)</span>，而 LS 估計準則可簡單地寫為</p>
+<p>由於線性迴歸模型假設 <span class="math notranslate nohighlight">\(y=x_n^T w+\epsilon\)</span>，因此，第 <span class="math notranslate nohighlight">\(n\)</span> 筆觀測值對應之殘差可寫為 <span class="math notranslate nohighlight">\(\epsilon_n = y_n - x_n^T w\)</span>，而 LS 估計準則可簡單地寫為</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
@@ -311,10 +345,13 @@ f(x) = x^T w
 = &amp;\frac{1}{N} \sum_{n=1}^N \epsilon_n^2
 \end{aligned}
 \]</div>
-<p>LS估計法的目標在於找到一估計值（estimate） <span class="math notranslate nohighlight">\(\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)\)</span>，其最小化 LS 估計準則，意即，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 可最小化樣本資料中所有殘差的平方和。</p>
+<p>LS估計法的目標在於找到一估計值（estimate） <span class="math notranslate nohighlight">\(\widehat{w} = (\widehat{w}_0, \widehat{w}_1, ..., \widehat{w}_P)\)</span>，其可最小化 LS 估計準則，意即，<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 能讓樣本資料中所有殘差的平方和達到最小。</p>
 </div>
-<div class="section" id="id4">
-<h2><span class="section-number">2.3. </span>一階導數與最適條件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">2.2. </span>適配函數之優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><span class="section-number">2.2.1. </span>優化之最適條件<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>根據定義，<span class="math notranslate nohighlight">\(w\)</span> 的 LS 估計式 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 必須最小化 LS 估計準則，即 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足</p>
 <div class="math notranslate nohighlight">
 \[
@@ -385,12 +422,12 @@ f(x) = x^T w
 <li><p>檢驗 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 此矩陣是否為正定矩陣。</p></li>
 </ol>
 </div>
-<div class="section" id="id5">
-<h2><span class="section-number">2.4. </span>計算範例：簡單線性迴歸<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3><span class="section-number">2.2.2. </span>計算範例：簡單線性迴歸<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>在此，我們以<strong>簡單線性迴歸</strong>（simple linear regression）為例來說明整個求解的過程。簡單線性迴歸僅考慮單一的共變量，即 <span class="math notranslate nohighlight">\(P=1\)</span> 的情境，因此，對於任一觀測值 <span class="math notranslate nohighlight">\((y_n, x_n)\)</span>，其模型表達式為：</p>
 <div class="math notranslate nohighlight">
 \[
-y_n = w_0 + w_1 x_n + \epsilon_n
+y_n = w_0 + w_1 x_n + \epsilon_n,
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(x_n\)</span>僅為一純量，而簡單線性迴歸的 LS 估計準則為：</p>
 <div class="math notranslate nohighlight">
@@ -405,7 +442,7 @@ y_n = w_0 + w_1 x_n + \epsilon_n
 &amp;= \frac{\partial} {\partial w_0}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
 &amp;=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
 &amp;=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_0} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
-&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n)
+&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 (y_n - w_0 - w_1 x_n).
 \end{aligned}
 \end{split}\]</div>
 <p>與</p>
@@ -416,7 +453,7 @@ y_n = w_0 + w_1 x_n + \epsilon_n
 &amp;= \frac{\partial} {\partial w_1}  \frac{1}{N} \sum_{n=1}^N (y_n - w_0 - w_1 x_n)^2 \\
 &amp;=   \frac{1}{N}\sum_{n=1}^N \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n)^2 \ \ \text{(by linear rule)} \\
 &amp;=   \frac{1}{N}\sum_{n=1}^N 2 (y_n - w_0 - w_1 x_n) \frac{\partial} {\partial w_1} (y_n - w_0 - w_1 x_n) \ \ \text{(by chain rule)} \\
-&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n)
+&amp;=   \frac{1}{N}\sum_{n=1}^N - 2 x_n (y_n - w_0 - w_1 x_n).
 \end{aligned}
 \end{split}\]</div>
 <p>因此，在簡單線性迴歸的架構下，LS 估計準則的一階條件為</p>
@@ -431,7 +468,7 @@ y_n = w_0 + w_1 x_n + \epsilon_n
 \begin{pmatrix}
 0 \\
 0
-\end{pmatrix}
+\end{pmatrix}.
 \end{split}\]</div>
 <p>而模型參數的 LS 估計式，即為以下二元一次方程組的解：</p>
 <div class="math notranslate nohighlight">
@@ -444,12 +481,12 @@ y_n = w_0 + w_1 x_n + \epsilon_n
 <p>根據 <span class="math notranslate nohighlight">\((a)\)</span>，我們可得 <span class="math notranslate nohighlight">\(m_Y  -  m_X \widehat{w}_1  = \widehat{w}_0\)</span>，這裡，<span class="math notranslate nohighlight">\(m_Y= \frac{1}{N}\sum_{n=1}^N y_n\)</span> 與 <span class="math notranslate nohighlight">\(m_X= \frac{1}{N} \sum_{n=1}^N x_n\)</span>。將前述關係式帶入 <span class="math notranslate nohighlight">\((b)\)</span>，即可得</p>
 <div class="math notranslate nohighlight">
 \[
- \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0
+ \sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  \left( m_Y  -  m_X \widehat{w}_1 \right)  -\sum_{n=1}^N x_n^2 \widehat{w}_1  = 0.
 \]</div>
 <p>透過整理，可進一步得到</p>
 <div class="math notranslate nohighlight">
 \[
-\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1
+\sum_{n=1}^N x_n y_n -  \sum_{n=1}^N x_n  m_Y   = \left( \sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X \right)\widehat{w}_1.
 \]</div>
 <p>因此，<span class="math notranslate nohighlight">\(\widehat{w}_1\)</span> 的表達式為</p>
 <div class="math notranslate nohighlight">
@@ -457,20 +494,31 @@ y_n = w_0 + w_1 x_n + \epsilon_n
 \begin{aligned}
  \widehat{w}_1 &amp;= \frac{\sum_{n=1}^N x_n y_n - \sum_{n=1}^N x_n  m_Y}{\sum_{n=1}^N x_n^2  -  \sum_{n=1}^N x_n    m_X } \\
  &amp;= \frac{ \frac{1}{N}\sum_{n=1}^N x_n y_n - \frac{1}{N}\sum_{n=1}^N x_n  m_Y}{\frac{1}{N} \sum_{n=1}^N x_n^2  -  \frac{1}{N} \sum_{n=1}^N x_n    m_X } \\
-  &amp;= \frac{ s_{YX}}{s_{X}^2 } \\
+  &amp;= \frac{ s_{YX}}{s_{X}^2 }. \\
  \end{aligned}
 \end{split}\]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(s_{YX}\)</span> 與 <span class="math notranslate nohighlight">\(s_X^2\)</span> 分別表示 <span class="math notranslate nohighlight">\(Y\)</span> 與 <span class="math notranslate nohighlight">\(X\)</span> 的共變數，以及 <span class="math notranslate nohighlight">\(X\)</span> 的變異數。而 <span class="math notranslate nohighlight">\(\widehat{w}_0\)</span> 即可透過 <span class="math notranslate nohighlight">\(\widehat{w}_0=m_Y  -  m_X \widehat{w}_1\)</span> 獲得。</p>
-<p>至於 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 的黑塞矩陣是否為正定矩陣，我們將在下一小節回答。</p>
+<p>至於 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 之黑塞矩陣是否為正定矩陣，我們將在下一小節回答。</p>
+<p>儘管在此範例中，我們僅考慮簡單線性迴歸的情況，不過，再稍微加工計算一下，我可獲得一般情況下，LS 估計準則的一階導數與二階導數：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+ \frac{\partial  \mathcal{D}(w)}{ \partial w_j} &amp; = -\frac{2}{N}\sum_{n=1}^N x_{nj} (y_n -x_n^T w),\\
+  \frac{\partial^2  \mathcal{D}(w)}{ \partial w_j \partial w_k} &amp; = \frac{2}{N}\sum_{n=1}^N x_{nj} x_{nk}.
+\end{aligned}
+\end{split}\]</div>
 </div>
-<div class="section" id="id6">
-<h2><span class="section-number">2.5. </span>線性代數與迴歸<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p>線性迴歸的問題可以簡單的使用矩陣與向量的方式來表徵</p>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">2.3. </span>線性代數與線性迴歸<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3><span class="section-number">2.3.1. </span>線性迴歸之矩陣表徵<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>線性迴歸的問題可以精簡地使用矩陣與向量的方式來表徵</p>
 <div class="math notranslate nohighlight">
 \[
 y = Xw + \epsilon,
 \]</div>
-<p>其內部具體的元素為</p>
+<p>這裡，<span class="math notranslate nohighlight">\(y\)</span>、<span class="math notranslate nohighlight">\(X\)</span>、以及 <span class="math notranslate nohighlight">\(\epsilon\)</span> 內部具體之元素為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\underbrace{\begin{pmatrix}
   y_{1} \\
@@ -496,14 +544,19 @@ y = Xw + \epsilon,
   \vdots \\
   \epsilon_{N}
  \end{pmatrix}}_{N \times 1}.\end{split}\]</div>
-<p>在這邊我們於符號使用上有稍微偷懶， <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon\)</span> 在這用於表徵 <span class="math notranslate nohighlight">\(N\)</span> 維的向量。在前式的表徵下，LS 估計準則可以寫為</p>
+<p>在這邊，我們於符號使用上有稍微偷懶，原先 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon\)</span> 用於表徵純量，但在這邊，<span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon\)</span> 則皆用於表徵一 <span class="math notranslate nohighlight">\(N\)</span> 維的向量，其包含了每筆觀測值之 <span class="math notranslate nohighlight">\(y_n\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon_n\)</span>。</p>
+<p>在前述的矩陣向量表徵下，LS 估計準則可以寫為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \mathcal{D}(w) &amp; =  \frac{1}{N} \sum_{n=1}^N \epsilon_n^2 \\
   &amp; = \frac{1}{N} \epsilon^T \epsilon\\
  &amp; =  \frac{1}{N} (y-Xw)^T(y-Xw).
 \end{aligned}\end{split}\]</div>
-<p>透過對 <span class="math notranslate nohighlight">\(w\)</span> 的每一個成分做偏微分，即計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 的梯度，我們可以得到刻畫 LS 解的一階條件</p>
+<p>在下一小節，我們可以看到利用此矩陣向量表徵，可以將迴歸係數之 LS 估計，轉為一線性代數計算反矩陣之問題。</p>
+</div>
+<div class="section" id="id10">
+<h3><span class="section-number">2.3.2. </span>最適條件之矩陣表徵<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>透過對 <span class="math notranslate nohighlight">\(w\)</span> 的每一個成分做偏微分，即計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之梯度，我們可以得到刻畫 LS 解的一階條件</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \nabla \mathcal{D}(\widehat{w}) &amp;=
@@ -515,7 +568,8 @@ y = Xw + \epsilon,
  \end{pmatrix} \\
 &amp;=-\frac{2}{N} X^T(y-X\widehat{w})=0.
 \end{aligned}\end{split}\]</div>
-<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對 <span class="math notranslate nohighlight">\(b\)</span> 與各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>，閱讀 Magnus 與 Neudecker（2019）之 <a class="reference external" href="https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0">專書</a>，或是參考 Pedersen 與 Pedersen（2012）的 <a class="reference external" href="http://www2.imm.dtu.dk/pubdb/pubs/3274-full.html">The Matrix Cookbook</a> 。<span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
+<p>此純量函數對向量（scalar function by vector）的微分的計算，可按照定義對各個 <span class="math notranslate nohighlight">\(w_p\)</span> 進行微分後，再利用矩陣乘法之特性獲得。除此之外，亦可以參考矩陣微分（matrix calculus）中，對於<a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector_identities">純量對向量微分之規則</a>，閱讀 Magnus 與 Neudecker（2019）之 <a class="reference external" href="https://www.amazon.com/-/zh_TW/gp/product/B07PS6Y6W6/ref=dbs_a_def_rwt_hsch_vapi_tkin_p1_i0">專書</a>，或是參考 Pedersen 與 Pedersen（2012）的 <a class="reference external" href="http://www2.imm.dtu.dk/pubdb/pubs/3274-full.html">The Matrix Cookbook</a> 。</p>
+<p>前述一階條件 <span class="math notranslate nohighlight">\(-\frac{2}{N} X^T(y-X\widehat{w})=0\)</span> 意味著 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 需滿足以下的等式</p>
 <div class="math notranslate nohighlight">
 \[
 \underbrace{X^T X}_{(P+1) \times (P+1)} \underbrace{\widehat{w}}_{(P+1) \times 1}=\underbrace{X^T}_{(P+1) \times N} \underbrace{y}_{N \times 1}.
@@ -543,8 +597,9 @@ v^T \nabla^2 \mathcal{D}(\widehat{w}) v = \frac{2}{N} u^T u = \frac{2}{N} ||u||
 \]</div>
 <p>由於對於非0的 <span class="math notranslate nohighlight">\(u\)</span> 來說，<span class="math notranslate nohighlight">\(||u||&gt;0\)</span>，只要我們確保 <span class="math notranslate nohighlight">\(u = Xv\)</span> 不為 0，則 <span class="math notranslate nohighlight">\(v^T \nabla^2 \mathcal{D}(\widehat{w}) v\)</span> 一定得大於 0。事實上，如果 <span class="math notranslate nohighlight">\(X\)</span> 的各直行為線性獨立，且 <span class="math notranslate nohighlight">\(v \neq 0\)</span>時，則<span class="math notranslate nohighlight">\(u = Xv \neq 0\)</span> 必須成立，否則，會得到 <span class="math notranslate nohighlight">\(X\)</span> 的各直行並非線性獨立的結論。故此，<span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，而 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為嚴格的局部極小元，事實上，其亦為整體嚴格的極小元（global strict minimizer）。</p>
 </div>
-<div class="section" id="id7">
-<h2><span class="section-number">2.6. </span>模型適配度<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id11">
+<h2><span class="section-number">2.4. </span>模型適配度<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>線性迴歸模型使用一線性函數 <span class="math notranslate nohighlight">\(\widehat{f}(x) = x^T \widehat{w}\)</span> 來解釋 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係，然而，究竟 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 是否作出了好的刻畫，如屬一尚待評估之問題。</p>
 <p>在統計上，評估模型用於解釋資料的適切性（appropriateness），甚至正確性（correctness），常透過<strong>模型適配度</strong>（goodness-of-fit）指標來進行刻畫。最簡單的適配度指標，即為估計準則在給定參數估計量下之數值，以線性迴歸搭配 LS 準則為例，該指標即為所謂的<strong>均方誤</strong>（mean squared error，簡稱 MSE）</p>
 <div class="math notranslate nohighlight">
@@ -570,8 +625,8 @@ y = f^0(x) + \epsilon
 <p>這裡，<span class="math notranslate nohighlight">\(f^0(x)\)</span> 表示了真實的迴歸函數。在此建構下，沒有任何的 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 可以表現得比 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 來得好，但即使是 <span class="math notranslate nohighlight">\(f^0(x)\)</span>，其仍因爲殘差 <span class="math notranslate nohighlight">\(\epsilon\)</span> 的存在，並沒有辦法做出完美的預測。</p>
 <p>總結來說，若要評估一迴歸模型的正確性，應該是要看 <span class="math notranslate nohighlight">\(\widehat{f}(x)\)</span> 與 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 的差異性。由於 <span class="math notranslate nohighlight">\(f^0(x)\)</span> 乃未知的函數，故前述比較在統計實務上是不可能的任務。因此，研究者採用模型選擇（model selection）之策略，透過建立多個迴歸函數，利用模型選擇指標（model selection criteria），如赤池訊息指標（Akaike information criterion，簡稱AIC）、貝氏訊息指標（Bayesian information criterion，簡稱BIC），或是交叉檢驗（cross-validation，簡稱CV），評估這些模型之相對表現，藉此說明某一個模型相較之下較為正確。不過，此取向，我們不在此做詳細的說明，有興趣之讀者可以參考 Konishi 與 Kitagawa（2007）之<a class="reference external" href="https://www.amazon.com/Information-Criteria-Statistical-Modeling-Statistics/dp/0387718869">專書</a>。</p>
 </div>
-<div class="section" id="id8">
-<h2><span class="section-number">2.7. </span>延伸閱讀<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2><span class="section-number">2.5. </span>延伸閱讀<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>Kutner, M. H., Nachtsheim, C. J., Neter, J., &amp; Li, W. (2019). <em>Applied Linear Statistical Models：Applied Linear Regression Models</em> (5th ed.). New York: McGraw-Hill.</p></li>
 <li><p>Rencher, A. C., &amp; Schaalje, G. B. (2008). <em>Linear models in statistics</em>. Hoboken: Wiley &amp; Sons.</p></li>
