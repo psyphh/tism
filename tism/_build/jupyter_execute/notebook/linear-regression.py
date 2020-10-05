@@ -121,21 +121,28 @@ $$
 
 我們在此將可微分函數最小化有關之性質，以定理之方式呈現（見Nocedal & Wright, 1999之第二章）：
 
-**定理（一階必要條件）**
 
+```{admonition} **定理：一階必要條件**
+:class: note
 若 $\widehat{w}$ 為 $\mathcal{D}(w)$ 之局部極小元，且 $\mathcal{D}(w)$ 在 $\widehat{w}$ 周邊之開集合（open neighborhood）為連續可微（continuously differentiable），則 $\nabla \mathcal{D}(\widehat{w}) =0$。
+```
 
-**定理（二階必要條件）**
 
+```{admonition} **定理：二階必要條件**
+:class: note
 若 $\widehat{w}$ 為 $\mathcal{D}(w)$ 之局部極小元，且 $\mathcal{D}(w)$ 在 $\widehat{w}$ 周邊之開集合為二次連續可微，則 $\nabla \mathcal{D}(\widehat{w}) =0$，且 $\nabla^2 \mathcal{D}(\widehat{w})$ 為半正定矩陣。
+```
+
+
+
 
 
 另外，若 $\nabla \mathcal{D}(\widehat{w}) =0$，再進一步搭配 $\nabla^2 \mathcal{D}(\widehat{w})$為正定矩陣（positive definite），即對於所有不為0的 $P+1$ 維向量 $v$ 我們有$v^T\nabla^2 \mathcal{D}(\widehat{w}) v > 0$，則我們可推論 $\widehat{w}$ 為嚴格的局部極小元（strictly local minimizer），意即，對於 $\widehat{w}$ 周邊的 $w$ 來說（$w \neq \widehat{w}$），$\widehat{w}$ 滿足 $\mathcal{D}(\widehat{w}) < \mathcal{D}(w)$。前述之充分條件，以定理的形式表達即為（見Nocedal & Wright, 1999之第二章）：
 
-
-**定理（二階充分條件）**
-
+```{admonition} **定理：二階充分條件**
+:class: note
 若 $\mathcal{D}(w)$ 在 $\widehat{w}$ 周邊之開集合為二次連續可微，且滿足 $\nabla \mathcal{D}(\widehat{w}) =0$ 與 $\nabla^2 \mathcal{D}(\widehat{w})$ 為正定矩陣，則 $\widehat{w}$ 為 $\mathcal{D}$ 之嚴格局部極小元。
+```
 
 因此，根據前述之充分條件，當要對 $\mathcal{D}(w)$ 進行最小化，求得 $\widehat{w}$時，其步驟為：
 

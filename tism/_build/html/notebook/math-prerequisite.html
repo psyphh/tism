@@ -288,6 +288,11 @@
      1.3.3. 多變數函數的微分
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     1.3.4. 泰勒之定理
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -910,6 +915,31 @@ J_{ux} = \frac{\partial u(x)}{ \partial x^T} =
 \end{pmatrix}}_{M \times N}.
 \end{split}\]</div>
 <p>前式之結果，可視為<strong>連鎖規則</strong>應用於矩陣微積分之拓展。</p>
+<p>除了前述之一階導數外，二階導數在統計建模的理論中亦扮演重要的角色。令 <span class="math notranslate nohighlight">\(f(x)=f(x_1,x_2,...,x_N)\)</span> 表示一定義於 <span class="math notranslate nohighlight">\(N\)</span> 維向量 <span class="math notranslate nohighlight">\(x\)</span> 之純量函數，則 <span class="math notranslate nohighlight">\(f\)</span> 對於 <span class="math notranslate nohighlight">\(x\)</span> 之 <span class="math notranslate nohighlight">\(N \times N\)</span> 二階導數矩陣，或稱黑塞矩陣為：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla^2 f(x) = \frac{\partial^2 f(x)}{\partial x \partial x^T} =
+\underbrace{\begin{pmatrix}
+\frac{\partial^2 f(x)}{\partial x_1 \partial x_1} &amp; \frac{\partial^2 f(x)}{\partial x_1 \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f(x)}{\partial x_1 \partial x_N} \\
+\frac{\partial^2 f(x)}{\partial x_2 \partial x_1} &amp; \frac{\partial^2 f(x)}{\partial x_2 \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f(x)}{\partial x_2 \partial x_N} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial^2 f(x)}{\partial x_N \partial x_1} &amp; \frac{\partial^2 f(x)}{\partial x_N \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f(x)}{\partial x_N \partial x_N}
+\end{pmatrix}}_{N \times N}
+\end{split}\]</div>
+</div>
+<div class="section" id="id15">
+<h3><span class="section-number">1.3.4. </span>泰勒之定理<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>對於一連續可微之函數，我們可透過泰勒之定理（Taylor’s theorem），於其局部進行逼近。令 <span class="math notranslate nohighlight">\(f(x)=f(x_1,x_2,...,x_N)\)</span> 表示一定義於 <span class="math notranslate nohighlight">\(N\)</span> 維向量 <span class="math notranslate nohighlight">\(x\)</span> 之純量函數，則在 <span class="math notranslate nohighlight">\(x = x^*\)</span> 的附近，我們可以考慮以下之線性逼近：</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) \approx f(x^*) + \underbrace{(x - x^*)^T}_{1 \times N} \underbrace{\nabla f(x^*)}_{N \times 1}
+\]</div>
+<p>或是二次式之逼近</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) \approx f(x^*) + (x - x^*)^T \nabla f(x^*) + \frac{1}{2} \underbrace{(x - x^*)^T}_{1 \times N} \underbrace{\nabla^2 f(x^*)}_{N \times N} \underbrace{(x - x^*)}_{N \times 1}
+\]</div>
+<p>此逼近的意涵在於，如果我們僅聚焦於一連續可微函數局部的表面（local surface），則其表現會與線性函數、或是二次函數相當靠近。</p>
 </div>
 </div>
 </div>
