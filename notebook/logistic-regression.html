@@ -282,7 +282,24 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id12">
-   4.5. 延伸閱讀
+   4.5. 實作範例與練習
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     4.5.1. 虛無模型之截距估計
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     4.5.2. 練習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id15">
+   4.6. 延伸閱讀
   </a>
  </li>
 </ul>
@@ -638,7 +655,185 @@ Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
 <p>這裡，<span class="math notranslate nohighlight">\(1\{\cdot \}\)</span> 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 <span class="math notranslate nohighlight">\(E\)</span> 事件為真時，<span class="math notranslate nohighlight">\(1\{E \} = 1\)</span>，反之，<span class="math notranslate nohighlight">\(1\{E \} = 0\)</span>。</p>
 </div>
 <div class="section" id="id12">
-<h2><span class="section-number">4.5. </span>延伸閱讀<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">4.5. </span>實作範例與練習<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h3><span class="section-number">4.5.1. </span>虛無模型之截距估計<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>我們在此展示如何使用梯度下降法，對虛無模型下之截距項進行估計。由於此模型中並未加入任何的共變量，因此，其 ML 適配函數與一階導數為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathcal{D}(w_0) &amp; = \frac{1}{N} \sum_{n=1}^N \left \{ -y_n w_0 +  \log\left[ 1+\exp{ \left( w_0 \right) }\right] \right\} \\
+&amp; =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right]
+\end{aligned}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial \mathcal{D}(w_0)}{\partial w_0} &amp;=
+\frac{1}{N} \sum_{n=1}^N
+\left \{
+-y_n + \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+\right \}\\
+&amp; = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(m_Y\)</span> 表示 <span class="math notranslate nohighlight">\(Y\)</span> 此變項之樣本平均數，在二元變項下，<span class="math notranslate nohighlight">\(m_Y\)</span> 等同於樣本資料中等於 1 的比例。倘若手邊的樣本資料中，<span class="math notranslate nohighlight">\(y_n=1\)</span> 的比例為80%，則 <span class="math notranslate nohighlight">\(m_Y=.8\)</span>，我們可以使用 <code class="docutils literal notranslate"><span class="pre">python</span></code> 撰寫函數，來計算在不同的 <span class="math notranslate nohighlight">\(w_0\)</span>之下，所對應到的 ML 適配函數與其一階導數之數值：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">def</span> <span class="nf">cal_loss</span><span class="p">(</span><span class="n">bias</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">loss</span>
+
+<span class="k">def</span> <span class="nf">cal_grad</span><span class="p">(</span><span class="n">bias</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>接下來，我們撰寫一執行梯度下降法之函數，以尋找一可最小化 ML 適配函數之 <span class="math notranslate nohighlight">\(\widehat{w}_0\)</span>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gradient_descent</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">iter_max</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">iter_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="o">-</span> <span class="n">cal_grad</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span>
+        <span class="n">bias</span> <span class="o">+=</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">direction</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">cal_loss</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;iter </span><span class="si">{:2.0f}</span><span class="s2">, loss = </span><span class="si">{:2.3f}</span><span class="s2">, grad = </span><span class="si">{:2.3f}</span><span class="s2">, bias = </span><span class="si">{:2.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">t</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="o">-</span><span class="n">direction</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">bias</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>我們將參數起始值 <span class="math notranslate nohighlight">\(\widehat{w}_0^{(0)}\)</span>設為0，步伐大小 <span class="math notranslate nohighlight">\(s\)</span> 設為 2，觀察迭代 10 次後，<span class="math notranslate nohighlight">\(\widehat{w}_0^{(10)}\)</span> 之數值為何</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bias</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">iter_max</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">step_size</span><span class="p">,</span> <span class="n">iter_max</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>iter  1, loss = 0.557, grad = -0.300, bias = 0.600
+iter  2, loss = 0.520, grad = -0.154, bias = 0.909
+iter  3, loss = 0.508, grad = -0.087, bias = 1.083
+iter  4, loss = 0.504, grad = -0.053, bias = 1.189
+iter  5, loss = 0.502, grad = -0.033, bias = 1.256
+iter  6, loss = 0.501, grad = -0.022, bias = 1.299
+iter  7, loss = 0.501, grad = -0.014, bias = 1.328
+iter  8, loss = 0.501, grad = -0.010, bias = 1.347
+iter  9, loss = 0.500, grad = -0.006, bias = 1.360
+iter 10, loss = 0.500, grad = -0.004, bias = 1.368
+</pre></div>
+</div>
+</div>
+</div>
+<p>我們可以看到梯度下降法，逐步地更新截距項，使得 ML 適配函數數值下降，且一階導數越來越靠近 0。事實上，此優化問題的極小元存在閉合形式解（closed-form solution），根據一階最適條件，<span class="math notranslate nohighlight">\(\frac{\exp{ \left( \widehat{w}_0 \right) }}{ 1+\exp{ \left( \widehat{w}_0 \right) }} = m_Y\)</span>，因此，<span class="math notranslate nohighlight">\(\widehat{w}_0 = \log \left[\frac{m_Y}{1-m_Y} \right] = \log \left[\frac{.8}{1-.8} \right] \approx  1.386\)</span>，我們可以看到梯度下降找到的解，與此閉合形式解幾無差異。</p>
+<p>接下來，我們開始觀察在不同更新步伐大小下之行為表現：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">20.</span><span class="p">))</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>
+<span class="n">gradient_descent</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+bais = 0.000, step size = 20.00
+iter  1, loss = 1.202, grad = -0.300, bias = 6.000
+iter  2, loss = 0.531, grad = 0.198, bias = 2.049
+iter  3, loss = 0.607, grad = 0.086, bias = 0.332
+iter  4, loss = 0.947, grad = -0.218, bias = 4.689
+iter  5, loss = 0.524, grad = 0.191, bias = 0.871
+iter  6, loss = 0.615, grad = -0.095, bias = 2.772
+iter  7, loss = 0.709, grad = 0.141, bias = -0.051
+iter  8, loss = 1.243, grad = -0.313, bias = 6.204
+iter  9, loss = 0.550, grad = 0.198, bias = 2.244
+iter 10, loss = 0.648, grad = 0.104, bias = 0.161
+
+bais = 0.000, step size = 0.10
+iter  1, loss = 0.676, grad = -0.300, bias = 0.060
+iter  2, loss = 0.660, grad = -0.285, bias = 0.117
+iter  3, loss = 0.645, grad = -0.271, bias = 0.171
+iter  4, loss = 0.633, grad = -0.257, bias = 0.223
+iter  5, loss = 0.621, grad = -0.245, bias = 0.272
+iter  6, loss = 0.610, grad = -0.233, bias = 0.318
+iter  7, loss = 0.601, grad = -0.221, bias = 0.362
+iter  8, loss = 0.592, grad = -0.210, bias = 0.404
+iter  9, loss = 0.584, grad = -0.200, bias = 0.444
+iter 10, loss = 0.577, grad = -0.191, bias = 0.483
+
+bais = 1.500, step size = 2.00
+iter  1, loss = 0.501, grad = 0.018, bias = 1.465
+iter  2, loss = 0.501, grad = 0.012, bias = 1.440
+iter  3, loss = 0.501, grad = 0.009, bias = 1.423
+iter  4, loss = 0.500, grad = 0.006, bias = 1.412
+iter  5, loss = 0.500, grad = 0.004, bias = 1.404
+iter  6, loss = 0.500, grad = 0.003, bias = 1.398
+iter  7, loss = 0.500, grad = 0.002, bias = 1.394
+iter  8, loss = 0.500, grad = 0.001, bias = 1.392
+iter  9, loss = 0.500, grad = 0.001, bias = 1.390
+iter 10, loss = 0.500, grad = 0.001, bias = 1.389
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h3><span class="section-number">4.5.2. </span>練習<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>請利用以下之程式碼，產生邏輯斯迴歸之資料，並撰寫一函數執行梯度下降法，計算在此資料下之模型參數估計，並觀察其在不同起始值與更新步伐下之行為表現。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># set seed</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
+
+<span class="c1"># write a function to generate data</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Bernoulli</span>
+<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span>
+                  <span class="n">weight</span><span class="p">,</span>
+                  <span class="n">bias</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">n_feature</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean_feature</span><span class="p">,</span>
+                     <span class="n">std</span> <span class="o">=</span> <span class="n">std_feature</span><span class="p">,</span>
+                     <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_feature</span><span class="p">),</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">logit</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">weight</span>
+    <span class="n">bernoulli</span> <span class="o">=</span> <span class="n">Bernoulli</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">logit</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="c1"># run generate_data</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                     <span class="n">weight</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">bias</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                     <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id15">
+<h2><span class="section-number">4.6. </span>延伸閱讀<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>Agresti, A. (2012). <em>Categorical data analysis (3rd edition)</em>. New York: Wiley.</p></li>
 <li><p>Efron, B. (1978). Regression and ANOVA with zero-one data: Measures of residual variation. <em>Journal of the American Statistical Association, 73</em>(361), 113–121.</p></li>
