@@ -204,9 +204,10 @@ $$
 
 
 ## 數值優化技術與求解
-**數值優化**（numerical optimization）乃一系列用於計算目標函數 $\mathcal{D}(w)$ 極小元 $\widehat{w}$ 之技術。在此章節中，我們主要關注**線搜尋**（line search）這一類之技術。
 
 ### 線搜尋與梯度下降法
+**數值優化**（numerical optimization）乃一系列用於計算目標函數 $\mathcal{D}(w)$ 極小元 $\widehat{w}$ 之技術。在此章節中，我們主要關注**線搜尋**（line search）這一類之技術。
+
 令 $\widehat{w}^{(t)}$ 表示在第 $t$ 步驟下所得之參數估計，則線搜尋試圖使用以下之形式進行更新，以獲得第 $t+1$ 步驟下之參數估計：
 
 $$
