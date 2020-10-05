@@ -22,7 +22,7 @@
 ### 二元線性分類器
 廣義來說，二元分類之問題關注的是如何使用一 $P$ 維之向量 $x$，對於二元變項 $y$ 進行預測，這裡，$y$的數值只能為0或1，即$y \in \{0,1\}$，$y=1$ 表示某關注的事件發生，而 $y=0$則表示該事件並未發生。在二元分類的問題下，研究者常試圖刻畫在給定 $x$ 之下，$y$ 的條件機率（conditional probability），即：
 
-$$\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)}$$
+$$\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)},$$
 
 這裡，$\mathbb{P}(y,x)$ 表示同時考慮 $x$ 與 $y$ 的聯合機率（joint probability），而 $\mathbb{P}(x)$ 則為僅考慮 $x$ 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用 $\pi(x)$ 來表示在給定 $x$ 之下，$y=1$ 之條件機率，即
 
@@ -78,7 +78,7 @@ $$\begin{aligned}
 
 $$
 L\left [ y, \pi(x) \right] = -  
-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right]  
+y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right].
 $$
 
 為了瞭解交叉熵的數值如何反應 $y$ 與 $\pi(x)$之間的差異，我們可以參考以下的表格：
@@ -101,7 +101,7 @@ $$
 $$
 \begin{aligned}
 \mathcal{D}(w) 
-= \frac{1}{N} \sum_{n=1}^N L(y_n, \pi(x_n))
+= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right]. 
 \end{aligned}
 $$
 
@@ -118,7 +118,7 @@ $$
 \begin{aligned}
 L\left[ y, \pi(x) \right]=&-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right] \\
 =& -y \log \left[ \frac{\exp{ \left( x^Tw \right) }}{1+\exp{ \left( x^Tw \right) }} \right]  - (1-y) \log\left[ \frac{1}{1+\exp{ \left( x^Tw \right) }}\right] \\
-=& -y x^T w +  \log\left[ 1+\exp{ \left( x^Tw \right) }\right]
+=& -y x^T w +  \log\left[ 1+\exp{ \left( x^Tw \right) }\right].
 \end{aligned}
 $$
 
@@ -128,7 +128,7 @@ $$
 \begin{aligned}
 \frac{\partial L\left[ y, \pi(x) \right]}{\partial w_j}
 =&  -y \frac{\partial}{\partial w_j}  x^T w +  \frac{\partial}{\partial w_j} \log\left[ 1+\exp{ \left( x^Tw \right) }\right] \\
-=&  -y x_j + x_j\frac{\exp{ \left( x^Tw \right) }}{ 1+\exp{ \left( x^Tw \right) }}
+=&  -y x_j + x_j\frac{\exp{ \left( x^Tw \right) }}{ 1+\exp{ \left( x^Tw \right) }}.
 \end{aligned}
 $$
 
@@ -140,7 +140,7 @@ $$
 =& \frac{1}{N} \sum_{n=1}^N
 \left \{
 -y_n x_{nj} + x_{nj}\frac{\exp{ \left( x_n^Tw \right) }}{ 1+\exp{ \left( x_n^Tw \right) }}
-\right \}
+\right \}.
 \end{aligned}
 $$
 
@@ -150,7 +150,7 @@ $$
 \begin{aligned}
 \frac{\partial \mathcal{D}(w)}{\partial w_j}
 = \frac{1}{N} \sum_{n=1}^N
--x_{nj} \left[ y_n - \pi(x_n) \right]
+-x_{nj} \left[ y_n - \pi(x_n) \right].
 \end{aligned}
 $$
 
@@ -179,7 +179,7 @@ x_N^T
 \pi(x_2) \\
 \vdots \\
 \pi(x_N)
-\end{pmatrix}}_{N \times 1}
+\end{pmatrix}}_{N \times 1}.
 $$
 
 
@@ -188,7 +188,7 @@ $$
 $$
 \begin{aligned}
 \frac{\partial \mathcal{D}(w)}{\partial w} 
-= - X^T y + X^T \pi
+= - X^T y + X^T \pi.
 \end{aligned}
 $$
 
@@ -196,7 +196,7 @@ $$
 
 $$
 \begin{aligned}
- X^T y = X^T \widehat{\pi}
+ X^T y = X^T \widehat{\pi}.
 \end{aligned}
 $$
 
@@ -211,19 +211,19 @@ $$
 令 $\widehat{w}^{(t)}$ 表示在第 $t$ 步驟下所得之參數估計，則線搜尋試圖使用以下之形式進行更新，以獲得第 $t+1$ 步驟下之參數估計：
 
 $$
-\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1}
+\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1},
 $$
 
 這裡，$d$ 為一向量，其表示所欲更新的方向，而 $s$ 則唯一純量，表示更新步伐的大小。不同的線搜尋方法，使用不同的方向 $d$ 與步伐 $s$ 進行更新。然而，一般來說，更新方向 $d$ 多具有以下之形式
 
 $$
-d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} )
+d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} ),
 $$
 
 這裡，$B$ 表示一對稱且可逆之矩陣。然而，為何線搜尋的方向會與目標函數的梯度取負號有關呢？考慮 $w=\widehat{w}^{(t)}$ 此位置，沿著一標準化方向 $d$ （即 $||d||=1$）的方向導數為：
 
 $$
-\langle \nabla D(\widehat{w}^{(t)} ), d \rangle = d^T  \nabla D(\widehat{w}^{(t)} )
+\langle \nabla D(\widehat{w}^{(t)} ), d \rangle = d^T  \nabla D(\widehat{w}^{(t)} ).
 $$
 
 我們希望可以找到一方向，其所對應之方向導數斜率為最陡的。根據 Cauchy–Schwarz 不等式，我們知道
@@ -254,19 +254,19 @@ $$
 若進一步考慮 $d = - B^{-1}\nabla D(\widehat{w}^{(t)} )$ 此一形式，則是否能夠找到一方向，其能夠更有效率地找到目標函數的極小元呢？根據泰勒之定理（Taylor's theorem），$\mathcal{D}(w)$ 於 $w$ 之附近，可以被以下之二次函數逼近
 
 $$
-\mathcal{D}(w + d) \approx \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d
+\mathcal{D}(w + d) \approx \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d.
 $$
 
 令 $f(d) = \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d$，若我們試圖找到一可以最小化 $f(d)$ 之 $d$，則該 $d$ 需滿足的條件
 
 $$
-\nabla f(d) =  \nabla \mathcal{D}(w) + \nabla^2 \mathcal{D}(w) d = 0
+\nabla f(d) =  \nabla \mathcal{D}(w) + \nabla^2 \mathcal{D}(w) d = 0.
 $$
 
 因此，更新方向應為
 
 $$
-d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w)
+d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w).
 $$
 
 意即，將 $B$ 設為估計準則之黑塞矩陣 $\nabla^2 \mathcal{D}(w)$。
@@ -290,13 +290,13 @@ $$
 令 $u^{(t)} = \widehat{w}^{(t)} - \widehat{w}^{(t-1)}$ 與 $v^{(t)}=\nabla D(\widehat{w}^{(t)} ) - \nabla D(\widehat{w}^{(t-1)} )$，根據泰勒之定理，我們有
 
 $$
-v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}
+v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}.
 $$
 
 前述關係式亦描述了以下之關係
 
 $$
-\nabla^2 \mathcal{D}(\widehat{w}^{(t)}) ^{-1} v^{(t)} \approx  u^{(t)}
+\nabla^2 \mathcal{D}(\widehat{w}^{(t)}) ^{-1} v^{(t)} \approx  u^{(t)}.
 $$
 
 BFGS 法利用此式之特性，試圖獲得對於黑塞矩陣反矩陣之逼近。令 $H^{(t-1)}$ 表示在 $t-1$ 步驟時對於黑塞矩陣反矩陣之逼近，BFGS 法考慮的問題為：
@@ -304,14 +304,14 @@ BFGS 法利用此式之特性，試圖獲得對於黑塞矩陣反矩陣之逼近
 $$
 \begin{aligned}
 &\text{minimize}_{H} ||H - H^{(t-1)}|| \\
-& \text{subject to } H = H^T, Bv^{(t)} = u^{(t)} 
+& \text{subject to } H = H^T, Bv^{(t)} = u^{(t)} .
 \end{aligned}
 $$
 
 透過解此優化問題，可得到 $H^{(t)}$ 的更新公式為：
 
 $$
-H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)} {u^{(t)}}^T ) + \rho^{(t)} u^{(t)} {u^{(t)}}^T 
+H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)} {u^{(t)}}^T ) + \rho^{(t)} u^{(t)} {u^{(t)}}^T ,
 $$
 
 這裡，$\rho^{(t)} = \frac{1}{ {v^{(t)}}^T u^{(t)}}$。在此，我們可觀察到在BFGS法之下，我們直接利用了一簡單的公式，獲得了對於黑塞矩陣的反矩陣，並且該簡單的公式僅利用到了參數估計與梯度在迭代過程中的差值。BFGS 可以摘要為
@@ -331,7 +331,7 @@ $$
 在實務上，$s$ 常在優化過程中，以動態的方式進行調整。理想上，在給定更新方向 $d$ 之後，我們可透過解決以下的問題，獲得一最佳的更新步伐：
 
 $$
-\text{minimize}_{s} \mathcal{D}(\widehat{w} + s \times d)
+\text{minimize}_{s} \mathcal{D}(\widehat{w} + s \times d).
 $$
 
 然而，這種找最適更新步伐的方法，等同於要去解一個優化問題，除非目標函數的結構很單純，否則，前述的作法是相當不經濟的。因此，在實務上，更新步伐的調整多採用以下兩種策略：
@@ -357,7 +357,7 @@ $$
 
 $$
 \begin{aligned}
-R_{McFadden}^2 &= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})}
+R_{McFadden}^2 &= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})},
 \end{aligned}
 $$
 
@@ -365,7 +365,7 @@ $$
 
 $$
 \begin{aligned}
-R_{Efron}^2 &=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \widehat{\pi}(x_n))^2}{\sum_{n=1}^N(y_n - m_Y)^2}
+R_{Efron}^2 &=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \widehat{\pi}(x_n))^2}{\sum_{n=1}^N(y_n - m_Y)^2}.
 \end{aligned}
 $$
 
@@ -376,14 +376,14 @@ $$
 $$
 \widehat{y}^{c}=
 \begin{cases}
-1 &\text{if } \widehat{\pi}(x) \geq 0.5 \\
-0 &\text{if } \widehat{\pi}(x) < 0.5
+1 &\text{if } \widehat{\pi}(x) \geq 0.5, \\
+0 &\text{if } \widehat{\pi}(x) < 0.5,
 \end{cases}
 $$
 意即，當 $\widehat{\pi}(x) \geq 0.5$ 時，我們傾向認為其所對應之 $y$ 應為 1，反之，則認為其所對應之 $y$ 應為0。因此，我們可以將分類正確率定義為樣本資料中，$y_n$ 與 $\widehat{y}_n^c$ 相等之比例，即
 
 $$
-Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
+Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \},
 $$
 
 這裡，$1\{\cdot \}$ 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 $E$ 事件為真時，$1\{E \} = 1$，反之，$1\{E \} = 0$。
@@ -397,7 +397,7 @@ $$
 $$
 \begin{aligned}
 \mathcal{D}(w_0) & = \frac{1}{N} \sum_{n=1}^N \left \{ -y_n w_0 +  \log\left[ 1+\exp{ \left( w_0 \right) }\right] \right\} \\
-& =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right]
+& =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right],
 \end{aligned}
 $$
 
@@ -410,7 +410,7 @@ $$
 \left \{
 -y_n + \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
 \right \}\\
-& = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+& = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }},
 \end{aligned}
 $$
 這裡，$m_Y$ 表示 $Y$ 此變項之樣本平均數，在二元變項下，$m_Y$ 等同於樣本資料中等於 1 的比例。倘若手邊的樣本資料中，$y_n=1$ 的比例為80%，則 $m_Y=.8$，我們可以使用 `python` 撰寫函數，來計算在不同的 $w_0$之下，所對應到的 ML 適配函數與其一階導數之數值：
