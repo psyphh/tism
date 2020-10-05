@@ -275,6 +275,16 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id11">
+   4.4. 模型適配度
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id12">
+   4.5. 延伸閱讀
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -293,6 +303,7 @@
 <li><p>使用邏輯斯轉換（logistic transformation）來刻畫類別變數之隨機行為。</p></li>
 <li><p>使用最大概似法（maximum likelihood method，簡稱ML法），對邏輯斯迴歸模型參數進行估計。</p></li>
 <li><p>利用數值優化（numerical optimization）的技術，對函數逐步地進行優化以求解。</p></li>
+<li><p>利用適配度指標以評估模型與資料之適配度。</p></li>
 </ol>
 <div class="section" id="id2">
 <h2><span class="section-number">4.1. </span>二元分類與邏輯斯迴歸<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -590,6 +601,50 @@ H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)}
 </ol>
 </div>
 </div>
+</div>
+<div class="section" id="id11">
+<h2><span class="section-number">4.4. </span>模型適配度<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>邏輯斯迴歸利用 <span class="math notranslate nohighlight">\(\widehat{\pi}(x) = \frac{\exp{ \left( x^T\widehat{w} \right) }}{1+\exp{ \left( x^T \widehat{w} \right) }}\)</span> 對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，然而，<span class="math notranslate nohighlight">\(\widehat{\pi}(x)\)</span> 究竟是否能夠良好地刻畫 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 間的關係，則需透過適配度指標來評估。</p>
+<p>首先，ML 適配函數 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w})\)</span> 即可用於評估模型之表現，但其數值大小不易解讀，故實務上難以使用。</p>
+<p>有鑒於 <span class="math notranslate nohighlight">\(R^2\)</span> 於線性迴歸問題上的受歡迎，在邏輯斯迴歸的脈絡下，亦有不少所謂的虛擬 <span class="math notranslate nohighlight">\(R^2\)</span> （pseudo <span class="math notranslate nohighlight">\(R^2\)</span>）被提出。如 McFadden（1973）將虛擬 <span class="math notranslate nohighlight">\(R^2\)</span> 定義為</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+R_{McFadden}^2 &amp;= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})}
+\end{aligned}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\widetilde{w}\)</span> 指的是在虛無模型下之估計量，即限制所有變項迴歸係數皆為 0，僅對截距項進行估計。另外，Efron（1978）則是將虛擬 <span class="math notranslate nohighlight">\(R^2\)</span> 定義為</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+R_{Efron}^2 &amp;=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \widehat{\pi}(x_n))^2}{\sum_{n=1}^N(y_n - m_Y)^2}
+\end{aligned}
+\]</div>
+<p>從 <span class="math notranslate nohighlight">\(R_{McFadden}^2\)</span> 與 <span class="math notranslate nohighlight">\(R_{Efron}^2\)</span> 兩者之公式來看，前者乃透過 ML 估計準則之數值來定義 <span class="math notranslate nohighlight">\(R^2\)</span>，後者則是根據 LS 估計準則搭配機率預測值 <span class="math notranslate nohighlight">\(\widehat{\pi}(x)\)</span> 來定義。但不管採用何種定義，兩者皆透過與一虛無模型比較建立，數值越靠近 0 表示模型與虛無模型表現類似，而數值越靠近 1 則表示模型與資料之適配程度越好。</p>
+<p>除了前述的指標外，若我們將 <span class="math notranslate nohighlight">\(\widehat{\pi}(x)\)</span> 此機率預測值改為類別預測，則可使用分類正確率來評估模型適配度。常使用的類別預測為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\widehat{y}^{c}=
+\begin{cases}
+1 &amp;\text{if } \widehat{\pi}(x) \geq 0.5 \\
+0 &amp;\text{if } \widehat{\pi}(x) &lt; 0.5
+\end{cases}
+\end{split}\]</div>
+<p>意即，當 <span class="math notranslate nohighlight">\(\widehat{\pi}(x) \geq 0.5\)</span> 時，我們傾向認為其所對應之 <span class="math notranslate nohighlight">\(y\)</span> 應為 1，反之，則認為其所對應之 <span class="math notranslate nohighlight">\(y\)</span> 應為0。因此，我們可以將分類正確率定義為樣本資料中，<span class="math notranslate nohighlight">\(y_n\)</span> 與 <span class="math notranslate nohighlight">\(\widehat{y}_n^c\)</span> 相等之比例，即</p>
+<div class="math notranslate nohighlight">
+\[
+Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(1\{\cdot \}\)</span> 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 <span class="math notranslate nohighlight">\(E\)</span> 事件為真時，<span class="math notranslate nohighlight">\(1\{E \} = 1\)</span>，反之，<span class="math notranslate nohighlight">\(1\{E \} = 0\)</span>。</p>
+</div>
+<div class="section" id="id12">
+<h2><span class="section-number">4.5. </span>延伸閱讀<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Agresti, A. (2012). <em>Categorical data analysis (3rd edition)</em>. New York: Wiley.</p></li>
+<li><p>Efron, B. (1978). Regression and ANOVA with zero-one data: Measures of residual variation. <em>Journal of the American Statistical Association, 73</em>(361), 113–121.</p></li>
+<li><p>McFadden, D. (1973). Conditional logit analysis of qualitative choice behavior. In <em>Frontiers in Econometrics</em> (Edited by P. Zarembka), 105-42. Academic Press, New York.</p></li>
+<li><p>Nocedal, J., &amp; Wright, S. J. (1999). <em>Numerical optimization</em>. New York: Springer.</p></li>
+</ol>
 </div>
 </div>
 
