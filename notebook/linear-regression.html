@@ -365,13 +365,19 @@ f(x) = x^T w
 \end{split}\]</div>
 <p>此二階微分矩陣的尺寸為 <span class="math notranslate nohighlight">\((P +1) \times (P + 1)\)</span>，其亦被稱作<strong>黑塞矩陣</strong>（hessian matrix）。若 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為半正定矩陣，則意味著對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span>，我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v \geq 0\)</span>，這表示在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 附近，考慮任何方向之向量 <span class="math notranslate nohighlight">\(v\)</span>，其切線之速率皆展現維持水平或是遞增之狀況。</p>
 <p>我們在此將可微分函數最小化有關之性質，以定理之方式呈現（見Nocedal &amp; Wright, 1999之第二章）：</p>
-<p><strong>定理（一階必要條件）</strong></p>
+<div class="note admonition">
+<p class="admonition-title"><strong>定理：一階必要條件</strong></p>
 <p>若 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之局部極小元，且 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合（open neighborhood）為連續可微（continuously differentiable），則 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>。</p>
-<p><strong>定理（二階必要條件）</strong></p>
+</div>
+<div class="note admonition">
+<p class="admonition-title"><strong>定理：二階必要條件</strong></p>
 <p>若 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之局部極小元，且 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合為二次連續可微，則 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>，且 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為半正定矩陣。</p>
+</div>
 <p>另外，若 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span>，再進一步搭配 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span>為正定矩陣（positive definite），即對於所有不為0的 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(v\)</span> 我們有<span class="math notranslate nohighlight">\(v^T\nabla^2 \mathcal{D}(\widehat{w}) v &gt; 0\)</span>，則我們可推論 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為嚴格的局部極小元（strictly local minimizer），意即，對於 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊的 <span class="math notranslate nohighlight">\(w\)</span> 來說（<span class="math notranslate nohighlight">\(w \neq \widehat{w}\)</span>），<span class="math notranslate nohighlight">\(\widehat{w}\)</span> 滿足 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w}) &lt; \mathcal{D}(w)\)</span>。前述之充分條件，以定理的形式表達即為（見Nocedal &amp; Wright, 1999之第二章）：</p>
-<p><strong>定理（二階充分條件）</strong></p>
+<div class="note admonition">
+<p class="admonition-title"><strong>定理：二階充分條件</strong></p>
 <p>若 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 在 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 周邊之開集合為二次連續可微，且滿足 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(\widehat{w}) =0\)</span> 與 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w})\)</span> 為正定矩陣，則 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 為 <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> 之嚴格局部極小元。</p>
+</div>
 <p>因此，根據前述之充分條件，當要對 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 進行最小化，求得 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>時，其步驟為：</p>
 <ol class="simple">
 <li><p>計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之梯度，即 <span class="math notranslate nohighlight">\(\nabla \mathcal{D}(w)\)</span>。</p></li>

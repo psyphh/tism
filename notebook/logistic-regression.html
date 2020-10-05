@@ -221,18 +221,59 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
-   4.1. 邏輯斯迴歸模型
+   4.1. 二元分類與邏輯斯迴歸
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     4.1.1. 二元線性分類器
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     4.1.2. 邏輯斯迴歸
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id3">
+  <a class="reference internal nav-link" href="#id5">
    4.2. 最大概似估計法
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     4.2.1. 交叉熵與最大概似估計準則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     4.2.2. 最大概似估計準則之梯度
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id4">
+  <a class="reference internal nav-link" href="#id8">
    4.3. 數值優化技術與求解
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     4.3.1. 線搜尋與梯度下降法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bfgs">
+     4.3.2. 牛頓法與BFGS法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     4.3.3. 更新步伐之選取
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -249,48 +290,306 @@
 <p>邏輯斯迴歸（logistic regression）與線性迴歸相似，都是透過一線性函數 <span class="math notranslate nohighlight">\(f(x)\)</span> 以描述兩變項 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係，但不同之處在於邏輯斯迴歸考慮的 <span class="math notranslate nohighlight">\(y\)</span> 為類別變項，其類別數為2，此外，<span class="math notranslate nohighlight">\(f(x)\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 之間的關係，需再透過一邏輯斯（logistic）函數進行轉換。邏輯斯迴歸可說是統計領域最基本之二元分類（binary classification）方法，其可視為線性迴歸於分類問題上之拓展。</p>
 <p>在此主題中，我們將會學習以下的重點：</p>
 <ol class="simple">
-<li><p>使用伯努利分配（bernoulli distribution）刻畫類別變數之隨機行為。</p></li>
+<li><p>使用邏輯斯轉換（logistic transformation）來刻畫類別變數之隨機行為。</p></li>
 <li><p>使用最大概似法（maximum likelihood method，簡稱ML法），對邏輯斯迴歸模型參數進行估計。</p></li>
 <li><p>利用數值優化（numerical optimization）的技術，對函數逐步地進行優化以求解。</p></li>
 </ol>
 <div class="section" id="id2">
-<h2><span class="section-number">4.1. </span>邏輯斯迴歸模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>廣義來說，二元分類之問題關注的是如何使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於二元變項 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，這裡，<span class="math notranslate nohighlight">\(y\)</span>的數值只能為0或1，即<span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>，<span class="math notranslate nohighlight">\(y=1\)</span> 表示觀測值屬於某一類，而 <span class="math notranslate nohighlight">\(y=0\)</span>則表示觀測值屬於另外一類。在二元分類的問題下，研究者常試圖刻畫在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y\)</span> 的條件機率（conditional probability），即：</p>
+<h2><span class="section-number">4.1. </span>二元分類與邏輯斯迴歸<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">4.1.1. </span>二元線性分類器<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>廣義來說，二元分類之問題關注的是如何使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於二元變項 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，這裡，<span class="math notranslate nohighlight">\(y\)</span>的數值只能為0或1，即<span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>，<span class="math notranslate nohighlight">\(y=1\)</span> 表示某關注的事件發生，而 <span class="math notranslate nohighlight">\(y=0\)</span>則表示該事件並未發生。在二元分類的問題下，研究者常試圖刻畫在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y\)</span> 的條件機率（conditional probability），即：</p>
 <div class="math notranslate nohighlight">
 \[\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)}\]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(\mathbb{P}(y,x)\)</span> 表示同時考慮 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 的聯合機率（joint probability），而 <span class="math notranslate nohighlight">\(\mathbb{P}(x)\)</span> 則為僅考慮 <span class="math notranslate nohighlight">\(x\)</span> 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用<span class="math notranslate nohighlight">\(\pi_1(x)\)</span>與<span class="math notranslate nohighlight">\(\pi_0(x)\)</span>來表示在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y=1\)</span> 與 <span class="math notranslate nohighlight">\(y=0\)</span> 之條件機率，即</p>
+<p>這裡，<span class="math notranslate nohighlight">\(\mathbb{P}(y,x)\)</span> 表示同時考慮 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 的聯合機率（joint probability），而 <span class="math notranslate nohighlight">\(\mathbb{P}(x)\)</span> 則為僅考慮 <span class="math notranslate nohighlight">\(x\)</span> 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 來表示在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y=1\)</span> 之條件機率，即</p>
 <div class="math notranslate nohighlight">
-\[\pi_1(x) =\mathbb{P}(y=1|x)\]</div>
-<p>與</p>
+\[\pi(x) =\mathbb{P}(y=1|x).\]</div>
+<p>由於 <span class="math notranslate nohighlight">\(y=1\)</span> 與 <span class="math notranslate nohighlight">\(y=0\)</span> 為互補之事件（complement events），兩者對應機率之加總需為 1，因此，<span class="math notranslate nohighlight">\(1-\pi(x)\)</span> 可用於表示給定 <span class="math notranslate nohighlight">\(x\)</span> 之下 <span class="math notranslate nohighlight">\(y=0\)</span> 的機率，即</p>
 <div class="math notranslate nohighlight">
-\[\pi_0(x) =\mathbb{P}(y=0|x)\]</div>
-<p>令<span class="math notranslate nohighlight">\(f(x)=\beta_0 + \sum_{p=1}^P \beta_p x_p\)</span>表示一線性函數，<span class="math notranslate nohighlight">\(\beta_p\)</span>與<span class="math notranslate nohighlight">\(\beta_0\)</span>分別表示迴歸係數與截距，邏輯斯迴歸試圖使用一邏輯斯函數來刻畫<span class="math notranslate nohighlight">\(f(x)\)</span>與<span class="math notranslate nohighlight">\(\pi_1(x)\)</span>的關聯性，即</p>
-<div class="math notranslate nohighlight">
-\[\pi_1(x) = \frac{\exp{ \left[ f(x) \right] }}{1+\exp{ \left[ f(x) \right] }}\]</div>
-<p>由於 <span class="math notranslate nohighlight">\(\pi_1(x)\)</span> 與 <span class="math notranslate nohighlight">\(\pi_0(x)\)</span> 兩者的和須為1，因此，<span class="math notranslate nohighlight">\(\pi_0(x)\)</span> 則可寫為</p>
-<div class="math notranslate nohighlight">
-\[\pi_1(x) = \frac{1}{1+\exp{ \left[ f(x) \right] }}\]</div>
-<p>透過邏輯斯迴歸模型的結構，我們可以觀察到以下兩件事情：</p>
-<ol class="simple">
-<li><p><span class="math notranslate nohighlight">\(\pi_1(x)\)</span> 與 <span class="math notranslate nohighlight">\(\pi_0(x)\)</span> 兩者之數值皆介於0到1之間，符合機率的公理（axiom）。</p></li>
-<li><p>當 <span class="math notranslate nohighlight">\(f(x)\)</span> 數值大時，<span class="math notranslate nohighlight">\(\pi_1(x)\)</span> 的數值將很靠近1，意味著獲得 <span class="math notranslate nohighlight">\(y=1\)</span> 的可能性很大，反之，<span class="math notranslate nohighlight">\(\pi_0(x)\)</span> 的數值則較大，獲得 <span class="math notranslate nohighlight">\(y=0\)</span> 的可能性較高。</p></li>
-</ol>
-<p>在迴歸係數的解讀方面，<span class="math notranslate nohighlight">\(\beta_p\)</span> 越大，表示 <span class="math notranslate nohighlight">\(x_p\)</span> 對於獲得 <span class="math notranslate nohighlight">\(y=1\)</span> 有較大的影響，反之，則對 <span class="math notranslate nohighlight">\(y=0\)</span> 有較大的影響，然而，<span class="math notranslate nohighlight">\(\beta_p\)</span> 影響的具體效果則不容易解讀，一般來說，需透過比較給定 <span class="math notranslate nohighlight">\(x\)</span> 下的對數勝率（log-odds）進行解讀：</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-\log \left[ \frac{\pi_1(x)}{\pi_0(x)} \right]
-=&amp; \log \left\{ \frac{\frac{\exp{ \left[ f(x) \right] }}{1+\exp{ \left[ f(x) \right] }}}{\frac{1}{1+\exp{ \left[ f(x) \right] }}} \right\} \\
-=&amp; \log \left\{ \exp \left[ f(x) \right] \right\} \\
-=&amp; f(x)  \\
-=&amp; \beta_0 + \sum_{p=1}^P \beta_p x_p
-\end{aligned}\end{split}\]</div>
-<p>因此，<span class="math notranslate nohighlight">\(\beta_p\)</span> 可解讀為當 <span class="math notranslate nohighlight">\(x_p\)</span> 每變動一個單位時，預期對數勝率跟著變動的單位。</p>
-</div>
-<div class="section" id="id3">
-<h2><span class="section-number">4.2. </span>最大概似估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+\[1-\pi(x) =\mathbb{P}(y=0|x).\]</div>
+<p>令 <span class="math notranslate nohighlight">\(f(x)=w_0 + \sum_{p=1}^P w_p x_p\)</span>表示一線性函數，<span class="math notranslate nohighlight">\(w_0\)</span>與<span class="math notranslate nohighlight">\(w_p\)</span>分別表示截距（偏誤）與迴歸係數（權重）。若我們將 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(w\)</span> 重新定義為 <span class="math notranslate nohighlight">\(x = (1, x_1,...,x_P)\)</span> 與 <span class="math notranslate nohighlight">\(w = (w_0, w_1,...,w_P)\)</span>，則此線性函數可簡單寫為 <span class="math notranslate nohighlight">\(f(x)=x^Tw\)</span>（見線性迴歸之章節）。</p>
+<p>線性分類器（classifier）可視為對二元變項最簡單的分類模型，其基本想法為當 <span class="math notranslate nohighlight">\(f(x)\)</span> 越大時，模型所對應之 <span class="math notranslate nohighlight">\(\mathbb{P}(y=1|x)\)</span> 應越大，反之，當 <span class="math notranslate nohighlight">\(f(x)\)</span> 越小時，<span class="math notranslate nohighlight">\(\mathbb{P}(y=1|x)\)</span> 應越小。然而，由於 <span class="math notranslate nohighlight">\(f(x)\)</span> 的數值未必介於 0 到 1 之間，因此，從建模合理性的角度來看，<span class="math notranslate nohighlight">\(f(x)\)</span> 不宜直接作為 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 此條件機率使用。</p>
 </div>
 <div class="section" id="id4">
-<h2><span class="section-number">4.3. </span>數值優化技術與求解<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h3><span class="section-number">4.1.2. </span>邏輯斯迴歸<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>邏輯斯迴歸試圖使用一邏輯斯轉換（logistic transformation）來刻畫 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 與 <span class="math notranslate nohighlight">\(f(x)=x^Tw\)</span> 之關聯性，其將 <span class="math notranslate nohighlight">\(\pi(x)=\mathbb{P}(y=1|x)\)</span> 刻畫為</p>
+<div class="math notranslate nohighlight">
+\[\pi(x) = \frac{\exp{ \left( x^Tw \right) }}{1+\exp{ \left( x^Tw \right) }},\]</div>
+<p>另一方面，<span class="math notranslate nohighlight">\(1-\pi(x) =\mathbb{P}(y=0|x)\)</span> 即為</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+1-\pi(x) = \frac{1}{1+\exp{ \left( x^Tw \right) }}.
+\end{aligned}
+\]</div>
+<p>透過邏輯斯迴歸模型的結構，我們可以觀察到以下兩件事情：</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\pi(x)\)</span> 與 <span class="math notranslate nohighlight">\(1 - \pi(x)\)</span> 兩者之數值皆介於0到1之間，符合機率的公理（axiom）。</p></li>
+<li><p>當 <span class="math notranslate nohighlight">\(x^Tw\)</span> 數值大時，<span class="math notranslate nohighlight">\(\pi(x)\)</span> 的數值將很靠近1，意味著獲得 <span class="math notranslate nohighlight">\(y=1\)</span> 的可能性很大，反之，<span class="math notranslate nohighlight">\(1 - \pi(x)\)</span> 的數值則較大，獲得 <span class="math notranslate nohighlight">\(y=0\)</span> 的可能性較高。</p></li>
+</ol>
+<p>在迴歸係數的解讀方面，<span class="math notranslate nohighlight">\(w_p\)</span> 越大，表示 <span class="math notranslate nohighlight">\(x_p\)</span> 對於觀察到 <span class="math notranslate nohighlight">\(y=1\)</span> 此事件有較正向之影響，反之，則對觀察到 <span class="math notranslate nohighlight">\(y=0\)</span> 此事件有較正面之影響。然而，<span class="math notranslate nohighlight">\(w_p\)</span> 對於 <span class="math notranslate nohighlight">\(y\)</span> 之具體效果不容易解讀，一般來說，需透過比較給定 <span class="math notranslate nohighlight">\(x\)</span> 下的對數勝率（log-odds），才能夠進行解讀：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\log \left[ \frac{\pi(x)}{1-\pi(x)} \right]
+=&amp; \log \left[ \frac{\frac{\exp{ \left( x^Tw \right) }}{1+\exp{ \left( x^Tw \right) }}}{\frac{1}{1+\exp{ \left( x^Tw \right) }}} \right] \\
+=&amp; \log \left[ \exp \left( x^Tw \right) \right] \\
+=&amp; x^Tw 
+\end{aligned}\end{split}\]</div>
+<p>因此，<span class="math notranslate nohighlight">\(w_p\)</span> 可解讀為當 <span class="math notranslate nohighlight">\(x_p\)</span> 每變動一個單位時，預期對數勝率跟著變動的單位。不過，實務上對數勝率之數值大小應如何理解仍不是一簡單的工作。</p>
+<p>邏輯斯迴歸的目的在於透過一樣本資料，獲得對迴歸係數 <span class="math notranslate nohighlight">\(w\)</span> 之估計 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，一方面對於 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 間的關係進行推論與解釋，二方面則是利用 <span class="math notranslate nohighlight">\(\widehat{y} =\widehat{\pi}(x) = \frac{\exp{ \left( x^T\widehat{w} \right) }}{1+\exp{ \left( x^T \widehat{w} \right) }}\)</span> 此機率預測值對 <span class="math notranslate nohighlight">\(y\)</span> 進行預測。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">4.2. </span>最大概似估計法<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><span class="section-number">4.2.1. </span>交叉熵與最大概似估計準則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>在邏輯斯回歸下，我們使用 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 此條件機率值，對於 <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span> 進行預測。為了度量 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 之差異，邏輯斯廻歸了使用交叉熵（cross-entropy）此損失函數（loss function）</p>
+<div class="math notranslate nohighlight">
+\[
+L\left [ y, \pi(x) \right] = -  
+y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right]  
+\]</div>
+<p>為了瞭解交叉熵的數值如何反應 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\pi(x)\)</span>之間的差異，我們可以參考以下的表格：</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>預測值\實際值</p></th>
+<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y = 0\)</span></p></th>
+<th class="text-align:center head"><p><span class="math notranslate nohighlight">\(y=1\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\pi(x) \approx 0\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(-\log\left[ 1- \pi(x) \right] \approx 0\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(- \log \pi(x) \approx \infty\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\pi(x) \approx 1\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(-\log\left[ 1- \pi(x) \right] \approx \infty\)</span></p></td>
+<td class="text-align:center"><p><span class="math notranslate nohighlight">\(- \log \pi(x) \approx 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<p>透過此表格可觀察到：</p>
+<ul class="simple">
+<li><p>當 <span class="math notranslate nohighlight">\(y = 1\)</span> 時，我們僅需考慮 <span class="math notranslate nohighlight">\(- \log \pi(x)\)</span>
+之數值，此時，若 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 相當靠近 1 時，表示模型進行的分類是與資料匹配的，則 <span class="math notranslate nohighlight">\(- \log \pi(x)\)</span> 的數值會相當靠近零，反之，若 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 靠近 0，則 <span class="math notranslate nohighlight">\(- \log \pi(x)\)</span> 會趨近於一相當大的數值。</p></li>
+<li><p>當 <span class="math notranslate nohighlight">\(y=0\)</span> 時，我們僅需考慮 <span class="math notranslate nohighlight">\(-\log\left[ 1- \pi(x) \right]\)</span>之數值，當 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 靠近 0 時，交叉熵的數值會靠近 0，反之，則會靠近一很大之數值。</p></li>
+</ul>
+<p>給定一組隨機樣本 <span class="math notranslate nohighlight">\(\{(y_n, x_n)\}_{n=1}^N\)</span>，邏輯斯迴歸之最大概似（maximum likelihood，簡稱 ML）之適配函數（fitting function），被定義為每筆資料點所對應之交叉熵之平均：</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+\mathcal{D}(w) 
+= \frac{1}{N} \sum_{n=1}^N L(y_n, \pi(x_n))
+\end{aligned}
+\]</div>
+<p>透過尋找此 ML 估計準則之極小元 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，我們可獲得迴歸係數之 ML 估計值 。</p>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">4.2.2. </span>最大概似估計準則之梯度<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>為了求得 ML 估計準則之極小元 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，我們須計算 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 之梯度。再開始計算梯度前，我們可以先做一些觀察以簡化眼前的問題。首先，由於 ML 估計準則，是個別交叉熵的平均，則根據微分的線性性質，我們僅需考慮對個別交叉熵微分之結果，之後再將其進行平均即可。再來，對於個別的交叉熵，我們可對其表達式簡化為以下之形式：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+L\left[ y, \pi(x) \right]=&amp;-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right] \\
+=&amp; -y \log \left[ \frac{\exp{ \left( x^Tw \right) }}{1+\exp{ \left( x^Tw \right) }} \right]  - (1-y) \log\left[ \frac{1}{1+\exp{ \left( x^Tw \right) }}\right] \\
+=&amp; -y x^T w +  \log\left[ 1+\exp{ \left( x^Tw \right) }\right]
+\end{aligned}
+\end{split}\]</div>
+<p>這邊主要是使用到了 <span class="math notranslate nohighlight">\(\log(a/b) = \log(a)-\log(b)\)</span> 此性質。最後，對於個別交叉熵的一階偏微分結果可寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial L\left[ y, \pi(x) \right]}{\partial w_j}
+=&amp;  -y \frac{\partial}{\partial w_j}  x^T w +  \frac{\partial}{\partial w_j} \log\left[ 1+\exp{ \left( x^Tw \right) }\right] \\
+=&amp;  -y x_j + x_j\frac{\exp{ \left( x^Tw \right) }}{ 1+\exp{ \left( x^Tw \right) }}
+\end{aligned}
+\end{split}\]</div>
+<p>根據前面三點觀察，我們可得對 ML 估計準則之一階導數</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+\frac{\partial \mathcal{D}(w)}{\partial w_j}
+=&amp; \frac{1}{N} \sum_{n=1}^N
+\left \{
+-y_n x_{nj} + x_{nj}\frac{\exp{ \left( x_n^Tw \right) }}{ 1+\exp{ \left( x_n^Tw \right) }}
+\right \}
+\end{aligned}
+\]</div>
+<p>值得注意的是，前述的一階導數可以被寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+\frac{\partial \mathcal{D}(w)}{\partial w_j}
+= \frac{1}{N} \sum_{n=1}^N
+-x_{nj} \left[ y_n - \pi(x_n) \right]
+\end{aligned}
+\]</div>
+<p>前式與線性迴歸 LS 估計準則之一階導數有其在結構上的相似性。</p>
+<p>令 <span class="math notranslate nohighlight">\(y\)</span>、<span class="math notranslate nohighlight">\(X\)</span>、以及 <span class="math notranslate nohighlight">\(\pi\)</span> 分別表示以下之向量矩陣：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+y =
+\underbrace{\begin{pmatrix}
+y_1\\
+y_2 \\
+\vdots \\
+y_N
+\end{pmatrix}}_{N \times 1},
+X =
+\underbrace{\begin{pmatrix}
+x_1^T\\
+x_2^T \\
+\vdots \\
+x_N^T
+\end{pmatrix}}_{N \times (P+1)},
+\pi = \pi(X) =
+\underbrace{\begin{pmatrix}
+\pi(x_1)\\
+\pi(x_2) \\
+\vdots \\
+\pi(x_N)
+\end{pmatrix}}_{N \times 1}
+\end{split}\]</div>
+<p>前述估計準則之一階導數可以寫為矩陣之形式</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+\frac{\partial \mathcal{D}(w)}{\partial w} 
+= - X^T y + X^T \pi
+\end{aligned}
+\]</div>
+<p>而根據一階必要條件，ML 估計式 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 須符合以下之等式</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{aligned}
+ X^T y = X^T \widehat{\pi}
+\end{aligned}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\widehat{\pi} = \widehat{\pi}(X) = (\widehat{\pi}(x_1), \widehat{\pi}(x_2),..., \widehat{\pi}(x_N))\)</span> 表示在 <span class="math notranslate nohighlight">\(w = \widehat{w}\)</span> 之下，每筆觀測值對 <span class="math notranslate nohighlight">\(y\)</span> 機率預測所組成之向量。儘管前述等式的結構相當簡單，然而，由於其並非 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 之線性函數，故我們無法僅使用線性代數的技術來求解，取而代之的是，我們須使用數值優化的技巧。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">4.3. </span>數值優化技術與求解<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p><strong>數值優化</strong>（numerical optimization）乃一系列用於計算目標函數 <span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 極小元 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 之技術。在此章節中，我們主要關注<strong>線搜尋</strong>（line search）這一類之技術。</p>
+<div class="section" id="id9">
+<h3><span class="section-number">4.3.1. </span>線搜尋與梯度下降法<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(\widehat{w}^{(t)}\)</span> 表示在第 <span class="math notranslate nohighlight">\(t\)</span> 步驟下所得之參數估計，則線搜尋試圖使用以下之形式進行更新，以獲得第 <span class="math notranslate nohighlight">\(t+1\)</span> 步驟下之參數估計：</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(d\)</span> 為一向量，其表示所欲更新的方向，而 <span class="math notranslate nohighlight">\(s\)</span> 則唯一純量，表示更新步伐的大小。不同的線搜尋方法，使用不同的方向 <span class="math notranslate nohighlight">\(d\)</span> 與步伐 <span class="math notranslate nohighlight">\(s\)</span> 進行更新。然而，一般來說，更新方向 <span class="math notranslate nohighlight">\(d\)</span> 多具有以下之形式</p>
+<div class="math notranslate nohighlight">
+\[
+d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} )
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(B\)</span> 表示一對稱且可逆之矩陣。然而，為何線搜尋的方向會與目標函數的梯度取負號有關呢？考慮 <span class="math notranslate nohighlight">\(w=\widehat{w}^{(t)}\)</span> 此位置，沿著一標準化方向 <span class="math notranslate nohighlight">\(d\)</span> （即 <span class="math notranslate nohighlight">\(||d||=1\)</span>）的方向導數為：</p>
+<div class="math notranslate nohighlight">
+\[
+\langle \nabla D(\widehat{w}^{(t)} ), d \rangle = d^T  \nabla D(\widehat{w}^{(t)} )
+\]</div>
+<p>我們希望可以找到一方向，其所對應之方向導數斜率為最陡的。根據 Cauchy–Schwarz 不等式，我們知道</p>
+<div class="math notranslate nohighlight">
+\[
+|d^T  \nabla D(\widehat{w}^{(t)} )|  \leq ||d|| ||\nabla D(\widehat{w}^{(t)} )||
+\]</div>
+<p>而等號成立之條件為 <span class="math notranslate nohighlight">\(d = \pm \tfrac{1}{||\nabla D(\widehat{w}^{(t)} )||} \nabla D(\widehat{w}^{(t)} )\)</span>。因此，當我將 <span class="math notranslate nohighlight">\(d\)</span> 設為梯度取負號時，其所對應的斜率為最陡的。</p>
+<p>根據「梯度取負號為最陡之方向」此特性，最簡單的線搜尋方法為<strong>梯度下降法</strong>（gradient descent method），亦稱做<strong>最陡下降法</strong>（steepest descent method），該算則可摘要為：</p>
+<div class="note admonition">
+<p class="admonition-title"><strong>算則：梯度下降法</strong></p>
+<ol class="simple">
+<li><p>設定參數之起始值 <span class="math notranslate nohighlight">\(\widehat{w}^{(0)}\)</span> 與一更新步伐 <span class="math notranslate nohighlight">\(s\)</span>。</p></li>
+<li><p>當未滿足收斂標準時，計算最陡方向 <span class="math notranslate nohighlight">\(d = -\nabla D(\widehat{w}^{(t)} )\)</span>，並更新參數估計 <span class="math notranslate nohighlight">\(\widehat{w}^{(t + 1)} = \widehat{w}^{(t + 1)} + s \times d\)</span>。</p></li>
+</ol>
+</div>
+<p>一般來說，數值優化常使用的收斂標準包括：</p>
+<ul class="simple">
+<li><p>直接判定梯度是否小於某很小之數值 <span class="math notranslate nohighlight">\(\epsilon\)</span>，即 <span class="math notranslate nohighlight">\(||\nabla D(\widehat{w}^{(t+1)} )|| &lt; \epsilon\)</span>。</p></li>
+<li><p>判定參數估計值之改變是否小於某很小之數值 <span class="math notranslate nohighlight">\(\epsilon\)</span>，即<span class="math notranslate nohighlight">\(||D(\widehat{w}^{(t+1)} ) - D(\widehat{w}^{(t)} )|| &lt; \epsilon\)</span>。此標準較為間接，主要用於無法直接評估梯度數值的情境。</p></li>
+<li><p>判斷 <span class="math notranslate nohighlight">\(t\)</span> 是否已大於等於可接受之最大迭代次數 <span class="math notranslate nohighlight">\(T\)</span>，即 <span class="math notranslate nohighlight">\(t \geq T\)</span>。不過要注意的是，滿足此標準不代表已找到適切的解，此標準只是用來避免過多的迭代次數。</p></li>
+</ul>
+</div>
+<div class="section" id="bfgs">
+<h3><span class="section-number">4.3.2. </span>牛頓法與BFGS法<a class="headerlink" href="#bfgs" title="Permalink to this headline">¶</a></h3>
+<p>若進一步考慮 <span class="math notranslate nohighlight">\(d = - B^{-1}\nabla D(\widehat{w}^{(t)} )\)</span> 此一形式，則是否能夠找到一方向，其能夠更有效率地找到目標函數的極小元呢？根據泰勒之定理（Taylor’s theorem），<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 於 <span class="math notranslate nohighlight">\(w\)</span> 之附近，可以被以下之二次函數逼近</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}(w + d) \approx \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d
+\]</div>
+<p>令 <span class="math notranslate nohighlight">\(f(d) = \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d\)</span>，若我們試圖找到一可以最小化 <span class="math notranslate nohighlight">\(f(d)\)</span> 之 <span class="math notranslate nohighlight">\(d\)</span>，則該 <span class="math notranslate nohighlight">\(d\)</span> 需滿足的條件</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla f(d) =  \nabla \mathcal{D}(w) + \nabla^2 \mathcal{D}(w) d = 0
+\]</div>
+<p>因此，更新方向應為</p>
+<div class="math notranslate nohighlight">
+\[
+d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w)
+\]</div>
+<p>意即，將 <span class="math notranslate nohighlight">\(B\)</span> 設為估計準則之黑塞矩陣 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(w)\)</span>。</p>
+<p>進一步考慮到黑塞矩陣之訊息，我們可以得到一較為進階的線搜尋法，其稱作<strong>牛頓法</strong>（Newton’s method），該算則可摘要為：</p>
+<div class="note admonition">
+<p class="admonition-title"><strong>算則：牛頓法</strong></p>
+<ol class="simple">
+<li><p>設定參數之起始值 <span class="math notranslate nohighlight">\(\widehat{w}^{(0)}\)</span> 與一更新步伐 <span class="math notranslate nohighlight">\(s\)</span>。</p></li>
+<li><p>當未滿足收斂標準時，計算 <span class="math notranslate nohighlight">\(d = - \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) \nabla D(\widehat{w}^{(t)} )\)</span>，並更新參數估計 <span class="math notranslate nohighlight">\(\widehat{w}^{(t + 1)} = \widehat{w}^{(t)} + s \times d\)</span>。</p></li>
+</ol>
+</div>
+<p>牛頓法比梯度下降法有較佳的收斂性，意即，可使用較少之迭代次數就找到極小元。然而，其缺點在於黑塞矩陣的計算，並非對所有的估計準則來說都是容易的，此外，當參數個數較多時，計算黑塞矩陣的成本提高，甚至在大型模型下有可能會引發記憶體不足的問題。</p>
+<p>為了解決前述牛頓法之缺點，在實務上，大多會採用所謂的<strong>準牛頓法</strong>（quasi-Newton’s method），其使用某種方式獲得對於黑色矩陣 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(\widehat{w}^{(t)})\)</span> 之逼近。其中，最為有名的是<strong>BFGS法</strong>，此名稱乃根據其提出者Broyden、Fletcher、Goldfarb、Shanno命名。</p>
+<p>令 <span class="math notranslate nohighlight">\(u^{(t)} = \widehat{w}^{(t)} - \widehat{w}^{(t-1)}\)</span> 與 <span class="math notranslate nohighlight">\(v^{(t)}=\nabla D(\widehat{w}^{(t)} ) - \nabla D(\widehat{w}^{(t-1)} )\)</span>，根據泰勒之定理，我們有</p>
+<div class="math notranslate nohighlight">
+\[
+v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}
+\]</div>
+<p>前述關係式亦描述了以下之關係</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla^2 \mathcal{D}(\widehat{w}^{(t)}) ^{-1} v^{(t)} \approx  u^{(t)}
+\]</div>
+<p>BFGS 法利用此式之特性，試圖獲得對於黑塞矩陣反矩陣之逼近。令 <span class="math notranslate nohighlight">\(H^{(t-1)}\)</span> 表示在 <span class="math notranslate nohighlight">\(t-1\)</span> 步驟時對於黑塞矩陣反矩陣之逼近，BFGS 法考慮的問題為：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+&amp;\text{minimize}_{H} ||H - H^{(t-1)}|| \\
+&amp; \text{subject to } H = H^T, Bv^{(t)} = u^{(t)} 
+\end{aligned}
+\end{split}\]</div>
+<p>透過解此優化問題，可得到 <span class="math notranslate nohighlight">\(H^{(t)}\)</span> 的更新公式為：</p>
+<div class="math notranslate nohighlight">
+\[
+H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)} {u^{(t)}}^T ) + \rho^{(t)} u^{(t)} {u^{(t)}}^T 
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\rho^{(t)} = \frac{1}{ {v^{(t)}}^T u^{(t)}}\)</span>。在此，我們可觀察到在BFGS法之下，我們直接利用了一簡單的公式，獲得了對於黑塞矩陣的反矩陣，並且該簡單的公式僅利用到了參數估計與梯度在迭代過程中的差值。BFGS 可以摘要為</p>
+<div class="note admonition">
+<p class="admonition-title"><strong>算則：BFGS法</strong></p>
+<ol class="simple">
+<li><p>設定參數之起始值 <span class="math notranslate nohighlight">\(\widehat{w}^{(0)}\)</span> 、一更新步伐 <span class="math notranslate nohighlight">\(s\)</span>、以及<span class="math notranslate nohighlight">\(H^{(0)}\)</span>（實務上多採用<span class="math notranslate nohighlight">\(H^{(0)}=I\)</span>）。</p></li>
+<li><p>當未滿足收斂標準時，計算 <span class="math notranslate nohighlight">\(d = - H^{(t)} \nabla D(\widehat{w}^{(t)} )\)</span>，並更新參數估計 <span class="math notranslate nohighlight">\(\widehat{w}^{(t + 1)} = \widehat{w}^{(t)} + s \times d\)</span>。</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="id10">
+<h3><span class="section-number">4.3.3. </span>更新步伐之選取<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>除了更新方向 <span class="math notranslate nohighlight">\(d\)</span>，更新步伐 <span class="math notranslate nohighlight">\(s\)</span> 的挑選，亦在線搜尋方法中扮演重要的角色。當 <span class="math notranslate nohighlight">\(s\)</span> 過大時，可能會無法找到局部極小元，而當 <span class="math notranslate nohighlight">\(s\)</span> 過小時，則可能會導致收斂過慢的問題。因此，要如何找到一適切的更新步伐大小，不是一件容易的工作。</p>
+<p>在實務上，<span class="math notranslate nohighlight">\(s\)</span> 常在優化過程中，以動態的方式進行調整。理想上，在給定更新方向 <span class="math notranslate nohighlight">\(d\)</span> 之後，我們可透過解決以下的問題，獲得一最佳的更新步伐：</p>
+<div class="math notranslate nohighlight">
+\[
+\text{minimize}_{s} \mathcal{D}(\widehat{w} + s \times d)
+\]</div>
+<p>然而，這種找最適更新步伐的方法，等同於要去解一個優化問題，除非目標函數的結構很單純，否則，前述的作法是相當不經濟的。因此，在實務上，更新步伐的調整多採用以下兩種策略：</p>
+<ul class="simple">
+<li><p>根據某定好之規則，令<span class="math notranslate nohighlight">\(s\)</span> 之數值隨迭代次數 <span class="math notranslate nohighlight">\(t\)</span> 遞減。舉例來說，我們可增加一滿足 <span class="math notranslate nohighlight">\(0&lt;\gamma&lt;1\)</span> 之參數 <span class="math notranslate nohighlight">\(\gamma\)</span>，接著，每當 <span class="math notranslate nohighlight">\(t\)</span> 滿足某些條件時（如 <span class="math notranslate nohighlight">\(t\)</span> 為10的倍數時），重新定義新的更新步伐為 <span class="math notranslate nohighlight">\(s \leftarrow \gamma s\)</span>。</p></li>
+<li><p>利用<strong>回朔線搜尋</strong>（backtracking line search）尋找 <span class="math notranslate nohighlight">\(s\)</span>。此方法之執行如下：</p></li>
+</ul>
+<div class="note admonition">
+<p class="admonition-title"><strong>算則：回朔線搜尋</strong></p>
+<ol class="simple">
+<li><p>給定 <span class="math notranslate nohighlight">\(s_0&gt;0\)</span>、<span class="math notranslate nohighlight">\(\gamma \in (0, 1)\)</span>、以及 <span class="math notranslate nohighlight">\(c \in (0, 1)\)</span>。</p></li>
+<li><p>在每次迭代 <span class="math notranslate nohighlight">\(t\)</span> 開始時，將 <span class="math notranslate nohighlight">\(s\)</span> 設為 <span class="math notranslate nohighlight">\(s_0\)</span>，接著，當 <span class="math notranslate nohighlight">\(\mathcal{D}(\widehat{w}^{(t)} + s \times d) &lt; \mathcal{D}(\widehat{w}^{(t)}) + s \times c \times d^T \nabla \mathcal{D}(\widehat{w}^{(t)})\)</span> 此條件未被滿足時，根據 <span class="math notranslate nohighlight">\(s \leftarrow \gamma \times s\)</span> 此公式持續調整 <span class="math notranslate nohighlight">\(s\)</span> 之數值。</p></li>
+</ol>
+</div>
+</div>
 </div>
 </div>
 
