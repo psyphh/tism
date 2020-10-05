@@ -304,7 +304,7 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id15">
-   3.5. 實作範例
+   3.5. 實作範例與練習
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -319,15 +319,15 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id18">
-     3.5.3. 建立一進行迴歸分析之物件
+     3.5.3. 建立迴歸分析物件
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id19">
+     3.5.4. 練習
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id19">
-   3.6. 作業
-  </a>
  </li>
 </ul>
 
@@ -524,13 +524,11 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.38879913 0.5613104  0.06191313 0.13489723 0.8363539  0.07818872]
- [0.6826855  0.29256755 0.10482496 0.44965625 0.9116414  0.54296994]]
+ [[0.9324386  0.82317585 0.89459175 0.6267981  0.29181468 0.20896608]
+ [0.71547824 0.92948747 0.91869164 0.9467748  0.06231058 0.68031466]]
 tensor with uninitialized data 
- [[9.8090893e-45 0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00
-  4.5765007e-41]
- [7.7052459e+31 1.9446917e+31 5.0206850e+28 2.3328567e-18 4.2329797e+21
-  7.2250795e+28]]
+ [[0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00 0.0e+00]
+ [2.8e-45 0.0e+00 1.1e-44 0.0e+00 1.4e-45 0.0e+00]]
 </pre></div>
 </div>
 </div>
@@ -1138,9 +1136,7 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> tensor([[1., 2., 3.],
+ tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([0., 1., 2.], dtype=torch.float64)
@@ -1166,7 +1162,10 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
- tensor([[1., 2., 3.],
+ 
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([[0.],
@@ -1213,14 +1212,17 @@ tensor a * b is
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0006237030029296875
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n =
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> 10
+CPU time = 0.0008361339569091797
 n = 100
-CPU time = 0.0007848739624023438
+CPU time = 0.0008561611175537109
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.044976234436035156
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.05778813362121582
 </pre></div>
 </div>
 </div>
@@ -1241,7 +1243,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>5.32 ms ± 417 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.94 ms ± 69.3 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1263,7 +1265,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>19.9 ms ± 2.77 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>19 ms ± 1.54 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1284,7 +1286,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>24 ms ± 4.29 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>22.1 ms ± 2.16 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1315,7 +1317,7 @@ n = 1000
 </div>
 </div>
 <div class="section" id="id15">
-<h2><span class="section-number">3.5. </span>實作範例<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">3.5. </span>實作範例與練習<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id16">
 <h3><span class="section-number">3.5.1. </span>產生線性迴歸資料<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">torch.manual_seed</span></code> 僅適用於 CPU 之張量，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
@@ -1326,7 +1328,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7f93d082efb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fd31891bf90&gt;
 </pre></div>
 </div>
 </div>
@@ -1449,7 +1451,7 @@ weight estimate is
 </div>
 </div>
 <div class="section" id="id18">
-<h3><span class="section-number">3.5.3. </span>建立一進行迴歸分析之物件<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">3.5.3. </span>建立迴歸分析物件<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a class to fit linear regression</span>
@@ -1494,9 +1496,8 @@ weight estimate is
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="id19">
-<h2><span class="section-number">3.6. </span>作業<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<h3><span class="section-number">3.5.4. </span>練習<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ol class="simple">
 <li><p>請根據本章節的內容，進行一系列的實驗，以了解在哪些運算與張量尺寸上，GPU 計算才具有其優勢。</p></li>
 <li><p>請在 <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> 此類型中，加入以下新的功能：</p></li>
@@ -1507,6 +1508,7 @@ weight estimate is
 <li><p>新增一方法 <code class="docutils literal notranslate"><span class="pre">predict()</span></code>，其輸入為一新的 <code class="docutils literal notranslate"><span class="pre">x</span></code>，輸出為在該 <code class="docutils literal notranslate"><span class="pre">x</span></code> 下，<code class="docutils literal notranslate"><span class="pre">y</span></code> 的預測值。</p></li>
 <li><p>新增一方法 <code class="docutils literal notranslate"><span class="pre">gradient()</span></code>，其可獲得在當前係數估計下，最小平方估計準則的梯度數值。</p></li>
 </ul>
+</div>
 </div>
 </div>
 

@@ -415,7 +415,7 @@ if torch.cuda.is_available():
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device)
 
-## 實作範例
+## 實作範例與練習
 
 ### 產生線性迴歸資料
 
@@ -484,7 +484,7 @@ bias, weight = calculate_parameter(x, y)
 print("bias estimate is \n", bias.numpy())
 print("weight estimate is \n", weight.numpy())
 
-### 建立一進行迴歸分析之物件
+### 建立迴歸分析物件
 
 # define a class to fit linear regression
 class LinearRegression():
@@ -511,7 +511,7 @@ model_lr.fit(x, y)
 print("bias estimate is \n", model_lr.bias.numpy())
 print("weight estimate is \n", model_lr.weight.numpy())
 
-## 作業
+### 練習
 
 1. 請根據本章節的內容，進行一系列的實驗，以了解在哪些運算與張量尺寸上，GPU 計算才具有其優勢。
 

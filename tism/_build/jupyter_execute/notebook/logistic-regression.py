@@ -345,6 +345,7 @@ $$
 2. 在每次迭代 $t$ 開始時，將 $s$ 設為 $s_0$，接著，當 $\mathcal{D}(\widehat{w}^{(t)} + s \times d) < \mathcal{D}(\widehat{w}^{(t)}) + s \times c \times d^T \nabla \mathcal{D}(\widehat{w}^{(t)})$ 此條件未被滿足時，根據 $s \leftarrow \gamma \times s$ 此公式持續調整 $s$ 之數值。
 ```
 
+
 ## 模型適配度
 
 邏輯斯迴歸利用 $\widehat{\pi}(x) = \frac{\exp{ \left( x^T\widehat{w} \right) }}{1+\exp{ \left( x^T \widehat{w} \right) }}$ 對 $y$ 進行預測，然而，$\widehat{\pi}(x)$ 究竟是否能夠良好地刻畫 $x$ 與 $y$ 間的關係，則需透過適配度指標來評估。
@@ -385,6 +386,109 @@ Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
 $$
 
 這裡，$1\{\cdot \}$ 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 $E$ 事件為真時，$1\{E \} = 1$，反之，$1\{E \} = 0$。
+
+
+## 實作範例與練習
+
+### 虛無模型之截距估計
+我們在此展示如何使用梯度下降法，對虛無模型下之截距項進行估計。由於此模型中並未加入任何的共變量，因此，其 ML 適配函數與一階導數為
+
+$$
+\begin{aligned}
+\mathcal{D}(w_0) & = \frac{1}{N} \sum_{n=1}^N \left \{ -y_n w_0 +  \log\left[ 1+\exp{ \left( w_0 \right) }\right] \right\} \\
+& =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right]
+\end{aligned}
+$$
+
+與
+
+$$
+\begin{aligned}
+\frac{\partial \mathcal{D}(w_0)}{\partial w_0} &=
+\frac{1}{N} \sum_{n=1}^N
+\left \{
+-y_n + \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+\right \}\\
+& = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+\end{aligned}
+$$
+這裡，$m_Y$ 表示 $Y$ 此變項之樣本平均數，在二元變項下，$m_Y$ 等同於樣本資料中等於 1 的比例。倘若手邊的樣本資料中，$y_n=1$ 的比例為80%，則 $m_Y=.8$，我們可以使用 `python` 撰寫函數，來計算在不同的 $w_0$之下，所對應到的 ML 適配函數與其一階導數之數值：
+
+import torch
+def cal_loss(bias):
+    if type(bias) is not torch.Tensor:
+        bias = torch.tensor(bias, dtype = torch.float64)
+    loss = -0.8 * bias + torch.log(1 + bias.exp())
+    return loss
+
+def cal_grad(bias):
+    if type(bias) is not torch.Tensor:
+        bias = torch.tensor(bias, dtype = torch.float64)
+    grad = -0.8 + bias.exp() / (1 + bias.exp())
+    return grad
+
+
+接下來，我們撰寫一執行梯度下降法之函數，以尋找一可最小化 ML 適配函數之 $\widehat{w}_0$。
+
+def gradient_descent(bias, step_size, iter_max):
+    for t in range(1, iter_max + 1):
+        direction = - cal_grad(bias)
+        bias += step_size * direction
+        loss = cal_loss(bias)
+        print("iter {:2.0f}, loss = {:2.3f}, grad = {:2.3f}, bias = {:2.3f}".format(
+            t, loss.item(), -direction.item(), bias.item()))
+
+我們將參數起始值 $\widehat{w}_0^{(0)}$設為0，步伐大小 $s$ 設為 2，觀察迭代 10 次後，$\widehat{w}_0^{(10)}$ 之數值為何
+
+bias = 0
+step_size = 2.
+iter_max = 10
+gradient_descent(bias, step_size, iter_max)
+
+我們可以看到梯度下降法，逐步地更新截距項，使得 ML 適配函數數值下降，且一階導數越來越靠近 0。事實上，此優化問題的極小元存在閉合形式解（closed-form solution），根據一階最適條件，$\frac{\exp{ \left( \widehat{w}_0 \right) }}{ 1+\exp{ \left( \widehat{w}_0 \right) }} = m_Y$，因此，$\widehat{w}_0 = \log \left[\frac{m_Y}{1-m_Y} \right] = \log \left[\frac{.8}{1-.8} \right] \approx  1.386$，我們可以看到梯度下降找到的解，與此閉合形式解幾無差異。
+
+接下來，我們開始觀察在不同更新步伐大小下之行為表現：
+
+print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, 20.))
+gradient_descent(0, 20., 10)
+print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, .1))
+gradient_descent(0, .2, 10)
+print("\nbais = {:2.3f}, step size = {:2.2f}".format(1.5, 2.))
+gradient_descent(1.5, 2., 10)
+
+### 練習
+請利用以下之程式碼，產生邏輯斯迴歸之資料，並撰寫一函數執行梯度下降法，計算在此資料下之模型參數估計，並觀察其在不同起始值與更新步伐下之行為表現。
+
+# set seed
+torch.manual_seed(246437)
+
+# write a function to generate data
+from torch.distributions import Bernoulli
+def generate_data(n_sample,
+                  weight,
+                  bias = 0,
+                  mean_feature = 0,
+                  std_feature = 1,
+                  dtype = torch.float64):
+    weight = torch.tensor(weight, dtype = dtype)
+    n_feature = weight.shape[0]
+    x = torch.normal(mean = mean_feature,
+                     std = std_feature,
+                     size = (n_sample, n_feature),
+                     dtype = dtype)
+    weight = weight.view(size = (-1, 1))
+    logit = bias + x @ weight
+    bernoulli = Bernoulli(logits = logit)
+    y = bernoulli.sample()
+    return x, y
+
+# run generate_data
+x, y = generate_data(n_sample = 1000,
+                     weight = [-5, 3, 0],
+                     bias = 2,
+                     mean_feature = 10,
+                     std_feature = 3,
+                     dtype = torch.float64)
 
 ## 延伸閱讀
 
