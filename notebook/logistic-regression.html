@@ -328,7 +328,7 @@
 <h3><span class="section-number">4.1.1. </span>二元線性分類器<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>廣義來說，二元分類之問題關注的是如何使用一 <span class="math notranslate nohighlight">\(P\)</span> 維之向量 <span class="math notranslate nohighlight">\(x\)</span>，對於二元變項 <span class="math notranslate nohighlight">\(y\)</span> 進行預測，這裡，<span class="math notranslate nohighlight">\(y\)</span>的數值只能為0或1，即<span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>，<span class="math notranslate nohighlight">\(y=1\)</span> 表示某關注的事件發生，而 <span class="math notranslate nohighlight">\(y=0\)</span>則表示該事件並未發生。在二元分類的問題下，研究者常試圖刻畫在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y\)</span> 的條件機率（conditional probability），即：</p>
 <div class="math notranslate nohighlight">
-\[\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)}\]</div>
+\[\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)},\]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\mathbb{P}(y,x)\)</span> 表示同時考慮 <span class="math notranslate nohighlight">\(x\)</span> 與 <span class="math notranslate nohighlight">\(y\)</span> 的聯合機率（joint probability），而 <span class="math notranslate nohighlight">\(\mathbb{P}(x)\)</span> 則為僅考慮 <span class="math notranslate nohighlight">\(x\)</span> 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 來表示在給定 <span class="math notranslate nohighlight">\(x\)</span> 之下，<span class="math notranslate nohighlight">\(y=1\)</span> 之條件機率，即</p>
 <div class="math notranslate nohighlight">
 \[\pi(x) =\mathbb{P}(y=1|x).\]</div>
@@ -375,7 +375,7 @@
 <div class="math notranslate nohighlight">
 \[
 L\left [ y, \pi(x) \right] = -  
-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right]  
+y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right].
 \]</div>
 <p>為了瞭解交叉熵的數值如何反應 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\pi(x)\)</span>之間的差異，我們可以參考以下的表格：</p>
 <table class="colwidths-auto table">
@@ -407,7 +407,7 @@ y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right]
 \[
 \begin{aligned}
 \mathcal{D}(w) 
-= \frac{1}{N} \sum_{n=1}^N L(y_n, \pi(x_n))
+= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right]. 
 \end{aligned}
 \]</div>
 <p>透過尋找此 ML 估計準則之極小元 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，我們可獲得迴歸係數之 ML 估計值 。</p>
@@ -420,7 +420,7 @@ y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right]
 \begin{aligned}
 L\left[ y, \pi(x) \right]=&amp;-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right] \\
 =&amp; -y \log \left[ \frac{\exp{ \left( x^Tw \right) }}{1+\exp{ \left( x^Tw \right) }} \right]  - (1-y) \log\left[ \frac{1}{1+\exp{ \left( x^Tw \right) }}\right] \\
-=&amp; -y x^T w +  \log\left[ 1+\exp{ \left( x^Tw \right) }\right]
+=&amp; -y x^T w +  \log\left[ 1+\exp{ \left( x^Tw \right) }\right].
 \end{aligned}
 \end{split}\]</div>
 <p>這邊主要是使用到了 <span class="math notranslate nohighlight">\(\log(a/b) = \log(a)-\log(b)\)</span> 此性質。最後，對於個別交叉熵的一階偏微分結果可寫為</p>
@@ -429,7 +429,7 @@ L\left[ y, \pi(x) \right]=&amp;-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \rig
 \begin{aligned}
 \frac{\partial L\left[ y, \pi(x) \right]}{\partial w_j}
 =&amp;  -y \frac{\partial}{\partial w_j}  x^T w +  \frac{\partial}{\partial w_j} \log\left[ 1+\exp{ \left( x^Tw \right) }\right] \\
-=&amp;  -y x_j + x_j\frac{\exp{ \left( x^Tw \right) }}{ 1+\exp{ \left( x^Tw \right) }}
+=&amp;  -y x_j + x_j\frac{\exp{ \left( x^Tw \right) }}{ 1+\exp{ \left( x^Tw \right) }}.
 \end{aligned}
 \end{split}\]</div>
 <p>根據前面三點觀察，我們可得對 ML 估計準則之一階導數</p>
@@ -440,7 +440,7 @@ L\left[ y, \pi(x) \right]=&amp;-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \rig
 =&amp; \frac{1}{N} \sum_{n=1}^N
 \left \{
 -y_n x_{nj} + x_{nj}\frac{\exp{ \left( x_n^Tw \right) }}{ 1+\exp{ \left( x_n^Tw \right) }}
-\right \}
+\right \}.
 \end{aligned}
 \]</div>
 <p>值得注意的是，前述的一階導數可以被寫為</p>
@@ -449,7 +449,7 @@ L\left[ y, \pi(x) \right]=&amp;-y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \rig
 \begin{aligned}
 \frac{\partial \mathcal{D}(w)}{\partial w_j}
 = \frac{1}{N} \sum_{n=1}^N
--x_{nj} \left[ y_n - \pi(x_n) \right]
+-x_{nj} \left[ y_n - \pi(x_n) \right].
 \end{aligned}
 \]</div>
 <p>前式與線性迴歸 LS 估計準則之一階導數有其在結構上的相似性。</p>
@@ -476,21 +476,21 @@ x_N^T
 \pi(x_2) \\
 \vdots \\
 \pi(x_N)
-\end{pmatrix}}_{N \times 1}
+\end{pmatrix}}_{N \times 1}.
 \end{split}\]</div>
 <p>前述估計準則之一階導數可以寫為矩陣之形式</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
 \frac{\partial \mathcal{D}(w)}{\partial w} 
-= - X^T y + X^T \pi
+= - X^T y + X^T \pi.
 \end{aligned}
 \]</div>
 <p>而根據一階必要條件，ML 估計式 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 須符合以下之等式</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
- X^T y = X^T \widehat{\pi}
+ X^T y = X^T \widehat{\pi}.
 \end{aligned}
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\widehat{\pi} = \widehat{\pi}(X) = (\widehat{\pi}(x_1), \widehat{\pi}(x_2),..., \widehat{\pi}(x_N))\)</span> 表示在 <span class="math notranslate nohighlight">\(w = \widehat{w}\)</span> 之下，每筆觀測值對 <span class="math notranslate nohighlight">\(y\)</span> 機率預測所組成之向量。儘管前述等式的結構相當簡單，然而，由於其並非 <span class="math notranslate nohighlight">\(\widehat{w}\)</span> 之線性函數，故我們無法僅使用線性代數的技術來求解，取而代之的是，我們須使用數值優化的技巧。</p>
@@ -504,17 +504,17 @@ x_N^T
 <p>令 <span class="math notranslate nohighlight">\(\widehat{w}^{(t)}\)</span> 表示在第 <span class="math notranslate nohighlight">\(t\)</span> 步驟下所得之參數估計，則線搜尋試圖使用以下之形式進行更新，以獲得第 <span class="math notranslate nohighlight">\(t+1\)</span> 步驟下之參數估計：</p>
 <div class="math notranslate nohighlight">
 \[
-\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1}
+\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1},
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(d\)</span> 為一向量，其表示所欲更新的方向，而 <span class="math notranslate nohighlight">\(s\)</span> 則唯一純量，表示更新步伐的大小。不同的線搜尋方法，使用不同的方向 <span class="math notranslate nohighlight">\(d\)</span> 與步伐 <span class="math notranslate nohighlight">\(s\)</span> 進行更新。然而，一般來說，更新方向 <span class="math notranslate nohighlight">\(d\)</span> 多具有以下之形式</p>
 <div class="math notranslate nohighlight">
 \[
-d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} )
+d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} ),
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(B\)</span> 表示一對稱且可逆之矩陣。然而，為何線搜尋的方向會與目標函數的梯度取負號有關呢？考慮 <span class="math notranslate nohighlight">\(w=\widehat{w}^{(t)}\)</span> 此位置，沿著一標準化方向 <span class="math notranslate nohighlight">\(d\)</span> （即 <span class="math notranslate nohighlight">\(||d||=1\)</span>）的方向導數為：</p>
 <div class="math notranslate nohighlight">
 \[
-\langle \nabla D(\widehat{w}^{(t)} ), d \rangle = d^T  \nabla D(\widehat{w}^{(t)} )
+\langle \nabla D(\widehat{w}^{(t)} ), d \rangle = d^T  \nabla D(\widehat{w}^{(t)} ).
 \]</div>
 <p>我們希望可以找到一方向，其所對應之方向導數斜率為最陡的。根據 Cauchy–Schwarz 不等式，我們知道</p>
 <div class="math notranslate nohighlight">
@@ -542,17 +542,17 @@ d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} )
 <p>若進一步考慮 <span class="math notranslate nohighlight">\(d = - B^{-1}\nabla D(\widehat{w}^{(t)} )\)</span> 此一形式，則是否能夠找到一方向，其能夠更有效率地找到目標函數的極小元呢？根據泰勒之定理（Taylor’s theorem），<span class="math notranslate nohighlight">\(\mathcal{D}(w)\)</span> 於 <span class="math notranslate nohighlight">\(w\)</span> 之附近，可以被以下之二次函數逼近</p>
 <div class="math notranslate nohighlight">
 \[
-\mathcal{D}(w + d) \approx \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d
+\mathcal{D}(w + d) \approx \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d.
 \]</div>
 <p>令 <span class="math notranslate nohighlight">\(f(d) = \mathcal{D}(w) + d^T \nabla \mathcal{D}(w) + \frac{1}{2} d^T \nabla^2 \mathcal{D}(w) d\)</span>，若我們試圖找到一可以最小化 <span class="math notranslate nohighlight">\(f(d)\)</span> 之 <span class="math notranslate nohighlight">\(d\)</span>，則該 <span class="math notranslate nohighlight">\(d\)</span> 需滿足的條件</p>
 <div class="math notranslate nohighlight">
 \[
-\nabla f(d) =  \nabla \mathcal{D}(w) + \nabla^2 \mathcal{D}(w) d = 0
+\nabla f(d) =  \nabla \mathcal{D}(w) + \nabla^2 \mathcal{D}(w) d = 0.
 \]</div>
 <p>因此，更新方向應為</p>
 <div class="math notranslate nohighlight">
 \[
-d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w)
+d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w).
 \]</div>
 <p>意即，將 <span class="math notranslate nohighlight">\(B\)</span> 設為估計準則之黑塞矩陣 <span class="math notranslate nohighlight">\(\nabla^2 \mathcal{D}(w)\)</span>。</p>
 <p>進一步考慮到黑塞矩陣之訊息，我們可以得到一較為進階的線搜尋法，其稱作<strong>牛頓法</strong>（Newton’s method），該算則可摘要為：</p>
@@ -568,25 +568,25 @@ d = -  \nabla^2 \mathcal{D}(w)^{-1} \nabla \mathcal{D}(w)
 <p>令 <span class="math notranslate nohighlight">\(u^{(t)} = \widehat{w}^{(t)} - \widehat{w}^{(t-1)}\)</span> 與 <span class="math notranslate nohighlight">\(v^{(t)}=\nabla D(\widehat{w}^{(t)} ) - \nabla D(\widehat{w}^{(t-1)} )\)</span>，根據泰勒之定理，我們有</p>
 <div class="math notranslate nohighlight">
 \[
-v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}
+v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}.
 \]</div>
 <p>前述關係式亦描述了以下之關係</p>
 <div class="math notranslate nohighlight">
 \[
-\nabla^2 \mathcal{D}(\widehat{w}^{(t)}) ^{-1} v^{(t)} \approx  u^{(t)}
+\nabla^2 \mathcal{D}(\widehat{w}^{(t)}) ^{-1} v^{(t)} \approx  u^{(t)}.
 \]</div>
 <p>BFGS 法利用此式之特性，試圖獲得對於黑塞矩陣反矩陣之逼近。令 <span class="math notranslate nohighlight">\(H^{(t-1)}\)</span> 表示在 <span class="math notranslate nohighlight">\(t-1\)</span> 步驟時對於黑塞矩陣反矩陣之逼近，BFGS 法考慮的問題為：</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
 &amp;\text{minimize}_{H} ||H - H^{(t-1)}|| \\
-&amp; \text{subject to } H = H^T, Bv^{(t)} = u^{(t)} 
+&amp; \text{subject to } H = H^T, Bv^{(t)} = u^{(t)} .
 \end{aligned}
 \end{split}\]</div>
 <p>透過解此優化問題，可得到 <span class="math notranslate nohighlight">\(H^{(t)}\)</span> 的更新公式為：</p>
 <div class="math notranslate nohighlight">
 \[
-H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)} {u^{(t)}}^T ) + \rho^{(t)} u^{(t)} {u^{(t)}}^T 
+H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)} {u^{(t)}}^T ) + \rho^{(t)} u^{(t)} {u^{(t)}}^T ,
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\rho^{(t)} = \frac{1}{ {v^{(t)}}^T u^{(t)}}\)</span>。在此，我們可觀察到在BFGS法之下，我們直接利用了一簡單的公式，獲得了對於黑塞矩陣的反矩陣，並且該簡單的公式僅利用到了參數估計與梯度在迭代過程中的差值。BFGS 可以摘要為</p>
 <div class="note admonition">
@@ -603,7 +603,7 @@ H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)}
 <p>在實務上，<span class="math notranslate nohighlight">\(s\)</span> 常在優化過程中，以動態的方式進行調整。理想上，在給定更新方向 <span class="math notranslate nohighlight">\(d\)</span> 之後，我們可透過解決以下的問題，獲得一最佳的更新步伐：</p>
 <div class="math notranslate nohighlight">
 \[
-\text{minimize}_{s} \mathcal{D}(\widehat{w} + s \times d)
+\text{minimize}_{s} \mathcal{D}(\widehat{w} + s \times d).
 \]</div>
 <p>然而，這種找最適更新步伐的方法，等同於要去解一個優化問題，除非目標函數的結構很單純，否則，前述的作法是相當不經濟的。因此，在實務上，更新步伐的調整多採用以下兩種策略：</p>
 <ul class="simple">
@@ -627,14 +627,14 @@ H^{(t)} = (I - \rho^{(t)} u^{(t)} {v^{(t)}}^T )H^{(t-1)} (I - \rho^{(t)} v^{(t)}
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
-R_{McFadden}^2 &amp;= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})}
+R_{McFadden}^2 &amp;= \frac{\mathcal{D}(\widetilde{w}) - \mathcal{D}(\widehat{w})}{\mathcal{D}(\widetilde{w})},
 \end{aligned}
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\widetilde{w}\)</span> 指的是在虛無模型下之估計量，即限制所有變項迴歸係數皆為 0，僅對截距項進行估計。另外，Efron（1978）則是將虛擬 <span class="math notranslate nohighlight">\(R^2\)</span> 定義為</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{aligned}
-R_{Efron}^2 &amp;=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \widehat{\pi}(x_n))^2}{\sum_{n=1}^N(y_n - m_Y)^2}
+R_{Efron}^2 &amp;=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \widehat{\pi}(x_n))^2}{\sum_{n=1}^N(y_n - m_Y)^2}.
 \end{aligned}
 \]</div>
 <p>從 <span class="math notranslate nohighlight">\(R_{McFadden}^2\)</span> 與 <span class="math notranslate nohighlight">\(R_{Efron}^2\)</span> 兩者之公式來看，前者乃透過 ML 估計準則之數值來定義 <span class="math notranslate nohighlight">\(R^2\)</span>，後者則是根據 LS 估計準則搭配機率預測值 <span class="math notranslate nohighlight">\(\widehat{\pi}(x)\)</span> 來定義。但不管採用何種定義，兩者皆透過與一虛無模型比較建立，數值越靠近 0 表示模型與虛無模型表現類似，而數值越靠近 1 則表示模型與資料之適配程度越好。</p>
@@ -643,14 +643,14 @@ R_{Efron}^2 &amp;=  \frac{\sum_{n=1}^N(y_n - m_Y)^2 - \sum_{n=1}^N(y_n - \wideha
 \[\begin{split}
 \widehat{y}^{c}=
 \begin{cases}
-1 &amp;\text{if } \widehat{\pi}(x) \geq 0.5 \\
-0 &amp;\text{if } \widehat{\pi}(x) &lt; 0.5
+1 &amp;\text{if } \widehat{\pi}(x) \geq 0.5, \\
+0 &amp;\text{if } \widehat{\pi}(x) &lt; 0.5,
 \end{cases}
 \end{split}\]</div>
 <p>意即，當 <span class="math notranslate nohighlight">\(\widehat{\pi}(x) \geq 0.5\)</span> 時，我們傾向認為其所對應之 <span class="math notranslate nohighlight">\(y\)</span> 應為 1，反之，則認為其所對應之 <span class="math notranslate nohighlight">\(y\)</span> 應為0。因此，我們可以將分類正確率定義為樣本資料中，<span class="math notranslate nohighlight">\(y_n\)</span> 與 <span class="math notranslate nohighlight">\(\widehat{y}_n^c\)</span> 相等之比例，即</p>
 <div class="math notranslate nohighlight">
 \[
-Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
+Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \},
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(1\{\cdot \}\)</span> 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 <span class="math notranslate nohighlight">\(E\)</span> 事件為真時，<span class="math notranslate nohighlight">\(1\{E \} = 1\)</span>，反之，<span class="math notranslate nohighlight">\(1\{E \} = 0\)</span>。</p>
 </div>
@@ -663,7 +663,7 @@ Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
 \[\begin{split}
 \begin{aligned}
 \mathcal{D}(w_0) &amp; = \frac{1}{N} \sum_{n=1}^N \left \{ -y_n w_0 +  \log\left[ 1+\exp{ \left( w_0 \right) }\right] \right\} \\
-&amp; =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right]
+&amp; =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right],
 \end{aligned}
 \end{split}\]</div>
 <p>與</p>
@@ -675,7 +675,7 @@ Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \}
 \left \{
 -y_n + \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
 \right \}\\
-&amp; = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
+&amp; = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }},
 \end{aligned}
 \end{split}\]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(m_Y\)</span> 表示 <span class="math notranslate nohighlight">\(Y\)</span> 此變項之樣本平均數，在二元變項下，<span class="math notranslate nohighlight">\(m_Y\)</span> 等同於樣本資料中等於 1 的比例。倘若手邊的樣本資料中，<span class="math notranslate nohighlight">\(y_n=1\)</span> 的比例為80%，則 <span class="math notranslate nohighlight">\(m_Y=.8\)</span>，我們可以使用 <code class="docutils literal notranslate"><span class="pre">python</span></code> 撰寫函數，來計算在不同的 <span class="math notranslate nohighlight">\(w_0\)</span>之下，所對應到的 ML 適配函數與其一階導數之數值：</p>
