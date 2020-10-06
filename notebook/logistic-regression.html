@@ -407,7 +407,7 @@ y \log \pi(x)  - (1-y) \log\left[ 1- \pi(x) \right].
 \[
 \begin{aligned}
 \mathcal{D}(w) 
-= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right]. 
+= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right].
 \end{aligned}
 \]</div>
 <p>透過尋找此 ML 估計準則之極小元 <span class="math notranslate nohighlight">\(\widehat{w}\)</span>，我們可獲得迴歸係數之 ML 估計值 。</p>
@@ -533,7 +533,7 @@ d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} ),
 <p>一般來說，數值優化常使用的收斂標準包括：</p>
 <ul class="simple">
 <li><p>直接判定梯度是否小於某很小之數值 <span class="math notranslate nohighlight">\(\epsilon\)</span>，即 <span class="math notranslate nohighlight">\(||\nabla D(\widehat{w}^{(t+1)} )|| &lt; \epsilon\)</span>。</p></li>
-<li><p>判定參數估計值之改變是否小於某很小之數值 <span class="math notranslate nohighlight">\(\epsilon\)</span>，即<span class="math notranslate nohighlight">\(||D(\widehat{w}^{(t+1)} ) - D(\widehat{w}^{(t)} )|| &lt; \epsilon\)</span>。此標準較為間接，主要用於無法直接評估梯度數值的情境。</p></li>
+<li><p>判定參數估計值之改變是否小於某很小之數值 <span class="math notranslate nohighlight">\(\epsilon\)</span>，即<span class="math notranslate nohighlight">\(||\widehat{w}^{(t+1)} - \widehat{w}^{(t)}|| &lt; \epsilon\)</span>。此標準較為間接，主要用於無法直接評估梯度數值的情境。</p></li>
 <li><p>判斷 <span class="math notranslate nohighlight">\(t\)</span> 是否已大於等於可接受之最大迭代次數 <span class="math notranslate nohighlight">\(T\)</span>，即 <span class="math notranslate nohighlight">\(t \geq T\)</span>。不過要注意的是，滿足此標準不代表已找到適切的解，此標準只是用來避免過多的迭代次數。</p></li>
 </ul>
 </div>
@@ -685,12 +685,16 @@ Accuracy = \frac{1}{N} \sum_{n=1}^N 1\{y_n = \widehat{y}_n^c \},
 <span class="k">def</span> <span class="nf">cal_loss</span><span class="p">(</span><span class="n">bias</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">loss</span>
 
 <span class="k">def</span> <span class="nf">cal_grad</span><span class="p">(</span><span class="n">bias</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bias</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="n">bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
     <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">bias</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">grad</span>
 </pre></div>
@@ -737,12 +741,12 @@ iter 10, loss = 0.500, grad = -0.004, bias = 1.368
 </div>
 </div>
 <p>我們可以看到梯度下降法，逐步地更新截距項，使得 ML 適配函數數值下降，且一階導數越來越靠近 0。事實上，此優化問題的極小元存在閉合形式解（closed-form solution），根據一階最適條件，<span class="math notranslate nohighlight">\(\frac{\exp{ \left( \widehat{w}_0 \right) }}{ 1+\exp{ \left( \widehat{w}_0 \right) }} = m_Y\)</span>，因此，<span class="math notranslate nohighlight">\(\widehat{w}_0 = \log \left[\frac{m_Y}{1-m_Y} \right] = \log \left[\frac{.8}{1-.8} \right] \approx  1.386\)</span>，我們可以看到梯度下降找到的解，與此閉合形式解幾無差異。</p>
-<p>接下來，我們開始觀察在不同更新步伐大小下之行為表現：</p>
+<p>接下來，請仔細觀察梯度下降在不同更新步伐大小與起始值下之行為表現：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">20.</span><span class="p">))</span>
 <span class="n">gradient_descent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">))</span>
 <span class="n">gradient_descent</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">bais = </span><span class="si">{:2.3f}</span><span class="s2">, step size = </span><span class="si">{:2.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>
 <span class="n">gradient_descent</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -763,7 +767,7 @@ iter  8, loss = 1.243, grad = -0.313, bias = 6.204
 iter  9, loss = 0.550, grad = 0.198, bias = 2.244
 iter 10, loss = 0.648, grad = 0.104, bias = 0.161
 
-bais = 0.000, step size = 0.10
+bais = 0.000, step size = 0.20
 iter  1, loss = 0.676, grad = -0.300, bias = 0.060
 iter  2, loss = 0.660, grad = -0.285, bias = 0.117
 iter  3, loss = 0.645, grad = -0.271, bias = 0.171
