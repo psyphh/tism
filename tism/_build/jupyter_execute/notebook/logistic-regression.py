@@ -101,7 +101,7 @@ $$
 $$
 \begin{aligned}
 \mathcal{D}(w) 
-= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right]. 
+= \frac{1}{N} \sum_{n=1}^N L\left [ y_n, \pi(x_n) \right].
 \end{aligned}
 $$
 
@@ -246,7 +246,7 @@ $$
 
 一般來說，數值優化常使用的收斂標準包括：
 + 直接判定梯度是否小於某很小之數值 $\epsilon$，即 $||\nabla D(\widehat{w}^{(t+1)} )|| < \epsilon$。 
-+ 判定參數估計值之改變是否小於某很小之數值 $\epsilon$，即$||D(\widehat{w}^{(t+1)} ) - D(\widehat{w}^{(t)} )|| < \epsilon$。此標準較為間接，主要用於無法直接評估梯度數值的情境。
++ 判定參數估計值之改變是否小於某很小之數值 $\epsilon$，即$||\widehat{w}^{(t+1)} - \widehat{w}^{(t)}|| < \epsilon$。此標準較為間接，主要用於無法直接評估梯度數值的情境。
 + 判斷 $t$ 是否已大於等於可接受之最大迭代次數 $T$，即 $t \geq T$。不過要注意的是，滿足此標準不代表已找到適切的解，此標準只是用來避免過多的迭代次數。
 
 
@@ -419,12 +419,16 @@ import torch
 def cal_loss(bias):
     if type(bias) is not torch.Tensor:
         bias = torch.tensor(bias, dtype = torch.float64)
+    else:
+        bias = bias.type(torch.float64)
     loss = -0.8 * bias + torch.log(1 + bias.exp())
     return loss
 
 def cal_grad(bias):
     if type(bias) is not torch.Tensor:
         bias = torch.tensor(bias, dtype = torch.float64)
+    else:
+        bias = bias.type(torch.float64)
     grad = -0.8 + bias.exp() / (1 + bias.exp())
     return grad
 
@@ -448,11 +452,11 @@ gradient_descent(bias, step_size, iter_max)
 
 我們可以看到梯度下降法，逐步地更新截距項，使得 ML 適配函數數值下降，且一階導數越來越靠近 0。事實上，此優化問題的極小元存在閉合形式解（closed-form solution），根據一階最適條件，$\frac{\exp{ \left( \widehat{w}_0 \right) }}{ 1+\exp{ \left( \widehat{w}_0 \right) }} = m_Y$，因此，$\widehat{w}_0 = \log \left[\frac{m_Y}{1-m_Y} \right] = \log \left[\frac{.8}{1-.8} \right] \approx  1.386$，我們可以看到梯度下降找到的解，與此閉合形式解幾無差異。
 
-接下來，我們開始觀察在不同更新步伐大小下之行為表現：
+接下來，請仔細觀察梯度下降在不同更新步伐大小與起始值下之行為表現：
 
 print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, 20.))
 gradient_descent(0, 20., 10)
-print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, .1))
+print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, .2))
 gradient_descent(0, .2, 10)
 print("\nbais = {:2.3f}, step size = {:2.2f}".format(1.5, 2.))
 gradient_descent(1.5, 2., 10)
