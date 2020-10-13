@@ -231,6 +231,36 @@ $$
 
 讀者可自行深入了解這些方法。
 
+### 使用LBFGS法進行優化
+
+x = torch.tensor([1, 2, 3],
+                 dtype = torch.float,
+                 requires_grad=True)
+opt = torch.optim.LBFGS((x,), lr=1, max_iter = 20,
+                        tolerance_grad = tol,
+                        line_search_fn = "strong_wolfe")
+def closure():
+    opt.zero_grad()
+    z = ((2 * x - 4) ** 2).sum()
+    z.backward()
+    print("descent!!!")
+    return z
+opt.step(closure)
+
+
+### 計算黑塞矩陣
+
+from torch.autograd.functional import hessian
+x = torch.tensor([1, 2, 3],
+                 dtype = torch.float,
+                 requires_grad=True)
+def g(x):
+    z = (x ** 3).sum()
+    return z
+print(hessian(g, x))
+
+
+
 ## 實徵範例
 
 ### 產生邏吉斯迴歸資料
