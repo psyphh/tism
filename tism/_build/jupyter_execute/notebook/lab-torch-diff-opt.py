@@ -296,3 +296,5 @@ x, y = generate_data(n_sample = 1000,
 
 print("feature matrix x is \n", x.numpy()[:10,:])
 print("response vector y is \n", y.numpy()[:10,:])
+
+
