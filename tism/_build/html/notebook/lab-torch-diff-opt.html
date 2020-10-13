@@ -267,10 +267,15 @@
      5.2.3. 使用LBFGS法進行優化
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     5.2.4. 計算黑塞矩陣
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
+  <a class="reference internal nav-link" href="#id8">
    5.3. 實徵範例
   </a>
  </li>
@@ -716,6 +721,7 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 </div>
 <div class="section" id="lbfgs">
 <h3><span class="section-number">5.2.3. </span>使用LBFGS法進行優化<a class="headerlink" href="#lbfgs" title="Permalink to this headline">¶</a></h3>
+<p>在使用 <code class="docutils literal notranslate"><span class="pre">torch.optim.LBFGS</span></code> 時，其物件的設計，與其它的優化器有不少的差別。<code class="docutils literal notranslate"><span class="pre">torch.optim.LBFGS</span></code> 容許使用者直接指定最多得迭代次數、收斂標準、以及線搜尋的方法，然而，其在執行時，需要定義一個closure，其內部需執行梯度之計算，以及對於函數值之評估。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
@@ -745,14 +751,10 @@ descent!!!
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="c1">### 計算黑塞矩陣</span>
-</pre></div>
 </div>
-</div>
-</div>
+<div class="section" id="id7">
+<h3><span class="section-number">5.2.4. </span>計算黑塞矩陣<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">torch.autograd.functional</span></code> 中有 <code class="docutils literal notranslate"><span class="pre">hessian</span></code> 此函數，其可用於計算純量函數之黑塞矩陣，這意味著研究者可以自行撰寫牛頓法之算則。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.autograd.functional</span> <span class="kn">import</span> <span class="n">hessian</span>
@@ -777,8 +779,8 @@ descent!!!
 </div>
 </div>
 </div>
-<div class="section" id="id7">
-<h2><span class="section-number">5.3. </span>實徵範例<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2><span class="section-number">5.3. </span>實徵範例<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

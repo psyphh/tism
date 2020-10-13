@@ -232,6 +232,7 @@ $$
 讀者可自行深入了解這些方法。
 
 ### 使用LBFGS法進行優化
+在使用 `torch.optim.LBFGS` 時，其物件的設計，與其它的優化器有不少的差別。`torch.optim.LBFGS` 容許使用者直接指定最多得迭代次數、收斂標準、以及線搜尋的方法，然而，其在執行時，需要定義一個closure，其內部需執行梯度之計算，以及對於函數值之評估。
 
 x = torch.tensor([1, 2, 3],
                  dtype = torch.float,
@@ -247,8 +248,8 @@ def closure():
     return z
 opt.step(closure)
 
-
 ### 計算黑塞矩陣
+`torch.autograd.functional` 中有 `hessian` 此函數，其可用於計算純量函數之黑塞矩陣，這意味著研究者可以自行撰寫牛頓法之算則。
 
 from torch.autograd.functional import hessian
 x = torch.tensor([1, 2, 3],
