@@ -262,39 +262,3 @@ print(hessian(g, x))
 
 
 ## 實徵範例
-
-### 產生邏吉斯迴歸資料
-
-torch.manual_seed(48)
-
-from torch.distributions import Bernoulli
-def generate_data(n_sample,
-                  weight,
-                  bias = 0,
-                  mean_feature = 0,
-                  std_feature = 1,
-                  dtype = torch.float64):
-    weight = torch.tensor(weight, dtype = dtype)
-    n_feature = weight.shape[0]
-    x = torch.normal(mean = mean_feature,
-                     std = std_feature,
-                     size = (n_sample, n_feature),
-                     dtype = dtype)
-    weight = weight.view(size = (-1, 1))
-    logit = bias + x @ weight
-    bernoulli = Bernoulli(logits = logit)
-    y = bernoulli.sample()
-    return x, y
-
-# run generate_data
-x, y = generate_data(n_sample = 1000,
-                     weight = [-5, 3, 0],
-                     bias = 2,
-                     mean_feature = 10,
-                     std_feature = 3,
-                     dtype = torch.float64)
-
-print("feature matrix x is \n", x.numpy()[:10,:])
-print("response vector y is \n", y.numpy()[:10,:])
-
-
