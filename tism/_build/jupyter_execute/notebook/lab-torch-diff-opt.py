@@ -262,4 +262,49 @@ print(hessian(g, x))
 
 
 
-## 實徵範例
+## 實徵範例與練習
+
+### 練習
+
+# set seed
+torch.manual_seed(246437)
+
+# write a function to generate data
+from torch.distributions import Bernoulli
+def generate_data(n_sample,
+                  weight,
+                  bias = 0,
+                  mean_feature = 0,
+                  std_feature = 1,
+                  dtype = torch.float64):
+    weight = torch.tensor(weight, dtype = dtype)
+    n_feature = weight.shape[0]
+    x = torch.normal(mean = mean_feature,
+                     std = std_feature,
+                     size = (n_sample, n_feature),
+                     dtype = dtype)
+    weight = weight.view(size = (-1, 1))
+    logit = bias + x @ weight
+    bernoulli = Bernoulli(logits = logit)
+    y = bernoulli.sample()
+    return x, y
+
+# run generate_data
+x, y = generate_data(n_sample = 1000,
+                     weight = [-5, 3, 0],
+                     bias = 2,
+                     mean_feature = 10,
+                     std_feature = 3,
+                     dtype = torch.float64)
+
+請根據前述程式碼產生的資料，撰寫以下的題目。
+
+1. 請寫一個函數`cal_pi`，其輸入為一$N \times P+1$矩陣 $X$ 與 $P+1$ 維向量 $w$，輸出為邏輯斯回歸的 $N$ 維向量 $\pi(X)$（$w$ 要是可微分的）。
+
+2. 請寫一個函數`cal_loss`，其輸入為 $y$ 與 $\pi(X)$，輸出為邏輯斯回歸的估計準則。
+
+3. 請使用 1 和 2 的成果，使用 `torch.optim.SGD` 進行優化。
+
+4. 請使用 1 和 2 的成果，使用 `torch.optim.BFGS` 進行優化。
+
+5. (bonus) 請使用 1 和 2 的成果，撰寫牛頓法進行優化。
