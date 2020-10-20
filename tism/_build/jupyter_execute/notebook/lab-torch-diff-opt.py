@@ -32,7 +32,7 @@ z = (y ** 2).sum()
 print("tensor y: \n", y)
 print("tensor z: \n", z)
 
-我們可以看到，無論是 `y` 或是 `z`，其都具有 `requires_grad=True` 的標記。要特別注意的是，`requires_grad=True` 僅適用於資料類型為浮點數之張量。
+我們可以看到，無論是 `y` 或是 `z`，其都具有 `grad_fn` 的標記。要特別注意的是，`requires_grad=True` 僅適用於資料類型為浮點數之張量。
 
 
 ### 數值微分之執行
