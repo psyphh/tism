@@ -276,8 +276,15 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id8">
-   5.3. 實徵範例
+   5.3. 實徵範例與練習
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     5.3.1. 練習
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -780,7 +787,54 @@ descent!!!
 </div>
 </div>
 <div class="section" id="id8">
-<h2><span class="section-number">5.3. </span>實徵範例<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">5.3. </span>實徵範例與練習<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3><span class="section-number">5.3.1. </span>練習<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># set seed</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
+
+<span class="c1"># write a function to generate data</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Bernoulli</span>
+<span class="k">def</span> <span class="nf">generate_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span>
+                  <span class="n">weight</span><span class="p">,</span>
+                  <span class="n">bias</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                  <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">n_feature</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean_feature</span><span class="p">,</span>
+                     <span class="n">std</span> <span class="o">=</span> <span class="n">std_feature</span><span class="p">,</span>
+                     <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_feature</span><span class="p">),</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">logit</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">weight</span>
+    <span class="n">bernoulli</span> <span class="o">=</span> <span class="n">Bernoulli</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">logit</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="c1"># run generate_data</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">generate_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+                     <span class="n">weight</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                     <span class="n">bias</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                     <span class="n">mean_feature</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                     <span class="n">std_feature</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                     <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>請根據前述程式碼產生的資料，撰寫以下的題目。</p>
+<ol class="simple">
+<li><p>請寫一個函數<code class="docutils literal notranslate"><span class="pre">cal_pi</span></code>，其輸入為一<span class="math notranslate nohighlight">\(N \times P+1\)</span>矩陣 <span class="math notranslate nohighlight">\(X\)</span> 與 <span class="math notranslate nohighlight">\(P+1\)</span> 維向量 <span class="math notranslate nohighlight">\(w\)</span>，輸出為邏輯斯回歸的 <span class="math notranslate nohighlight">\(N\)</span> 維向量 <span class="math notranslate nohighlight">\(\pi(X)\)</span>（<span class="math notranslate nohighlight">\(w\)</span> 要是可微分的）。</p></li>
+<li><p>請寫一個函數<code class="docutils literal notranslate"><span class="pre">cal_loss</span></code>，其輸入為 <span class="math notranslate nohighlight">\(y\)</span> 與 <span class="math notranslate nohighlight">\(\pi(X)\)</span>，輸出為邏輯斯回歸的估計準則。</p></li>
+<li><p>請使用 1 和 2 的成果，使用 <code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 進行優化。</p></li>
+<li><p>請使用 1 和 2 的成果，使用 <code class="docutils literal notranslate"><span class="pre">torch.optim.BFGS</span></code> 進行優化。</p></li>
+<li><p>(bonus) 請使用 1 和 2 的成果，撰寫牛頓法進行優化。</p></li>
+</ol>
+</div>
 </div>
 </div>
 
