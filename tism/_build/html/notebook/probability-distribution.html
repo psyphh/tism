@@ -218,7 +218,75 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   6.1. 隨機變數與其分佈特徵
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     6.1.1. 機率
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     6.1.2. 隨機變數與分配函數
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     6.1.3. 期望值與變異數
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   6.2. 常見隨機變數之分配
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#binomial">
+     6.2.1. Binomial 分配
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     6.2.2. 常態分配
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   6.3. 多個隨機變數之分佈
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     6.3.1. 隨機向量
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     6.3.2. 聯合分佈、邊際分佈、與條件分佈
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     6.3.3. 隨機向量之期望值與變異數
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     6.3.4. 獨立與條件獨立
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -229,6 +297,319 @@
                 
   <div class="section" id="id1">
 <h1><span class="section-number">6. </span>機率分佈<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2><span class="section-number">6.1. </span>隨機變數與其分佈特徵<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">6.1.1. </span>機率<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>如果一現象，我們事先可知道其可能之結果範疇，但無法得知其結果之特定結果的話，我們會稱該現象為隨機的現象（stochastic phenomenon），而機率（probability）則常用於描述特定結果之發生強度。</p>
+<p>在了解機率時，我們須了解以下詞彙之意涵：</p>
+<ul class="simple">
+<li><p>對隨機現象進行單次的觀察，稱作嘗試（trial）或實驗（experiment）。</p></li>
+<li><p>一嘗試所觀察到或量測到的數值，被稱作結果（outcome）。</p></li>
+<li><p>所有結果之集合，被被稱作樣本空間（sample space），常以 <span class="math notranslate nohighlight">\(S\)</span> 來表示。</p></li>
+<li><p>單一或多個結果形成之集合，被稱作一事件（event），常以 <span class="math notranslate nohighlight">\(E\)</span> 來表示。</p></li>
+</ul>
+<p>考慮扔躑一六面之骰子，則每扔躑一次骰子就是一嘗試或實驗，而此嘗試的可能結果為1、2、3、4、5、或6，共六種結果，因此，其樣本空間為<span class="math notranslate nohighlight">\(S =  \{1, 2, 3,4,5,6 \}\)</span>，而任一將不同的結果組合起來，如單數 <span class="math notranslate nohighlight">\(E=\{1, 3, 5\}\)</span>、小於3之結果<span class="math notranslate nohighlight">\(E=\{1,2\}\)</span>、沒有任何結果 <span class="math notranslate nohighlight">\(E = \{ \emptyset \}\)</span>，皆為事件的例子。</p>
+<p>簡單的來說，機率是一個介於0到1之間的數字，用來度量特定事件 <span class="math notranslate nohighlight">\(E\)</span> 發生的可能性，其必須滿足</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(0 \leq \mathbb{P}(E) \leq 1\)</span>；</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbb{P}(S) = 1\)</span>。</p></li>
+</ol>
+<p>若從比較嚴格的角度來定義機率的話，我們必須先定義一sigma algebra（或稱Borel field），其符號為 <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>，其由 <span class="math notranslate nohighlight">\(S\)</span> 的子集合所構成並滿足</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\emptyset \in \mathcal{B}\)</span>；</p></li>
+<li><p>若 <span class="math notranslate nohighlight">\(E \in \mathcal{B}\)</span>，則 <span class="math notranslate nohighlight">\(E^C \in \mathcal{B}\)</span>；</p></li>
+<li><p>若 <span class="math notranslate nohighlight">\(E_1, E_2,... \in \mathcal{B}\)</span>，則 <span class="math notranslate nohighlight">\(\cup_{i=1}^{\infty} E_i \in \mathcal{B}\)</span></p></li>
+</ol>
+<p>此時，機率函數（probability function）為一定義於 <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>之函數，表示為<span class="math notranslate nohighlight">\(\mathbb{P}\)</span>，其滿足</p>
+<ol class="simple">
+<li><p>對於所有的 <span class="math notranslate nohighlight">\(E \in \mathcal{B}\)</span>，<span class="math notranslate nohighlight">\(\mathbb{P}(E)\geq 0\)</span>；</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbb{P}(S) = 1\)</span>；</p></li>
+<li><p>若 <span class="math notranslate nohighlight">\(E_1, E_2,...\)</span> 互為配對不相交（pairwise disjoint）之事件，則 <span class="math notranslate nohighlight">\(\mathbb{P}(\cup_{i=1}^{\infty} E_i) = \sum_{i=1}^{\infty} \mathbb{P}(E_i)\)</span>。</p></li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">6.1.2. </span>隨機變數與分配函數<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>隨機變數 <span class="math notranslate nohighlight">\(X\)</span> 為一函數，其將樣本空間 <span class="math notranslate nohighlight">\(S\)</span> 中的事件 <span class="math notranslate nohighlight">\(A\)</span>，轉換為一實數 <span class="math notranslate nohighlight">\(x \in \mathcal{X}\)</span>。因此，完整的轉換歷程為 <span class="math notranslate nohighlight">\(x = X(A)\)</span>。</p>
+<p>隨機變數 <span class="math notranslate nohighlight">\(X\)</span> 的分配函數（distribution function），常以 <span class="math notranslate nohighlight">\(F_X(x)\)</span> 來表示，其定義為</p>
+<div class="math notranslate nohighlight">
+\[
+F_X(x) = \mathbb{P}(X \leq x)
+\]</div>
+<p>因此，分配函數可用於刻畫一隨機變數的行為表現。由於分配函數刻畫的是該隨機變數 <span class="math notranslate nohighlight">\(X\)</span> 小於等於 <span class="math notranslate nohighlight">\(x\)</span> 之機率，因此，其又被稱作累積分配函數（cumulative distribution function，簡稱CDF）。</p>
+<p>當 <span class="math notranslate nohighlight">\(X\)</span> 為間斷之隨機變數（discrete random variable）時，意即，<span class="math notranslate nohighlight">\(X\)</span> 的實現值僅為有限的數值時，則我們可以使用機率質量函數（probability mass function，簡稱PMF）來刻畫其行為，其被定義為</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \mathbb{P}(X=x)
+\]</div>
+<p>當 <span class="math notranslate nohighlight">\(X\)</span> 為連續隨機變數（continuous random variable）時，意即，<span class="math notranslate nohighlight">\(X\)</span> 的實現值可為實數軸上某區間的任一數值時，此時，<span class="math notranslate nohighlight">\(X\)</span> 於任一實現值的機率都是 0，因此，我們無法直接透過 <span class="math notranslate nohighlight">\(\mathbb{P}(X=x)\)</span> 來刻畫其隨機行為。取而代之的是，使用 <span class="math notranslate nohighlight">\(\mathbb{P}(X \in [x - \delta, x + \delta])\)</span> 來度量 <span class="math notranslate nohighlight">\(X\)</span> 在 <span class="math notranslate nohighlight">\(x\)</span> 附近的發生機率，這裡，<span class="math notranslate nohighlight">\(\delta\)</span> 表示一很小的數值。因此，我們可使用機率密度函數（probability density function，簡稱PDF）來連續隨機變數於 <span class="math notranslate nohighlight">\(x\)</span> 附近之發生機率，其被定義為</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \frac{d F_X(x)}{d x}
+\]</div>
+<p>前式意味著CDF可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+F_X(x)= \int_{-\infty} ^{x} f_X(u) du
+\]</div>
+<p>不過，要特別注意的是，隨機變數一定存在其所對應之CDF，但不一定有PDF。</p>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">6.1.3. </span>期望值與變異數<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>隨機變數之期望值（expectation）被定義為：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbb{E}(X) =
+\begin{cases}
+\sum_{x} x \cdot f_X(x) &amp; \text{ if } X \text{ is discrete;} \\
+\int_{x} x \cdot f_X(x) dx &amp; \text{ if } X \text{ is continuous.}
+\end{cases}
+\end{split}\]</div>
+<p>期望值可以被理解為該隨機變數之平均值。前述之期望值，常使用 <span class="math notranslate nohighlight">\(\mu_X\)</span> 來表示，意即，<span class="math notranslate nohighlight">\(\mu_X=\mathbb{E}(X)\)</span>。</p>
+<p>由於連加運算子 <span class="math notranslate nohighlight">\(\sim\)</span> 事實上可視為積分運算子 <span class="math notranslate nohighlight">\(\int\)</span> 於間斷度量（discrete measure）時之特例，因此，在之後談及期望值時，不管是間斷或是連續的隨機變數，我們僅使用 <span class="math notranslate nohighlight">\(\mathbb{E}(X) = \int_{x} x \cdot f_X(x) dx\)</span> 來表示。</p>
+<p>隨機變數之變異數（variance）則被定義為：</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{V}\text{ar}(X) = \mathbb{E}\left[(X - \mu_X)^2 \right] =
+\int_{x} (x - \mu_X)^2 \cdot f_X(x) dx
+\]</div>
+<p>變異數反映該隨機變數離期望值距離平方之平均，其常使用 <span class="math notranslate nohighlight">\(\sigma_X^2\)</span> 來表示。</p>
+<p>由於積分具有線性之性質，因此，若定義一隨機變數 <span class="math notranslate nohighlight">\(Y = a + b X\)</span>，則</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{E}(Y) &amp;= a + b \mu_X, \\
+\mathbb{V}\text{ar}(Y) &amp;= b^2 \sigma_X^2.
+\end{aligned}
+\end{split}\]</div>
+<p>此關係式在推導隨機變得共變結構時相當重要。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">6.2. </span>常見隨機變數之分配<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="binomial">
+<h3><span class="section-number">6.2.1. </span>Binomial 分配<a class="headerlink" href="#binomial" title="Permalink to this headline">¶</a></h3>
+<p>當一個嘗試滿足以下的條件時，其被稱作伯努利嘗試（Bernoulli trial）</p>
+<ol class="simple">
+<li><p>每次實驗的結果，只有成功與失敗兩種可能。</p></li>
+<li><p>隨機變數 <span class="math notranslate nohighlight">\(X\)</span> 用來指示（indicate）是否成功，即成功時，<span class="math notranslate nohighlight">\(X=1\)</span>，失敗時，<span class="math notranslate nohighlight">\(X=0\)</span>。</p></li>
+<li><p>成功與失敗的機率分別為 <span class="math notranslate nohighlight">\(\pi\)</span> 與 <span class="math notranslate nohighlight">\(1-\pi\)</span>。</p></li>
+</ol>
+<p>此時，<span class="math notranslate nohighlight">\(X\)</span> 表示一服從伯努利分配之隨機變數，我們寫作</p>
+<div class="math notranslate nohighlight">
+\[
+X \sim \text{Bernoulli}(\pi)
+\]</div>
+<p>而 <span class="math notranslate nohighlight">\(X\)</span> 的PMF可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \pi^x (1-\pi)^{(1-x)}
+\]</div>
+<p>根據定義，我們可以計算伯努利隨機變數的期望值與變異數，即</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{E}(X) &amp;= \sum_{x=0}^1 x \pi^x (1-\pi)^{(1-x)}\\
+&amp;=  \pi^1 (1-\pi)^{0}\\
+&amp;= \pi\\
+\end{aligned}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{C} \text{ov}(X) &amp;= \sum_{x=0}^1 (x - \pi)^2 \pi^x (1-\pi)^{(1-x)}\\
+&amp;=  (0 - \pi)^2 (1-\pi) + (1 - \pi)^2 \pi \\
+&amp;=  \pi^2 -\pi^3 + \pi - 2 \pi^2 + \pi^3 \\
+&amp;=  \pi -  \pi^2  \\
+&amp;=  \pi (1-  \pi)  \\
+\end{aligned}
+\end{split}\]</div>
+<p>伯努利的隨機變數具有一特別的性質，若 <span class="math notranslate nohighlight">\(X_1, X_2,...,X_N\)</span> 皆來自 <span class="math notranslate nohighlight">\(\text{Bernoulli}(\pi)\)</span>，且 <span class="math notranslate nohighlight">\(X_1, X_2,...,X_N\)</span> 彼此統計獨立（見下一小節），則定義 <span class="math notranslate nohighlight">\(Y = X_1 + X_2 + ... +X_N\)</span>，<span class="math notranslate nohighlight">\(Y\)</span> 的分配被稱作二項式分配（binomial distribution），其 PMF 為</p>
+<div class="math notranslate nohighlight">
+\[
+f_Y(y) = {N \choose y} \pi^{y} (1-\pi)^{(N-y)}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\({N \choose y} = \frac{N!}{y! (N-y)!}\)</span> 而 <span class="math notranslate nohighlight">\(y! = y(y-1)(y-2) \cdots \times 2 \times 1\)</span>。二項式分配的期望值與變異數，可以直接使用多個隨機變數之線性組合獲得（見隨機向量之期望值與變異數的部分），其表達式為</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E}(X) = N \pi
+\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{C} \text{ov}(X) = N \pi (1-\pi)
+\]</div>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">6.2.2. </span>常態分配<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>許多大自然的現象，皆展現常態分配的樣貌，常態分配的隨機變數 <span class="math notranslate nohighlight">\(X\)</span>，其PDF為一對稱的鐘形曲線，表達式為</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x) = \frac{1}{\sqrt{2 \pi} \sigma_X} e^{-(x - \mu_X)^2/2 \sigma_X^2}
+\]</div>
+<p>常態分配隨機變數的期望值為 <span class="math notranslate nohighlight">\(\mu_X\)</span>，變異數為 <span class="math notranslate nohighlight">\(\sigma_X^2\)</span>，然而，若要照定義進行計算的話，則需要使用到變數變換（change of variables）與分部積分法（integral by parts）的技巧，有興趣的讀者，可以自行去找一本數理統計學的課本來閱讀。</p>
+<p>常態分配有個重要的特性是，任何常態分配隨機變數的線性組合，不論參數數值為何以及是否獨立，仍然會是常態分配，此特性在許多模型的建立與理論推導上，扮演重要的角色。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2><span class="section-number">6.3. </span>多個隨機變數之分佈<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3><span class="section-number">6.3.1. </span>隨機向量<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>當我們有多個隨機變數 <span class="math notranslate nohighlight">\(X_1, X_2,...,X_P\)</span> 時，我們可以將其排成一個隨機向量 <span class="math notranslate nohighlight">\(X = (X_1, X_2,...,X_P)\)</span>，<span class="math notranslate nohighlight">\(X_p\)</span> 用於表示 <span class="math notranslate nohighlight">\(X\)</span> 的第 <span class="math notranslate nohighlight">\(p\)</span> 個隨機變數。<span class="math notranslate nohighlight">\(X\)</span> 此隨機向量的行為可以使用分配函數表示：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+F(x) &amp;= F(x_1,x_2,...,x_P) \\
+&amp;=  \mathbb{P}(X_1 \leq x_1, X_2 \leq x_2,...,X_P \leq x_P)
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(x=(x_1,x_2,...,x_P)\)</span> 表示一 <span class="math notranslate nohighlight">\(P\)</span> 維向量，其內部元素為 <span class="math notranslate nohighlight">\(x_p\)</span>。</p>
+<p>當 <span class="math notranslate nohighlight">\(X\)</span> 的內部元素皆為間斷變數時，其PMF為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+f(x) &amp;= f(x_1,x_2,...,x_P) \\
+&amp; =  \mathbb{P}(X_1 = x_1, X_2 = x_2,...,X_P = x_P)
+\end{aligned}
+\end{split}\]</div>
+<p>而當<span class="math notranslate nohighlight">\(X\)</span> 的內部元素皆為連續變數時，其PDF為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+f(x) &amp;= f(x_1,x_2,...,x_P) \\
+&amp;=\frac{\partial^P F(x)}{\partial x_1 \partial x_2 ... \partial x_P}
+\end{aligned}
+\end{split}\]</div>
+</div>
+<div class="section" id="id10">
+<h3><span class="section-number">6.3.2. </span>聯合分佈、邊際分佈、與條件分佈<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>無論是 <span class="math notranslate nohighlight">\(F(x)\)</span> 與 <span class="math notranslate nohighlight">\(f(x)\)</span>，其都用於刻畫 <span class="math notranslate nohighlight">\(X_1, X_2, ..., X_P\)</span> 之聯合分佈（joint distribution），其反映的是 <span class="math notranslate nohighlight">\(X_1, X_2, ..., X_P\)</span> 共 <span class="math notranslate nohighlight">\(P\)</span> 個隨機變數聯合起來的隨機表現。</p>
+<p>令 <span class="math notranslate nohighlight">\(f_{X_1X_2}(x_1, x_2)\)</span> 表示 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span> 聯合分佈之 PMF/PDF，則 <span class="math notranslate nohighlight">\(X_1\)</span> 邊際分佈（marginal distribution）的 PMF/PDF，可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+f_{X_1}(x_1) = \int f_{X_1X_2}(x_1, x_2) d x_2
+\]</div>
+<p>事實上，<span class="math notranslate nohighlight">\(f_{X_1}(x_1)\)</span> 即為 <span class="math notranslate nohighlight">\(X_1\)</span> 分佈之 PMF/PDF。一般來說，若 <span class="math notranslate nohighlight">\(X = (X_1, X_2, ...,X_P)\)</span>，則 <span class="math notranslate nohighlight">\(X_p\)</span> 的邊際分佈可以透過以下方式獲得</p>
+<div class="math notranslate nohighlight">
+\[
+f_{X_p}(x_p) = \int  ... \int \int ... \int f_{X}(x) d x_1 ...d x_{p-1} d x_{p+1} ...d x_{P}
+\]</div>
+<p>令 <span class="math notranslate nohighlight">\(f_{X_1X_2}(x_1, x_2)\)</span> 表示 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span> 聯合分佈之 PMF/PDF，<span class="math notranslate nohighlight">\(f_{X_1}(x_1)\)</span> 表示 <span class="math notranslate nohighlight">\(X_1\)</span> 之邊際分佈，則 <span class="math notranslate nohighlight">\(X_2\)</span> 在給定 <span class="math notranslate nohighlight">\(X_1=x_1\)</span> 之下的條件分佈（conditional distribution）為</p>
+<div class="math notranslate nohighlight">
+\[
+f_{X_2|X_1}(x_2| x_1) = \frac{f_{X_1X_2}(x_1, x_2)}{f_{X_1}(x_1)}
+\]</div>
+<p>這裡，我們假設 <span class="math notranslate nohighlight">\(f_{X_1}(x_1) \neq 0\)</span>。</p>
+<p>條件分佈在統計建模中，扮演相當關鍵的角色，舉例來說，線性迴歸分析事實上可以被理解為</p>
+<div class="math notranslate nohighlight">
+\[
+Y | X = x \sim \mathcal{N}(w_0 +\sum_{p=1}^P w_p x_p , \sigma^2_{\epsilon})
+\]</div>
+<p>意即，在給定 <span class="math notranslate nohighlight">\(X = x\)</span> 的條件下，<span class="math notranslate nohighlight">\(Y\)</span> 的分配為平均數為 <span class="math notranslate nohighlight">\(w_0 +\sum_{p=1}^P w_p x_p\)</span>，變異數為 <span class="math notranslate nohighlight">\(\sigma^2_{\epsilon}\)</span> 之常態分配。這裡，<span class="math notranslate nohighlight">\(w_p\)</span> 為 <span class="math notranslate nohighlight">\(x_p\)</span> 所對應之迴歸係數。</p>
+<p>另外，邏輯斯迴歸亦可以被理解為</p>
+<div class="math notranslate nohighlight">
+\[
+Y | X = x \sim \text{Bernoulli}(\pi(x))
+\]</div>
+<p>意即，在給定 <span class="math notranslate nohighlight">\(X = x\)</span> 的條件下，<span class="math notranslate nohighlight">\(Y\)</span> 的分配為成功機率為 <span class="math notranslate nohighlight">\(\pi(x)\)</span> 之伯努利分配。這裡，<span class="math notranslate nohighlight">\(\pi(x) = \frac{\exp(w_0 +\sum_{p=1}^P w_p x_p)}{1 + \exp(w_0 +\sum_{p=1}^P w_p x_p)}\)</span>。</p>
+</div>
+<div class="section" id="id11">
+<h3><span class="section-number">6.3.3. </span>隨機向量之期望值與變異數<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(X = (X_1, X_2,...,X_P)\)</span> 表示一隨機向量，則該向量之期望值向量（expectation vector）與共變數矩陣（covariance matrix）被定義為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mu_X = \mathbb{E} (X) 
+= \begin{pmatrix}
+\mathbb{E} (X_1) \\
+\mathbb{E} (X_2) \\
+\vdots \\
+\mathbb{E} (X_P)
+\end{pmatrix}
+=
+\begin{pmatrix}
+\mu_{X_1} \\
+\mu_{X_2} \\
+\vdots \\
+\mu_{X_P}
+\end{pmatrix}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\Sigma_X &amp;= \mathbb{C}\text{ov} (X) \\
+&amp;=
+\begin{pmatrix}
+\mathbb{C}\text{ov} (X_1, X_1) &amp; \mathbb{C}\text{ov} (X_1, X_2) &amp; \cdot &amp; \mathbb{C}\text{ov} (X_1, X_P)  \\
+\mathbb{C}\text{ov} (X_2, X_1) &amp; \mathbb{C}\text{ov} (X_2, X_2) &amp; \cdot &amp; \mathbb{C}\text{ov} (X_2, X_P) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\mathbb{C}\text{ov} (X_P, X_1) &amp; \mathbb{C}\text{ov} (X_P, X_2) &amp; \cdot &amp; \mathbb{C}\text{ov} (X_P, X_P) 
+\end{pmatrix} \\
+&amp;=
+\begin{pmatrix}
+\sigma_{X_1}^2 &amp; \sigma_{X_1 X_2} &amp; \cdot &amp; \sigma_{X_1 X_P}  \\
+\sigma_{X_2 X_1} &amp; \sigma_{X_2}^2 &amp; \cdot &amp; \sigma_{X_2 X_P} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\sigma_{X_P X_1} &amp; \sigma_{X_P X_2} &amp; \cdot &amp; \sigma_{X_P}^2
+\end{pmatrix}
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\mathbb{E} (X_p)\)</span> 與 <span class="math notranslate nohighlight">\(\mathbb{C}\text{ov} (X_p, X_q)\)</span> 的定義分別為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{E} (X_p) &amp;= \int x_p f_X(x) dx \\
+&amp;= \int x_p f_{X_p}(x_p) dx_p
+\end{aligned}
+\end{split}\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{C}\text{ov} (X_p, X_q) &amp;= \int (x_p- \mu_{X_p}) (x_q- \mu_{X_q}) f_X(x) dx \\
+&amp;= \int \int (x_p- \mu_{X_p}) (x_q- \mu_{X_q}) f_{X_p X_q}(x_p,x_q) dx_p dx_q
+\end{aligned}
+\end{split}\]</div>
+<p>另外，如果我們對 <span class="math notranslate nohighlight">\(X\)</span> 進行線性轉換，即 <span class="math notranslate nohighlight">\(Y = b + A X\)</span>，則我們有</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_Y = \mathbb{E} (Y) = \mathbb{E} (b + AX) = b + A \mu_X
+\]</div>
+<p>與</p>
+<div class="math notranslate nohighlight">
+\[
+\Sigma_Y = \mathbb{C}\text{ov} (Y) = \mathbb{C}\text{ov} (b + AX) = A \Sigma_X A^T
+\]</div>
+<p>其中，一個最簡單的應用是 <span class="math notranslate nohighlight">\(Y= 1^T X = \sum_{p=1}^P X_p\)</span>，這裡，<span class="math notranslate nohighlight">\(1 = \underbrace{(1,1,...,1)}_{P \text{個} 1}\)</span>，此時，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mu_Y &amp;= 1^T\mu_X = \sum_{p=1}^P \mu_{X_p}, \\
+\Sigma_Y &amp;= 1^T \Sigma_X 1 = \sum_{p=1}^P \sum_{q=1}^P \sigma_{X_p X_q}.
+\end{aligned}
+\end{split}\]</div>
+</div>
+<div class="section" id="id12">
+<h3><span class="section-number">6.3.4. </span>獨立與條件獨立<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>兩隨機變數 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span>，若滿足以下條件時，則稱作統計獨立（statistically independent）</p>
+<div class="math notranslate nohighlight">
+\[
+f_{X_1X_2}(x_1, x_2) = f_{X_1}(x_1) f_{X_2}(x_2)
+\]</div>
+<p>因此，我們可以僅透過 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span> 各自的邊際分配，得到其聯合之分配。</p>
+<p>然而，在進行統計建模時，獨立的假設大多過於強烈，因此，常採用的是條件獨立（conditional independence）之假設。對於所有的 <span class="math notranslate nohighlight">\(Z = z\)</span>，若滿足以下條件時，我們稱 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span> 兩者條件獨立：</p>
+<div class="math notranslate nohighlight">
+\[
+f_{X_1X_2|Z=z}(x_1, x_2|z) = f_{X_1|Z=z}(x_1|z) f_{X_2|Z=z}(x_2|z)
+\]</div>
+<p>利用條件獨立之假設，令 <span class="math notranslate nohighlight">\(\text{pa}(X_p)\)</span> 表示所有對 <span class="math notranslate nohighlight">\(X_p\)</span> 造成影響的變項，則利用條件獨立之假設，我們可以使用以下的方法來建構 <span class="math notranslate nohighlight">\(X_1, X_2,..., X_P\)</span> 之聯合分佈</p>
+<div class="math notranslate nohighlight">
+\[
+f_X(x_1,x_2,...,x_P) = \prod_{p=1}^P f_{X_p|\text{pa}(X_p)}(x_p|\text{pa}(X_p))
+\]</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
