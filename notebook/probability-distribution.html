@@ -113,28 +113,23 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="likelihood-inference.html">
-   9. 概似推論
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="true-score-model.html">
-   10. 真實分數模型
+   9. 真實分數模型
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="factor-analysis.html">
-   11. 因素分析
+   10. 因素分析
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="item-response-theory.html">
-   12. 試題反應理論
+   11. 試題反應理論
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="mixture-modeling.html">
-   13. 混合建模
+   12. 混合建模
   </a>
  </li>
 </ul>
@@ -418,7 +413,7 @@ f_X(x) = \pi^x (1-\pi)^{(1-x)}
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-\mathbb{C} \text{ov}(X) &amp;= \sum_{x=0}^1 (x - \pi)^2 \pi^x (1-\pi)^{(1-x)}\\
+\mathbb{V} \text{ar}(X) &amp;= \sum_{x=0}^1 (x - \pi)^2 \pi^x (1-\pi)^{(1-x)}\\
 &amp;=  (0 - \pi)^2 (1-\pi) + (1 - \pi)^2 \pi \\
 &amp;=  \pi^2 -\pi^3 + \pi - 2 \pi^2 + \pi^3 \\
 &amp;=  \pi -  \pi^2  \\
@@ -438,7 +433,7 @@ f_Y(y) = {N \choose y} \pi^{y} (1-\pi)^{(N-y)}
 <p>與</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbb{C} \text{ov}(X) = N \pi (1-\pi)
+\mathbb{V} \text{ar}(X) = N \pi (1-\pi)
 \]</div>
 </div>
 <div class="section" id="id7">
@@ -601,7 +596,7 @@ f_{X_1X_2}(x_1, x_2) = f_{X_1}(x_1) f_{X_2}(x_2)
 <p>然而，在進行統計建模時，獨立的假設大多過於強烈，因此，常採用的是條件獨立（conditional independence）之假設。對於所有的 <span class="math notranslate nohighlight">\(Z = z\)</span>，若滿足以下條件時，我們稱 <span class="math notranslate nohighlight">\(X_1\)</span> 與 <span class="math notranslate nohighlight">\(X_2\)</span> 兩者條件獨立：</p>
 <div class="math notranslate nohighlight">
 \[
-f_{X_1X_2|Z=z}(x_1, x_2|z) = f_{X_1|Z=z}(x_1|z) f_{X_2|Z=z}(x_2|z)
+f_{X_1X_2|Z}(x_1, x_2|z) = f_{X_1|Z}(x_1|z) f_{X_2|Z}(x_2|z)
 \]</div>
 <p>利用條件獨立之假設，令 <span class="math notranslate nohighlight">\(\text{pa}(X_p)\)</span> 表示所有對 <span class="math notranslate nohighlight">\(X_p\)</span> 造成影響的變項，則利用條件獨立之假設，我們可以使用以下的方法來建構 <span class="math notranslate nohighlight">\(X_1, X_2,..., X_P\)</span> 之聯合分佈</p>
 <div class="math notranslate nohighlight">
