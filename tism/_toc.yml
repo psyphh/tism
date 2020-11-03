@@ -8,7 +8,6 @@
 - file: notebook/probability-distribution
 - file: notebook/maximum-likelihood
 - file: notebook/lab-torch-mle
-- file: notebook/likelihood-inference
 - file: notebook/true-score-model
 - file: notebook/factor-analysis
 - file: notebook/item-response-theory
