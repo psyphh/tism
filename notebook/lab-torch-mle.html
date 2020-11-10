@@ -284,6 +284,11 @@
      8.3.4. 計算參數估計標準誤
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     8.3.5. 練習
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -362,12 +367,12 @@ Binomial(total_count: 10.0, probs: 0.5, logits: 0.0)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(0.6726)
+ tensor(-0.4194)
 random sample with shape (3,):
- tensor([-0.9778,  0.4605,  0.2917])
+ tensor([-0.4388, -1.1280,  0.8969])
 random sample with shape (2,3):
- tensor([[ 0.2587,  0.3464,  0.6223],
-        [ 1.2460,  2.1261, -0.8842]])
+ tensor([[ 0.8310,  0.2150,  0.1354],
+        [-1.0381,  0.3644, -1.2431]])
 </pre></div>
 </div>
 </div>
@@ -385,12 +390,12 @@ random sample with shape (2,3):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(4.)
+ tensor(2.)
 random sample with shape (3,):
- tensor([4., 7., 3.])
+ tensor([5., 6., 4.])
 random sample with shape (2,3):
- tensor([[5., 6., 2.],
-        [7., 1., 5.]])
+ tensor([[7., 4., 5.],
+        [3., 5., 6.]])
 </pre></div>
 </div>
 </div>
@@ -531,21 +536,21 @@ torch.Size([])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([-0.3715,  0.1135]) 
+ tensor([0.4522, 2.7379]) 
 
 random sample with sample_shape (3,):
- tensor([[-0.7215,  3.0184],
-        [-1.4450, -1.7052],
-        [ 0.7552,  1.0976]]) 
+ tensor([[-1.2309,  0.6371],
+        [ 0.9869,  1.6076],
+        [ 0.6094,  2.0803]]) 
 
 random sample with sample_shape (2,3):
- tensor([[[ 0.5552,  3.3765],
-         [-0.1049,  1.5676],
-         [-0.0229,  0.7860]],
+ tensor([[[-1.4668,  1.0473],
+         [ 1.0916,  1.7372],
+         [-1.3593,  1.6327]],
 
-        [[ 0.8413,  1.4401],
-         [-0.9938,  0.2061],
-         [ 0.0333,  0.7998]]])
+        [[ 0.4832,  0.3294],
+         [-0.9249,  2.4070],
+         [ 1.5868,  0.7956]]])
 </pre></div>
 </div>
 </div>
@@ -611,21 +616,21 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([0.8808, 0.9846]) 
+ tensor([0.6574, 1.5827]) 
 
 random sample with sample_shape (3,):
- tensor([[1.5918, 1.3984],
-        [0.1556, 1.8067],
-        [0.4503, 0.3558]]) 
+ tensor([[-0.1951,  1.1400],
+        [-0.4794,  1.4130],
+        [-0.5844, -0.1911]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[ 0.8007,  1.5565],
-         [-0.9295,  0.2594],
-         [-0.9466,  0.5399]],
+ tensor([[[ 1.3724,  1.7654],
+         [ 0.7928,  1.4165],
+         [ 0.4914, -0.3673]],
 
-        [[-1.1613, -0.0279],
-         [ 0.3122, -0.7002],
-         [-0.0087,  1.0509]]])
+        [[-0.3301,  0.4815],
+         [ 0.1510,  0.9774],
+         [-1.0684,  1.7301]]])
 </pre></div>
 </div>
 </div>
@@ -700,48 +705,48 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([[-2.5629, -0.4187],
-        [ 2.4431,  2.2550],
-        [ 0.3245,  3.2725]]) 
+ tensor([[1.4172, 2.0207],
+        [0.6977, 2.4749],
+        [0.6448, 3.1916]]) 
 
 random sample with sample_shape (3,):
- tensor([[[ 0.6315,  0.2193],
-         [ 1.5152,  0.9752],
-         [ 3.0038,  2.9637]],
+ tensor([[[ 0.1498,  0.7187],
+         [ 0.3288,  1.8432],
+         [ 2.6771,  4.1235]],
 
-        [[ 0.8778,  0.4643],
-         [ 1.1580,  1.8899],
-         [ 2.5714,  3.6319]],
+        [[-0.0141,  0.1724],
+         [ 1.0631,  1.9536],
+         [ 0.8022,  2.3114]],
 
-        [[-0.4429,  0.7009],
-         [ 2.2791,  2.4875],
-         [ 3.4103,  2.8903]]]) 
+        [[-0.1082,  0.5271],
+         [ 0.3725,  2.2209],
+         [ 2.3986,  3.0472]]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[[ 0.4599,  0.3328],
-          [ 1.1656,  2.7135],
-          [ 1.2997,  2.5789]],
+ tensor([[[[ 1.2365,  1.4025],
+          [ 2.2052,  2.1605],
+          [ 0.9237,  3.6347]],
 
-         [[ 0.1290,  1.2619],
-          [ 3.0266,  2.2632],
-          [-0.7892,  2.8367]],
+         [[-0.6004, -0.2073],
+          [ 0.3561,  1.3316],
+          [ 0.8579,  3.0308]],
 
-         [[ 0.2991,  1.5997],
-          [ 2.8171,  2.2218],
-          [ 2.4881,  2.6658]]],
+         [[ 0.0384,  1.1540],
+          [-0.2411,  3.1704],
+          [ 1.7734,  4.3747]]],
 
 
-        [[[-0.3662,  0.9252],
-          [ 0.4743,  1.2745],
-          [ 2.2906,  3.1829]],
+        [[[ 0.3693,  0.8658],
+          [ 0.9330,  2.6582],
+          [ 1.7609,  3.9453]],
 
-         [[-0.7816,  1.0840],
-          [ 0.5526,  1.5267],
-          [ 1.6790,  3.5054]],
+         [[ 0.9497,  0.1146],
+          [ 1.0094,  2.1189],
+          [ 2.0702,  4.7744]],
 
-         [[-0.8941,  0.2684],
-          [ 2.0458,  2.2196],
-          [ 4.1863,  3.7211]]]])
+         [[ 0.0403,  0.5572],
+          [ 0.3400,  2.4157],
+          [ 0.7350,  3.2894]]]])
 </pre></div>
 </div>
 </div>
@@ -785,7 +790,7 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.0811)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.1197)
 </pre></div>
 </div>
 </div>
@@ -820,8 +825,8 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: [4.9983263]
-ML std by gradient descent: [1.9337078]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: [5.0744724]
+ML std by gradient descent: [2.0143497]
 </pre></div>
 </div>
 </div>
@@ -835,8 +840,8 @@ ML std by gradient descent: [1.9337078]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 4.998166
-ML std by formula: 1.9371024
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 5.0744457
+ML std by formula: 2.0137484
 </pre></div>
 </div>
 </div>
@@ -861,9 +866,7 @@ ML std by formula: 1.9371024
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>true mean vector: 
  tensor([-1.,  0.,  1.])
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>true covariance matrix: 
+true covariance matrix: 
  tensor([[9.0000, 6.0000, 1.2000],
         [6.0000, 5.0000, 1.3000],
         [1.2000, 1.3000, 0.6600]])
@@ -898,7 +901,7 @@ ML std by formula: 1.9371024
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6772)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6397)
 </pre></div>
 </div>
 </div>
@@ -935,11 +938,11 @@ ML std by formula: 1.9371024
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
- tensor([-1.1562, -0.0864,  0.9678], requires_grad=True)
+ tensor([-1.0091,  0.0243,  1.0195], requires_grad=True)
 ML covariance by gradient descent: 
- tensor([[9.1677, 6.1551, 1.3213],
-        [6.1551, 5.2087, 1.4294],
-        [1.3213, 1.4294, 0.6956]], grad_fn=&lt;MmBackward&gt;)
+ tensor([[8.9950, 5.9571, 1.2299],
+        [5.9571, 4.9419, 1.3032],
+        [1.2299, 1.3032, 0.6466]], grad_fn=&lt;MmBackward&gt;)
 </pre></div>
 </div>
 </div>
@@ -956,11 +959,11 @@ ML covariance by gradient descent:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([-1.1562, -0.0864,  0.9678])
+ tensor([-1.0091,  0.0243,  1.0195])
 ML covariance by formula: 
- tensor([[9.1677, 6.1551, 1.3213],
-        [6.1551, 5.2087, 1.4294],
-        [1.3213, 1.4294, 0.6956]])
+ tensor([[8.9950, 5.9571, 1.2299],
+        [5.9571, 4.9420, 1.3032],
+        [1.2299, 1.3032, 0.6466]])
 </pre></div>
 </div>
 </div>
@@ -997,7 +1000,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fdd3069ffb0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fc9490611d0&gt;
 </pre></div>
 </div>
 </div>
@@ -1056,7 +1059,7 @@ ML covariance by formula:
         <span class="n">logit</span> <span class="o">=</span> <span class="n">bias</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">@</span> <span class="n">weight</span>
         <span class="n">bernoulli</span> <span class="o">=</span> <span class="n">Bernoulli</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">logit</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="s2">&quot;LBFGS&quot;</span><span class="p">,</span> 
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="s2">&quot;LBFGS&quot;</span><span class="p">,</span>
             <span class="n">epochs</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">tol</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -1073,7 +1076,7 @@ ML covariance by formula:
                              <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
                              <span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">optimizer</span> <span class="o">==</span> <span class="s2">&quot;LBFGS&quot;</span><span class="p">:</span>
-            <span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">LBFGS</span><span class="p">([</span><span class="n">bias</span><span class="p">,</span> <span class="n">weight</span><span class="p">],</span> 
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">LBFGS</span><span class="p">([</span><span class="n">bias</span><span class="p">,</span> <span class="n">weight</span><span class="p">],</span>
                                     <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">max_iter</span> <span class="o">=</span> <span class="n">epochs</span><span class="p">,</span>
                                     <span class="n">tolerance_grad</span> <span class="o">=</span> <span class="n">tol</span><span class="p">,</span>
                                     <span class="n">line_search_fn</span> <span class="o">=</span> <span class="s2">&quot;strong_wolfe&quot;</span><span class="p">)</span>
@@ -1090,7 +1093,7 @@ ML covariance by formula:
                 <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_lik</span><span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
                 <span class="n">loss_value</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
                 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-                    <span class="n">grad_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">bias</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> 
+                    <span class="n">grad_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">bias</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
                                    <span class="n">weight</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">grad_max</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">):</span>
                     <span class="k">break</span>
@@ -1104,8 +1107,8 @@ ML covariance by formula:
         <span class="n">bias</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">hessian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_lik</span><span class="p">,</span> <span class="p">(</span><span class="n">bias</span><span class="p">,</span> <span class="n">weight</span><span class="p">))</span>
         <span class="n">fisher_obs</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">),</span>
-                                <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
-                                           <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)],</span> 
+                                <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                                           <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()],</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)],</span>
                                <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="n">vcov</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">fisher_obs</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">n_sample</span>
@@ -1197,7 +1200,7 @@ Dep. Variable:                      y   No. Observations:                 1000
 Model:                          Logit   Df Residuals:                      996
 Method:                           MLE   Df Model:                            3
 Date:                Tue, 10 Nov 2020   Pseudo R-squ.:                  0.9211
-Time:                        17:28:24   Log-Likelihood:                -32.809
+Time:                        22:14:05   Log-Likelihood:                -32.809
 converged:                       True   LL-Null:                       -415.71
 Covariance Type:            nonrobust   LLR p-value:                1.133e-165
 ==============================================================================
@@ -1216,6 +1219,14 @@ quasi-separation. In this case some parameters will not be identified.
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="id12">
+<h3><span class="section-number">8.3.5. </span>練習<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>請建立一類型，其可以使用最大概似法，執行線性回歸分析。</p></li>
+<li><p>請在前述的類型中，加入一摘要方法（summary()），該方法可以列印出參數估計的假設檢定與信賴區間。</p></li>
+<li><p>請建立一類型，其可以估計多元常態分配的平均數與共變異數矩陣，並且提供各參數估計之標準誤。</p></li>
+</ol>
 </div>
 </div>
 </div>
