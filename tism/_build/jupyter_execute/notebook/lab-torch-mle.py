@@ -20,7 +20,8 @@ normal = Normal(loc=0., scale=1.)
 再以Binomial分配為例，其參數為嘗試次數與成功之機率（也可以使用對數勝率來設定）
 
 from torch.distributions import Binomial
-binomial = Binomial(total_count = 10, probs = 0.5)
+binomial = Binomial(total_count = 10,
+                    probs = 0.5)
 
 我們可以透過對分配物件的列印，以了解其內部之參數設定：
 
@@ -72,6 +73,8 @@ print("cumulative probability given value with (2,3):\n",
       normal.cdf(value=torch.Tensor([[-1, 0, .5], [-2, 1, 3]])))
 
 不過，binomial分配並無 `cdf()` 方法可評估累積機率值。
+
+
 
 ### 分配物件之形狀
 `pytorch` 分配物件之設計，乃參考 `tensorflow_probability`此套件，而分配物件在形狀上，牽涉到三類型之形狀：
@@ -173,9 +176,6 @@ print("random sample with sample_shape (2, 3):\n",
 ## 最大概似估計法
 
 ### 建立概似函數
-利用 `torch` 的分配物件，我們可以很容易地來建立概似函數。
-
-首先，我們先以常態分配進行說明。為了產生樣本資料，我們先設定一平均數為5，標準差為4之常態分配
 
 mu_true = torch.tensor([5.])
 sigma_true = torch.tensor([2.])
@@ -184,18 +184,12 @@ model_normal_true = Normal(
     scale=sigma_true)
 print("normal model:\n", model_normal_true, "\n")
 
-接著，我們可以利用此常態分配來產生一樣本數為1000之資料，並評估該資料在平均數為5，標準差為4此常態分配下之負對數可能性（negative log-likelihood）
-
 sample_size = 1000
 x = model_normal_true.sample(sample_shape=(sample_size,))
-loss_value = - model_normal_true.log_prob(x).mean()
+loss_value = -torch.mean(torch.sum(model_normal_true.log_prob(x), dim = 1))
 print("negative likelihood value is", loss_value)
 
-因此，只要在資料的形狀上可以匹配，我們即可使用分配物件的`log_prob()` 方法，再搭配 `sum()` 或是 `mean()` 來計算對數概似函數數值。
-
 ### 進行優化
-
-在建立完概似函數後，我們就可以透過 `torch` 的優化器進行優化。在這邊需要特別注意的是，由於模型的參數會在優化過程中更新，因此，其必須使用一可為分之張量來儲存，並且，在每次更新完參數數值後，皆需再次產生一新的分配物件，以計算概述函數之數值
 
 epochs = 200
 lr = 1.0
@@ -204,24 +198,16 @@ sigma = torch.tensor([1.], requires_grad=True)
 opt = torch.optim.Adam([mu, sigma], lr=.5)
 for epoch in range(epochs):
     model_normal = Normal(loc=mu, scale=sigma)
-    loss_value = - model_normal.log_prob(x).mean()
+    loss_value = -torch.mean(model_normal.log_prob(x))
     opt.zero_grad()
     loss_value.backward() # compute the gradient
     opt.step()
 
-print("ML mean by gradient descent:", mu.data.numpy())
-print("ML std by gradient descent:", sigma.data.numpy())
+print("ML mean by gradient descent:", mu)
+print("ML std by gradient descent:", sigma)
 
-我們可以比較前述使用梯度下降法所得到的結果，與直接帶公式計算結果間的差異，可以發現兩者間的差異主要展現在小數點後3位，是絕大多數情況下可以忽略的誤差。
-
-print("ML mean by formula:", torch.mean(x).numpy())
-print("ML std by formula:", torch.std(x, unbiased=False).numpy())
-
-### 多元常態分配之最大概似估計
-
-多元常態分配為統計建模中常被使用之分配，因此，我們在此對該分配之參數進行最大概似法之估計。
-
-多元常態分配之最大概似估計最麻煩的部分在於，共變異數矩陣是對稱正定矩陣，因此，雖然共變異矩陣中有 $P \times P$ 個元素，但事實上，其僅有 $P(P+1)/2$ 個能夠自由估計之參數，並且，其數值需滿足正定矩陣之要求。為了處理此困難，在進行多元常態分配之參數設定時，我們不直接設定共變異數矩陣，取而代之的是，設定該矩陣之 Cholesky 拆解，即 `scale_tril`
+print("ML mean by formula:", torch.mean(x))
+print("ML std by formula:", torch.std(x, unbiased=False))
 
 mu_true = torch.tensor([-1., 0., 1.])
 sigma_tril_true = torch.tensor([[3., 0., 0.], [2., 1., 0.], [.4, .5, .5]])
@@ -232,17 +218,9 @@ print("true mean vector: \n", model_mvn_true.mean)
 print("true covariance matrix: \n", model_mvn_true.covariance_matrix)
 
 
-前一程式碼所展示的共變異數矩陣，可透過以下的公式獲得
-
-sigma_tril_true @ sigma_tril_true.t()
-
-前式可以確保所得到的共變異數矩陣為對稱矩陣，另外，如果說給定的對角線元素為正的，則可以進一步確保該共變異數矩陣為對稱正定矩陣。
-
-接著，我們就可以利用該分配物件來產生資料、計算概似函數數值、以及計算最大概似估計值。
-
 sample_size = 1000
 x = model_mvn_true.sample(sample_shape=(sample_size,))
-loss_value = -model_mvn_true.log_prob(x).mean()
+loss_value = -torch.mean(model_mvn_true.log_prob(x))
 print("negative likelihood value is", loss_value)
 
 
@@ -264,28 +242,25 @@ for epoch in range(epochs):
     loss_value.backward() # compute the gradient
     opt.step()
 
-print("ML mean by gradient descent: \n", mu)
-print("ML covariance by gradient descent: \n", sigma_tril @ sigma_tril.t())
+print("ML mean by gradient descent: \n",
+      mu)
+print("ML covariance by gradient descent: \n",
+      sigma_tril @ torch.transpose(sigma_tril, 0, 1))
 
 sample_mean = torch.mean(x, dim = 0)
-sample_moment2 = (x.t() @ x) / sample_size
+sample_moment2 = (torch.transpose(x, 0, 1) @ x) / sample_size
 sample_cov = sample_moment2 - torch.ger(sample_mean, sample_mean)
-print("ML mean by formula: \n", sample_mean)
-print("ML covariance by formula: \n", sample_cov)
+print("ML mean by formula: \n",
+      sample_mean)
+print("ML covariance by formula: \n",
+      sample_cov)
 
-
-x = torch.tensor([1., 2., 3., 4., 5., 6.], requires_grad=True)
-m = torch.zeros((3, 3))
-
-tril_indices = torch.tril_indices(row=3, col=3, offset=0)
-m[tril_indices[0], tril_indices[1]] = x
-print(m)
 
 ## 實徵範例
 
 ### 產生邏吉斯迴歸資料
 
-torch.manual_seed(246437)
+torch.manual_seed(48)
 
 from torch.distributions import Bernoulli
 def generate_data(n_sample,
@@ -320,74 +295,37 @@ x, y = generate_data(n_sample = 1000,
 class LogisticRegression():
     def __init__(self, dtype = torch.float64):
         self.dtype = dtype
-        self.x = None
-        self.y = None
         self.weight = None
         self.bias = None
-    def log_lik(self, bias, weight):
-        logit = bias + self.x @ weight
+    def log_lik(self, x, y):
+        logit = self.bias + x @ self.weight
         bernoulli = Bernoulli(logits = logit)
-        return bernoulli.log_prob(self.y).mean()
-    def fit(self, x, y, optimizer = "LBFGS", 
-            epochs = 200, lr = .1, tol = 10**(-7)):
+        return torch.mean(bernoulli.log_prob(y))
+    def fit(self, x, y, epochs = 200, lr = .1):
         if x.dtype is not self.dtype:
             x = x.type(dtype = self.dtype)
         if y.dtype is not self.dtype:
             y = y.type(dtype = self.dtype)
-        self.x = x
-        self.y = y
-        self.n_sample = x.size()[0]
-        self.n_feature = x.size()[1]
-        bias = torch.zeros(size = (1,),
-                           dtype = self.dtype,
-                           requires_grad = True)
-        weight = torch.zeros(size = (self.n_feature, 1),
-                             dtype = self.dtype,
-                             requires_grad = True)
-        if optimizer == "LBFGS":
-            opt = torch.optim.LBFGS([bias, weight], 
-                                    lr=lr, max_iter = epochs,
-                                    tolerance_grad = tol,
-                                    line_search_fn = "strong_wolfe")
-            def closure():
-                opt.zero_grad()
-                loss_value = - self.log_lik(bias, weight)
-                loss_value.backward()
-                return loss_value
-            opt.step(closure)
-        else:
-            opt = getattr(torch.optim, optimizer)([bias, weight], lr=lr)
-            for epoch in range(epochs):
-                opt.zero_grad()
-                loss_value = - self.log_lik(bias, weight)
-                loss_value.backward()
-                with torch.no_grad():
-                    grad_max = max(bias.grad.abs().max().item(), 
-                                   weight.grad.abs().max().item())
-                if (grad_max < tol):
-                    break
-                opt.step()
-        self.bias = bias.data.numpy()
-        self.weight = weight.data.numpy()
-        # print(opt.state_dict())
+        n_feature = x.size()[1]
+        self.bias = torch.zeros(size = (1,),
+                                dtype = self.dtype,
+                                requires_grad = True)
+        self.weight = torch.zeros(size = (n_feature, 1),
+                                  dtype = self.dtype,
+                                  requires_grad = True)
+        opt = torch.optim.Adam([self.bias, self.weight], lr=lr)
+        for epoch in range(epochs):
+            loss_value = - self.log_lik(x, y)
+            opt.zero_grad()
+            loss_value.backward() # compute the gradient
+            opt.step()
         return self
-    def vcov(self):
-        from torch.autograd.functional import hessian
-        bias, weight = torch.tensor(self.bias), torch.tensor(self.weight)
-        h = hessian(self.log_lik, (bias, weight))
-        fisher_obs = -torch.cat([torch.cat([h[0][0],h[0][1].squeeze(dim = 2)], dim = 1),
-                                torch.cat([h[1][0].squeeze(dim =0).squeeze(dim =1), 
-                                           h[1][1].squeeze()], dim = 1)], 
-                               dim = 0)
-
-        vcov = torch.inverse(fisher_obs)/self.n_sample
-        return vcov
 
 ### 計算模型參數
 
 # fit logistic model
 model_lr = LogisticRegression()
-model_lr.fit(x, y, optimizer = "LBFGS", epochs = 2000, lr = 1)
+model_lr.fit(x, y, epochs = 2000, lr = 1)
 print(model_lr.bias)
 print(model_lr.weight)
 
@@ -395,18 +333,11 @@ print(model_lr.weight)
 # please install sklearn first
 from sklearn import linear_model
 model_lr_sklearn = linear_model.LogisticRegression(C=10000)
-model_lr_sklearn.fit(x, y.flatten())
+model_lr_sklearn.fit(x, y)
 print(model_lr_sklearn.intercept_)
 print(model_lr_sklearn.coef_)
 
-### 計算參數估計標準誤
-
-vcov = model_lr.vcov()
-
-vcov.diagonal().sqrt()
-
-# fit logistic model via statsmodels
-# please install statsmodels first
-import statsmodels.api as sm
-model_lr_sm = sm.Logit(y.numpy(), sm.add_constant(x.numpy()))
-print(model_lr_sm.fit().summary())
+### 練習
+1. 請建立一類型，其可以使用最大概似法，執行線性回歸分析。
+2. 請在前述的類型中，加入一摘要方法（`summary()`），該方法可以列印出參數估計的假設檢定與信賴區間。
+3. 請建立一類型，其可以估計多元常態分配的平均數與共變異數矩陣，並且提供各參數估計之標準誤。
