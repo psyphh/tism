@@ -195,7 +195,7 @@ print("negative likelihood value is", loss_value)
 
 ### 進行優化
 
-在建立完概似函數後，我們就可以透過 `torch` 的優化器進行優化。在這邊需要特別注意的是，由於模型的參數會在優化過程中更新，因此，其必須使用一可為分之張量來儲存，並且，在每次更新完參數數值後，皆需再次產生一新的分配物件，以計算概述函數之數值
+在建立完概似函數後，我們就可以透過 `torch` 的優化器進行優化。在這邊需要特別注意的是，由於模型的參數會在優化過程中更新，因此，其必須使用一可微分之張量來儲存，並且，在每次更新完參數數值後，皆需再次產生一新的分配物件，以計算概述函數之數值
 
 epochs = 200
 lr = 1.0
@@ -272,14 +272,6 @@ sample_moment2 = (x.t() @ x) / sample_size
 sample_cov = sample_moment2 - torch.ger(sample_mean, sample_mean)
 print("ML mean by formula: \n", sample_mean)
 print("ML covariance by formula: \n", sample_cov)
-
-
-x = torch.tensor([1., 2., 3., 4., 5., 6.], requires_grad=True)
-m = torch.zeros((3, 3))
-
-tril_indices = torch.tril_indices(row=3, col=3, offset=0)
-m[tril_indices[0], tril_indices[1]] = x
-print(m)
 
 ## 實徵範例
 
@@ -412,8 +404,9 @@ model_lr_sm = sm.Logit(y.numpy(), sm.add_constant(x.numpy()))
 print(model_lr_sm.fit().summary())
 
 ### 練習
-1. 請建立一類型，其可以使用最大概似法，執行線性回歸分析。
+1. 請建立一類型，其可以使用最大概似法，執行線性回歸分析。該模型假設給定 $x_n$，$y_n$ 的條件分佈為 $\text{Normal}(w_0 + \sum_{p=1}^P w_p x_{np}, \sigma_{\epsilon}^2)$。
 
-2. 請在前述的類型中，加入一摘要方法（summary()），該方法可以列印出參數估計的假設檢定與信賴區間。
+
+2. 請在前述的類型中，加入一摘要方法（`summary()`），該方法可以列印出參數估計的假設檢定與信賴區間。
 
 3. 請建立一類型，其可以估計多元常態分配的平均數與共變異數矩陣，並且提供各參數估計之標準誤。
