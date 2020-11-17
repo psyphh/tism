@@ -19,7 +19,7 @@ $$
 在真實分數模型中，觀察分數、真實分數、以及誤差分數三者皆為隨機的量，其假設：
 
 1. 真實分數 $T$ 與誤差分數 $E$ 兩者統計獨立。
-2. 真實分數 $T$ 的期望值為 $\mu_{T}$，變異數為 $\sigma^2_{T}$，即 $T_i \sim (\mu_{T}, \sigma^2_{T})$。
+2. 真實分數 $T$ 的期望值為 $\mu_{T}$，變異數為 $\sigma^2_{T}$，即 $T \sim (\mu_{T}, \sigma^2_{T})$。
 3. 誤差分數 $E$ 的期望值為0，變異數為 $\sigma^2_{E}$，即 $E \sim (0, \sigma^2_{E})$。
 
 透過前述的假設，我們可以將觀測分數的變異數拆解為真實分數之變異數加上誤差分數之變異數，即
@@ -32,7 +32,7 @@ $$
 在真實分數模型之下，觀察分數的信度係數（reliability coefficient）可以定義為真實分數變異佔觀測分數總變異之百分比，即
 
 $$
-\rho_{XX} = \frac{\sigma_{T}^2}{\sigma_{E}^2}
+\rho_{XX} = \frac{\sigma_{T}^2}{\sigma_{X}^2} = 1- \frac{\sigma_{E}^2}{\sigma_{X}^2}
 $$
 
 前述之定義，等價於觀測分數與真實分數相關之平方，即
@@ -65,7 +65,6 @@ $$
 $$
 
 意即，$X$ 與 $X'$ 的相關係數，即為 $X$ 之信度（或是 $X'$ 之信度）。
-
 
 
 ## 單一因素模型
@@ -104,25 +103,25 @@ $$
 1. 當 $x_1, x_2, ...,x_I$ 滿足 $\nu_i = \nu$，$\lambda_i = \lambda$，以及 $\psi_i^2 = \psi^2$ 時，我們說 $x_1, x_2, ...,x_I$ 為平行測驗（parallel tests）。
 2. 當 $x_1, x_2, ...,x_I$ 滿足 $\nu_i = \nu$ 與 $\lambda_i = \lambda$，我們說 $x_1, x_2, ...,x_I$ 為 $\tau$ 相等測驗（$\tau$-equivalent tests）。
 3. 當 $x_1, x_2, ...,x_I$ 滿足 $\lambda_i = \lambda$，，我們說 $x_1, x_2, ...,x_I$ 為本質 $\tau$ 相等（essentially $\tau$-equivalent tests）。
-4. 當 $x_1, x_2, ...,x_I$ 滿足單一因素模型時，我們說 $x_1, x_2, ...,x_I$ 為本同源（congeneric tests）。
+4. 當 $x_1, x_2, ...,x_I$ 滿足單一因素模型時，我們說 $x_1, x_2, ...,x_I$ 為同源測驗（congeneric tests）。
 
 ### 共變異數結構
 在單因素模型的架構下，我們可以推導出觀察變項 $x_1, x_2, ...,x_I$ 之間的模型隱含的平均數與共變異數結構（model-implied mean and covariance structures）：
 
-1. $\mu_i = \mathbb{E}(x_i) = \nu_i$。
-2. $\sigma_i^2 = \mathbb{V}\text{ar}(x_i) = \lambda_i^2 +  \psi_i^2$。
-3. $\sigma^2_{ij}= \mathbb{C}\text{ov}(x_i, x_j) = \lambda_i  \lambda_j +  \psi_i^2$。
+1. $\mu_i(\theta) = \nu_i$。
+2. $\sigma_i^2(\theta) = \lambda_i^2 +  \psi_i^2$。
+3. $\sigma^2_{ij}(\theta)=  \lambda_i  \lambda_j +  \psi_i^2$。
 
-這邊，模型隱含的平均數與變異數結構意味著，我們可以將 $x_1, x_2, ...,x_I$ 的平均數與共變數，寫為模型的參數，包括 $\nu_i$、$\lambda_i$、以及 $\psi_i^2$。
+這邊，模型隱含的平均數與變異數結構意味著，我們可以將 $x_1, x_2, ...,x_I$ 的平均數與共變數，寫為模型的參數，包括 $\nu_i$、$\lambda_i$、以及 $\psi_i^2$，而 $\theta$ 則用於表示所有模型參數所形成的向量。
 
 舉例來說，當 $I = 4$ 時，前述的共變異數結構可以寫為
 
 $$
 \begin{pmatrix}
-  \sigma_{1}^2 &  &  &  \\
-  \sigma_{21} & \sigma_{2}^2 &  &  \\
-  \sigma_{31}  & \sigma_{32}  & \sigma_{3}^2 &   \\
-  \sigma_{41} & \sigma_{42} & \sigma_{43} & \sigma_{4}^2
+  \sigma_{1}^2(\theta) &  &  &  \\
+  \sigma_{21}(\theta) & \sigma_{2}^2(\theta) &  &  \\
+  \sigma_{31}(\theta)  & \sigma_{32}(\theta)  & \sigma_{3}^2(\theta) &   \\
+  \sigma_{41}(\theta) & \sigma_{42}(\theta) & \sigma_{43}(\theta) & \sigma_{4}^2(\theta)
  \end{pmatrix}
  =
 \begin{pmatrix}
@@ -140,10 +139,10 @@ $$
 
 $$
 \begin{pmatrix}
-  \sigma_{1}^2 &  &  &  \\
-  \sigma_{21} & \sigma_{2}^2 &  &  \\
-  \sigma_{31}  & \sigma_{32}  & \sigma_{3}^2 &   \\
-  \sigma_{41} & \sigma_{42} & \sigma_{43} & \sigma_{4}^2
+  \sigma_{1}^2(\theta) &  &  &  \\
+  \sigma_{21}(\theta) & \sigma_{2}^2(\theta) &  &  \\
+  \sigma_{31}(\theta)  & \sigma_{32} (\theta) & \sigma_{3}^2(\theta) &   \\
+  \sigma_{41}(\theta) & \sigma_{42}(\theta) & \sigma_{43}(\theta) & \sigma_{4}^2(\theta)
  \end{pmatrix}
  =
 \begin{pmatrix}
@@ -156,13 +155,124 @@ $$
 
 此時，我們可以看到在模型隱含的共變異數結構中，只有兩個參數，因此，在平行測驗的假設下，其模型隱含的共變異數矩陣結構相當的簡單。
 
-### 單一因素模型之最大概似法估計
 
+### 單一因素模型之最大概似法估計
+令 $x = (x_1, x_2, ..., x_I)$，$\nu = (\nu_1, \nu_2, ..., \nu_I)$，$\lambda = (\lambda_1, \lambda_2, ..., \lambda_I)$，以及 $\epsilon = (\epsilon_1, \epsilon_2, ..., \epsilon_I)$ 皆表示一 $I \times 1$ 矩陣，則單一因素模型可以寫為矩陣的形式
+
+$$
+\begin{aligned}
+x &= \nu + \lambda \eta + \epsilon \\
+\underbrace{\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_I
+\end{pmatrix}}_{I \times 1}
+&=
+\underbrace{\begin{pmatrix}
+\nu_1 \\
+\nu_2 \\
+\vdots \\
+\nu_I
+\end{pmatrix}}_{I \times 1}
++
+\underbrace{\begin{pmatrix}
+\lambda_1 \\
+\lambda_2 \\
+\vdots \\
+\lambda_I
+\end{pmatrix}}_{I \times 1}
+\eta
++
+\underbrace{\begin{pmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_I
+\end{pmatrix}}_{I \times 1}
+\end{aligned}
+$$
+
+而 $x$ 此一隨機向量的平均數與共變異數結構，可以寫為
+
+$$
+\begin{aligned}
+\mu(\theta) &= \nu \\
+\Sigma(\theta) &= \lambda \lambda^T + \Psi
+\end{aligned}
+$$
+
+這裡，$\Psi$ 是一 $I \times I$ 之對角線矩陣，其第 $i$ 個對角元素為 $\psi_i^2$，而 在此要特別注意的是，在文獻中，$\mu(\theta)$ 與 $\Sigma(\theta)$ 用於表示隨機向量的平均數與共變異數結構。
+
+此模型中的參數，包括了 $\nu$，$\lambda$，以及 $\Psi$，而我們可以使用最大概似法對模型參數進行估計，其假設 $x$ 服從多元常態分配，即 $x \sim \mathcal{N}(\mu(\theta), \Sigma(\theta))$，因此，我們便可以透過最大化概似函數來求得參數之估計。
 
 
 ## 信度估計之一般性架構
 
 ### $\omega$ 係數
+令 $x_+ = \sum_{i=1}^I x_i$ 表示一加總分數（sum score），根據真實分數模型，該加總分數可以拆解為真實分數與誤差分數之加總，即
+
+$$
+x_{+} = \tau_{+} + \epsilon_{+}.
+$$
+
+而在單一因素模型的架構下，$\tau_{+}$ 與 $\epsilon_{+}$ 可以寫為
+
+$$
+\begin{aligned}
+\tau_+ &=\sum_{i=1}^{I}\tau_{i}  \\
+\epsilon_+  &=\sum_{i=1}^{I}\epsilon_{i}
+\end{aligned}
+$$
+
+因此，$x_+$ 的信度可定義為
+
+$$
+\rho_{X_+X_+} = \frac{\mathbb{V}\text{ar}(\tau_+)}{\mathbb{V}\text{ar}(y_+)} = 1- \frac{\mathbb{V}\text{ar}(\epsilon_+)}{\mathbb{V}\text{ar}(y_+)}.
+$$
+
+透過單一因素模型所隱含的共變異數矩陣，我們可得
+
+$$
+\begin{aligned}
+\mathbb{V}\text{ar}(\tau_+) &= \left ( \sum_{i=1}^I \lambda_i \right)^2, \\
+\mathbb{V}\text{ar}(\epsilon_+) &= \sum_{i=1}^I \psi_i^2.
+\end{aligned}
+$$
+
+因此，$x_+$ 之信度可透過 $\omega$ 係數來表示，其公式為
+
+$$
+\omega = \frac{ \left(\sum_{i=1}^I \lambda_i \right)^2}{\left (\sum_{i=1}^I \lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2 }.
+$$
+
 
 
 ### $\alpha$ 係數
+在心理計量的領域，$\alpha$ 係數可以說是最廣為人知，且最常被報告的信度係數指標，其公式為
+
+$$
+\alpha = \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I \sigma_i^2}{\sigma_{X_+}^2} \right).
+$$
+這裡，$\sigma_{X_+}$ 表示 $x_+$ 的變異數。當 $x_1,x_2,...,x_I$ 滿足本質 $\tau$ 相等時，我們有 $\sigma_i^2 = \lambda^2 +\psi_i^2$ 與 $\sigma_{X_+}^2 = I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2$，此時，$\alpha$ 與 $\omega$ 係數兩者等價
+
+$$
+\begin{aligned}
+\alpha &= \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I (\lambda^2 +\psi_i^2)}{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2}\right)\\
+&=\frac{I}{I-1}\left(\frac{ I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2 - I \lambda^2 - \sum_{i=1}^I \psi_i^2}{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+&=\frac{ I^2 \lambda^2 }{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2} \\
+&= \omega.
+\end{aligned}
+$$
+
+
+而在一般的狀況下，$\alpha$ 係數被視為信度的下界，意即 $\alpha \leq \omega$，因此，我們需要證明
+
+$$
+\begin{aligned}
+\alpha &= \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I (\lambda_i^2 +\psi_i^2)}{ (\sum_{i=1}^I\lambda_i)^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+&=\frac{I}{I-1}\left(\frac{\left (\sum_{i=1}^I\lambda_i \right )^2 - \sum_{i=1}^I \lambda_i^2}{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+& \leq
+\frac{\left (\sum_{i=1}^I\lambda_i \right)^2 }{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}
+\end{aligned}
+$$
