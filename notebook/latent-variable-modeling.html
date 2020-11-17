@@ -278,6 +278,11 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   9.4. 練習
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -539,6 +544,53 @@ x_{+} = \tau_{+} + \epsilon_{+}.
 \frac{\left (\sum_{i=1}^I\lambda_i \right)^2 }{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}
 \end{aligned}
 \end{split}\]</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><span class="section-number">9.4. </span>練習<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>請使用以下之資料，估計單一因素模型之參數。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Normal</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
+<span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">nu_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">psi_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">.</span><span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">36</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">ld_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">model_eta</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">model_epsilon</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">psi_true</span><span class="o">.</span><span class="n">sqrt</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">generate_x</span><span class="p">(</span><span class="n">n_sample</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[(</span><span class="n">nu_true</span> <span class="o">+</span> <span class="n">ld_true</span> <span class="o">*</span> <span class="n">model_eta</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span> <span class="o">+</span> <span class="n">model_epsilon</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">generate_x</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">sample_moment2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_sample</span>
+<span class="n">sample_cov</span> <span class="o">=</span> <span class="n">sample_moment2</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">ger</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML covariance by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sample_cov</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
+ tensor([ 0.9745, -1.0166,  1.0021, -1.0051], dtype=torch.float64)
+ML covariance by formula: 
+ tensor([[0.9224, 0.4427, 0.3155, 0.4259],
+        [0.4427, 0.9451, 0.4497, 0.6029],
+        [0.3155, 0.4497, 0.9498, 0.4684],
+        [0.4259, 0.6029, 0.4684, 0.9754]], dtype=torch.float64)
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
