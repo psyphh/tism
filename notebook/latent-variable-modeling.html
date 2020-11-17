@@ -303,7 +303,7 @@ X = T + E
 <p>在真實分數模型中，觀察分數、真實分數、以及誤差分數三者皆為隨機的量，其假設：</p>
 <ol class="simple">
 <li><p>真實分數 <span class="math notranslate nohighlight">\(T\)</span> 與誤差分數 <span class="math notranslate nohighlight">\(E\)</span> 兩者統計獨立。</p></li>
-<li><p>真實分數 <span class="math notranslate nohighlight">\(T\)</span> 的期望值為 <span class="math notranslate nohighlight">\(\mu_{T}\)</span>，變異數為 <span class="math notranslate nohighlight">\(\sigma^2_{T}\)</span>，即 <span class="math notranslate nohighlight">\(T_i \sim (\mu_{T}, \sigma^2_{T})\)</span>。</p></li>
+<li><p>真實分數 <span class="math notranslate nohighlight">\(T\)</span> 的期望值為 <span class="math notranslate nohighlight">\(\mu_{T}\)</span>，變異數為 <span class="math notranslate nohighlight">\(\sigma^2_{T}\)</span>，即 <span class="math notranslate nohighlight">\(T \sim (\mu_{T}, \sigma^2_{T})\)</span>。</p></li>
 <li><p>誤差分數 <span class="math notranslate nohighlight">\(E\)</span> 的期望值為0，變異數為 <span class="math notranslate nohighlight">\(\sigma^2_{E}\)</span>，即 <span class="math notranslate nohighlight">\(E \sim (0, \sigma^2_{E})\)</span>。</p></li>
 </ol>
 <p>透過前述的假設，我們可以將觀測分數的變異數拆解為真實分數之變異數加上誤差分數之變異數，即</p>
@@ -317,7 +317,7 @@ X = T + E
 <p>在真實分數模型之下，觀察分數的信度係數（reliability coefficient）可以定義為真實分數變異佔觀測分數總變異之百分比，即</p>
 <div class="math notranslate nohighlight">
 \[
-\rho_{XX} = \frac{\sigma_{T}^2}{\sigma_{E}^2}
+\rho_{XX} = \frac{\sigma_{T}^2}{\sigma_{X}^2} = 1- \frac{\sigma_{E}^2}{\sigma_{X}^2}
 \]</div>
 <p>前述之定義，等價於觀測分數與真實分數相關之平方，即</p>
 <div class="math notranslate nohighlight">
@@ -378,26 +378,26 @@ x_i &amp;= (\nu_i + \lambda_i \eta) + \epsilon_i \\
 <li><p>當 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 滿足 <span class="math notranslate nohighlight">\(\nu_i = \nu\)</span>，<span class="math notranslate nohighlight">\(\lambda_i = \lambda\)</span>，以及 <span class="math notranslate nohighlight">\(\psi_i^2 = \psi^2\)</span> 時，我們說 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 為平行測驗（parallel tests）。</p></li>
 <li><p>當 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 滿足 <span class="math notranslate nohighlight">\(\nu_i = \nu\)</span> 與 <span class="math notranslate nohighlight">\(\lambda_i = \lambda\)</span>，我們說 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 為 <span class="math notranslate nohighlight">\(\tau\)</span> 相等測驗（<span class="math notranslate nohighlight">\(\tau\)</span>-equivalent tests）。</p></li>
 <li><p>當 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 滿足 <span class="math notranslate nohighlight">\(\lambda_i = \lambda\)</span>，，我們說 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 為本質 <span class="math notranslate nohighlight">\(\tau\)</span> 相等（essentially <span class="math notranslate nohighlight">\(\tau\)</span>-equivalent tests）。</p></li>
-<li><p>當 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 滿足單一因素模型時，我們說 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 為本同源（congeneric tests）。</p></li>
+<li><p>當 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 滿足單一因素模型時，我們說 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 為同源測驗（congeneric tests）。</p></li>
 </ol>
 </div>
 <div class="section" id="id7">
 <h3><span class="section-number">9.2.2. </span>共變異數結構<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>在單因素模型的架構下，我們可以推導出觀察變項 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 之間的模型隱含的平均數與共變異數結構（model-implied mean and covariance structures）：</p>
 <ol class="simple">
-<li><p><span class="math notranslate nohighlight">\(\mu_i = \mathbb{E}(x_i) = \nu_i\)</span>。</p></li>
-<li><p><span class="math notranslate nohighlight">\(\sigma_i^2 = \mathbb{V}\text{ar}(x_i) = \lambda_i^2 +  \psi_i^2\)</span>。</p></li>
-<li><p><span class="math notranslate nohighlight">\(\sigma^2_{ij}= \mathbb{C}\text{ov}(x_i, x_j) = \lambda_i  \lambda_j +  \psi_i^2\)</span>。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu_i(\theta) = \nu_i\)</span>。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_i^2(\theta) = \lambda_i^2 +  \psi_i^2\)</span>。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma^2_{ij}(\theta)=  \lambda_i  \lambda_j +  \psi_i^2\)</span>。</p></li>
 </ol>
-<p>這邊，模型隱含的平均數與變異數結構意味著，我們可以將 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 的平均數與共變數，寫為模型的參數，包括 <span class="math notranslate nohighlight">\(\nu_i\)</span>、<span class="math notranslate nohighlight">\(\lambda_i\)</span>、以及 <span class="math notranslate nohighlight">\(\psi_i^2\)</span>。</p>
+<p>這邊，模型隱含的平均數與變異數結構意味著，我們可以將 <span class="math notranslate nohighlight">\(x_1, x_2, ...,x_I\)</span> 的平均數與共變數，寫為模型的參數，包括 <span class="math notranslate nohighlight">\(\nu_i\)</span>、<span class="math notranslate nohighlight">\(\lambda_i\)</span>、以及 <span class="math notranslate nohighlight">\(\psi_i^2\)</span>，而 <span class="math notranslate nohighlight">\(\theta\)</span> 則用於表示所有模型參數所形成的向量。</p>
 <p>舉例來說，當 <span class="math notranslate nohighlight">\(I = 4\)</span> 時，前述的共變異數結構可以寫為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{pmatrix}
-  \sigma_{1}^2 &amp;  &amp;  &amp;  \\
-  \sigma_{21} &amp; \sigma_{2}^2 &amp;  &amp;  \\
-  \sigma_{31}  &amp; \sigma_{32}  &amp; \sigma_{3}^2 &amp;   \\
-  \sigma_{41} &amp; \sigma_{42} &amp; \sigma_{43} &amp; \sigma_{4}^2
+  \sigma_{1}^2(\theta) &amp;  &amp;  &amp;  \\
+  \sigma_{21}(\theta) &amp; \sigma_{2}^2(\theta) &amp;  &amp;  \\
+  \sigma_{31}(\theta)  &amp; \sigma_{32}(\theta)  &amp; \sigma_{3}^2(\theta) &amp;   \\
+  \sigma_{41}(\theta) &amp; \sigma_{42}(\theta) &amp; \sigma_{43}(\theta) &amp; \sigma_{4}^2(\theta)
  \end{pmatrix}
  =
 \begin{pmatrix}
@@ -412,10 +412,10 @@ x_i &amp;= (\nu_i + \lambda_i \eta) + \epsilon_i \\
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{pmatrix}
-  \sigma_{1}^2 &amp;  &amp;  &amp;  \\
-  \sigma_{21} &amp; \sigma_{2}^2 &amp;  &amp;  \\
-  \sigma_{31}  &amp; \sigma_{32}  &amp; \sigma_{3}^2 &amp;   \\
-  \sigma_{41} &amp; \sigma_{42} &amp; \sigma_{43} &amp; \sigma_{4}^2
+  \sigma_{1}^2(\theta) &amp;  &amp;  &amp;  \\
+  \sigma_{21}(\theta) &amp; \sigma_{2}^2(\theta) &amp;  &amp;  \\
+  \sigma_{31}(\theta)  &amp; \sigma_{32} (\theta) &amp; \sigma_{3}^2(\theta) &amp;   \\
+  \sigma_{41}(\theta) &amp; \sigma_{42}(\theta) &amp; \sigma_{43}(\theta) &amp; \sigma_{4}^2(\theta)
  \end{pmatrix}
  =
 \begin{pmatrix}
@@ -429,15 +429,116 @@ x_i &amp;= (\nu_i + \lambda_i \eta) + \epsilon_i \\
 </div>
 <div class="section" id="id8">
 <h3><span class="section-number">9.2.3. </span>單一因素模型之最大概似法估計<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(x = (x_1, x_2, ..., x_I)\)</span>，<span class="math notranslate nohighlight">\(\nu = (\nu_1, \nu_2, ..., \nu_I)\)</span>，<span class="math notranslate nohighlight">\(\lambda = (\lambda_1, \lambda_2, ..., \lambda_I)\)</span>，以及 <span class="math notranslate nohighlight">\(\epsilon = (\epsilon_1, \epsilon_2, ..., \epsilon_I)\)</span> 皆表示一 <span class="math notranslate nohighlight">\(I \times 1\)</span> 矩陣，則單一因素模型可以寫為矩陣的形式</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+x &amp;= \nu + \lambda \eta + \epsilon \\
+\underbrace{\begin{pmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_I
+\end{pmatrix}}_{I \times 1}
+&amp;=
+\underbrace{\begin{pmatrix}
+\nu_1 \\
+\nu_2 \\
+\vdots \\
+\nu_I
+\end{pmatrix}}_{I \times 1}
++
+\underbrace{\begin{pmatrix}
+\lambda_1 \\
+\lambda_2 \\
+\vdots \\
+\lambda_I
+\end{pmatrix}}_{I \times 1}
+\eta
++
+\underbrace{\begin{pmatrix}
+\epsilon_1 \\
+\epsilon_2 \\
+\vdots \\
+\epsilon_I
+\end{pmatrix}}_{I \times 1}
+\end{aligned}
+\end{split}\]</div>
+<p>而 <span class="math notranslate nohighlight">\(x\)</span> 此一隨機向量的平均數與共變異數結構，可以寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mu(\theta) &amp;= \nu \\
+\Sigma(\theta) &amp;= \lambda \lambda^T + \Psi
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\Psi\)</span> 是一 <span class="math notranslate nohighlight">\(I \times I\)</span> 之對角線矩陣，其第 <span class="math notranslate nohighlight">\(i\)</span> 個對角元素為 <span class="math notranslate nohighlight">\(\psi_i^2\)</span>，而 在此要特別注意的是，在文獻中，<span class="math notranslate nohighlight">\(\mu(\theta)\)</span> 與 <span class="math notranslate nohighlight">\(\Sigma(\theta)\)</span> 用於表示隨機向量的平均數與共變異數結構。</p>
+<p>此模型中的參數，包括了 <span class="math notranslate nohighlight">\(\nu\)</span>，<span class="math notranslate nohighlight">\(\lambda\)</span>，以及 <span class="math notranslate nohighlight">\(\Psi\)</span>，而我們可以使用最大概似法對模型參數進行估計，其假設 <span class="math notranslate nohighlight">\(x\)</span> 服從多元常態分配，即 <span class="math notranslate nohighlight">\(x \sim \mathcal{N}(\mu(\theta), \Sigma(\theta))\)</span>，因此，我們便可以透過最大化概似函數來求得參數之估計。</p>
 </div>
 </div>
 <div class="section" id="id9">
 <h2><span class="section-number">9.3. </span>信度估計之一般性架構<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="omega">
 <h3><span class="section-number">9.3.1. </span><span class="math notranslate nohighlight">\(\omega\)</span> 係數<a class="headerlink" href="#omega" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(x_+ = \sum_{i=1}^I x_i\)</span> 表示一加總分數（sum score），根據真實分數模型，該加總分數可以拆解為真實分數與誤差分數之加總，即</p>
+<div class="math notranslate nohighlight">
+\[
+x_{+} = \tau_{+} + \epsilon_{+}.
+\]</div>
+<p>而在單一因素模型的架構下，<span class="math notranslate nohighlight">\(\tau_{+}\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon_{+}\)</span> 可以寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\tau_+ &amp;=\sum_{i=1}^{I}\tau_{i}  \\
+\epsilon_+  &amp;=\sum_{i=1}^{I}\epsilon_{i}
+\end{aligned}
+\end{split}\]</div>
+<p>因此，<span class="math notranslate nohighlight">\(x_+\)</span> 的信度可定義為</p>
+<div class="math notranslate nohighlight">
+\[
+\rho_{X_+X_+} = \frac{\mathbb{V}\text{ar}(\tau_+)}{\mathbb{V}\text{ar}(y_+)} = 1- \frac{\mathbb{V}\text{ar}(\epsilon_+)}{\mathbb{V}\text{ar}(y_+)}.
+\]</div>
+<p>透過單一因素模型所隱含的共變異數矩陣，我們可得</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{V}\text{ar}(\tau_+) &amp;= \left ( \sum_{i=1}^I \lambda_i \right)^2, \\
+\mathbb{V}\text{ar}(\epsilon_+) &amp;= \sum_{i=1}^I \psi_i^2.
+\end{aligned}
+\end{split}\]</div>
+<p>因此，<span class="math notranslate nohighlight">\(x_+\)</span> 之信度可透過 <span class="math notranslate nohighlight">\(\omega\)</span> 係數來表示，其公式為</p>
+<div class="math notranslate nohighlight">
+\[
+\omega = \frac{ \left(\sum_{i=1}^I \lambda_i \right)^2}{\left (\sum_{i=1}^I \lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2 }.
+\]</div>
 </div>
 <div class="section" id="alpha">
 <h3><span class="section-number">9.3.2. </span><span class="math notranslate nohighlight">\(\alpha\)</span> 係數<a class="headerlink" href="#alpha" title="Permalink to this headline">¶</a></h3>
+<p>在心理計量的領域，<span class="math notranslate nohighlight">\(\alpha\)</span> 係數可以說是最廣為人知，且最常被報告的信度係數指標，其公式為</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha = \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I \sigma_i^2}{\sigma_{X_+}^2} \right).
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\sigma_{X_+}\)</span> 表示 <span class="math notranslate nohighlight">\(x_+\)</span> 的變異數。當 <span class="math notranslate nohighlight">\(x_1,x_2,...,x_I\)</span> 滿足本質 <span class="math notranslate nohighlight">\(\tau\)</span> 相等時，我們有 <span class="math notranslate nohighlight">\(\sigma_i^2 = \lambda^2 +\psi_i^2\)</span> 與 <span class="math notranslate nohighlight">\(\sigma_{X_+}^2 = I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2\)</span>，此時，<span class="math notranslate nohighlight">\(\alpha\)</span> 與 <span class="math notranslate nohighlight">\(\omega\)</span> 係數兩者等價</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\alpha &amp;= \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I (\lambda^2 +\psi_i^2)}{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2}\right)\\
+&amp;=\frac{I}{I-1}\left(\frac{ I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2 - I \lambda^2 - \sum_{i=1}^I \psi_i^2}{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+&amp;=\frac{ I^2 \lambda^2 }{I^2 \lambda^2 + \sum_{i=1}^I \psi_i^2} \\
+&amp;= \omega.
+\end{aligned}
+\end{split}\]</div>
+<p>而在一般的狀況下，<span class="math notranslate nohighlight">\(\alpha\)</span> 係數被視為信度的下界，意即 <span class="math notranslate nohighlight">\(\alpha \leq \omega\)</span>，因此，我們需要證明</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\alpha &amp;= \frac{I}{I-1}\left(1 - \frac{\sum_{i=1}^I (\lambda_i^2 +\psi_i^2)}{ (\sum_{i=1}^I\lambda_i)^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+&amp;=\frac{I}{I-1}\left(\frac{\left (\sum_{i=1}^I\lambda_i \right )^2 - \sum_{i=1}^I \lambda_i^2}{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}\right) \\
+&amp; \leq
+\frac{\left (\sum_{i=1}^I\lambda_i \right)^2 }{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}
+\end{aligned}
+\end{split}\]</div>
 </div>
 </div>
 </div>
