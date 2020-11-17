@@ -566,13 +566,8 @@ x_{+} = \tau_{+} + \epsilon_{+}.
     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">generate_x</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sample_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">sample_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">sample_moment2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_sample</span>
 <span class="n">sample_cov</span> <span class="o">=</span> <span class="n">sample_moment2</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">ger</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
@@ -582,12 +577,12 @@ x_{+} = \tau_{+} + \epsilon_{+}.
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([ 0.9745, -1.0166,  1.0021, -1.0051], dtype=torch.float64)
+ tensor([ 0.9831, -1.0247,  1.0047, -0.9972], dtype=torch.float64)
 ML covariance by formula: 
- tensor([[0.9224, 0.4427, 0.3155, 0.4259],
-        [0.4427, 0.9451, 0.4497, 0.6029],
-        [0.3155, 0.4497, 0.9498, 0.4684],
-        [0.4259, 0.6029, 0.4684, 0.9754]], dtype=torch.float64)
+ tensor([[1.0050, 0.4758, 0.3851, 0.4956],
+        [0.4758, 1.0186, 0.5120, 0.6349],
+        [0.3851, 0.5120, 1.0174, 0.4803],
+        [0.4956, 0.6349, 0.4803, 1.0005]], dtype=torch.float64)
 </pre></div>
 </div>
 </div>
