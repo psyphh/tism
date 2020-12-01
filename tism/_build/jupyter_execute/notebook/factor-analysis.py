@@ -2,6 +2,7 @@
 ================================
 
 
+
 ## 因素分析模型
 
 ### 模型架構
@@ -73,8 +74,46 @@ $$
 \end{aligned}
 $$
 
+而在正交因素結構下，前述之共變異數結構可以簡化為
+
+$$
+\Sigma(\theta) = \Lambda \Lambda^T + \Psi
+$$
+
+
+
+
 
 ## 參數估計
+
+### 轉軸不定性
+前述之因素分析模型因著轉軸不定性（rotational indeterminancy），並無法獲得唯一的參數解。
+
+以正交模型為例，令 $Q$ 表示一 $M \times M$ 之正交矩陣（orthogonal matrix），即 $Q$ 滿足 $Q Q^T = Q^T Q = I$（$Q^T$ 為 $Q$ 之反矩陣），則
+
+$$
+\begin{aligned}
+\Sigma(\theta) &= \Lambda Q Q^T \Lambda^T + \Psi \\
+&= \Lambda^* {\Lambda^*}^T + \Psi \\
+\end{aligned}
+$$
+
+如果不限制 $Q$ 為正交矩陣，僅假設：（1）$Q$ 為對稱矩陣；（2）$Q^{-1}$ 存在；（3）$Q^{-1} {Q^{-1}}^T$ 為相關係數矩陣（即對角線為1），則
+
+$$
+\begin{aligned}
+\Sigma(\theta) &= \Lambda Q Q^{-1} {Q^{-1}}^T Q^T \Lambda^T + \Psi \\
+&= \Lambda^* \Phi^* {\Lambda^*}^T + \Psi \\
+\end{aligned}
+$$
+
+因此，只要給予了一組參數解，我們即可透過 $Q$ 獲得另一組參數解，且模型適配度與原先的解相同。
+
+傳統上，有兩種取向可獲得因素分析之唯一參數解：
+
+1. 探索性因素分析（exploratory factor analysis）利用轉軸以獲得一最精簡之因素負荷量矩陣以移除轉軸不確定性。 
+2. 驗證性因素分析（confirmatory factor analysis）將部分的因素負荷量設為 0 以移除轉軸不確定性。
+
 
 ### 最小平方法
 給定一樣本共變異數矩陣 $S$，其第 $i,j$ 元素為 $s_{ij}$，則一般最小平方（ordinal least squares，簡稱OLS）法透過最小化以下準則以獲得模型參數之估計
@@ -119,3 +158,8 @@ $$
 $$
 \ell(\theta) = C  - \frac{N}{2} |\Sigma(\theta)| - \frac{N}{2} tr(\Sigma(\theta) ^{-1} S) - \frac{N}{2} (m - \mu(\theta))^T \Sigma(\theta) ^{-1} (m - \mu(\theta))
 $$
+
+
+## 期望最大化算則
+
+期望最大化算則（expectation-maximization algorithm，簡稱EM算則）常用於處理不完整資料（incomplete data）的最大概似估計問題。在心理計量領域，EM算則將潛在變項視為不完整之資料，
