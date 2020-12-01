@@ -213,7 +213,43 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   10.1. 因素分析模型
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     10.1.1. 模型架構
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     10.1.2. 矩陣形式之模型架構
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id5">
+   10.2. 參數估計
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     10.2.1. 最小平方法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     10.2.2. 最大概似法
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -224,6 +260,110 @@
                 
   <div class="section" id="id1">
 <h1><span class="section-number">10. </span>因素分析<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2><span class="section-number">10.1. </span>因素分析模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">10.1.1. </span>模型架構<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(x_i\)</span> 表示個體於第 <span class="math notranslate nohighlight">\(i\)</span> 個測驗（或是試題）的觀測分數（observed score）（<span class="math notranslate nohighlight">\(i=1,2,...,I\)</span>），因素分析（factor analysis）試圖引入 <span class="math notranslate nohighlight">\(M\)</span> 個潛在因素（latent factor）<span class="math notranslate nohighlight">\(\eta_1, \eta_2,...,\eta_M\)</span>，以解釋 <span class="math notranslate nohighlight">\(x_i\)</span> 之變異</p>
+<div class="math notranslate nohighlight">
+\[
+x_i = \nu_i + \sum_{m=1}^M \lambda_{im} \eta_m + \epsilon_i
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\eta_m\)</span> 表示第 <span class="math notranslate nohighlight">\(m\)</span> 個潛在因素，其對 <span class="math notranslate nohighlight">\(x_i\)</span> 之效果 <span class="math notranslate nohighlight">\(\lambda_{im}\)</span> 被稱作因素負荷量（factor loading），其反映 <span class="math notranslate nohighlight">\(\eta_m\)</span> 每變動一單位，預期 <span class="math notranslate nohighlight">\(x_i\)</span> 跟著變動的量，<span class="math notranslate nohighlight">\(\nu_i\)</span> 為試題 <span class="math notranslate nohighlight">\(i\)</span> 之截距，其反映當所有 <span class="math notranslate nohighlight">\(\eta_m = 0\)</span>時，<span class="math notranslate nohighlight">\(x_i\)</span> 的預期數值，而 <span class="math notranslate nohighlight">\(\epsilon_i\)</span> 則為試題 <span class="math notranslate nohighlight">\(i\)</span> 所對應之測量誤差。</p>
+<p>因素分析模型假設</p>
+<ol class="simple">
+<li><p>潛在因素 <span class="math notranslate nohighlight">\(\eta_m\)</span> 與誤差分數 <span class="math notranslate nohighlight">\(\epsilon_i\)</span> 為統計獨立。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta_m \sim (0, 1)\)</span>，<span class="math notranslate nohighlight">\(\mathbb{C} \text{ov}(\eta_m, \eta_{m'}) = \phi_{mm'}\)</span>。當所有 <span class="math notranslate nohighlight">\(\phi_{mm'}=0\)</span>（<span class="math notranslate nohighlight">\(m \neq m'\)</span>）時，我們稱此因素結構為正交結構（orthogonal structure）。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\epsilon_i \sim (0, \psi^2_i)\)</span>，<span class="math notranslate nohighlight">\(\mathbb{C} \text{ov}(\epsilon_i, \epsilon_{i'}) =  \psi_{ii'}\)</span>。多數情況下，模型假設<span class="math notranslate nohighlight">\(\psi_{ii'} = 0\)</span>（<span class="math notranslate nohighlight">\(i \neq i'\)</span>）。</p></li>
+</ol>
+<p>在平均數與共變異數結構方面，當誤差分數間無相關的假設下，該結構為</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mu_i(\theta) = \nu_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{i}^2(\theta) = \sum_{m=1}^M \lambda_{im}^2 + \psi_{i}^2\)</span>。</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{ij}(\theta) = \sum_{m=1}^M \sum_{k=1}^M \lambda_{im}\lambda_{jk} \phi_{mk}\)</span>。</p></li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">10.1.2. </span>矩陣形式之模型架構<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>若我們將 <span class="math notranslate nohighlight">\(\eta_1, \eta_2,...,\eta_M\)</span> 與 <span class="math notranslate nohighlight">\(\lambda_{i1}, \lambda_{i2},...,\lambda_{iM}\)</span> 皆排成 <span class="math notranslate nohighlight">\(M\)</span> 維之向量，即 <span class="math notranslate nohighlight">\(\eta = (\eta_1, \eta_2,...,\eta_M)\)</span> 與 <span class="math notranslate nohighlight">\(\lambda_i = (\lambda_{i1}, \lambda_{i2},...,\lambda_{iM})\)</span>，則前述之方程式可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+x_i = \nu_i + \lambda_{i}^T \eta + \epsilon_i
+\]</div>
+<p>進一步，令 <span class="math notranslate nohighlight">\(x = (x_1, x_2, ..., x_I)\)</span>，<span class="math notranslate nohighlight">\(\nu = (\nu_1, \nu_2, ..., \nu_I)\)</span>，以及 <span class="math notranslate nohighlight">\(\epsilon = (\epsilon_1, \epsilon_2, ..., \epsilon_I)\)</span> 皆表示一 <span class="math notranslate nohighlight">\(I \times 1\)</span> 矩陣，而</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\Lambda =
+\underbrace{\begin{pmatrix}
+\lambda_1^T \\
+\lambda_2^T \\
+\vdots \\
+\lambda_I^T
+\end{pmatrix}}_{I \times M}
+=
+\underbrace{\begin{pmatrix}
+\lambda_{11} &amp; \lambda_{12} &amp; \cdots &amp; \lambda_{1M} \\
+\lambda_{21} &amp; \lambda_{22} &amp; \cdots &amp; \lambda_{2M} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\lambda_{I1} &amp; \lambda_{I2} &amp; \cdots &amp; \lambda_{IM} \\
+\end{pmatrix}}_{I \times M}
+\end{split}\]</div>
+<p>在前述之符號表示下，觀察變項向量 <span class="math notranslate nohighlight">\(x\)</span> 可以被寫為</p>
+<div class="math notranslate nohighlight">
+\[
+x = \nu + \Lambda \eta + \epsilon
+\]</div>
+<p>我們可以將前述因素分析模型之假設，轉為矩陣之形式：（1）<span class="math notranslate nohighlight">\(\eta\)</span> 與 <span class="math notranslate nohighlight">\(\epsilon\)</span> 兩者獨立；（2）<span class="math notranslate nohighlight">\(\eta \sim (0, \Phi)\)</span> ；（3）<span class="math notranslate nohighlight">\(\epsilon \sim (0, \Psi)\)</span>。此時，平均數與共變異數結構可以寫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mu(\theta) &amp;= \nu \\
+\Sigma(\theta) &amp;= \Lambda \Phi \Lambda^T + \Psi
+\end{aligned}
+\end{split}\]</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><span class="section-number">10.2. </span>參數估計<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><span class="section-number">10.2.1. </span>最小平方法<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>給定一樣本共變異數矩陣 <span class="math notranslate nohighlight">\(S\)</span>，其第 <span class="math notranslate nohighlight">\(i,j\)</span> 元素為 <span class="math notranslate nohighlight">\(s_{ij}\)</span>，則一般最小平方（ordinal least squares，簡稱OLS）法透過最小化以下準則以獲得模型參數之估計</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}_{OLS}(\theta) =\sum_{i=j}^I \sum_{j=1}^I (s_{ij} - \sigma_{ij}(\theta))^2.
+\]</div>
+<p>一個與最小平方法有關的變形為最小殘差（minimum residual，簡稱MINRES）法，其僅考慮共變異數之非對角線元素進行估計</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}_{MINRES}(\theta) =\sum_{i=j+1}^I \sum_{j=1}^{I-1} (s_{ij} - \sigma_{ij}(\theta))^2.
+\]</div>
+<p>當所有的 <span class="math notranslate nohighlight">\(\psi_i^2\)</span> 皆可被自由估計時，MINRES與OLS兩者為等價的。</p>
+<p>前述的OLS法可以進一步引入權重，即成為加權最小平方法（weighted least squares，簡稱WLS），其估計準則改為</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{D}_{WLS}(\theta) =\sum_{i=j}^I \sum_{j=1}^I w_{ij} (s_{ij} - \sigma_{ij}(\theta))^2.
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(w_{ij}\)</span> 表示對 <span class="math notranslate nohighlight">\((s_{ij} - \sigma_{ij}(\theta))\)</span> 此殘差給予的權重，其並非模型之參數，乃研究者於估計準則中給定的，當 <span class="math notranslate nohighlight">\(w_{ij}\)</span> 越大，即表示研究者希望 <span class="math notranslate nohighlight">\((s_{ij} - \sigma_{ij}(\theta))\)</span> 之差異應越小越好。</p>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">10.2.2. </span>最大概似法<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>在因素分析的模型假設下，<span class="math notranslate nohighlight">\(x\)</span> 之平均數與共變異數為 <span class="math notranslate nohighlight">\(\mu(\theta)\)</span> 與 <span class="math notranslate nohighlight">\(\Sigma(\theta))\)</span>，若再進一步引進多元常態分配之假設，則 <span class="math notranslate nohighlight">\(x \sim \text{Normal}(\mu(\theta), \Sigma(\theta))\)</span>，此時，<span class="math notranslate nohighlight">\(x\)</span> 之對數機率密度函數為</p>
+<div class="math notranslate nohighlight">
+\[
+\log f(x|\theta) = -\frac{I}{2} \log{2\pi} - \frac{1}{2} |\Sigma(\theta)| - \frac{1}{2} (x - \mu(\theta))^T \Sigma(\theta) ^{-1} (x - \mu(\theta))
+\]</div>
+<p>因此，給定樣本資料 <span class="math notranslate nohighlight">\(x_1, x_2,...,x_N\)</span>下，最大概似估計準則可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta) = C  -\frac{N}{2} |\Sigma(\theta)| - \frac{1}{2} \sum_{n=1}^N (x_n - \mu(\theta))^T \Sigma(\theta) ^{-1} (x_n - \mu(\theta))
+\]</div>
+<p>前述之最大概似準則可以簡化為</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(\theta) = C  - \frac{N}{2} |\Sigma(\theta)| - \frac{N}{2} tr(\Sigma(\theta) ^{-1} S) - \frac{N}{2} (m - \mu(\theta))^T \Sigma(\theta) ^{-1} (m - \mu(\theta))
+\]</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
