@@ -2,7 +2,6 @@
 ================================
 
 
-
 ## 因素分析模型
 
 ### 模型架構
@@ -74,18 +73,6 @@ $$
 \end{aligned}
 $$
 
-而在正交因素結構下，前述之共變異數結構可以簡化為
-
-$$
-\Sigma(\theta) = \Lambda \Lambda^T + \Psi
-$$
-
-
-
-
-
-## 參數估計
-
 ### 轉軸不定性
 前述之因素分析模型因著轉軸不定性（rotational indeterminancy），並無法獲得唯一的參數解。
 
@@ -111,8 +98,11 @@ $$
 
 傳統上，有兩種取向可獲得因素分析之唯一參數解：
 
-1. 探索性因素分析（exploratory factor analysis）利用轉軸以獲得一最精簡之因素負荷量矩陣以移除轉軸不確定性。 
+1. 探索性因素分析（exploratory factor analysis）利用轉軸以獲得一最精簡之因素負荷量矩陣以移除轉軸不確定性。
 2. 驗證性因素分析（confirmatory factor analysis）將部分的因素負荷量設為 0 以移除轉軸不確定性。
+
+## 參數估計
+
 
 
 ### 最小平方法
@@ -144,22 +134,124 @@ $$
 在因素分析的模型假設下，$x$ 之平均數與共變異數為 $\mu(\theta)$ 與 $\Sigma(\theta))$，若再進一步引進多元常態分配之假設，則 $x \sim \text{Normal}(\mu(\theta), \Sigma(\theta))$，此時，$x$ 之對數機率密度函數為
 
 $$
-\log f(x|\theta) = -\frac{I}{2} \log{2\pi} - \frac{1}{2} |\Sigma(\theta)| - \frac{1}{2} (x - \mu(\theta))^T \Sigma(\theta) ^{-1} (x - \mu(\theta))
+\log f(x;\theta) = -\frac{I}{2} \log{2\pi} - \frac{1}{2} \log |\Sigma(\theta)| - \frac{1}{2} (x - \mu(\theta))^T \Sigma(\theta) ^{-1} (x - \mu(\theta))
 $$
 
 因此，給定樣本資料 $x_1, x_2,...,x_N$下，最大概似估計準則可以寫為
 
 $$
-\ell(\theta) = C  -\frac{N}{2} |\Sigma(\theta)| - \frac{1}{2} \sum_{n=1}^N (x_n - \mu(\theta))^T \Sigma(\theta) ^{-1} (x_n - \mu(\theta))
+\ell(\theta) = C  -\frac{N}{2} \log |\Sigma(\theta)| - \frac{1}{2} \sum_{n=1}^N (x_n - \mu(\theta))^T \Sigma(\theta) ^{-1} (x_n - \mu(\theta))
 $$
 
 前述之最大概似準則可以簡化為
 
 $$
-\ell(\theta) = C  - \frac{N}{2} |\Sigma(\theta)| - \frac{N}{2} tr(\Sigma(\theta) ^{-1} S) - \frac{N}{2} (m - \mu(\theta))^T \Sigma(\theta) ^{-1} (m - \mu(\theta))
+\ell(\theta) = C  - \frac{N}{2} \log |\Sigma(\theta)| - \frac{N}{2} tr(\Sigma(\theta) ^{-1} S) - \frac{N}{2} (m - \mu(\theta))^T \Sigma(\theta) ^{-1} (m - \mu(\theta))
+$$
+
+### 期望最大化算則
+
+期望最大化算則（expectation-maximization algorithm，簡稱EM算則）常用於處理不完整資料（incomplete data）的最大概似估計問題。在心理計量領域，潛在因素可被視為不完整資料，因此，EM算則可用於處理心理計量模型之估計問題。
+
+在因素分析的問題上，若 $\eta$ 可以直接被觀察，則我們可以考慮以下的完整資料之對數機率密度函數
+
+$$
+\log f(x,\eta;\theta) = \log f(x|\eta; \theta) + \log f(\eta; \theta)
+$$
+
+若我們假設測量誤差 $\epsilon_i$ 為常態分配，且 $\epsilon_i$ 與 $\epsilon_j$ 獨立（$i \neq j$），則在給定 $\eta$ 之下，我們有
+
+1. $x_i|\eta \sim \text{Normal}(\nu_i + \lambda_i^T \eta, \psi_i^2)$
+2. 給定 $\eta$ 之下，$x_i$ 與 $x_j$ 為獨立。
+
+因此，$\log f(x|\eta; \theta)$ 可以寫為
+
+$$
+\begin{aligned}
+\log f(x|\eta; \theta) &= \sum_{i=1}^I \log f(x_i|\eta; \theta)\\
+&= \sum_{i=1}^I \left[
+C -\frac{1}{2} \log \psi_i^2
+ -\frac{1}{2 \psi_i^2} (x_i - \nu_i - \lambda_i^T \eta)^2
+\right]
+\end{aligned}
+$$
+
+這意味著，在 $\eta$ 可直接觀察到的情況下，估計因素負荷量與截距，只是一線性回歸的問題。
+
+在 $\eta$ 服從多元常態分配的假設下，$\log f(\eta; \theta)$ 可以寫為
+
+$$
+\log f(\eta;\theta) = C- \frac{1}{2} \log |\Phi| - \frac{1}{2} \eta^T \Phi^{-1} \eta
+$$
+
+若我們進一步假設 $\eta$ 為正交結構，此時，$\Phi$ 為單位矩陣，我們甚至不用對 $\eta$ 的分配參數進行估計。
+
+
+給定樣本資料 $(x_1, \eta_1), (x_2, \eta_2), ..., (x_N, \eta_N)$，完整資料的概似函數可以寫為
+
+$$
+\begin{aligned}
+\ell_{\text{comp}}(\theta) &= \sum_{n=1}^N \log f(x_n, \eta_n; \theta) \\
+&=
+C +
+\sum_{n=1}^N
+\sum_{i=1}^I
+\left[
+-\frac{1}{2} \log \psi_i^2
+ -\frac{1}{2 \psi_i^2} (x_{ni} - \nu_i - \lambda_i^T \eta_n)^2
+\right]
++
+\sum_{n=1}^N
+\left[
+- \frac{1}{2} \log |\Phi| - \frac{1}{2} \eta_n^T \Phi^{-1} \eta_n
+\right]
+\end{aligned}
 $$
 
 
-## 期望最大化算則
+EM算則牽涉到期望步驟（E-Step）與最大化步驟（M-Step）。在E-Step時，我們計算在給定觀察資料 $\mathcal{X}={x_n}_{n=1}^N$，以及當下參數估計值 $\widehat{\theta}^{(t)}$，完整資料概似函數之條件期望值，即
 
-期望最大化算則（expectation-maximization algorithm，簡稱EM算則）常用於處理不完整資料（incomplete data）的最大概似估計問題。在心理計量領域，EM算則將潛在變項視為不完整之資料，
+$$
+Q(\theta|\widehat{\theta}^{(t)}) = \mathbb{E}\left[ \ell_{\text{comp}}(\theta) | \mathcal{X}; \widehat{\theta}^{(t)} \right]
+$$
+
+而在M-Step時，我們則試圖找到一$\widehat{\theta}^{(t+1)}$，其可最大化 $Q(\theta|\widehat{\theta}^{(t)})$，即
+
+$$
+\widehat{\theta}^{(t+1)} =\text{argmax}_{\theta} \ Q(\theta|\widehat{\theta}^{(t)})
+$$
+
+
+在因素分析的EM算則中，E-Step的關鍵在於，要能夠計算在給定 $x$ 之下，$\eta$ 的分佈特性。當 $\eta$ 與 $\epsilon$ 皆為常態分配時，$x$ 與 $\eta$ 亦服從常態分配，其平均數與變異數為
+
+$$
+\begin{pmatrix}
+x \\
+\eta
+\end{pmatrix}
+\sim
+\text{Normal}
+\left[
+\begin{pmatrix}
+\nu \\
+0
+\end{pmatrix}
+,
+\begin{pmatrix}
+\Lambda \Phi \Lambda^T + \Psi & \Lambda \Phi \\
+ \Phi \Lambda^T & \Phi
+\end{pmatrix}
+\right]
+$$
+
+接著，利用多元常態分配條件分配之特性，我們可以得
+
+$$
+\eta| x \sim \text{Normal}
+\left[
+\Phi \Lambda^T \Sigma(\theta)^{-1}(x - \nu),
+\Phi - \Phi \Lambda^T \Sigma(\theta)^{-1} \Lambda \Phi
+\right]
+$$
+
+這裡，$\Sigma(\theta) = \Lambda \Phi \Lambda^T + \Psi$ 即為因素分析之共變結構。
