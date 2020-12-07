@@ -255,3 +255,69 @@ $$
 $$
 
 這裡，$\Sigma(\theta) = \Lambda \Phi \Lambda^T + \Psi$ 即為因素分析之共變結構。
+
+
+## 程式範例
+
+import torch
+def create_fa_model(n_factor, n_item, ld, psi = None, rho = None):
+    if (n_item % n_factor) != 0:
+        n_item = n_factor * (n_item // n_factor)
+    loading = torch.zeros((n_item, n_factor))
+    item_per_factor = (n_item // n_factor)
+    for i in range(n_factor):
+        for j in range(i * item_per_factor,
+                       (i + 1) * item_per_factor):
+            loading[j, i] = ld
+    if rho is None:
+        cor = torch.eye(n_factor)
+    else:
+        unit = torch.ones((n_factor, 1))
+        identity = torch.eye(n_factor)
+        cor = rho * (unit @ unit.T) + (1 - rho) * identity
+    if psi is None:
+        uniqueness = 1 - torch.diagonal(loading @ cor @ loading.T)
+    else:
+        uniqueness = psi * torch.ones((n_item, ))
+    return loading, uniqueness, cor
+
+def generate_fa_data(n_sample, loading, uniqueness, cor):
+    n_item = loading.size()[0]
+    mean = torch.zeros((n_item, ))
+    cov = loading @ cor @ loading.T + torch.diag_embed(uniqueness)
+    mvn = torch.distributions.MultivariateNormal(
+        loc = mean, scale_tril = torch.cholesky(cov))
+    data = mvn.sample((n_sample,))
+    return data
+
+
+torch.manual_seed(246437)
+loading_true, uniqueness_true, cor_true = create_fa_model(n_factor = 4, n_item = 12, ld = .7)
+data = generate_fa_data(n_sample = 10000,
+                        loading = loading_true,
+                        uniqueness = uniqueness_true,
+                        cor = cor_true)
+
+from torch.distributions import MultivariateNormal
+loading = .7 * loading_true
+uniqueness = .7 * uniqueness_true
+loading_mask = 1 *  (loading_true != 0)
+loading.requires_grad_(requires_grad=True)
+uniqueness.requires_grad_(requires_grad=True)
+epochs = 200
+lr = .5
+optimizer = torch.optim.Adam([loading, uniqueness], lr = lr)
+
+for epoch in range(epochs):
+    model_fa = MultivariateNormal(
+        loc = torch.zeros((loading.size()[0], )),
+        scale_tril = torch.cholesky(
+            (loading * loading_mask) @ (loading * loading_mask).T + torch.diag_embed(uniqueness)))
+    loss_value = -torch.mean(model_fa.log_prob(data))
+    optimizer.zero_grad()
+    loss_value.backward()
+    optimizer.step()
+print(torch.sum(model_fa.log_prob(data)))
+print(loading)
+print(uniqueness)
+

@@ -258,6 +258,11 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   10.3. 程式範例
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -491,6 +496,105 @@ x \\
 \right]
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\Sigma(\theta) = \Lambda \Phi \Lambda^T + \Psi\)</span> 即為因素分析之共變結構。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><span class="section-number">10.3. </span>程式範例<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">def</span> <span class="nf">create_fa_model</span><span class="p">(</span><span class="n">n_factor</span><span class="p">,</span> <span class="n">n_item</span><span class="p">,</span> <span class="n">ld</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">%</span> <span class="n">n_factor</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n_item</span> <span class="o">=</span> <span class="n">n_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
+    <span class="n">loading</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">))</span>
+    <span class="n">item_per_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_factor</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">,</span>
+                       <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">):</span>
+            <span class="n">loading</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ld</span>
+    <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_factor</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">)</span>
+        <span class="n">cor</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="n">unit</span> <span class="o">@</span> <span class="n">unit</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">identity</span>
+    <span class="k">if</span> <span class="n">psi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">uniqueness</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">loading</span> <span class="o">@</span> <span class="n">cor</span> <span class="o">@</span> <span class="n">loading</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">uniqueness</span> <span class="o">=</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="p">))</span>
+    <span class="k">return</span> <span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">,</span> <span class="n">cor</span>
+
+<span class="k">def</span> <span class="nf">generate_fa_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">,</span> <span class="n">cor</span><span class="p">):</span>
+    <span class="n">n_item</span> <span class="o">=</span> <span class="n">loading</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="p">))</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">loading</span> <span class="o">@</span> <span class="n">cor</span> <span class="o">@</span> <span class="n">loading</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)</span>
+    <span class="n">mvn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">mean</span><span class="p">,</span> <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mvn</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="n">n_sample</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
+<span class="n">loading_true</span><span class="p">,</span> <span class="n">uniqueness_true</span><span class="p">,</span> <span class="n">cor_true</span> <span class="o">=</span> <span class="n">create_fa_model</span><span class="p">(</span><span class="n">n_factor</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">n_item</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">ld</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">generate_fa_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+                        <span class="n">loading</span> <span class="o">=</span> <span class="n">loading_true</span><span class="p">,</span>
+                        <span class="n">uniqueness</span> <span class="o">=</span> <span class="n">uniqueness_true</span><span class="p">,</span>
+                        <span class="n">cor</span> <span class="o">=</span> <span class="n">cor_true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">MultivariateNormal</span>
+<span class="n">loading</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">loading_true</span>
+<span class="n">uniqueness</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">uniqueness_true</span>
+<span class="n">loading_mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span>  <span class="p">(</span><span class="n">loading_true</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">loading</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">uniqueness</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">],</span> <span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">model_fa</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">loading</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)),</span>
+        <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">loading</span> <span class="o">*</span> <span class="n">loading_mask</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">loading</span> <span class="o">*</span> <span class="n">loading_mask</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag_embed</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)))</span>
+    <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model_fa</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss_value</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">model_fa</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loading</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor(-156898.5781, grad_fn=&lt;SumBackward0&gt;)
+tensor([[0.6992, 0.0000, 0.0000, 0.0000],
+        [0.6954, 0.0000, 0.0000, 0.0000],
+        [0.6993, 0.0000, 0.0000, 0.0000],
+        [0.0000, 0.7133, 0.0000, 0.0000],
+        [0.0000, 0.7040, 0.0000, 0.0000],
+        [0.0000, 0.7090, 0.0000, 0.0000],
+        [0.0000, 0.0000, 0.7124, 0.0000],
+        [0.0000, 0.0000, 0.6848, 0.0000],
+        [0.0000, 0.0000, 0.6878, 0.0000],
+        [0.0000, 0.0000, 0.0000, 0.6963],
+        [0.0000, 0.0000, 0.0000, 0.7116],
+        [0.0000, 0.0000, 0.0000, 0.7105]], requires_grad=True)
+tensor([0.5055, 0.5042, 0.5134, 0.5078, 0.5059, 0.5122, 0.4727, 0.5178, 0.5204,
+        0.5262, 0.4994, 0.5095], requires_grad=True)
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
