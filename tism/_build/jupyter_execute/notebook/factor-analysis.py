@@ -259,6 +259,8 @@ $$
 
 ## 程式範例
 
+### 產生因素分析資料
+
 import torch
 def create_fa_model(n_factor, n_item, ld, psi = None, rho = None):
     if (n_item % n_factor) != 0:
@@ -276,7 +278,7 @@ def create_fa_model(n_factor, n_item, ld, psi = None, rho = None):
         identity = torch.eye(n_factor)
         cor = rho * (unit @ unit.T) + (1 - rho) * identity
     if psi is None:
-        uniqueness = 1 - torch.diagonal(loading @ cor @ loading.T)
+        uniqueness = 1 - torch.diag(loading @ cor @ loading.T)
     else:
         uniqueness = psi * torch.ones((n_item, ))
     return loading, uniqueness, cor
@@ -284,12 +286,11 @@ def create_fa_model(n_factor, n_item, ld, psi = None, rho = None):
 def generate_fa_data(n_sample, loading, uniqueness, cor):
     n_item = loading.size()[0]
     mean = torch.zeros((n_item, ))
-    cov = loading @ cor @ loading.T + torch.diag_embed(uniqueness)
+    cov = loading @ cor @ loading.T + torch.diag(uniqueness)
     mvn = torch.distributions.MultivariateNormal(
         loc = mean, scale_tril = torch.cholesky(cov))
     data = mvn.sample((n_sample,))
     return data
-
 
 torch.manual_seed(246437)
 loading_true, uniqueness_true, cor_true = create_fa_model(n_factor = 4, n_item = 12, ld = .7)
@@ -298,10 +299,12 @@ data = generate_fa_data(n_sample = 10000,
                         uniqueness = uniqueness_true,
                         cor = cor_true)
 
+### 梯度下降法求解
+
 from torch.distributions import MultivariateNormal
 loading = .7 * loading_true
 uniqueness = .7 * uniqueness_true
-loading_mask = 1 *  (loading_true != 0)
+# loading_mask = 1 *  (loading_true != 0)
 loading.requires_grad_(requires_grad=True)
 uniqueness.requires_grad_(requires_grad=True)
 epochs = 200
@@ -312,7 +315,7 @@ for epoch in range(epochs):
     model_fa = MultivariateNormal(
         loc = torch.zeros((loading.size()[0], )),
         scale_tril = torch.cholesky(
-            (loading * loading_mask) @ (loading * loading_mask).T + torch.diag_embed(uniqueness)))
+            loading @ loading.T + torch.diag(uniqueness)))
     loss_value = -torch.mean(model_fa.log_prob(data))
     optimizer.zero_grad()
     loss_value.backward()
@@ -321,3 +324,40 @@ print(torch.sum(model_fa.log_prob(data)))
 print(loading)
 print(uniqueness)
 
+
+### 期望最大化算則求解
+
+n_sample = 10000
+n_item = 12
+n_factor = 4
+beta = .7 * loading_true
+tau = .7 * torch.diag(uniqueness)
+y = data - data.mean(axis = 0)
+c_yy = (y.T @ y) / n_sample
+
+def e_step(c_yy, beta, tau):
+    sigma_inv = (beta @ beta.T + tau).inverse()
+    delta_small = sigma_inv @ beta
+    delta_big = torch.eye(n_factor) - beta.T @ sigma_inv @ beta
+    c_yz_hat = c_yy @ delta_small
+    c_zz_hat = delta_small.T @ c_yy @ delta_small + delta_big
+    return c_yz_hat, c_zz_hat
+
+def m_step(c_yy, c_yz_hat, c_zz_hat):
+    beta = c_yz_hat @ c_zz_hat.inverse()
+    tau = torch.diag(c_yy - c_yz_hat @ c_zz_hat.inverse() @ c_yz_hat.T)
+    tau = torch.diag(tau)
+    return beta, tau
+
+for epoch in range(epochs):
+    c_yz_hat, c_zz_hat = e_step(c_yy, beta, tau)
+    beta, tau = m_step(c_yy, c_yz_hat, c_zz_hat)
+
+print(beta)
+print(torch.diag(tau))
+
+
+### 練習
+1. 問如何確定前述兩種方法得到的解都是最大概似解。
+2. 如何對於因素間之因素進行估計。
+3. 如何僅估計真實模型中不為零之因素負荷量。
