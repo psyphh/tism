@@ -132,6 +132,17 @@
    12. 混合建模
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-pyro.html">
+   13. Lab:
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pyro
+    </span>
+   </code>
+   簡介
+  </a>
+ </li>
 </ul>
 
 </nav>
@@ -519,13 +530,13 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.3125161  0.51175606 0.40493232 0.27636474 0.1439665  0.99595207]
- [0.06572777 0.51717776 0.37454897 0.5081435  0.7338773  0.04688102]]
+ [[0.38379288 0.367302   0.8011466  0.06748521 0.71844774 0.07353491]
+ [0.6924003  0.8752848  0.39824563 0.5141941  0.12541431 0.9569202 ]]
 tensor with uninitialized data 
- [[0.0000000e+00 3.6893488e+19 9.0400408e-06 4.6577470e-10 1.4355481e-01
-  9.9595207e-01]
- [6.5727770e-02 5.1717776e-01 3.7454897e-01 5.0814348e-01 7.3387730e-01
-  2.7777099e-40]]
+ [[0.0000000e+00 3.6893488e+19 2.8009845e-07 3.6902487e+19 1.1210388e-44
+  0.0000000e+00]
+ [0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00
+  0.0000000e+00]]
 </pre></div>
 </div>
 </div>
@@ -1133,7 +1144,9 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
- tensor([[1., 2., 3.],
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([0., 1., 2.], dtype=torch.float64)
@@ -1207,13 +1220,15 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0008199214935302734
+CPU time = 0.0005970001220703125
 n = 100
-CPU time = 0.0008776187896728516
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0011570453643798828
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.032987117767333984
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0397639274597168
 </pre></div>
 </div>
 </div>
@@ -1234,7 +1249,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.59 ms ± 75.9 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.73 ms ± 60.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1256,7 +1271,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>29.9 ms ± 265 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>31.2 ms ± 711 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1277,7 +1292,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>31.6 ms ± 1.17 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>33.5 ms ± 849 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1319,7 +1334,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fb3a879e1d0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fe3206e71d0&gt;
 </pre></div>
 </div>
 </div>
