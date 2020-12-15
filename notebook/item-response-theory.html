@@ -224,7 +224,31 @@
             <i class="fas fa-list"></i> Contents
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   11.1. 基本試題反應理論模型
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     11.1.1. 試題反應函數與作答機率
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     11.1.2. 單參數、二參數、三參數邏輯斯模型
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     11.1.3. 誤差分配之拓展
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -235,6 +259,72 @@
                 
   <div class="section" id="id1">
 <h1><span class="section-number">11. </span>試題反應理論<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>試題反應理論（item response theory，簡稱IRT）乃一系列之測量模型，其用於刻畫個體於試題作答之反應。</p>
+<div class="section" id="id2">
+<h2><span class="section-number">11.1. </span>基本試題反應理論模型<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><span class="section-number">11.1.1. </span>試題反應函數與作答機率<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>IRT的核心在於如何利用一數學函數，刻畫個體潛在能力（latent ability）與作答機率（response category）之關係，該數學函數被稱作試題反應函數（item response function，簡稱IRF），而其所對應之圖示，則被稱作試題特徵曲線（item characteristic curve，簡稱ICC）。</p>
+<p>首先，我們考慮最簡單的IRT模型，其僅考慮單一之潛在變項，而各試題之作答為二分變項，1表示答對，0表示答錯。令 <span class="math notranslate nohighlight">\(\eta\)</span> 表示個體的潛在能力，<span class="math notranslate nohighlight">\(x_i\)</span> 表示個體於試題 <span class="math notranslate nohighlight">\(i\)</span> 之作答反應，則試題 <span class="math notranslate nohighlight">\(i\)</span> 之 IRF 被定義為給定 <span class="math notranslate nohighlight">\(\eta\)</span> 之下，個體答對之機率，即</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) = \mathbb{P}(x_i = 1|\eta)
+\]</div>
+<p>則個體答錯的機率則為 <span class="math notranslate nohighlight">\(1-\pi_i(\eta)\)</span>。根據伯努利分配，我們可以將個體的作答機率表示為</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(x_i|\eta) = \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
+\]</div>
+<p>令 <span class="math notranslate nohighlight">\(x_1, x_2,...,x_I\)</span> 表示個體於 <span class="math notranslate nohighlight">\(I\)</span> 道試題之作答反應，則在局部獨立的假設下，個體的作答機率可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(x_1,x_2,...,x_I|\eta) = \prod_{i=1}^I \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
+\]</div>
+</div>
+<div class="section" id="id4">
+<h3><span class="section-number">11.1.2. </span>單參數、二參數、三參數邏輯斯模型<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>IRT的發展過程中，最為著名的即單參數、二參數、以及三參數邏輯斯模型。</p>
+<p>單參數邏輯斯（one-parameter logistic，簡稱1PL）模型，亦稱作 Rasch 模型，其假設每個題目有不同的難度，將 IRF 刻畫為</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) = \frac{\exp(\eta-\alpha_i)}{1 + \exp(\eta-\alpha_i)}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\alpha_i\)</span> 表示試題 <span class="math notranslate nohighlight">\(i\)</span> 之難度參數。</p>
+<p>二參數邏輯斯（two-parameter logistic，簡稱2PL）模型進一步引入鑑別力，其 IRF 為</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) =  \frac{\exp[\beta_i(\eta-\alpha_i)]}{1 + \exp[\beta_i(\eta-\alpha_i)]}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\beta_i\)</span> 表示試題 <span class="math notranslate nohighlight">\(i\)</span> 之鑑別力參數。</p>
+<p>三參數邏輯斯（three-parameter logistic，簡稱3PL）模型進一步引入個體之猜測機率，其 IRF 為</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) = \gamma_i + (1-\gamma_i) \frac{\exp[\beta_i(\eta-\alpha_i)]}{1 + \exp[\beta_i(\eta-\alpha_i)]}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\gamma_i\)</span> 表示試題 <span class="math notranslate nohighlight">\(i\)</span> 之猜測機率。</p>
+</div>
+<div class="section" id="id5">
+<h3><span class="section-number">11.1.3. </span>誤差分配之拓展<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(\tau_i = \beta_i(\eta - \alpha_i)\)</span> 表示個體於試題 <span class="math notranslate nohighlight">\(i\)</span> 的「真實分數」，而<span class="math notranslate nohighlight">\(\epsilon_i\)</span> 表示一來自位置參數為0，尺度參數為1邏輯斯分配之誤差，則前述2PL之IRF可以被理解為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{P}(x_i|\eta) &amp;= \mathbb{P}(\tau_i + \epsilon &gt; 0|\eta) \\
+&amp;= \mathbb{P}(\epsilon &gt; - \tau_i|\eta) \\
+&amp;= \mathbb{P}(- \epsilon &lt; \tau_i|\eta) \\
+&amp;= \mathbb{P}(\epsilon &lt; \tau_i|\eta) \\
+&amp;=  \frac{\exp[\tau_i]}{1 + \exp[\tau_i]}
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\frac{\exp(\tau_i)}{1 + \exp(\tau_i)}\)</span> 為邏輯斯分配之CDF。</p>
+<p>事實上，可以透過對於 <span class="math notranslate nohighlight">\(\epsilon_i\)</span> 分配的改變獲得不同的IRT模型，比如說，常態肩型（normal ogive）模型即假設 <span class="math notranslate nohighlight">\(\epsilon_i\)</span> 為標準常態分配，因此，其IRT 為</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) = \int_{-\infty}^{\tau_i} \phi(z) dz
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\phi(z)\)</span> 表示標準常態分配的pdf</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
