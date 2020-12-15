@@ -208,7 +208,8 @@ pyro.clear_param_store()
 for step in range(n_steps):
     model_cond_x = pyro.poutine.condition(joint_model, data = {"x": data})
     nuts_kernel = pyro.infer.NUTS(model_cond_x)
-    mcmc = pyro.infer.MCMC(nuts_kernel, num_samples=1, warmup_steps = 20)
+    mcmc = pyro.infer.MCMC(nuts_kernel, num_samples=1,
+                           warmup_steps = 20, disable_progbar = True)
     mcmc.run()
     eta = mcmc.get_samples()["eta"].reshape((-1, 4))
     model_cond_x_eta = pyro.poutine.condition(joint_model,
