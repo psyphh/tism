@@ -530,13 +530,13 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.38379288 0.367302   0.8011466  0.06748521 0.71844774 0.07353491]
- [0.6924003  0.8752848  0.39824563 0.5141941  0.12541431 0.9569202 ]]
+ [[0.57554626 0.86786723 0.331465   0.43340784 0.16121066 0.9618436 ]
+ [0.01084042 0.07301265 0.44555104 0.7073237  0.6476935  0.5736797 ]]
 tensor with uninitialized data 
- [[0.0000000e+00 3.6893488e+19 2.8009845e-07 3.6902487e+19 1.1210388e-44
-  0.0000000e+00]
- [0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00 0.0000000e+00
-  0.0000000e+00]]
+ [[ 0.0000000e+00  4.6566129e-10 -1.7903967e+05 -2.5249697e-29
+   9.8090893e-45  0.0000000e+00]
+ [ 0.0000000e+00  0.0000000e+00  0.0000000e+00  0.0000000e+00
+   0.0000000e+00  0.0000000e+00]]
 </pre></div>
 </div>
 </div>
@@ -1144,9 +1144,7 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> tensor([[1., 2., 3.],
+ tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([0., 1., 2.], dtype=torch.float64)
@@ -1220,15 +1218,13 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0005970001220703125
+CPU time = 0.0006029605865478516
 n = 100
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0011570453643798828
+CPU time = 0.0008280277252197266
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.0397639274597168
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.036560773849487305
 </pre></div>
 </div>
 </div>
@@ -1249,7 +1245,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.73 ms ± 60.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.39 ms ± 14 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1271,7 +1267,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>31.2 ms ± 711 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>29.3 ms ± 434 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1292,7 +1288,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>33.5 ms ± 849 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>30 ms ± 523 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1334,7 +1330,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fe3206e71d0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fbc68fba1d0&gt;
 </pre></div>
 </div>
 </div>
