@@ -143,6 +143,26 @@
    簡介
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-example.html">
+   14. Linear Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-example.html#logistic-regression">
+   15. Logistic Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-example.html#factor-analysis">
+   16. Factor Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-example.html#two-parameter-logistic-model">
+   17. Two-Parameter Logistic Model
+  </a>
+ </li>
 </ul>
 
 </nav>
@@ -247,6 +267,50 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   11.2. 進階試題反應理論模型
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     11.2.1. 等級反應模型
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     11.2.2. 部分給分模型
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     11.2.3. 多向度試題反應模型
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   11.3. 試題反應模型之估計
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     11.3.1. 聯合最大概似法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     11.3.2. 邊際最大概似法
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#em">
+     11.3.3. EM算則
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -272,14 +336,21 @@
 \]</div>
 <p>則個體答錯的機率則為 <span class="math notranslate nohighlight">\(1-\pi_i(\eta)\)</span>。根據伯努利分配，我們可以將個體的作答機率表示為</p>
 <div class="math notranslate nohighlight">
-\[
-\mathbb{P}(x_i|\eta) = \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
-\]</div>
+\[\begin{split}
+\begin{aligned}
+p(x_i|\eta) &amp;= \mathbb{P}(x_i|\eta) \\
+&amp;= \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
+\end{aligned}
+\end{split}\]</div>
 <p>令 <span class="math notranslate nohighlight">\(x_1, x_2,...,x_I\)</span> 表示個體於 <span class="math notranslate nohighlight">\(I\)</span> 道試題之作答反應，則在局部獨立的假設下，個體的作答機率可以寫為</p>
 <div class="math notranslate nohighlight">
-\[
-\mathbb{P}(x_1,x_2,...,x_I|\eta) = \prod_{i=1}^I \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
-\]</div>
+\[\begin{split}
+\begin{aligned}
+p(x_1,x_2,...,x_I|\eta) &amp;= \mathbb{P}(x_1,x_2,...,x_I|\eta) \\
+&amp;= \prod_{i=1}^I \pi_i(\eta)^{x_i} [1-\pi_i(\eta)]^{1-x_i}
+\end{aligned}
+\end{split}\]</div>
+<p>有時，我們會將多道試題的反應簡單寫為一向量，即 <span class="math notranslate nohighlight">\(x = (x_1, x_2,...,x_I)\)</span> ，此時，我們亦可將前述之混合機率分佈簡化為 <span class="math notranslate nohighlight">\(p(x|\eta)=p(x_1,x_2,...,x_I|\eta)\)</span>。</p>
 </div>
 <div class="section" id="id4">
 <h3><span class="section-number">11.1.2. </span>單參數、二參數、三參數邏輯斯模型<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
@@ -309,7 +380,7 @@
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
-\mathbb{P}(x_i|\eta) &amp;= \mathbb{P}(\tau_i + \epsilon &gt; 0|\eta) \\
+\mathbb{P}(x_i = 1|\eta) &amp;= \mathbb{P}(\tau_i + \epsilon &gt; 0|\eta) \\
 &amp;= \mathbb{P}(\epsilon &gt; - \tau_i|\eta) \\
 &amp;= \mathbb{P}(- \epsilon &lt; \tau_i|\eta) \\
 &amp;= \mathbb{P}(\epsilon &lt; \tau_i|\eta) \\
@@ -322,7 +393,129 @@
 \[
 \pi_i(\eta) = \int_{-\infty}^{\tau_i} \phi(z) dz
 \]</div>
-<p>這裡，<span class="math notranslate nohighlight">\(\phi(z)\)</span> 表示標準常態分配的pdf</p>
+<p>這裡，<span class="math notranslate nohighlight">\(\phi(z)\)</span> 表示標準常態分配的pdf。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2><span class="section-number">11.2. </span>進階試題反應理論模型<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3><span class="section-number">11.2.1. </span>等級反應模型<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>等級反應模型（graded response model，簡稱GRM）常用於刻畫 Likert 量尺之作答，令 <span class="math notranslate nohighlight">\(x_i \in \{0,1,...,C_i-1\}\)</span> 表示一次序之試題反應變項，將 <span class="math notranslate nohighlight">\(\mathbb{P}(x_i \geq j | \eta)\)</span> 刻畫為</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{P}(x_i \geq 0 | \eta) &amp;= 1,\\
+\mathbb{P}(x_i \geq 1 | \eta) &amp;= \frac{\exp(\nu_{i1} + \lambda_{i} \eta)}{1 + \exp(\nu_{i1} + \lambda_{i} \eta)},\\
+\vdots,\\
+\mathbb{P}(x_i \geq C_i-1 | \eta) &amp;= \frac{\exp(\nu_{i(C_i-1)} + \lambda_{i} \eta)}{1 + \exp(\nu_{i(C_i-1)} + \lambda_{i} \eta)},\\
+\mathbb{P}(x_i \geq C_i | \eta) &amp;= 0,
+\end{aligned}
+\end{split}\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\nu_{ij}\)</span> 表示對於 <span class="math notranslate nohighlight">\(x_i \geq 1\)</span> 此事件之截距，<span class="math notranslate nohighlight">\(\lambda_{i}\)</span> 則為因素負荷量。因此，我們有 <span class="math notranslate nohighlight">\(\mathbb{P}(x_i = j | \eta) = \pi_{ij}(\eta) = \mathbb{P}(x_i \geq j-1 | \eta) - \mathbb{P}(x_i \geq j | \eta)\)</span>。</p>
+</div>
+<div class="section" id="id8">
+<h3><span class="section-number">11.2.2. </span>部分給分模型<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>部分給分模型（partial credit model，簡稱PCM）假設個體在作答試題時，採用一序列的模式處理</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\mathbb{P}(x_i = 1 |x_i = 0 \text{ or } x_i = 1, \eta)  &amp;= \frac{\exp(\eta - \alpha_{i1})}{1+\exp(\eta - \alpha_{i1})},\\
+\mathbb{P}(x_i = 2 |x_i = 1 \text{ or } x_i = 2, \eta)  &amp;= \frac{\exp(\eta - \alpha_{i2})}{1+\exp(\eta - \alpha_{i2})},\\
+\vdots,\\
+\mathbb{P}(x_i = C_i-1 |x_i = C_i-2 \text{ or } x_i = C_i-1, \eta) &amp;= \frac{\exp(\eta - \alpha_{i(C_i-1)})}{1+\exp(\eta - \alpha_{i(C_i-1)})},\\
+\end{aligned}
+\end{split}\]</div>
+<p>前述機率隱含著 <span class="math notranslate nohighlight">\(\pi_{ij}(\eta) = \pi_{i(j-1)}(\eta) \exp(\eta - \alpha_{ij})\)</span>，在透過 <span class="math notranslate nohighlight">\(\pi_{i0}(\eta) + \pi_{i1}(\eta) +...+\pi_{i(C_i -1)}(\eta) =1\)</span> 此限制式，<span class="math notranslate nohighlight">\(\mathbb{P}(x_i = j | \eta) = \pi_{ij}(\eta)\)</span> 可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{P}(x_i = j | \eta) = \frac{\exp(\sum_{k=0}^j (\eta - \alpha_{ik}))}{\sum_{l=0}^{C_i-1}\exp(\sum_{k=0}^l (\eta - \alpha_{ik}))}.
+\]</div>
+<p>這裡，我們將 <span class="math notranslate nohighlight">\(\eta - \beta_{i0}\)</span> 設為 0。</p>
+</div>
+<div class="section" id="id9">
+<h3><span class="section-number">11.2.3. </span>多向度試題反應模型<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>前述的試題反應模型，皆可採用某種方式拓展為多向度模型，以3PL為例，其IRF可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\pi_i(\eta) = \gamma_i + (1-\gamma_i) \frac{\exp(\nu_i + \sum_{m=1}^M \lambda_{im} \eta_m)}{1 + \exp(\nu_i + \sum_{m=1}^M \lambda_{im} \eta_m)}
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(\nu_i\)</span> 表示試題 <span class="math notranslate nohighlight">\(i\)</span> 之截距，<span class="math notranslate nohighlight">\(\lambda_{im}\)</span> 表示因素 <span class="math notranslate nohighlight">\(m\)</span> 對試題 <span class="math notranslate nohighlight">\(i\)</span> 之因素負荷量， <span class="math notranslate nohighlight">\(\gamma_i\)</span> 則為試題 <span class="math notranslate nohighlight">\(i\)</span> 的猜測參數。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><span class="section-number">11.3. </span>試題反應模型之估計<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3><span class="section-number">11.3.1. </span>聯合最大概似法<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>令 <span class="math notranslate nohighlight">\(\eta_n\)</span> 表示個體 <span class="math notranslate nohighlight">\(n\)</span> 之潛在能力，<span class="math notranslate nohighlight">\(\text{H}\)</span> 表示由 <span class="math notranslate nohighlight">\(\eta_n\)</span> 作為其第 <span class="math notranslate nohighlight">\(n\)</span> 個橫列所形成之矩陣矩陣，而 <span class="math notranslate nohighlight">\(\theta\)</span> 則表示由試題參數組成之向量，聯合最大概似法（joint maximum maximum likelihood method，簡稱JML法）考慮以下的估計準則，同時對試題參數 <span class="math notranslate nohighlight">\(\theta\)</span> 與個體能力 <span class="math notranslate nohighlight">\(\text{H}\)</span> 進行估計</p>
+<div class="math notranslate nohighlight">
+\[
+\ell_{\text{joint}}(\theta, \text{H}; \mathcal{X}) = \sum_{n=1}^N \sum_{i=1}^I
+\left[
+x_{ni} \log \pi_i(\eta_n) + (1- x_{ni}) \log (1-\pi_i(\eta_n))
+\right]
+\]</div>
+<p>這裡，<span class="math notranslate nohighlight">\(mathcal{X}\)</span> 表示由 <span class="math notranslate nohighlight">\(\{x_n\}_{n=1}^N\)</span> 所形成的觀察資料。JML 的計算相對容易，但其缺點在於，其參數數目會隨著觀測值個數的增加而上升，一般來說，其無法獲得一致性之參數估計式。</p>
+</div>
+<div class="section" id="id12">
+<h3><span class="section-number">11.3.2. </span>邊際最大概似法<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>邊際最大概似法（marginal maximum likelihood method，簡稱MML法）僅使用 <span class="math notranslate nohighlight">\(x\)</span> 的邊際分配來建立概似函數。令 <span class="math notranslate nohighlight">\(p(\eta; \theta)\)</span> 表示潛在能力的機率分佈，其常被假定為多元常態分配，MML考慮以下之估計準則</p>
+<div class="math notranslate nohighlight">
+\[
+\ell_{\text{marginal}}(\theta; mathcal{X}) = \sum_{n=1}^N \log p(x_n; \theta)
+\]</div>
+<p>這裡，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+p(x_n; \theta) &amp;=
+\int
+p(x_n, \eta_n; \theta)
+d \eta_n \\
+&amp;=
+\int \left[
+\prod_{i=1}^I p(x_{n_i}|\eta_n; \theta)
+\right]
+p(\eta_n; \theta)
+d \eta_n
+\end{aligned}
+\end{split}\]</div>
+<p>儘管此方法被稱作邊際最大概似法，但其事實上可以被視為一般的最大概似法，故具有最大概似法估計的理論特性。然而，由於前述的概似函數牽涉到積分，故在潛在能力向度大時不易計算。</p>
+</div>
+<div class="section" id="em">
+<h3><span class="section-number">11.3.3. </span>EM算則<a class="headerlink" href="#em" title="Permalink to this headline">¶</a></h3>
+<p>實務上，IRT之參數估計多使用某種形式的EM算則，在此，我們以Cai（2009）的Metropolis–Hastings Robbins–Monro（MH-RM）算則為例。</p>
+<p>在EM算則下，考慮的是完整資料之概似函數 <span class="math notranslate nohighlight">\(\ell_{\text{com}}(\theta)\)</span>，其可以寫為</p>
+<div class="math notranslate nohighlight">
+\[
+\ell_{\text{com}}(\theta; \mathcal{X}, \text{H}) =
+\sum_{n=1}^N \sum_{i=1}^I \log p(x_{ni}|\eta_n; \theta) +
+\sum_{n=1}^N \log p(\eta_n; \theta)
+\]</div>
+<p>而EM算則的 E 步驟在於計算該概似函數在給定觀察資料與當下參數估計下之條件期望值，即</p>
+<div class="math notranslate nohighlight">
+\[
+Q(\theta| \widehat{\theta}^{(t)}) = \mathbb{E}(\ell_{\text{com}}(\theta; \mathcal{X}, \text{H}) | \mathcal{X}, \widehat{\theta}^{(t)})
+\]</div>
+<p>而根據Fisher’s identity，我們有</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_{\theta} \ell_{\text{marginal}}(\theta; \mathcal{X}) =
+ \mathbb{E}( \nabla_{\theta}\ell_{\text{com}}(\theta;\mathcal{X}, \text{H}) | \mathcal{X},\theta)
+\]</div>
+<p>這意味著，我們可以直接透過完整資料該似函數的期望值來計算邊際概似函數之梯度，以進行參數的更新。</p>
+<p>在 MH-RM 法的第 <span class="math notranslate nohighlight">\(t\)</span> 個步驟時，我們使用 Metropolis-Hasting方法，於 <span class="math notranslate nohighlight">\(p(\eta_n|x_n; \widehat{\theta}^{(t)})\)</span> 此分配中產生 <span class="math notranslate nohighlight">\(\eta^{(t)}_1, \eta^{(t)}_2, ..., \eta^{(t)}_N\)</span>，獲得對於MML估計準則梯度的估計</p>
+<div class="math notranslate nohighlight">
+\[
+d^{(t)} =
+\sum_{n=1}^N \sum_{i=1}^I \nabla_{\theta}\log p(x_{ni}|\eta_n^{(t)}; \theta) +
+\sum_{n=1}^N \nabla_{\theta}\log p(\eta_n^{(t)}; \theta)
+\]</div>
+<p>接著，再根據Robbins-Monro的方法，利用此梯度更新參數估計</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{\theta}^{(t + 1)} =
+\widehat{\theta}^{(t)} + \frac{1}{t} d^{(t)}
+\]</div>
 </div>
 </div>
 </div>
