@@ -13,3 +13,4 @@
 - file: notebook/item-response-theory
 - file: notebook/mixture-modeling
 - file: notebook/lab-pyro
+- file: notebook/lab-tf-example

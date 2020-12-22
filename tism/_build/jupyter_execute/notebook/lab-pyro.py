@@ -201,7 +201,7 @@ def joint_guide():
     pass
 
 lr = .1 / n_sample
-n_steps = 51
+n_steps = 1
 pyro.clear_param_store()
 
 
