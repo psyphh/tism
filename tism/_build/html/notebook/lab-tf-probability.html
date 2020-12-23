@@ -81,8 +81,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-tensor.html">
-   3. Lab: 張量與線性代數
+  <a class="reference internal" href="lab-tf-tensor.html">
+   3. Lab I: 線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -331,13 +331,13 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tf.Tensor(-0.026238209, shape=(), dtype=float32)
+ tf.Tensor(2.2713256, shape=(), dtype=float32)
 random sample with shape (3,):
- tf.Tensor([-0.9799638  0.7912807 -0.5978213], shape=(3,), dtype=float32)
+ tf.Tensor([ 2.3771358  -1.8249989  -0.37349173], shape=(3,), dtype=float32)
 random sample with shape (2,3):
  tf.Tensor(
-[[ 0.2895079   0.91604215 -0.19802788]
- [ 2.3984742   0.4593481   0.40429714]], shape=(2, 3), dtype=float32)
+[[ 1.7267758   0.23061198 -1.9052708 ]
+ [ 0.26800588 -0.07182376  0.38082814]], shape=(2, 3), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -462,23 +462,23 @@ log-probability given value with (2,3):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tf.Tensor([-1.4039809   0.73869395], shape=(2,), dtype=float32) 
+ tf.Tensor([1.5389309 1.058266 ], shape=(2,), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[-0.63919216  0.81333125]
- [ 1.0708785   0.94815177]
- [-0.903196    0.4233709 ]], shape=(3, 2), dtype=float32) 
+[[ 0.8262944  -0.20904672]
+ [-0.41877052  0.37379056]
+ [ 1.1131867   1.7374542 ]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (2,3):
  tf.Tensor(
-[[[-0.06428163  0.67547786]
-  [ 1.9813673   0.97726375]
-  [ 0.90734804  1.0550976 ]]
+[[[ 0.41234437  1.1895566 ]
+  [ 0.21679199  0.37657076]
+  [ 0.7545709   0.76228845]]
 
- [[ 1.8738028   0.80110717]
-  [-3.8023891   0.78750247]
-  [-1.8204774   0.9873857 ]]], shape=(2, 3, 2), dtype=float32)
+ [[ 0.1450507   1.1977061 ]
+  [-2.324742    0.86529374]
+  [-0.02887968  1.0968765 ]]], shape=(2, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -541,23 +541,23 @@ log-probability given value with shape (2,1):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tf.Tensor([-0.607034   1.0762076], shape=(2,), dtype=float32) 
+ tf.Tensor([0.2162181  0.46002054], shape=(2,), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[-0.26524433  3.3903432 ]
- [ 0.89592975  0.3219849 ]
- [ 0.53270996  0.9400099 ]], shape=(3, 2), dtype=float32) 
+[[-0.25399727  1.3331991 ]
+ [ 0.50582093  0.54873157]
+ [-0.08385251  0.15000951]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (2, 3):
  tf.Tensor(
-[[[ 0.65352374  1.312998  ]
-  [-0.50857943  1.7011187 ]
-  [ 0.7145487   1.2806025 ]]
+[[[-0.07636248  0.4365208 ]
+  [-0.9659546  -0.01564229]
+  [ 1.0694548   2.2594252 ]]
 
- [[-0.86120397  0.6408713 ]
-  [ 0.99389     0.6597274 ]
-  [ 0.09829532  1.1265683 ]]], shape=(2, 3, 2), dtype=float32)
+ [[-0.08555713  1.887286  ]
+  [-0.17217642  2.4205818 ]
+  [-0.3970989   1.2988566 ]]], shape=(2, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -629,50 +629,50 @@ log-probability given value with shape (2,1):
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
  tf.Tensor(
-[[ 0.8255125   0.40600383]
- [-0.86200213  2.735508  ]
- [ 2.3798156   2.852598  ]], shape=(3, 2), dtype=float32) 
+[[-0.8442798   1.6098676 ]
+ [ 0.05365855  1.8673433 ]
+ [ 1.2360637   3.1306837 ]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[[-0.06827068 -0.02508128]
-  [ 0.7339226   1.6971135 ]
-  [ 3.132627    4.459318  ]]
+[[[-1.8156862   0.6523211 ]
+  [ 1.7010512  -0.16461039]
+  [ 0.34791625  1.9542217 ]]
 
- [[-0.39523658  0.99425745]
-  [-0.7751142   1.9613525 ]
-  [ 2.2837133   3.3023496 ]]
+ [[-1.0917486   0.5257746 ]
+  [ 2.0450764   2.7479446 ]
+  [ 0.6193794   2.1641443 ]]
 
- [[ 1.6304444   0.7309122 ]
-  [ 0.7440161   1.5521185 ]
-  [ 2.2684062   3.5305457 ]]], shape=(3, 3, 2), dtype=float32) 
+ [[ 1.6523548   0.2863677 ]
+  [ 0.19571602  3.248878  ]
+  [ 2.320044    1.8242878 ]]], shape=(3, 3, 2), dtype=float32) 
 
 random sample with sample_shape (2, 3):
  tf.Tensor(
-[[[[ 0.44324654  1.1185356 ]
-   [ 0.18990904  3.238984  ]
-   [ 1.5271668   3.2363296 ]]
+[[[[-0.5093707   0.81250143]
+   [ 1.9468127   2.9683397 ]
+   [ 1.3619013   2.2389302 ]]
 
-  [[ 1.2361666   1.4858084 ]
-   [ 1.9015701   2.3410108 ]
-   [ 1.733654    2.6765738 ]]
+  [[-0.26521453  0.95227057]
+   [ 3.1439462   1.5873938 ]
+   [ 1.4592228   1.5732392 ]]
 
-  [[-0.47000858  0.18133533]
-   [ 0.39372945  0.4117694 ]
-   [ 2.611775    3.5529475 ]]]
+  [[-1.6538379   1.6909251 ]
+   [ 1.2586976   1.7571654 ]
+   [ 2.8081112   3.2831683 ]]]
 
 
- [[[-0.07980432  1.9541208 ]
-   [-1.481514    2.0475585 ]
-   [ 0.6384301   1.8057424 ]]
+ [[[-0.30845714  0.38611084]
+   [ 0.34927046  1.7144573 ]
+   [ 0.6021681   3.6861699 ]]
 
-  [[ 1.7761581   0.5606953 ]
-   [-0.8582976   1.5934426 ]
-   [ 2.7092156   2.3617704 ]]
+  [[ 0.27426484  1.322668  ]
+   [-0.09283876  2.9660397 ]
+   [ 2.4892762   2.6491864 ]]
 
-  [[-1.1203173   0.1539973 ]
-   [ 1.6216705   1.6004459 ]
-   [ 1.0814673   1.9370931 ]]]], shape=(2, 3, 3, 2), dtype=float32)
+  [[ 0.942785    1.4955674 ]
+   [ 2.3802404   2.0291984 ]
+   [ 1.7997298   1.7686393 ]]]], shape=(2, 3, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -717,7 +717,7 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is  2.8601153
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is  2.8390605
 </pre></div>
 </div>
 </div>
@@ -748,7 +748,7 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 271 Iterations
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 276 Iterations
 </pre></div>
 </div>
 </div>
@@ -765,9 +765,9 @@ parameters in normal model:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean estimate: 
- [0.00665037 0.02047599]
+ [-0.03601326 -0.03063894]
 ML standard deviation estimate: 
- [0.9995822 1.0221817]
+ [0.99562484 1.0044298 ]
 </pre></div>
 </div>
 </div>
@@ -783,9 +783,9 @@ ML standard deviation estimate:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>sample mean: 
- [0.00664952 0.02047845]
+ [-0.0360147  -0.03063884]
 sample standard deviation: 
- [0.9995752 1.022185 ]
+ [0.9956158 1.0044307]
 </pre></div>
 </div>
 </div>
@@ -864,11 +864,11 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 208 Iterations
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 206 Iterations
 ML mean estimate: 
- [0.00664946 0.02046647]
+ [-0.03603007 -0.03065409]
 ML standard deviation estimate: 
- [0.9995668 1.0222052]
+ [0.99563926 1.0044488 ]
 </pre></div>
 </div>
 </div>

@@ -2,7 +2,7 @@
   numbered: true
 - file: notebook/math-prerequisite
 - file: notebook/linear-regression
-- file: notebook/lab-torch-tensor
+- file: notebook/lab-tf-tensor
 - file: notebook/logistic-regression
 - file: notebook/lab-torch-diff-opt
 - file: notebook/probability-distribution

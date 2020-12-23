@@ -1,4 +1,4 @@
-Lab I: 線性代數
+Lab I: 張量與線性代數
 ================
 
 此 lab 中，我們將會透過 `tensorflow` 此套件，學習以下的主題。
@@ -33,7 +33,7 @@ print(a)
 
 + `a` 內部的資料數值（value）為 `[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]`。
 + `a` 的形狀（shape）為 `(3, 4)`，表示 `a` 為一 $3 \times 4$ 之張量。在進行運算時，張量間的形狀需滿足某些條件，如相同，或是滿足某種廣播（broadcasting）的規則
-+ `a` 的資料類型（data type）為 `int32`，表示32位元的整數。在進行運算時，張量間的類型須相同。一般來說，
++ `a` 的資料類型（data type）為 `int32`，表示32位元的整數。在進行運算時，張量間的類型須相同。
 
 ### 張量之數值
 若要獲得張量的資料數值（value），可透過 `.numpy()`獲得，其回傳該張量對應之 `numpy` 陣列
@@ -169,15 +169,15 @@ print("element-wise divide \n", a / b)
 
 + 矩陣轉置（matrix transpose）
 
-a_transpose = tf.transpose(a)
+a_t = tf.transpose(a)
 print("transpose of a is \n",
-      a_transpose.numpy())
+      a_t.numpy())
 
 + 矩陣乘法（matrix multiplication）
 
 # equivalent to tf.linalg.matmul(a, a_transpose)
-c = a_transpose @ a
-print("c = a_transpose @ a is \n",
+c = a_t @ a
+print("c = a_t @ a is \n",
       c.numpy())
 
 + 反矩陣（matrix inverse）

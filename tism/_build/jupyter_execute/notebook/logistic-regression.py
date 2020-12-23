@@ -20,11 +20,11 @@
 ## 二元分類與邏輯斯迴歸
 
 ### 二元線性分類器
-廣義來說，二元分類之問題關注的是如何使用一 $P$ 維之向量 $x$，對於二元變項 $y$ 進行預測，這裡，$y$的數值只能為0或1，即$y \in \{0,1\}$，$y=1$ 表示某關注的事件發生，而 $y=0$則表示該事件並未發生。在二元分類的問題下，研究者常試圖刻畫在給定 $x$ 之下，$y$ 的條件機率（conditional probability），即：
+廣義來說，二元分類之問題關注的是如何使用一 $J$ 維之向量 $x=(x_1,x_2,...,x_J)$，對於二元變項 $y$ 進行預測，這裡，$y$的數值只能為0或1，即$y \in \{0,1\}$，當 $y=1$ 時，表示某關注的事件發生，而 $y=0$ 則表示該事件並未發生。在二元分類的問題下，研究者常試圖刻畫在給定 $x$ 之下，$y$ 的條件機率（conditional probability），即：
 
 $$\mathbb{P}(y|x)=\frac{\mathbb{P}(y,x)}{\mathbb{P}(x)},$$
 
-這裡，$\mathbb{P}(y,x)$ 表示同時考慮 $x$ 與 $y$ 的聯合機率（joint probability），而 $\mathbb{P}(x)$ 則為僅考慮 $x$ 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用 $\pi(x)$ 來表示在給定 $x$ 之下，$y=1$ 之條件機率，即
+這裡，$\mathbb{P}(y,x)$ 表示同時考慮 $x$ 與 $y$ 的聯合機率（joint probability），而 $\mathbb{P}(x)$ 則為僅考慮 $x$ 之邊際機率（marginal probability）。在此講義中，我們將簡單的使用 $\pi(x)$ 來表示在給定 $x$ 之下，$y=1$ 之發生機率，即
 
 $$\pi(x) =\mathbb{P}(y=1|x).$$
 
@@ -32,7 +32,7 @@ $$\pi(x) =\mathbb{P}(y=1|x).$$
 
 $$1-\pi(x) =\mathbb{P}(y=0|x).$$
 
-令 $f(x)=w_0 + \sum_{p=1}^P w_p x_p$表示一線性函數，$w_0$與$w_p$分別表示截距（偏誤）與迴歸係數（權重）。若我們將 $x$ 與 $w$ 重新定義為 $x = (1, x_1,...,x_P)$ 與 $w = (w_0, w_1,...,w_P)$，則此線性函數可簡單寫為 $f(x)=x^Tw$（見線性迴歸之章節）。
+令 $f(x)=w_0 + \sum_{j=1}^J w_j x_j$表示一線性函數，$w_0$ 與 $w_j$ 分別表示截距（偏誤）與迴歸係數（權重）。若我們將 $x$ 與 $w$ 重新定義為 $x = (1, x_1,...,x_J)$ 與 $w = (w_0, w_1,...,w_J)$，則此線性函數可簡單寫為 $f(x)=x^Tw$（見線性迴歸之章節）。
 
 線性分類器（classifier）可視為對二元變項最簡單的分類模型，其基本想法為當 $f(x)$ 越大時，模型所對應之 $\mathbb{P}(y=1|x)$ 應越大，反之，當 $f(x)$ 越小時，$\mathbb{P}(y=1|x)$ 應越小。然而，由於 $f(x)$ 的數值未必介於 0 到 1 之間，因此，從建模合理性的角度來看，$f(x)$ 不宜直接作為 $\pi(x)$ 此條件機率使用。
 
@@ -56,7 +56,7 @@ $$
 
 2. 當 $x^Tw$ 數值大時，$\pi(x)$ 的數值將很靠近1，意味著獲得 $y=1$ 的可能性很大，反之，$1 - \pi(x)$ 的數值則較大，獲得 $y=0$ 的可能性較高。
 
-在迴歸係數的解讀方面，$w_p$ 越大，表示 $x_p$ 對於觀察到 $y=1$ 此事件有較正向之影響，反之，則對觀察到 $y=0$ 此事件有較正面之影響。然而，$w_p$ 對於 $y$ 之具體效果不容易解讀，一般來說，需透過比較給定 $x$ 下的對數勝率（log-odds），才能夠進行解讀：
+在迴歸係數的解讀方面，$w_j$ 越大，表示 $x_j$ 對於觀察到 $y=1$ 此事件有較正向之影響，反之，則對觀察到 $y=0$ 此事件有較正面之影響。然而，$w_j$ 對於 $y$ 之具體效果不容易解讀，一般來說，需透過比較給定 $x$ 下的對數勝率（log-odds），才能夠進行解讀：
 
 $$\begin{aligned}
 \log \left[ \frac{\pi(x)}{1-\pi(x)} \right]
@@ -65,7 +65,7 @@ $$\begin{aligned}
 =& x^Tw 
 \end{aligned}$$
 
-因此，$w_p$ 可解讀為當 $x_p$ 每變動一個單位時，預期對數勝率跟著變動的單位。不過，實務上對數勝率之數值大小應如何理解仍不是一簡單的工作。
+因此，$w_j$ 可解讀為當 $x_j$ 每變動一個單位時，預期對數勝率跟著變動的單位。不過，實務上對數勝率之數值大小應如何理解仍不是一簡單的工作。
 
 
 邏輯斯迴歸的目的在於透過一樣本資料，獲得對迴歸係數 $w$ 之估計 $\widehat{w}$，一方面對於 $x$ 與 $y$ 間的關係進行推論與解釋，二方面則是利用 $\widehat{y} =\widehat{\pi}(x) = \frac{\exp{ \left( x^T\widehat{w} \right) }}{1+\exp{ \left( x^T \widehat{w} \right) }}$ 此機率預測值對 $y$ 進行預測。
@@ -172,7 +172,7 @@ x_1^T\\
 x_2^T \\
 \vdots \\
 x_N^T
-\end{pmatrix}}_{N \times (P+1)},
+\end{pmatrix}}_{N \times (J+1)},
 \pi = \pi(X) =
 \underbrace{\begin{pmatrix}
 \pi(x_1)\\
@@ -211,13 +211,13 @@ $$
 令 $\widehat{w}^{(t)}$ 表示在第 $t$ 步驟下所得之參數估計，則線搜尋試圖使用以下之形式進行更新，以獲得第 $t+1$ 步驟下之參數估計：
 
 $$
-\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(P+1) \times 1},
+\widehat{w}^{(t+1)} = \widehat{w}^{(t)} + s \times \underbrace{d}_{(J+1) \times 1},
 $$
 
 這裡，$d$ 為一向量，其表示所欲更新的方向，而 $s$ 則唯一純量，表示更新步伐的大小。不同的線搜尋方法，使用不同的方向 $d$ 與步伐 $s$ 進行更新。然而，一般來說，更新方向 $d$ 多具有以下之形式
 
 $$
-d = - \underbrace{B^{-1}}_{(P+1) \times (P+1)} \nabla D(\widehat{w}^{(t)} ),
+d = - \underbrace{B^{-1}}_{(J+1) \times (J+1)} \nabla D(\widehat{w}^{(t)} ),
 $$
 
 這裡，$B$ 表示一對稱且可逆之矩陣。然而，為何線搜尋的方向會與目標函數的梯度取負號有關呢？考慮 $w=\widehat{w}^{(t)}$ 此位置，沿著一標準化方向 $d$ （即 $||d||=1$）的方向導數為：
@@ -287,7 +287,7 @@ $$
 為了解決前述牛頓法之缺點，在實務上，大多會採用所謂的**準牛頓法**（quasi-Newton's method），其使用某種方式獲得對於黑色矩陣 $\nabla^2 \mathcal{D}(\widehat{w}^{(t)})$ 之逼近。其中，最為有名的是**BFGS法**，此名稱乃根據其提出者Broyden、Fletcher、Goldfarb、Shanno命名。
 
 
-令 $u^{(t)} = \widehat{w}^{(t)} - \widehat{w}^{(t-1)}$ 與 $v^{(t)}=\nabla D(\widehat{w}^{(t)} ) - \nabla D(\widehat{w}^{(t-1)} )$，根據泰勒之定理，我們有
+令 $u^{(t)} = \widehat{w}^{(t)} - \widehat{w}^{(t-1)}$ 與 $v^{(t)}=\nabla D(\widehat{w}^{(t)} ) - \nabla D(\widehat{w}^{(t-1)} )$，根據泰勒之定理（Taylor's theorem），我們有
 
 $$
 v^{(t)} \approx \nabla^2 \mathcal{D}(\widehat{w}^{(t)}) u^{(t)}.
@@ -388,112 +388,6 @@ $$
 
 這裡，$1\{\cdot \}$ 表示一指示函數（indicator function），其用於「指示」大括號內之事件是否為真。當 $E$ 事件為真時，$1\{E \} = 1$，反之，$1\{E \} = 0$。
 
-
-## 實作範例與練習
-
-### 虛無模型之截距估計
-我們在此展示如何使用梯度下降法，對虛無模型下之截距項進行估計。由於此模型中並未加入任何的共變量，因此，其 ML 適配函數與一階導數為
-
-$$
-\begin{aligned}
-\mathcal{D}(w_0) & = \frac{1}{N} \sum_{n=1}^N \left \{ -y_n w_0 +  \log\left[ 1+\exp{ \left( w_0 \right) }\right] \right\} \\
-& =  - w_0 m_Y +  \log\left[ 1+\exp{ \left( w_0 \right) }\right],
-\end{aligned}
-$$
-
-與
-
-$$
-\begin{aligned}
-\frac{\partial \mathcal{D}(w_0)}{\partial w_0} &=
-\frac{1}{N} \sum_{n=1}^N
-\left \{
--y_n + \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }}
-\right \}\\
-& = -m_Y+ \frac{\exp{ \left( w_0 \right) }}{ 1+\exp{ \left( w_0 \right) }},
-\end{aligned}
-$$
-這裡，$m_Y$ 表示 $Y$ 此變項之樣本平均數，在二元變項下，$m_Y$ 等同於樣本資料中等於 1 的比例。倘若手邊的樣本資料中，$y_n=1$ 的比例為80%，則 $m_Y=.8$，我們可以使用 `python` 撰寫函數，來計算在不同的 $w_0$之下，所對應到的 ML 適配函數與其一階導數之數值：
-
-import torch
-def cal_loss(bias):
-    if type(bias) is not torch.Tensor:
-        bias = torch.tensor(bias, dtype = torch.float64)
-    else:
-        bias = bias.type(torch.float64)
-    loss = -0.8 * bias + torch.log(1 + bias.exp())
-    return loss
-
-def cal_grad(bias):
-    if type(bias) is not torch.Tensor:
-        bias = torch.tensor(bias, dtype = torch.float64)
-    else:
-        bias = bias.type(torch.float64)
-    grad = -0.8 + bias.exp() / (1 + bias.exp())
-    return grad
-
-
-接下來，我們撰寫一執行梯度下降法之函數，以尋找一可最小化 ML 適配函數之 $\widehat{w}_0$。
-
-def gradient_descent(bias, step_size, iter_max):
-    for t in range(1, iter_max + 1):
-        direction = - cal_grad(bias)
-        bias += step_size * direction
-        loss = cal_loss(bias)
-        print("iter {:2.0f}, loss = {:2.3f}, grad = {:2.3f}, bias = {:2.3f}".format(
-            t, loss.item(), -direction.item(), bias.item()))
-
-我們將參數起始值 $\widehat{w}_0^{(0)}$設為0，步伐大小 $s$ 設為 2，觀察迭代 10 次後，$\widehat{w}_0^{(10)}$ 之數值為何
-
-bias = 0
-step_size = 2.
-iter_max = 10
-gradient_descent(bias, step_size, iter_max)
-
-我們可以看到梯度下降法，逐步地更新截距項，使得 ML 適配函數數值下降，且一階導數越來越靠近 0。事實上，此優化問題的極小元存在閉合形式解（closed-form solution），根據一階最適條件，$\frac{\exp{ \left( \widehat{w}_0 \right) }}{ 1+\exp{ \left( \widehat{w}_0 \right) }} = m_Y$，因此，$\widehat{w}_0 = \log \left[\frac{m_Y}{1-m_Y} \right] = \log \left[\frac{.8}{1-.8} \right] \approx  1.386$，我們可以看到梯度下降找到的解，與此閉合形式解幾無差異。
-
-接下來，請仔細觀察梯度下降在不同更新步伐大小與起始值下之行為表現：
-
-print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, 20.))
-gradient_descent(0, 20., 10)
-print("\nbais = {:2.3f}, step size = {:2.2f}".format(0, .2))
-gradient_descent(0, .2, 10)
-print("\nbais = {:2.3f}, step size = {:2.2f}".format(1.5, 2.))
-gradient_descent(1.5, 2., 10)
-
-### 練習
-請利用以下之程式碼，產生邏輯斯迴歸之資料，並撰寫一函數執行梯度下降法，計算在此資料下之模型參數估計，並觀察其在不同起始值與更新步伐下之行為表現。
-
-# set seed
-torch.manual_seed(246437)
-
-# write a function to generate data
-from torch.distributions import Bernoulli
-def generate_data(n_sample,
-                  weight,
-                  bias = 0,
-                  mean_feature = 0,
-                  std_feature = 1,
-                  dtype = torch.float64):
-    weight = torch.tensor(weight, dtype = dtype)
-    n_feature = weight.shape[0]
-    x = torch.normal(mean = mean_feature,
-                     std = std_feature,
-                     size = (n_sample, n_feature),
-                     dtype = dtype)
-    weight = weight.view(size = (-1, 1))
-    logit = bias + x @ weight
-    bernoulli = Bernoulli(logits = logit)
-    y = bernoulli.sample()
-    return x, y
-
-# run generate_data
-x, y = generate_data(n_sample = 1000,
-                     weight = [-5, 3, 0],
-                     bias = 2,
-                     mean_feature = 10,
-                     std_feature = 3,
-                     dtype = torch.float64)
 
 ## 延伸閱讀
 
