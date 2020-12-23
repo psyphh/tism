@@ -319,9 +319,9 @@ def one_m_step(current_state):
     return loss_value
 
 import time
-num_warmup_start = 501
-num_warmup_iter = 20
-num_iters = 201
+num_warmup_start = 1
+num_warmup_iter = 1
+num_iters = 1
 num_accepted = 0
 loss_history = np.zeros([num_iters])
 tStart = time.time()
