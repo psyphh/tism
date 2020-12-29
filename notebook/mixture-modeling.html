@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>12. 混合建模 &#8212; 統計建模技法</title>
+    <title>混合建模 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="13. Lab: pyro簡介" href="lab-pyro.html" />
-    <link rel="prev" title="11. 試題反應理論" href="item-response-theory.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -83,7 +81,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-tensor.html">
+  <a class="reference internal" href="lab-tf-tensor.html">
    3. Lab: 張量與線性代數
   </a>
  </li>
@@ -93,7 +91,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -108,8 +106,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -127,40 +125,15 @@
    11. 試題反應理論
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     pyro
-    </span>
-   </code>
-   簡介
-  </a>
- </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-example.html">
-   14. Linear Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#logistic-regression">
-   15. Logistic Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#factor-analysis">
-   16. Factor Analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#two-parameter-logistic-model">
-   17. Two-Parameter Logistic Model
+   12. Lab:
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     tensoflow
+    </span>
+   </code>
+   範例
   </a>
  </li>
 </ul>
@@ -254,7 +227,7 @@
               <div>
                 
   <div class="section" id="id1">
-<h1><span class="section-number">12. </span>混合建模<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>混合建模<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -285,8 +258,6 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="item-response-theory.html" title="previous page"><span class="section-number">11. </span>試題反應理論</a>
-    <a class='right-next' id="next-link" href="lab-pyro.html" title="next page"><span class="section-number">13. </span>Lab: <code class="docutils literal notranslate"><span class="pre">pyro</span></code>簡介</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

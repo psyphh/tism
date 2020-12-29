@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>3. Lab: 張量與線性代數 &#8212; 統計建模技法</title>
+    <title>Lab: 張量與線性代數 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="4. 邏輯斯迴歸" href="logistic-regression.html" />
-    <link rel="prev" title="2. 線性迴歸" href="linear-regression.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -82,8 +80,8 @@
    2. 線性迴歸
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-tensor.html">
    3. Lab: 張量與線性代數
   </a>
  </li>
@@ -93,7 +91,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -108,8 +106,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -128,39 +126,14 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
+  <a class="reference internal" href="lab-tf-example.html">
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
-     pyro
+     tensoflow
     </span>
    </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html">
-   14. Linear Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#logistic-regression">
-   15. Logistic Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#factor-analysis">
-   16. Factor Analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#two-parameter-logistic-model">
-   17. Two-Parameter Logistic Model
+   範例
   </a>
  </li>
 </ul>
@@ -247,110 +220,110 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   3.1. 張量之基礎
+   張量之基礎
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     3.1.1. 張量之輸入
+     張量之輸入
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
-     3.1.2. 張量之數值
+     張量之數值
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id4">
-     3.1.3. 張量之形狀
+     張量之形狀
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id5">
-     3.1.4. 張量之資料類型
+     張量之資料類型
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id6">
-   3.2. 張量之操弄
+   張量之操弄
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id7">
-     3.2.1. 張量之切片
+     張量之切片
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id8">
-     3.2.2. 張量之串接
+     張量之串接
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id9">
-   3.3. 張量之運算
+   張量之運算
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id10">
-     3.3.1. 張量元素對元素之運算
+     張量元素對元素之運算
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id11">
-     3.3.2. 張量線性代數之運算
+     張量線性代數之運算
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id12">
-     3.3.3. 對張量之數值進行摘要
+     對張量之數值進行摘要
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id13">
-   3.4. 張量運算之進階議題
+   張量運算之進階議題
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id14">
-     3.4.1. 廣播
+     廣播
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#gpu">
-     3.4.2. GPU運算
+     GPU運算
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id15">
-   3.5. 實作範例與練習
+   實作範例與練習
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id16">
-     3.5.1. 產生線性迴歸資料
+     產生線性迴歸資料
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id17">
-     3.5.2. 計算模型參數
+     計算模型參數
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id18">
-     3.5.3. 建立迴歸分析物件
+     建立迴歸分析物件
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id19">
-     3.5.4. 練習
+     練習
     </a>
    </li>
   </ul>
@@ -366,7 +339,7 @@
               <div>
                 
   <div class="section" id="lab">
-<h1><span class="section-number">3. </span>Lab: 張量與線性代數<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<h1>Lab: 張量與線性代數<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <p>此 lab 中，我們將會透過 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 此套件，學習以下的主題。</p>
 <ol class="simple">
 <li><p>認識 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的張量（tensor）之基礎。</p></li>
@@ -383,9 +356,9 @@
 </div>
 </div>
 <div class="section" id="id1">
-<h2><span class="section-number">3.1. </span>張量之基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>張量之基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3><span class="section-number">3.1.1. </span>張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 最基本的物件是張量（tensor），其與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的陣列（array）相當的類似。產生一個張量最基本的方法為，將所欲形成張量的資料（其可為 <code class="docutils literal notranslate"><span class="pre">python</span></code> 的 <code class="docutils literal notranslate"><span class="pre">list</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 的 <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>），置於<code class="docutils literal notranslate"><span class="pre">torch.tensor</span></code>函數中</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -429,7 +402,7 @@
 <p>稍後，我們會討論如何獲得 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的尺寸與資料類型。</p>
 </div>
 <div class="section" id="id3">
-<h3><span class="section-number">3.1.2. </span>張量之數值<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>張量之數值<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>若要擷取 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的資料數值（value），則可透過 <code class="docutils literal notranslate"><span class="pre">.numpy()</span></code>獲得，其回傳該張量對應之 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 陣列</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -550,12 +523,12 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.80097604 0.36026388 0.29036242 0.73365957 0.61367744 0.05523413]
- [0.758558   0.07395643 0.01796204 0.38642973 0.17995012 0.9807788 ]]
+ [[0.7468742  0.7462301  0.9418576  0.32070816 0.07969457 0.9980865 ]
+ [0.78013647 0.39996034 0.57988226 0.48442334 0.17424488 0.46225065]]
 tensor with uninitialized data 
- [[ 0.0000000e+00 -1.5845633e+29  0.0000000e+00 -1.5845633e+29
-   1.1210388e-44 -1.5845633e+29]
- [ 0.0000000e+00 -1.5845633e+29  9.8090893e-45  0.0000000e+00
+ [[ 0.0000000e+00 -2.0000000e+00  1.3280851e-05  2.5249697e-29
+   1.1210388e-44  0.0000000e+00]
+ [ 0.0000000e+00  0.0000000e+00  0.0000000e+00  0.0000000e+00
    0.0000000e+00  0.0000000e+00]]
 </pre></div>
 </div>
@@ -563,7 +536,7 @@ tensor with uninitialized data
 </div>
 </div>
 <div class="section" id="id4">
-<h3><span class="section-number">3.1.3. </span>張量之形狀<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>張量之形狀<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>張量之形狀與形狀維度之數量，可透過張量物件的 <code class="docutils literal notranslate"><span class="pre">.size()</span></code>（或 <code class="docutils literal notranslate"><span class="pre">.shape</span></code>） 與 <code class="docutils literal notranslate"><span class="pre">dim</span></code> 方法來獲得</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -693,7 +666,7 @@ tensor d is:
 <p>在0.4版之後，<code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> 此方法亦可改變張量的尺寸，但其有可能會對資料進行拷貝，不過，當資料本身的排列不具有連續性時，僅 <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code> 能夠使用。因此，在 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor.view">官方文件</a>中，建議使用 <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code>此指令。</p>
 </div>
 <div class="section" id="id5">
-<h3><span class="section-number">3.1.4. </span>張量之資料類型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>張量之資料類型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>張量的資料類型，可透過 <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> 方法獲得</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -736,9 +709,9 @@ tensor d is:
 </div>
 </div>
 <div class="section" id="id6">
-<h2><span class="section-number">3.2. </span>張量之操弄<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<h2>張量之操弄<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
-<h3><span class="section-number">3.2.1. </span>張量之切片<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>張量之切片<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>若要擷取一張量特定的行（row）或列（column）的話，則可透過切片（slicing）的功能獲得。<code class="docutils literal notranslate"><span class="pre">torch</span></code> 張量的切片方式，與 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 類似，皆使用中括號 <code class="docutils literal notranslate"><span class="pre">[]</span></code>，再搭配所欲擷取資料行列的索引（index）獲得。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -779,7 +752,7 @@ extract 2nd and 3rd columns:
 </ul>
 </div>
 <div class="section" id="id8">
-<h3><span class="section-number">3.2.2. </span>張量之串接<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>張量之串接<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>多個張量在維度可對應之前提下，可透過 <code class="docutils literal notranslate"><span class="pre">torch.cat</span></code> 串接</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -809,7 +782,7 @@ horizontal concatenation
 </div>
 </div>
 <div class="section" id="id9">
-<h2><span class="section-number">3.3. </span>張量之運算<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<h2>張量之運算<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <p>考慮以下 <code class="docutils literal notranslate"><span class="pre">a</span></code> 與 <code class="docutils literal notranslate"><span class="pre">b</span></code> 兩張量</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -837,7 +810,7 @@ tensor b is
 </div>
 <p>我們將使用 <code class="docutils literal notranslate"><span class="pre">a</span></code> 與 <code class="docutils literal notranslate"><span class="pre">b</span></code> 來展示如何使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行張量間的計算。</p>
 <div class="section" id="id10">
-<h3><span class="section-number">3.3.1. </span>張量元素對元素之運算<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>張量元素對元素之運算<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>透過 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的數學函數，可進行張量元素對元素的四則運算</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -907,7 +880,7 @@ element-wise divide
 <p>若需要進行絕對值、對數、指數等較為進階之數學運算，可以至 <a class="reference external" href="https://pytorch.org/docs/stable/torch.html#math-operations">troch官方文件</a> 此模組中尋找對應的數學函數。</p>
 </div>
 <div class="section" id="id11">
-<h3><span class="section-number">3.3.2. </span>張量線性代數之運算<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>張量線性代數之運算<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>除了簡單的四則運算外，當張量的 <code class="docutils literal notranslate"><span class="pre">dim</span></code> 為2時，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 提供了進行線性代數（linear algebra）相關的函數，如</p>
 <ul class="simple">
 <li><p>矩陣轉置（matrix transpose）</p></li>
@@ -1072,7 +1045,7 @@ check for singular value decomposition
 </div>
 </div>
 <div class="section" id="id12">
-<h3><span class="section-number">3.3.3. </span>對張量之數值進行摘要<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>對張量之數值進行摘要<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">torch</span></code> 提供了一些化約（reduction）的函數，對張量內的數值進行摘要</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1123,9 +1096,9 @@ calculate mean for each row
 </div>
 </div>
 <div class="section" id="id13">
-<h2><span class="section-number">3.4. </span>張量運算之進階議題<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<h2>張量運算之進階議題<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id14">
-<h3><span class="section-number">3.4.1. </span>廣播<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3>廣播<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>在先前討論到兩張量進行元素對元素的加減乘除時，有一個條件是兩張量的尺寸必須相等。然而，此條件並非必要的。考慮以下的範例：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1167,10 +1140,7 @@ calculate mean for each row
  tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
- 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([0., 1., 2.], dtype=torch.float64)
+ tensor([0., 1., 2.], dtype=torch.float64)
 tensor a * b is 
  tensor([[ 0.,  2.,  6.],
         [ 0.,  5., 12.]], dtype=torch.float64)
@@ -1193,9 +1163,7 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> tensor([[1., 2., 3.],
+ tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([[0.],
@@ -1210,7 +1178,7 @@ tensor a * b is
 <p>然而，若是尺寸為 <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">3)</span></code> 與 <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">)</span></code> 之張量相乘的，則不符合廣播條件，會產生錯誤訊息。</p>
 </div>
 <div class="section" id="gpu">
-<h3><span class="section-number">3.4.2. </span>GPU運算<a class="headerlink" href="#gpu" title="Permalink to this headline">¶</a></h3>
+<h3>GPU運算<a class="headerlink" href="#gpu" title="Permalink to this headline">¶</a></h3>
 <p>當執行程式碼之機器支援GPU運算時，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 可利用GPU獲得高效能之運算。而機器是否具有GPU 支援，可透過 <code class="docutils literal notranslate"><span class="pre">torch.cuda.is_available()</span></code> 此指令進行判定。若使用 Google 的 Colab 服務，進行 GPU 運算需要點選 <code class="docutils literal notranslate"><span class="pre">Runtime\Change</span> <span class="pre">runtime</span> <span class="pre">type</span></code>，在 <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">accelerator</span></code> 處點選 <code class="docutils literal notranslate"><span class="pre">GPU</span></code>，才會轉移到具有 GPU 之機器進行計算。</p>
 <p>為了瞭解 GPU 在計算上的幫助，我們撰寫了一個函數 <code class="docutils literal notranslate"><span class="pre">math_speed_test</span></code>，其內部生成一 <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">n)</span></code> 之方陣 <code class="docutils literal notranslate"><span class="pre">a</span></code>，接著對其連續進行 <code class="docutils literal notranslate"><span class="pre">iter_max</span></code> 次的連加，並記錄完成整個工作所需的時間。</p>
 <div class="cell docutils container">
@@ -1243,13 +1211,13 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0006382465362548828
+CPU time = 0.0008237361907958984
 n = 100
-CPU time = 0.0009069442749023438
+CPU time = 0.0008571147918701172
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.04304194450378418
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.035305023193359375
 </pre></div>
 </div>
 </div>
@@ -1270,7 +1238,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.88 ms ± 69 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.87 ms ± 241 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1292,7 +1260,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>32.7 ms ± 1.08 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>33.9 ms ± 7.84 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1313,7 +1281,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>35 ms ± 1.13 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>34.2 ms ± 1.22 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1344,9 +1312,9 @@ n = 1000
 </div>
 </div>
 <div class="section" id="id15">
-<h2><span class="section-number">3.5. </span>實作範例與練習<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<h2>實作範例與練習<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id16">
-<h3><span class="section-number">3.5.1. </span>產生線性迴歸資料<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<h3>產生線性迴歸資料<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>在開始之前，我們先設定一種子，以讓後續的亂數生成都能夠獲得相同的結果（不過，這裡的 <code class="docutils literal notranslate"><span class="pre">torch.manual_seed</span></code> 僅適用於 CPU 之張量，若使用GPU，請改為 <code class="docutils literal notranslate"><span class="pre">torch.cuda.manual_seed</span></code>）。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1355,7 +1323,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fe01834f1f0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fb3a8b7f1f0&gt;
 </pre></div>
 </div>
 </div>
@@ -1430,7 +1398,7 @@ response vector y is
 </div>
 </div>
 <div class="section" id="id17">
-<h3><span class="section-number">3.5.2. </span>計算模型參數<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3>計算模型參數<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a function to calculate model parameter</span>
@@ -1478,7 +1446,7 @@ weight estimate is
 </div>
 </div>
 <div class="section" id="id18">
-<h3><span class="section-number">3.5.3. </span>建立迴歸分析物件<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<h3>建立迴歸分析物件<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a class to fit linear regression</span>
@@ -1524,7 +1492,7 @@ weight estimate is
 </div>
 </div>
 <div class="section" id="id19">
-<h3><span class="section-number">3.5.4. </span>練習<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<h3>練習<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ol class="simple">
 <li><p>請根據本章節的內容，進行一系列的實驗，以了解在哪些運算與張量尺寸上，GPU 計算才具有其優勢。</p></li>
 <li><p>請在 <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> 此類型中，加入以下新的功能：</p></li>
@@ -1567,8 +1535,6 @@ weight estimate is
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="linear-regression.html" title="previous page"><span class="section-number">2. </span>線性迴歸</a>
-    <a class='right-next' id="next-link" href="logistic-regression.html" title="next page"><span class="section-number">4. </span>邏輯斯迴歸</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

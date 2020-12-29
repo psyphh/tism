@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>13. Lab: pyro簡介 &#8212; 統計建模技法</title>
+    <title>Lab: pyro簡介 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="14. Linear Regression" href="lab-tf-example.html" />
-    <link rel="prev" title="12. 混合建模" href="mixture-modeling.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -83,7 +81,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-tensor.html">
+  <a class="reference internal" href="lab-tf-tensor.html">
    3. Lab: 張量與線性代數
   </a>
  </li>
@@ -93,7 +91,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -108,8 +106,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -128,39 +126,14 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   13. Lab:
+  <a class="reference internal" href="lab-tf-example.html">
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
-     pyro
+     tensoflow
     </span>
    </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html">
-   14. Linear Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#logistic-regression">
-   15. Logistic Regression
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#factor-analysis">
-   16. Factor Analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-tf-example.html#two-parameter-logistic-model">
-   17. Two-Parameter Logistic Model
+   範例
   </a>
  </li>
 </ul>
@@ -247,7 +220,6 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#pyro">
-   13.1.
    <code class="docutils literal notranslate">
     <span class="pre">
      pyro
@@ -258,7 +230,6 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   13.2.
    <code class="docutils literal notranslate">
     <span class="pre">
      pyro
@@ -269,7 +240,6 @@
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id2">
-   13.3.
    <code class="docutils literal notranslate">
     <span class="pre">
      pyro
@@ -280,7 +250,7 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#em">
-     13.3.1. 利用隨機 EM 進行最大概似法
+     利用隨機 EM 進行最大概似法
     </a>
    </li>
   </ul>
@@ -296,7 +266,7 @@
               <div>
                 
   <div class="section" id="lab-pyro">
-<h1><span class="section-number">13. </span>Lab: <code class="docutils literal notranslate"><span class="pre">pyro</span></code>簡介<a class="headerlink" href="#lab-pyro" title="Permalink to this headline">¶</a></h1>
+<h1>Lab: <code class="docutils literal notranslate"><span class="pre">pyro</span></code>簡介<a class="headerlink" href="#lab-pyro" title="Permalink to this headline">¶</a></h1>
 <p>在 <code class="docutils literal notranslate"><span class="pre">colab</span></code> 上，請先使用以下指定安裝 <code class="docutils literal notranslate"><span class="pre">pyro</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">!pip3</span> <span class="pre">install</span> <span class="pre">pyro-ppl</span></code></p>
 <div class="cell docutils container">
@@ -308,7 +278,7 @@
 </div>
 </div>
 <div class="section" id="pyro">
-<h2><span class="section-number">13.1. </span><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 產生隨機資料<a class="headerlink" href="#pyro" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 產生隨機資料<a class="headerlink" href="#pyro" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 產生隨機資料的方式與 <code class="docutils literal notranslate"><span class="pre">torch.distribution</span></code> 很類似，但其主要透過 <code class="docutils literal notranslate"><span class="pre">pyro.sample</span></code> 進行抽樣，且每次的抽樣，都可以對該隨機變數設定一名稱。在以下的例子中，我們先後產生滿足邏輯斯迴歸架構之 <code class="docutils literal notranslate"><span class="pre">data_x</span></code> 與 <code class="docutils literal notranslate"><span class="pre">data_y</span></code>：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -354,7 +324,7 @@ tensor([[ 1.0085,  0.0217,  0.0029],
 </div>
 </div>
 <div class="section" id="id1">
-<h2><span class="section-number">13.2. </span><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 對邏輯斯回歸進行最大概似法估計<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 對邏輯斯回歸進行最大概似法估計<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>使用 <code class="docutils literal notranslate"><span class="pre">pyro</span></code> 進行最大概似法估計，最簡單的方法是透過 <code class="docutils literal notranslate"><span class="pre">pyro.infer.SVI</span></code> 此物件進行，該物件主要用於進行變分推論（variational inference），在使用 <code class="docutils literal notranslate"><span class="pre">pyro.infer.SVI</span></code> 時，使用者需設定一模型（<code class="docutils literal notranslate"><span class="pre">model</span></code>）之機率分佈，以及一指引（<code class="docutils literal notranslate"><span class="pre">guide</span></code>）之機率分佈，由於我們在這邊使用最大概似法，因此，將指引設為什麼都沒做的函數。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -394,9 +364,7 @@ tensor([[ 1.0085,  0.0217,  0.0029],
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[iter 0]  loss: 6931.4731
 [iter 50]  loss: 984.7116
 [iter 100]  loss: 969.8328
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[iter 150]  loss: 967.9623
+[iter 150]  loss: 967.9623
 [iter 200]  loss: 967.8027
 </pre></div>
 </div>
@@ -426,7 +394,7 @@ tensor(-5.0715, requires_grad=True)
 </div>
 </div>
 <div class="section" id="id2">
-<h2><span class="section-number">13.3. </span><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 對因素分析模型進行最大概似法估計<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">pyro</span></code> 對因素分析模型進行最大概似法估計<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>以下程式碼用於產生因素分析之資料</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -636,7 +604,7 @@ tensor([0.5055, 0.5043, 0.5135, 0.5078, 0.5059, 0.5122, 0.5224, 0.5030, 0.5064,
 </div>
 </div>
 <div class="section" id="em">
-<h3><span class="section-number">13.3.1. </span>利用隨機 EM 進行最大概似法<a class="headerlink" href="#em" title="Permalink to this headline">¶</a></h3>
+<h3>利用隨機 EM 進行最大概似法<a class="headerlink" href="#em" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">joint_model</span><span class="p">():</span>
@@ -754,8 +722,6 @@ tensor([0.4073, 0.4102, 0.4085, 0.4091, 0.4063, 0.4103, 0.4053, 0.4065, 0.4127,
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="mixture-modeling.html" title="previous page"><span class="section-number">12. </span>混合建模</a>
-    <a class='right-next' id="next-link" href="lab-tf-example.html" title="next page"><span class="section-number">14. </span>Linear Regression</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
