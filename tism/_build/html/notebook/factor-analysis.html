@@ -84,7 +84,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-tensor.html">
-   3. Lab I: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -93,7 +93,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -108,8 +108,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -128,24 +128,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     pyro
-    </span>
-   </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-example.html">
-   14. Lab:
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
      tensoflow
@@ -276,33 +260,6 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id9">
      10.2.3. 期望最大化算則
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
-   10.3. 程式範例
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id11">
-     10.3.1. 產生因素分析資料
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id12">
-     10.3.2. 梯度下降法求解
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id13">
-     10.3.3. 期望最大化算則求解
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id14">
-     10.3.4. 練習
     </a>
    </li>
   </ul>
@@ -540,184 +497,6 @@ x \\
 \right]
 \]</div>
 <p>這裡，<span class="math notranslate nohighlight">\(\Sigma(\theta) = \Lambda \Phi \Lambda^T + \Psi\)</span> 即為因素分析之共變結構。</p>
-</div>
-</div>
-<div class="section" id="id10">
-<h2><span class="section-number">10.3. </span>程式範例<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3><span class="section-number">10.3.1. </span>產生因素分析資料<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="k">def</span> <span class="nf">create_fa_model</span><span class="p">(</span><span class="n">n_factor</span><span class="p">,</span> <span class="n">n_item</span><span class="p">,</span> <span class="n">ld</span><span class="p">,</span> <span class="n">psi</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">%</span> <span class="n">n_factor</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">n_item</span> <span class="o">=</span> <span class="n">n_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
-    <span class="n">loading</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">))</span>
-    <span class="n">item_per_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_factor</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">,</span>
-                       <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">):</span>
-            <span class="n">loading</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ld</span>
-    <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">unit</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_factor</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">identity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">)</span>
-        <span class="n">cor</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="n">unit</span> <span class="o">@</span> <span class="n">unit</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">identity</span>
-    <span class="k">if</span> <span class="n">psi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">uniqueness</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">loading</span> <span class="o">@</span> <span class="n">cor</span> <span class="o">@</span> <span class="n">loading</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">uniqueness</span> <span class="o">=</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="p">))</span>
-    <span class="k">return</span> <span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">,</span> <span class="n">cor</span>
-
-<span class="k">def</span> <span class="nf">generate_fa_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">,</span> <span class="n">cor</span><span class="p">):</span>
-    <span class="n">n_item</span> <span class="o">=</span> <span class="n">loading</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="p">))</span>
-    <span class="n">cov</span> <span class="o">=</span> <span class="n">loading</span> <span class="o">@</span> <span class="n">cor</span> <span class="o">@</span> <span class="n">loading</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)</span>
-    <span class="n">mvn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="n">mean</span><span class="p">,</span> <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov</span><span class="p">))</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">mvn</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="n">n_sample</span><span class="p">,))</span>
-    <span class="k">return</span> <span class="n">data</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
-<span class="n">loading_true</span><span class="p">,</span> <span class="n">uniqueness_true</span><span class="p">,</span> <span class="n">cor_true</span> <span class="o">=</span> <span class="n">create_fa_model</span><span class="p">(</span><span class="n">n_factor</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">n_item</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">ld</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">generate_fa_data</span><span class="p">(</span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
-                        <span class="n">loading</span> <span class="o">=</span> <span class="n">loading_true</span><span class="p">,</span>
-                        <span class="n">uniqueness</span> <span class="o">=</span> <span class="n">uniqueness_true</span><span class="p">,</span>
-                        <span class="n">cor</span> <span class="o">=</span> <span class="n">cor_true</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id12">
-<h3><span class="section-number">10.3.2. </span>梯度下降法求解<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">MultivariateNormal</span>
-<span class="n">loading</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">loading_true</span>
-<span class="n">uniqueness</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">uniqueness_true</span>
-<span class="c1"># loading_mask = 1 *  (loading_true != 0)</span>
-<span class="n">loading</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">uniqueness</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">epochs</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">lr</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">([</span><span class="n">loading</span><span class="p">,</span> <span class="n">uniqueness</span><span class="p">],</span> <span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-    <span class="n">model_fa</span> <span class="o">=</span> <span class="n">MultivariateNormal</span><span class="p">(</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">loading</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)),</span>
-        <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
-            <span class="n">loading</span> <span class="o">@</span> <span class="n">loading</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)))</span>
-    <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model_fa</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-    <span class="n">loss_value</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">model_fa</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">loading</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor(-156878.2031, grad_fn=&lt;SumBackward0&gt;)
-tensor([[ 0.6415, -0.1556, -0.0308, -0.2295],
-        [ 0.6335, -0.1715, -0.0402, -0.2255],
-        [ 0.6439, -0.1686, -0.0293, -0.2139],
-        [ 0.1495,  0.6905,  0.0190, -0.0976],
-        [ 0.1363,  0.6855,  0.0191, -0.0832],
-        [ 0.1510,  0.6881,  0.0054, -0.0816],
-        [ 0.1802,  0.0225,  0.5769,  0.3776],
-        [ 0.1713,  0.0067,  0.5490,  0.3713],
-        [ 0.1773, -0.0078,  0.5651,  0.3506],
-        [ 0.1925,  0.0195, -0.4087,  0.5301],
-        [ 0.1839,  0.0250, -0.4217,  0.5419],
-        [ 0.1761,  0.0442, -0.4049,  0.5559]], requires_grad=True)
-tensor([0.5050, 0.5047, 0.5129, 0.5076, 0.5058, 0.5120, 0.4718, 0.5181, 0.5199,
-        0.5256, 0.4999, 0.5083], requires_grad=True)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id13">
-<h3><span class="section-number">10.3.3. </span>期望最大化算則求解<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10000</span>
-<span class="n">n_item</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="n">n_factor</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">loading_true</span>
-<span class="n">tau</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">uniqueness</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">c_yy</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_sample</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">e_step</span><span class="p">(</span><span class="n">c_yy</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
-    <span class="n">sigma_inv</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta</span> <span class="o">@</span> <span class="n">beta</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">tau</span><span class="p">)</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
-    <span class="n">delta_small</span> <span class="o">=</span> <span class="n">sigma_inv</span> <span class="o">@</span> <span class="n">beta</span>
-    <span class="n">delta_big</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">)</span> <span class="o">-</span> <span class="n">beta</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">sigma_inv</span> <span class="o">@</span> <span class="n">beta</span>
-    <span class="n">c_yz_hat</span> <span class="o">=</span> <span class="n">c_yy</span> <span class="o">@</span> <span class="n">delta_small</span>
-    <span class="n">c_zz_hat</span> <span class="o">=</span> <span class="n">delta_small</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">c_yy</span> <span class="o">@</span> <span class="n">delta_small</span> <span class="o">+</span> <span class="n">delta_big</span>
-    <span class="k">return</span> <span class="n">c_yz_hat</span><span class="p">,</span> <span class="n">c_zz_hat</span>
-
-<span class="k">def</span> <span class="nf">m_step</span><span class="p">(</span><span class="n">c_yy</span><span class="p">,</span> <span class="n">c_yz_hat</span><span class="p">,</span> <span class="n">c_zz_hat</span><span class="p">):</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">c_yz_hat</span> <span class="o">@</span> <span class="n">c_zz_hat</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">c_yy</span> <span class="o">-</span> <span class="n">c_yz_hat</span> <span class="o">@</span> <span class="n">c_zz_hat</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">@</span> <span class="n">c_yz_hat</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-    <span class="n">tau</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tau</span>
-
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-    <span class="n">c_yz_hat</span><span class="p">,</span> <span class="n">c_zz_hat</span> <span class="o">=</span> <span class="n">e_step</span><span class="p">(</span><span class="n">c_yy</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
-    <span class="n">beta</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="n">m_step</span><span class="p">(</span><span class="n">c_yy</span><span class="p">,</span> <span class="n">c_yz_hat</span><span class="p">,</span> <span class="n">c_zz_hat</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([[ 6.9943e-01,  9.4414e-03,  7.0608e-03, -1.6059e-03],
-        [ 6.9496e-01, -8.3238e-03, -5.2081e-04,  4.1212e-03],
-        [ 6.9935e-01, -4.6706e-03,  1.7090e-02,  9.4043e-03],
-        [ 4.8433e-03,  7.1317e-01,  4.2302e-03, -1.3696e-02],
-        [-1.0689e-02,  7.0387e-01,  8.7874e-03, -6.3474e-03],
-        [ 2.4067e-03,  7.0916e-01,  2.0881e-03,  6.8173e-03],
-        [ 3.4815e-03,  1.9012e-02,  7.1275e-01,  2.1692e-03],
-        [ 2.6130e-03,  2.2796e-03,  6.8453e-01,  1.0449e-02],
-        [ 1.7609e-02, -7.6797e-03,  6.8791e-01, -1.4011e-02],
-        [ 1.8089e-02, -1.0909e-02, -2.5496e-03,  6.9649e-01],
-        [ 5.7851e-03, -9.0123e-03, -8.8994e-03,  7.1109e-01],
-        [-1.1556e-02,  6.4172e-03,  1.0414e-02,  7.1110e-01]],
-       grad_fn=&lt;MmBackward&gt;)
-tensor([0.5050, 0.5047, 0.5128, 0.5075, 0.5058, 0.5119, 0.4718, 0.5181, 0.5197,
-        0.5255, 0.4999, 0.5082], grad_fn=&lt;DiagBackward&gt;)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="id14">
-<h3><span class="section-number">10.3.4. </span>練習<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
-<ol class="simple">
-<li><p>問如何確定前述兩種方法得到的解都是最大概似解。</p></li>
-<li><p>如何對於因素間之因素進行估計。</p></li>
-<li><p>如何僅估計真實模型中不為零之因素負荷量。</p></li>
-</ol>
 </div>
 </div>
 </div>

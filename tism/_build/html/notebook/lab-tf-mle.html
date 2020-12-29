@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Lab III: 機率模型 &#8212; 統計建模技法</title>
+    <title>8. Lab: 最大概似估計法 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,6 +39,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. 潛在變項建模" href="latent-variable-modeling.html" />
+    <link rel="prev" title="7. 最大概似法" href="maximum-likelihood.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -69,7 +71,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+  <ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -105,9 +107,9 @@
    7. 最大概似法
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   8. Lab: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -174,7 +176,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebook/lab-tf-probability.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/notebook/lab-tf-mle.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -200,7 +202,7 @@
         
         
         
-        <a class="colab-button" href="https://colab.research.google.com/github/psyphh/tism/blob/master/tism/notebook/lab-tf-probability.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+        <a class="colab-button" href="https://colab.research.google.com/github/psyphh/tism/blob/master/tism/notebook/lab-tf-mle.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
                 title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
                     src="../_static/images/logo_colab.png"
                     alt="Interact on Colab">Colab</button></a>
@@ -220,34 +222,39 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   分配物件
+   8.1. 分配物件
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     分配物件之基本操作
+     8.1.1. 分配物件之基本操作
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
-     分配物件之形狀
+     8.1.2. 分配物件之形狀
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id4">
-   最大概似估計法
+   8.2. 最大概似估計法
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id5">
-     可學習的分配與求解
+     8.2.1. 可學習的分配與求解
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id6">
-     利用對射進行變數轉換
+     8.2.2. 利用對射進行變數轉換
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     8.2.3. 多元常態分配之參數估計
     </a>
    </li>
   </ul>
@@ -262,14 +269,12 @@
         
               <div>
                 
-  <div class="section" id="lab-iii">
-<h1>Lab III: 機率模型<a class="headerlink" href="#lab-iii" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="lab">
+<h1><span class="section-number">8. </span>Lab: 最大概似估計法<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <p>此 lab 中，我們將會透過 <code class="docutils literal notranslate"><span class="pre">tensorflow-probability</span></code>（TFP）此套件，學習以下的主題。</p>
 <ol class="simple">
 <li><p>認識 TFP 的分配（distribution）物件。</p></li>
 <li><p>利用變項之分配，搭配自動微分獲與優化器獲得最大概似估計值。</p></li>
-<li><p>了解如何將個別變項之分配物件組成聯合分配，建立複雜的機率模型。</p></li>
-<li><p>應用前述之知識，建立一可進行廣義線性模型分析之類型（class）。</p></li>
 </ol>
 <p>TFP 之安裝與基礎教學，可參考 <a class="reference external" href="https://www.tensorflow.org/probability/install">TFP官方網頁</a>。在安裝完成後，可透過以下的指令載入其與 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p>
 <div class="cell docutils container">
@@ -281,7 +286,7 @@
 </div>
 </div>
 <div class="section" id="id1">
-<h2>分配物件<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.1. </span>分配物件<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>TFP 最為核心的物件為分配物件，其用於表徵一機率分配。TFP 涵蓋了許多不同的機率分配，其名單可至 <a class="reference external" href="https://www.tensorflow.org/probability/api_docs/python/tfp/distributions">官方網頁</a> 查看。</p>
 <p>在實務上，我們常將 TFP 的分配模組儲存為 <code class="docutils literal notranslate"><span class="pre">tfd</span></code>，以便於使用，即：</p>
 <div class="cell docutils container">
@@ -292,7 +297,7 @@
 </div>
 </div>
 <div class="section" id="id2">
-<h3>分配物件之基本操作<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.1.1. </span>分配物件之基本操作<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>以常態分配為例，我們可透過以下程式碼產生一表徵常態分配之物件，其平均數為0，標準差為1（尾端的小數點表示浮點數，而非整數）：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -315,13 +320,13 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tf.Tensor(-1.4678091, shape=(), dtype=float32)
+ tf.Tensor(-0.54875124, shape=(), dtype=float32)
 random sample with shape (3,):
- tf.Tensor([ 0.590537    2.2025304  -0.63067836], shape=(3,), dtype=float32)
+ tf.Tensor([-1.4439694  -0.12645997  0.27251458], shape=(3,), dtype=float32)
 random sample with shape (2,3):
  tf.Tensor(
-[[ 0.15298167  0.60968494 -0.09837817]
- [-0.56705856 -1.3878078   0.78076863]], shape=(2, 3), dtype=float32)
+[[ 0.39836672 -0.8671935   0.08573126]
+ [-0.46528038  1.4327747   1.317191  ]], shape=(2, 3), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -382,7 +387,7 @@ log-probability given value with (2,3):
 </div>
 </div>
 <div class="section" id="id3">
-<h3>分配物件之形狀<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.1.2. </span>分配物件之形狀<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>分配物件的形狀比起張量的形狀較為複雜些，其產生的樣本共牽涉到三種形狀：</p>
 <ol class="simple">
 <li><p>樣本形狀（sample shape），為在使用分配物件產生樣本時之形狀（即為前一小節使用 <code class="docutils literal notranslate"><span class="pre">.sample()</span></code> 時所設定的 <code class="docutils literal notranslate"><span class="pre">sample_shape</span></code>），其產生的資料彼此間為獨立且相同分配的（independent and identically distributed）。</p></li>
@@ -446,23 +451,23 @@ log-probability given value with (2,3):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tf.Tensor([1.5155447 1.1359656], shape=(2,), dtype=float32) 
+ tf.Tensor([0.1783606 0.4138052], shape=(2,), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[ 1.2758646   1.1958641 ]
- [-0.97896284  0.6698209 ]
- [-0.25888515  1.5542469 ]], shape=(3, 2), dtype=float32) 
+[[ 1.4577919   1.3566979 ]
+ [-0.5709745   0.5518584 ]
+ [-0.33423027  0.0788942 ]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (2,3):
  tf.Tensor(
-[[[ 1.3091695   0.94464195]
-  [ 0.8337736   0.3936221 ]
-  [-0.5231733   1.5851215 ]]
+[[[ 1.4644102   0.60164297]
+  [-0.39258534  0.9415546 ]
+  [-0.87035906  0.37960267]]
 
- [[-0.96736556  1.2618687 ]
-  [-0.25797793  1.8405998 ]
-  [ 0.09392375 -0.27003348]]], shape=(2, 3, 2), dtype=float32)
+ [[-0.10039324  0.32810938]
+  [ 0.3357368   0.38896495]
+  [ 1.8388944   1.4794434 ]]], shape=(2, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -525,23 +530,23 @@ log-probability given value with shape (2,1):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tf.Tensor([-0.38702935  1.4485673 ], shape=(2,), dtype=float32) 
+ tf.Tensor([-0.12970635  1.3046315 ], shape=(2,), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[ 0.31516582  1.6505604 ]
- [ 0.17626888  1.2737606 ]
- [-2.0093596   2.2282948 ]], shape=(3, 2), dtype=float32) 
+[[ 0.16959633  0.46865994]
+ [-1.3610642   1.5341754 ]
+ [-0.16029842  1.5580835 ]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (2, 3):
  tf.Tensor(
-[[[ 1.5526426  -0.08945453]
-  [-2.050157    0.5273763 ]
-  [ 0.3586544   0.4354368 ]]
+[[[ 0.95495474  1.7918503 ]
+  [ 0.05763438  0.16619831]
+  [ 1.3521018   1.1315436 ]]
 
- [[-1.0895089   1.6682502 ]
-  [ 0.35084975  0.228665  ]
-  [-0.2726396   0.6532109 ]]], shape=(2, 3, 2), dtype=float32)
+ [[ 0.5065386   1.4261305 ]
+  [ 0.51706725 -0.0763098 ]
+  [-0.00605865  0.88429826]]], shape=(2, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -613,50 +618,50 @@ log-probability given value with shape (2,1):
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
  tf.Tensor(
-[[-0.11753161  0.9064604 ]
- [ 1.0154858   2.796723  ]
- [ 3.4204588   2.5875025 ]], shape=(3, 2), dtype=float32) 
+[[0.9141055  0.99098045]
+ [1.673708   2.7913253 ]
+ [1.7010031  2.622747  ]], shape=(3, 2), dtype=float32) 
 
 random sample with sample_shape (3,):
  tf.Tensor(
-[[[ 0.34909832  0.71571755]
-  [ 0.11943001  1.6404756 ]
-  [ 1.883756    3.4434042 ]]
+[[[ 0.9115101   0.59356976]
+  [ 1.5934913   1.7889091 ]
+  [ 2.3999949   3.8712225 ]]
 
- [[-1.237426    0.717926  ]
-  [ 0.03134727  2.3995774 ]
-  [ 1.2380618   3.3625863 ]]
+ [[ 2.8797054   1.0424755 ]
+  [ 1.224223    3.1854792 ]
+  [ 1.6480105   3.0818672 ]]
 
- [[ 0.45278278  2.079556  ]
-  [ 1.6441097   1.6000575 ]
-  [ 1.4912009   3.1033473 ]]], shape=(3, 3, 2), dtype=float32) 
+ [[-0.56410307  0.8936041 ]
+  [ 2.5513413   1.4909565 ]
+  [ 2.8076835   1.9680222 ]]], shape=(3, 3, 2), dtype=float32) 
 
 random sample with sample_shape (2, 3):
  tf.Tensor(
-[[[[ 0.4828006   1.7232349 ]
-   [ 0.829983    2.6437101 ]
-   [ 0.9177034   2.662335  ]]
+[[[[ 0.4319611   1.140952  ]
+   [-0.00704086  2.400137  ]
+   [ 1.2391775   2.5033054 ]]
 
-  [[-0.83472496  1.3275429 ]
-   [ 0.2546252   2.5978982 ]
-   [ 2.353994    3.7519052 ]]
+  [[-0.26534897  0.6924372 ]
+   [-0.19528902  2.6551795 ]
+   [ 2.8105745   3.8814685 ]]
 
-  [[ 0.55001193  0.8646525 ]
-   [ 0.8467444   1.1481357 ]
-   [ 0.41258323  4.0401635 ]]]
+  [[ 0.36529577  1.8538918 ]
+   [ 0.2806701   2.0111902 ]
+   [ 3.481779    2.6754258 ]]]
 
 
- [[[ 1.2254701   0.6563496 ]
-   [ 0.5798042   1.3157626 ]
-   [ 3.5600014   1.6212949 ]]
+ [[[ 1.6505475   0.3608451 ]
+   [ 0.30165744  1.5794535 ]
+   [ 2.4038734   2.196392  ]]
 
-  [[-0.30851707  1.1351717 ]
-   [-0.24550593  2.0782468 ]
-   [ 1.2645304   2.4309366 ]]
+  [[-1.0209423   0.1982981 ]
+   [ 0.39751053  2.7286804 ]
+   [ 3.1935856   2.820232  ]]
 
-  [[-0.44396642 -0.27593374]
-   [ 1.6781833   2.2391703 ]
-   [ 3.043774    2.4826117 ]]]], shape=(2, 3, 3, 2), dtype=float32)
+  [[ 0.60232484  1.119573  ]
+   [ 1.4902831   2.5777593 ]
+   [ 2.2846541   3.206916  ]]]], shape=(2, 3, 3, 2), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -664,9 +669,9 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="section" id="id4">
-<h2>最大概似估計法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.2. </span>最大概似估計法<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
-<h3>可學習的分配與求解<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.2.1. </span>可學習的分配與求解<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>使用 <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code> 來進行最大概似法，有許多種做法，其中，最重要的關鍵就在於如何建構概似函數。事實上，在前一小節中，我們已經可以計算在給定參數下，某個隨機樣本實現值之可能性，因此，關鍵就在於如何讓前述之可能性，轉為參數數值之函數，而最簡單的做法，就是將參數設為 <code class="docutils literal notranslate"><span class="pre">tf.Variable</span></code>，搭配自動微分與優化器對其進行更新。</p>
 <p>以下的程式碼建立了一 <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> 為2的常態分配模型，我們可透過 <code class="docutils literal notranslate"><span class="pre">.trainable_varialbes</span></code> 來查看哪些變數是可以透過訓練更新其數值的。</p>
 <div class="cell docutils container">
@@ -701,7 +706,7 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is  2.845794
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is  2.8288546
 </pre></div>
 </div>
 </div>
@@ -732,7 +737,7 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 265 Iterations
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 278 Iterations
 </pre></div>
 </div>
 </div>
@@ -749,9 +754,9 @@ parameters in normal model:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean estimate: 
- [-0.01669996  0.01215889]
+ [-0.01809103  0.07737617]
 ML standard deviation estimate: 
- [0.98807096 1.0193876 ]
+ [0.96920884 1.0179865 ]
 </pre></div>
 </div>
 </div>
@@ -767,42 +772,17 @@ ML standard deviation estimate:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>sample mean: 
- [-0.01670282  0.01215823]
+ [-0.01809279  0.07737515]
 sample standard deviation: 
- [0.988074  1.0193709]
+ [0.96919847 1.0179856 ]
 </pre></div>
 </div>
 </div>
 </div>
 <p>我們可看到兩組解的數值幾乎相同，顯示優化器在這邊有確實地找到最大概似解。</p>
-<p>由於前述的優化程式碼，在後續的小節中仍然會持續被用到，故我們將其包成一個 <code class="docutils literal notranslate"><span class="pre">train</span></code> 函數，以便後續使用。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">initial_values</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">tol</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">initial_value</span><span class="p">,</span> <span class="n">trainable_variable</span> <span class="ow">in</span> \
-            <span class="nb">zip</span><span class="p">(</span><span class="n">initial_values</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">):</span>
-        <span class="n">trainable_variable</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">initial_value</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
-        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
-            <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
-                <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span>
-                                  <span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span>
-                                      <span class="n">model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
-                    <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gradients</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{n}</span><span class="s2"> Optimizer Converges After </span><span class="si">{i}</span><span class="s2"> Iterations&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">n</span><span class="o">=</span><span class="n">optimizer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">epoch</span><span class="p">))</span>
-            <span class="k">break</span>
-</pre></div>
-</div>
-</div>
-</div>
 </div>
 <div class="section" id="id6">
-<h3>利用對射進行變數轉換<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.2.2. </span>利用對射進行變數轉換<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>前述的最大概似估計過程，並未對於參數估計之數值進行限制，其考慮的是非限制的優化問題（unconstrained optimization problem），然而，在實際進行優化時，若未對於參數數值進行限制的話，可能會獲得不合理之估計值（如負的變異數等）。</p>
 <p>在 TFP 的架構中，主要是透過對於參數進行對射（bijection），將原始受限制的參數轉為非限制的參數後進行估計。TFP 所內建的對射函數，可參考其 <a class="reference external" href="https://www.tensorflow.org/probability/api_docs/python/tfp/bijectors">官方網頁</a>。</p>
 <p>在下面的範例中，我們利用 <code class="docutils literal notranslate"><span class="pre">tfp.util.TransformedVariable</span></code> 與 <code class="docutils literal notranslate"><span class="pre">tfb.Exp()</span></code> ，將常態分配的變異數 <span class="math notranslate nohighlight">\(\sigma\)</span> 參數化為 <span class="math notranslate nohighlight">\(\exp(\gamma)\)</span>，將原本需進行估計 <span class="math notranslate nohighlight">\(\mu\)</span> 與 <span class="math notranslate nohighlight">\(\sigma\)</span> 的優化問題，轉為估計 <span class="math notranslate nohighlight">\(\mu\)</span> 與 <span class="math notranslate nohighlight">\(\gamma\)</span>，此時，我們不需要對 <span class="math notranslate nohighlight">\(\gamma\)</span> 的數值範圍進行限制，其在透過 <span class="math notranslate nohighlight">\(\exp\)</span> 函數的轉換後，會自動符合模型隱含的限制式。</p>
@@ -833,12 +813,27 @@ parameters in normal model:
 <p>我們可以直接使用前述的優化程式碼來獲得重新參數化後的參數估計</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">normal_model_tr</span><span class="p">,</span>
-      <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-      <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.</span><span class="p">),</span>
-      <span class="n">initial_values</span><span class="o">=</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]),</span>
-      <span class="n">epochs</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
-      <span class="n">tol</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">normal_model_tr</span><span class="o">.</span><span class="n">loc</span><span class="o">.</span><span class="n">assign</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="n">normal_model_tr</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">assign</span><span class="p">([</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span>
+                <span class="n">normal_model_tr</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span>
+                              <span class="n">normal_model_tr</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span>
+                                  <span class="n">normal_model_tr</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gradients</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{n}</span><span class="s2"> Optimizer Converges After </span><span class="si">{i}</span><span class="s2"> Iterations&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">n</span><span class="o">=</span><span class="n">optimizer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">epoch</span><span class="p">))</span>
+        <span class="k">break</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean estimate: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
       <span class="n">normal_model_tr</span><span class="o">.</span><span class="n">loc</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
@@ -848,66 +843,88 @@ parameters in normal model:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 223 Iterations
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 238 Iterations
 ML mean estimate: 
- [-0.01670112  0.01215249]
+ [-0.01810658  0.07736231]
 ML standard deviation estimate: 
- [0.9880714 1.019371 ]
+ [0.9692039 1.0179862]
 </pre></div>
 </div>
 </div>
 </div>
-<p>此變數轉換的作法，在進行多元常態分配共變異數估計時，特別的有幫助。一般來說，多元常態分配假設共變異數矩陣為對稱的正定矩陣（positive definite matrix），然而，一般在進行參數估計時，並無法保證此條件被滿足</p>
-<p>即便 <code class="docutils literal notranslate"><span class="pre">tfd.MultivariateNormalTriL</span></code> 已採用了</p>
+</div>
+<div class="section" id="id7">
+<h3><span class="section-number">8.2.3. </span>多元常態分配之參數估計<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">])</span>
-<span class="n">cov</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]])</span>
-<span class="n">to_scale_tril</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">Chain</span><span class="p">([</span>
-    <span class="n">tfb</span><span class="o">.</span><span class="n">Invert</span><span class="p">(</span>
-        <span class="n">tfb</span><span class="o">.</span><span class="n">FillTriangular</span><span class="p">(</span><span class="n">validate_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
-    <span class="n">tfb</span><span class="o">.</span><span class="n">TransformDiagonal</span><span class="p">(</span>
-        <span class="n">tfb</span><span class="o">.</span><span class="n">Invert</span><span class="p">(</span><span class="n">tfb</span><span class="o">.</span><span class="n">Exp</span><span class="p">(</span><span class="n">validate_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)))])</span>
-
-<span class="n">mvn_model</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">MultivariateNormalTriL</span><span class="p">(</span>
-    <span class="n">loc</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loc&#39;</span><span class="p">),</span>
-    <span class="n">scale_tril</span><span class="o">=</span><span class="n">tfp</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">TransformedVariable</span><span class="p">(</span>
-        <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
-        <span class="n">bijector</span><span class="o">=</span><span class="n">tfp</span><span class="o">.</span><span class="n">bijectors</span><span class="o">.</span><span class="n">FillScaleTriL</span><span class="p">(</span>
-            <span class="n">diag_bijector</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">Exp</span><span class="p">()),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loc_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">])</span>
+<span class="n">scale_tril_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]]))</span>
+<span class="n">mvn_model_true</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">MultivariateNormalTriL</span><span class="p">(</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="n">loc_true</span><span class="p">,</span>
+    <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">scale_tril_true</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model_true</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tfp.distributions.MultivariateNormalTriL(&quot;MultivariateNormalTriL&quot;, batch_shape=[], event_shape=[3], dtype=float32)
-(&lt;tf.Variable &#39;loc:0&#39; shape=(3,) dtype=float32, numpy=array([ 0.,  1., -1.], dtype=float32)&gt;, &lt;tf.Variable &#39;scale:0&#39; shape=(6,) dtype=float32, numpy=
-array([ 5.8611017e-02, -1.2493902e-01,  6.0000002e-01, -1.0013630e-05,
-       -4.4581467e-01,  3.0000001e-01], dtype=float32)&gt;)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">scale_tril</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">covariance</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#a bug here</span>
+<span class="n">x</span><span class="o">=</span><span class="n">mvn_model_true</span><span class="o">.</span><span class="n">sample</span><span class="p">([</span><span class="mi">10000</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=.</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">epochs</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">tol</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">loc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loc&#39;</span><span class="p">)</span>
+<span class="n">scale_tril</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])),</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;scale_tril&quot;</span><span class="p">)</span>
+<span class="n">mvn_model</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">MultivariateNormalTriL</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span> <span class="n">scale_tril</span><span class="o">=</span><span class="n">scale_tril</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span>
+                              <span class="n">mvn_model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span>
+                                  <span class="n">mvn_model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gradients</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{n}</span><span class="s2"> Optimizer Converges After </span><span class="si">{i}</span><span class="s2"> Iterations&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">n</span><span class="o">=</span><span class="n">optimizer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">epoch</span><span class="p">))</span>
+        <span class="k">break</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[ 1.          0.          0.        ]
- [ 0.3         0.64031243  0.        ]
- [ 0.6        -0.12493902  1.0603727 ]]
-[[ 1.          0.          0.        ]
- [ 0.3         0.64031243  0.        ]
- [ 0.6        -0.12493902  1.0603727 ]]
-[[1.        0.3       0.6      ]
- [0.3       0.5       0.1      ]
- [0.6       0.1       1.5000001]]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adam Optimizer Converges After 132 Iterations
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mvn_model</span><span class="o">.</span><span class="n">covariance</span><span class="p">())</span>
+
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tf.Tensor([-0.00393596  0.99764746 -1.0213212 ], shape=(3,), dtype=float32)
+tf.Tensor(
+[[0.96195185 0.28292963 0.5942457 ]
+ [0.28292963 0.49113995 0.11017021]
+ [0.5942457  0.11017021 1.5431747 ]], shape=(3, 3), dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -944,6 +961,8 @@ array([ 5.8611017e-02, -1.2493902e-01,  6.0000002e-01, -1.0013630e-05,
     
     <div class='prev-next-bottom'>
         
+    <a class='left-prev' id="prev-link" href="maximum-likelihood.html" title="previous page"><span class="section-number">7. </span>最大概似法</a>
+    <a class='right-next' id="next-link" href="latent-variable-modeling.html" title="next page"><span class="section-number">9. </span>潛在變項建模</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -4,13 +4,11 @@
 - file: notebook/linear-regression
 - file: notebook/lab-tf-tensor
 - file: notebook/logistic-regression
-- file: notebook/lab-torch-diff-opt
+- file: notebook/lab-tf-diff-opt
 - file: notebook/probability-distribution
 - file: notebook/maximum-likelihood
-- file: notebook/lab-torch-mle
+- file: notebook/lab-tf-mle
 - file: notebook/latent-variable-modeling
 - file: notebook/factor-analysis
 - file: notebook/item-response-theory
-- file: notebook/mixture-modeling
-- file: notebook/lab-pyro
 - file: notebook/lab-tf-example

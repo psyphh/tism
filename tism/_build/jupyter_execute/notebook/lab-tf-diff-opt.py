@@ -11,7 +11,6 @@ Lab: 數值微分與優化
 3. 利用前述知識，撰寫一採用梯度下降（gradient descent）獲得迴歸參數估計之類型。
 
 import tensorflow as tf
-import numpy as np
 
 ## 數值微分
 
@@ -21,20 +20,18 @@ import numpy as np
 
 在 `tensorflow` 中，我們所欲進行微分之變量（variable）乃透過 `tf.Variable` 此類型來表徵，其可透過 `tf.Variable` 此建構式來建立：
 
-x = tf.constant([[1, 1, 1]], dtype = tf.float64)
+x = tf.constant([1, 1, 1], dtype = tf.float64)
 x = tf.Variable(x)
 print(x)
 
-這裏，我們建立了一尺寸為 $(1, 3)$ 的變量。乍看之下，變量與張量非常類似，兩者皆牽涉到資料、形狀、以及類型等面向，事實上，變量背後的資料結構的確是一張量，當我們進行運算時，使用的都是該張量資料，如
+這裏，我們建立了一尺寸為 $(3,)$ 的變量。乍看之下，變量與張量非常類似，兩者皆牽涉到資料、形狀、以及類型等面向，事實上，變量背後的資料結構的確是一張量，當我們進行運算時，使用的都是該張量資料，如
 
 print("element-wise addition:", x + x)
 print("element-wise multiplication:", x * x)
-print("matrix multiplication:", x @ tf.transpose(x))
-print("matrix inverse:", tf.linalg.inv(x @ tf.transpose(x)))
 
 然而，變量容許我們在程式執行的過程中，不斷地對其狀態進行更新。比如說，我們可以使用 `.assign` 此方法對一變量的張量資料進行更新，其會重新使用儲存該張量的記憶體：
 
-x.assign([[1, 2, 3,]])
+x.assign([1, 2, 3,])
 print(x)
 
 在 `tensorflow` 中，變量最重要的功能就是用來表徵模型的參數，其可透過不同的優化策略來更新其數值，因此，變量通常是可以被訓練的（trainable），我們可透過其 `.trainbale` 屬性來了解
@@ -56,7 +53,7 @@ print("tensor z: \n", z)
 grad_x = tape.gradient(z, x)
 print("dz/dx: ", grad_x)
 
-這裡， $grad_x$ 即為 $\frac{\partial z}{\partial x}$ 之計算結果，其張量尺寸與 `x` 相同，即 `(3,1)`。
+這裡， `grad_x` 即為 $\frac{\partial z}{\partial x}$ 之計算結果，其張量尺寸與 `x` 相同，即 `(3,1)`。
 
 需要特別注意的是，在執行完一次 `tf.GradientTape.gradient` 後，`tensorflow` 即會將該記錄器所使用的資源給釋放出來，故無法再次使用 `tf.GradientTape.gradient` 此指令。若想要多次執行 `tf.GradientTape.gradient`，可以在建立 `GradientTape` 時，使用 `persistent=True` 此指令：
 
@@ -78,6 +75,19 @@ for name, value in grad.items():
     print("dz/d" + name + ": ", value)
 
 
+### 二階微分矩陣
+`tensorflow` 也可以用於計算二次微分矩陣，即黑塞矩陣。其過程需使用到兩組 `GradeientTape`，其中一組用來計算一階導數，另外一組用來紀錄計算一階導數的過程，並計算二階導數，如以下範例
+
+with tf.GradientTape() as tape2:
+  with tf.GradientTape() as tape1:
+    y = 2 * x - 4
+    z = tf.reduce_sum(y ** 2)
+  grad_x = tape1.jacobian(z, x)
+hess = tape2.jacobian(grad_x, x)
+print("d^2z/dx^2: ", hess.numpy())
+
+然而，在此需要特別小心注意張量的尺寸會如何影響計算之過程。
+
 ## 數值優化
 
 ### 手動撰寫優化算則
@@ -88,7 +98,7 @@ $$
 \begin{aligned}
 z &= f(x)\\
  &= \sum_{i=1}^3\left[2(x_i-2)\right]^2 \\
- &= \sum_{i=1}^3 y^2
+ &= \sum_{i=1}^3 y_i^2
 \end{aligned}
 $$
 
@@ -102,13 +112,13 @@ $$
 
 這裏，$s$ 表示一步伐大小（step size），或稱學習速率（learning rate）。一般來說，當 $\mathcal{D}$ 足夠圓滑（smooth），且 $s$ 的數值大小適切時，梯度下降法能夠找到一臨界點（critical points），其可能為 $\mathcal{D}$ 最小值的發生位置。
 
-在開始進行梯度下降前，我們先定義一函數 `f` 使得`z = f(x)`，並了解起始狀態時，`f(x)` 與 `x` 的數值為何：
+在開始進行梯度下降前，我們先定義一函數 `f` 使得 `z = f(x)`，並了解起始狀態時，`f(x)` 與 `x` 的數值為何：
 
 def f(x):
     z = tf.reduce_sum((2 * x - 4) ** 2)
     return z
 
-x = tf.Variable([[1, 2, 3]],
+x = tf.Variable([1, 2, 3],
                 dtype = tf.float64)
 z = f(x)
 print("f(x) = {:2.3f}, x = {}".format(z.numpy(), x.numpy()))
@@ -120,36 +130,37 @@ with tf.GradientTape() as tape:
     z = f(x)
 grad_x = tape.gradient(z, x)
 x.assign_sub(lr * grad_x)
-print("f(x) = {:2.3f}, x = {}".format(z.numpy(), x.numpy()))
+print("f(x) = {:2.3f}, x = {}".format(
+    z.numpy(), x.numpy()))
 
 這裡，我們將學習速率 `lr` 設為0.1，而張量的 `.assign_sub()` 方法則是就地減去括號內的數值直接更新。透過 `f(x)` 的數值，可觀察到梯度下降的確導致 `z` 數值的下降，而 `x` 也與 $\widehat{x}=(2,2,2)$ 更加地靠近。
 
 梯度下降的算則，需重複前述的程序多次，才可獲得一收斂的解。最簡單的方法，即使用 `for` 迴圈，重複更新$I$次：
 
-x = tf.Variable([[1, 2, 3]],
-                 dtype = tf.float64)
+x = tf.Variable([1, 2, 3],
+                dtype = tf.float64)
 for i in range(1, 21):
     with tf.GradientTape() as tape:
         z = f(x)
     grad_x = tape.gradient(z, x)
     x.assign_sub(lr * grad_x)
     print("f(x) = {:2.3f}, x = {}".format(
-        z.numpy(), np.around(x.numpy(), decimals = 4)))
+        z.numpy(), x.numpy()))
 
 然而，從列印出來的結果來看，20次迭代可能太多了，因此，我們可以進一步要求當梯度絕對值小於某收斂標準 `tol` 時，算則就停止，其所對應之程式碼為：
 
 
 tol = 1e-4
 epochs = 20
-x = tf.Variable([[1, 2, 3]],
-                 dtype = tf.float64)
+x = tf.Variable([1, 2, 3],
+                dtype = tf.float64)
 for i in range(1, 21):
     with tf.GradientTape() as tape:
         z = f(x)
     grad_x = tape.gradient(z, x)
     x.assign_sub(lr * grad_x)
     print("f(x) = {:2.3f}, x = {}".format(
-        z.numpy(), np.around(x.numpy(), decimals = 4)))
+        z.numpy(), x.numpy()))
     if tf.reduce_max(tf.abs(grad_x)) < tol:
         break
 
@@ -163,8 +174,8 @@ for i in range(1, 21):
 
 tol = 1e-4
 epochs = 20
-x = tf.Variable([[1, 2, 3]],
-                 dtype = tf.float64)
+x = tf.Variable([1, 2, 3],
+                dtype = tf.float64)
 opt = tf.optimizers.SGD(learning_rate = lr)
 for i in range(1, 21):
     with tf.GradientTape() as tape:
@@ -172,11 +183,11 @@ for i in range(1, 21):
     grad_x = tape.gradient(z, x)
     opt.apply_gradients(zip([grad_x], [x]))
     print("f(x) = {:2.3f}, x = {}".format(
-        z.numpy(), np.around(x.numpy(), decimals = 4)))
+        z.numpy(), x.numpy()))
     if tf.reduce_max(tf.abs(grad_x)) < tol:
         break
 
-這裡，我們使用 `tf.optimizers.SGD` 來生成優化器（optimizer）物件 `opt`，其在生成時，需要指定學習速率 `learning_rate`。使用內建優化器時，我們仍須自行計算梯度，並利用 `.apply_gradient` 此方法，給定梯度與變量的列表進行更新
+這裡，我們使用 `tf.optimizers.SGD` 來生成優化器（optimizer）物件 `opt`，其在生成時，需要指定學習速率 `learning_rate`。使用內建優化器時，我們仍須自行計算梯度，並利用 `.apply_gradient` 此方法，給定梯度與變量的列表進行更新。乍看之下，使用優化器並為簡化原有之程式碼，不過，當所欲進行更新的變量很多時，優化器可以避免逐一對變量數值進行更新的麻煩。
 
 `tf.optimizers.SGD` 容許使用者加入動能（momentum）$m$（其預設為 0），此時，優化算則會改為
 

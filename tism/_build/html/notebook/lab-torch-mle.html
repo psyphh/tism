@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>8. Lab: 最大概似估計 &#8212; 統計建模技法</title>
+    <title>Lab: 最大概似估計 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. 潛在變項建模" href="latent-variable-modeling.html" />
-    <link rel="prev" title="7. 最大概似法" href="maximum-likelihood.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -84,7 +82,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-tensor.html">
-   3. Lab I: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -93,7 +91,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -107,9 +105,9 @@
    7. 最大概似法
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   8. Lab: 最大概似估計
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -128,24 +126,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     pyro
-    </span>
-   </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-example.html">
-   14. Lab:
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
      tensoflow
@@ -238,7 +220,6 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#torch">
-   8.1.
    <code class="docutils literal notranslate">
     <span class="pre">
      torch
@@ -249,66 +230,66 @@
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id1">
-     8.1.1. 分配物件之基礎
+     分配物件之基礎
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     8.1.2. 分配物件之形狀
+     分配物件之形狀
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id3">
-   8.2. 最大概似估計法
+   最大概似估計法
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id4">
-     8.2.1. 建立概似函數
+     建立概似函數
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id5">
-     8.2.2. 進行優化
+     進行優化
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id6">
-     8.2.3. 多元常態分配之最大概似估計
+     多元常態分配之最大概似估計
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id7">
-   8.3. 實徵範例
+   實徵範例
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id8">
-     8.3.1. 產生邏吉斯迴歸資料
+     產生邏吉斯迴歸資料
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id9">
-     8.3.2. 建立一進行邏吉斯迴歸分析之物件
+     建立一進行邏吉斯迴歸分析之物件
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id10">
-     8.3.3. 計算模型參數
+     計算模型參數
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id11">
-     8.3.4. 計算參數估計標準誤
+     計算參數估計標準誤
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id12">
-     8.3.5. 練習
+     練習
     </a>
    </li>
   </ul>
@@ -324,7 +305,7 @@
               <div>
                 
   <div class="section" id="lab">
-<h1><span class="section-number">8. </span>Lab: 最大概似估計<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<h1>Lab: 最大概似估計<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
@@ -333,9 +314,9 @@
 </div>
 </div>
 <div class="section" id="torch">
-<h2><span class="section-number">8.1. </span><code class="docutils literal notranslate"><span class="pre">torch</span></code> 分配物件<a class="headerlink" href="#torch" title="Permalink to this headline">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">torch</span></code> 分配物件<a class="headerlink" href="#torch" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3><span class="section-number">8.1.1. </span>分配物件之基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>分配物件之基礎<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">torch.distribution</span></code> 內建了許多機率分配物件（見<a class="reference external" href="https://pytorch.org/docs/stable/distributions.html">官方網頁</a>），而分配物件可供使用者</p>
 <ol class="simple">
 <li><p>產生隨機樣本。</p></li>
@@ -389,12 +370,12 @@ Binomial(total_count: 10.0, probs: 0.5, logits: 0.0)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(1.2940)
+ tensor(-0.6073)
 random sample with shape (3,):
- tensor([ 0.0676, -0.7973, -1.0891])
+ tensor([-0.1569,  0.0393, -1.4798])
 random sample with shape (2,3):
- tensor([[-1.3310,  1.9504,  0.7925],
-        [ 0.0225,  0.5146, -1.5018]])
+ tensor([[ 0.8827,  0.5804, -1.5479],
+        [ 0.7919,  0.8574,  1.1460]])
 </pre></div>
 </div>
 </div>
@@ -412,12 +393,12 @@ random sample with shape (2,3):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with shape ():
- tensor(4.)
+ tensor(7.)
 random sample with shape (3,):
- tensor([5., 3., 6.])
+ tensor([5., 4., 5.])
 random sample with shape (2,3):
- tensor([[5., 2., 4.],
-        [6., 3., 4.]])
+ tensor([[4., 6., 5.],
+        [4., 7., 5.]])
 </pre></div>
 </div>
 </div>
@@ -503,7 +484,7 @@ cumulative probability given value with (2,3):
 <p>不過，binomial分配並無 <code class="docutils literal notranslate"><span class="pre">cdf()</span></code> 方法可評估累積機率值。</p>
 </div>
 <div class="section" id="id2">
-<h3><span class="section-number">8.1.2. </span>分配物件之形狀<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>分配物件之形狀<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">pytorch</span></code> 分配物件之設計，乃參考 <code class="docutils literal notranslate"><span class="pre">tensorflow_probability</span></code>此套件，而分配物件在形狀上，牽涉到三類型之形狀：</p>
 <ol class="simple">
 <li><p>樣本形狀（sample shape）：為用於描述獨立且具有相同分配隨機樣本之形狀，先前產生隨機樣本時，所設定的 <code class="docutils literal notranslate"><span class="pre">sample_shape</span></code> 即為樣本形狀。</p></li>
@@ -558,21 +539,21 @@ torch.Size([])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([-0.1382,  0.1960]) 
+ tensor([-0.7659,  0.4995]) 
 
 random sample with sample_shape (3,):
- tensor([[ 1.3556,  0.7991],
-        [ 0.4830, -1.4896],
-        [-0.3731, -1.5984]]) 
+ tensor([[ 0.0722,  3.0675],
+        [-0.4080, -0.8843],
+        [-1.3198, -0.1505]]) 
 
 random sample with sample_shape (2,3):
- tensor([[[-0.9070, -1.1522],
-         [ 0.2478,  1.1831],
-         [-0.7596,  0.3465]],
+ tensor([[[-0.4679,  2.1389],
+         [ 2.2229,  1.3082],
+         [ 1.3669, -1.6884]],
 
-        [[-0.5470, -0.3003],
-         [ 1.2674, -0.4363],
-         [ 0.3006,  0.2849]]])
+        [[-0.9426, -0.3041],
+         [-0.1743, -0.9709],
+         [-0.3642,  0.5057]]])
 </pre></div>
 </div>
 </div>
@@ -638,21 +619,21 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([-0.0596,  1.1879]) 
+ tensor([0.9857, 1.1918]) 
 
 random sample with sample_shape (3,):
- tensor([[-0.3421,  0.8305],
-        [ 0.0353,  1.7317],
-        [-0.0645,  1.2923]]) 
+ tensor([[ 1.1980,  0.9417],
+        [-0.6858,  0.1839],
+        [ 0.9540,  2.1066]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[ 0.7572,  0.6959],
-         [-1.1227,  1.9988],
-         [-0.8808,  1.2628]],
+ tensor([[[ 1.2809,  1.6348],
+         [-1.7761,  1.6307],
+         [-0.1842,  1.4551]],
 
-        [[ 1.0176,  1.9385],
-         [ 0.4488, -0.1369],
-         [ 0.9302,  1.5637]]])
+        [[ 1.1002,  2.0577],
+         [ 0.5374,  1.0388],
+         [-0.7229,  1.0850]]])
 </pre></div>
 </div>
 </div>
@@ -727,48 +708,48 @@ torch.Size([2])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>random sample with sample_shape ():
- tensor([[1.3513, 0.9863],
-        [1.8454, 1.3690],
-        [1.3510, 3.1717]]) 
+ tensor([[-1.5725, -0.0149],
+        [-1.0106,  2.1789],
+        [ 4.6421,  3.2259]]) 
 
 random sample with sample_shape (3,):
- tensor([[[-1.4111, -0.1080],
-         [ 1.0454,  3.6580],
-         [ 1.7528,  3.7578]],
+ tensor([[[ 0.2850,  1.4440],
+         [ 2.1764,  3.8953],
+         [ 1.6498,  3.3964]],
 
-        [[ 0.3684,  0.2109],
-         [ 0.9217,  2.4972],
-         [ 1.5458,  3.2447]],
+        [[-0.2992,  0.2315],
+         [ 2.6496,  1.9224],
+         [ 1.5129,  2.9679]],
 
-        [[-0.5351,  0.7274],
-         [ 0.1714,  0.9091],
-         [-0.8465,  2.6871]]]) 
+        [[-0.3706,  0.8835],
+         [ 1.5837,  2.2963],
+         [ 1.7854,  1.7740]]]) 
 
 random sample with sample_shape (2, 3):
- tensor([[[[ 0.1429,  1.3209],
-          [ 1.4879,  2.4935],
-          [ 2.3293,  2.2809]],
+ tensor([[[[ 0.5646, -0.0530],
+          [-0.1724,  0.8417],
+          [ 1.7606,  2.9609]],
 
-         [[-0.2123,  0.3281],
-          [ 0.6867,  2.6965],
-          [ 1.2709,  1.3719]],
+         [[ 1.1157,  2.4197],
+          [-0.1312,  1.1221],
+          [ 2.5566,  3.3907]],
 
-         [[-0.8392,  1.0578],
-          [-0.8175,  1.7740],
-          [ 2.2507,  1.8954]]],
+         [[ 0.8531,  1.0732],
+          [ 0.4390,  2.1313],
+          [ 1.7174,  2.9580]]],
 
 
-        [[[ 0.5183,  1.1728],
-          [ 1.6664,  1.2297],
-          [ 1.1948,  3.2688]],
+        [[[ 0.3536,  1.5386],
+          [ 1.5939,  1.4366],
+          [ 2.0600,  3.4078]],
 
-         [[ 1.9175,  2.8057],
-          [ 0.7939,  1.3464],
-          [ 2.8124,  4.0981]],
+         [[ 0.0308,  2.2796],
+          [ 0.2979,  1.0971],
+          [ 1.6330,  3.4972]],
 
-         [[ 0.6873,  0.7188],
-          [ 1.1044,  3.0978],
-          [-0.0137,  2.3390]]]])
+         [[ 0.5278,  1.0683],
+          [ 0.2503,  0.7980],
+          [ 1.9088,  2.6264]]]])
 </pre></div>
 </div>
 </div>
@@ -777,9 +758,9 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="section" id="id3">
-<h2><span class="section-number">8.2. </span>最大概似估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>最大概似估計法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id4">
-<h3><span class="section-number">8.2.1. </span>建立概似函數<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>建立概似函數<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>利用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的分配物件，我們可以很容易地來建立概似函數。</p>
 <p>首先，我們先以常態分配進行說明。為了產生樣本資料，我們先設定一平均數為5，標準差為4之常態分配</p>
 <div class="cell docutils container">
@@ -812,7 +793,7 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.1256)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(2.0981)
 </pre></div>
 </div>
 </div>
@@ -820,7 +801,7 @@ random sample with sample_shape (2, 3):
 <p>因此，只要在資料的形狀上可以匹配，我們即可使用分配物件的<code class="docutils literal notranslate"><span class="pre">log_prob()</span></code> 方法，再搭配 <code class="docutils literal notranslate"><span class="pre">sum()</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">mean()</span></code> 來計算對數概似函數數值。</p>
 </div>
 <div class="section" id="id5">
-<h3><span class="section-number">8.2.2. </span>進行優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>進行優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>在建立完概似函數後，我們就可以透過 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 的優化器進行優化。在這邊需要特別注意的是，由於模型的參數會在優化過程中更新，因此，其必須使用一可微分之張量來儲存，並且，在每次更新完參數數值後，皆需再次產生一新的分配物件，以計算概述函數之數值</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -847,11 +828,8 @@ random sample with sample_shape (2, 3):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: [5.0917654]
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-ML std by gradient descent: [2.026369]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: [5.092273]
+ML std by gradient descent: [1.9688407]
 </pre></div>
 </div>
 </div>
@@ -865,15 +843,15 @@ ML std by gradient descent: [2.026369]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 5.0917735
-ML std by formula: 2.0248573
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 5.092192
+ML std by formula: 1.9696286
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="id6">
-<h3><span class="section-number">8.2.3. </span>多元常態分配之最大概似估計<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>多元常態分配之最大概似估計<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>多元常態分配為統計建模中常被使用之分配，因此，我們在此對該分配之參數進行最大概似法之估計。</p>
 <p>多元常態分配之最大概似估計最麻煩的部分在於，共變異數矩陣是對稱正定矩陣，因此，雖然共變異矩陣中有 <span class="math notranslate nohighlight">\(P \times P\)</span> 個元素，但事實上，其僅有 <span class="math notranslate nohighlight">\(P(P+1)/2\)</span> 個能夠自由估計之參數，並且，其數值需滿足正定矩陣之要求。為了處理此困難，在進行多元常態分配之參數設定時，我們不直接設定共變異數矩陣，取而代之的是，設定該矩陣之 Cholesky 拆解，即 <code class="docutils literal notranslate"><span class="pre">scale_tril</span></code></p>
 <div class="cell docutils container">
@@ -926,7 +904,7 @@ true covariance matrix:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.7253)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>negative likelihood value is tensor(4.6804)
 </pre></div>
 </div>
 </div>
@@ -963,11 +941,11 @@ true covariance matrix:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by gradient descent: 
- tensor([-0.9054,  0.1025,  1.0376], requires_grad=True)
+ tensor([-1.1253, -0.0532,  1.0041], requires_grad=True)
 ML covariance by gradient descent: 
- tensor([[9.6015, 6.5407, 1.4208],
-        [6.5407, 5.5319, 1.5024],
-        [1.4208, 1.5024, 0.7198]], grad_fn=&lt;MmBackward&gt;)
+ tensor([[8.9772, 5.9429, 1.1470],
+        [5.9429, 4.9762, 1.2574],
+        [1.1470, 1.2574, 0.6326]], grad_fn=&lt;MmBackward&gt;)
 </pre></div>
 </div>
 </div>
@@ -984,11 +962,11 @@ ML covariance by gradient descent:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([-0.9054,  0.1025,  1.0376])
+ tensor([-1.1253, -0.0532,  1.0041])
 ML covariance by formula: 
- tensor([[9.6015, 6.5407, 1.4208],
-        [6.5407, 5.5319, 1.5024],
-        [1.4208, 1.5024, 0.7198]])
+ tensor([[8.9772, 5.9430, 1.1470],
+        [5.9430, 4.9762, 1.2574],
+        [1.1470, 1.2574, 0.6326]])
 </pre></div>
 </div>
 </div>
@@ -996,9 +974,9 @@ ML covariance by formula:
 </div>
 </div>
 <div class="section" id="id7">
-<h2><span class="section-number">8.3. </span>實徵範例<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<h2>實徵範例<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id8">
-<h3><span class="section-number">8.3.1. </span>產生邏吉斯迴歸資料<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>產生邏吉斯迴歸資料<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
@@ -1006,7 +984,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7f8ba84881f0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fea80ea41f0&gt;
 </pre></div>
 </div>
 </div>
@@ -1050,7 +1028,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="section" id="id9">
-<h3><span class="section-number">8.3.2. </span>建立一進行邏吉斯迴歸分析之物件<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>建立一進行邏吉斯迴歸分析之物件<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a class to fit logistic regression</span>
@@ -1125,7 +1103,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="section" id="id10">
-<h3><span class="section-number">8.3.3. </span>計算模型參數<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>計算模型參數<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># fit logistic model</span>
@@ -1166,7 +1144,7 @@ ML covariance by formula:
 </div>
 </div>
 <div class="section" id="id11">
-<h3><span class="section-number">8.3.4. </span>計算參數估計標準誤<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>計算參數估計標準誤<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vcov</span> <span class="o">=</span> <span class="n">model_lr</span><span class="o">.</span><span class="n">vcov</span><span class="p">()</span>
@@ -1205,8 +1183,8 @@ ML covariance by formula:
 Dep. Variable:                      y   No. Observations:                 1000
 Model:                          Logit   Df Residuals:                      996
 Method:                           MLE   Df Model:                            3
-Date:                Wed, 23 Dec 2020   Pseudo R-squ.:                  0.9211
-Time:                        14:11:57   Log-Likelihood:                -32.809
+Date:                Tue, 29 Dec 2020   Pseudo R-squ.:                  0.9211
+Time:                        14:40:04   Log-Likelihood:                -32.809
 converged:                       True   LL-Null:                       -415.71
 Covariance Type:            nonrobust   LLR p-value:                1.133e-165
 ==============================================================================
@@ -1227,7 +1205,7 @@ quasi-separation. In this case some parameters will not be identified.
 </div>
 </div>
 <div class="section" id="id12">
-<h3><span class="section-number">8.3.5. </span>練習<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>練習<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ol class="simple">
 <li><p>請建立一類型，其可以使用最大概似法，執行線性回歸分析。該模型假設給定 <span class="math notranslate nohighlight">\(x_n\)</span>，<span class="math notranslate nohighlight">\(y_n\)</span> 的條件分佈為 <span class="math notranslate nohighlight">\(\text{Normal}(w_0 + \sum_{p=1}^P w_p x_{np}, \sigma_{\epsilon}^2)\)</span>。</p></li>
 <li><p>請在前述的類型中，加入一摘要方法（<code class="docutils literal notranslate"><span class="pre">summary()</span></code>），該方法可以列印出參數估計的假設檢定與信賴區間。</p></li>
@@ -1265,8 +1243,6 @@ quasi-separation. In this case some parameters will not be identified.
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="maximum-likelihood.html" title="previous page"><span class="section-number">7. </span>最大概似法</a>
-    <a class='right-next' id="next-link" href="latent-variable-modeling.html" title="next page"><span class="section-number">9. </span>潛在變項建模</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -82,7 +82,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-tensor.html">
-   3. Lab I: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -91,7 +91,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-diff-opt.html">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -106,8 +106,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -126,24 +126,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     pyro
-    </span>
-   </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-example.html">
-   14. Lab:
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
      tensoflow
@@ -539,11 +523,13 @@ diagonal matrix
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor with random elements from uniform(0, 1) 
- [[0.7608948  0.64993685 0.44385535 0.48225647 0.5265552  0.35308272]
- [0.27034497 0.5130933  0.69433004 0.2992472  0.9260189  0.18408638]]
+ [[0.7468742  0.7462301  0.9418576  0.32070816 0.07969457 0.9980865 ]
+ [0.78013647 0.39996034 0.57988226 0.48442334 0.17424488 0.46225065]]
 tensor with uninitialized data 
- [[1.e-44 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]
- [0.e+00 0.e+00 0.e+00 0.e+00 0.e+00 0.e+00]]
+ [[ 0.0000000e+00 -2.0000000e+00  1.3280851e-05  2.5249697e-29
+   1.1210388e-44  0.0000000e+00]
+ [ 0.0000000e+00  0.0000000e+00  0.0000000e+00  0.0000000e+00
+   0.0000000e+00  0.0000000e+00]]
 </pre></div>
 </div>
 </div>
@@ -1126,9 +1112,7 @@ calculate mean for each row
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>a * b is 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> tensor([[2., 4., 6.]], dtype=torch.float64)
+ tensor([[2., 4., 6.]], dtype=torch.float64)
 </pre></div>
 </div>
 </div>
@@ -1179,10 +1163,7 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor a is 
- 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>tensor([[1., 2., 3.],
+ tensor([[1., 2., 3.],
         [4., 5., 6.]], dtype=torch.float64)
 tensor b is 
  tensor([[0.],
@@ -1230,13 +1211,13 @@ tensor a * b is
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>n = 10
-CPU time = 0.0005362033843994141
+CPU time = 0.0008237361907958984
 n = 100
-CPU time = 0.0015239715576171875
+CPU time = 0.0008571147918701172
 n = 1000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.042714834213256836
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CPU time = 0.035305023193359375
 </pre></div>
 </div>
 </div>
@@ -1257,7 +1238,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>5.58 ms ± 283 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4.87 ms ± 241 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -1279,7 +1260,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>38.5 ms ± 4.06 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>33.9 ms ± 7.84 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1300,7 +1281,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>33.5 ms ± 532 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>34.2 ms ± 1.22 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -1342,7 +1323,7 @@ n = 1000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7f9a50d5c1f0&gt;
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;torch._C.Generator at 0x7fb3a8b7f1f0&gt;
 </pre></div>
 </div>
 </div>

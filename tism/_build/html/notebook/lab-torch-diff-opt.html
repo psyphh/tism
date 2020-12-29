@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>5. Lab: 數值微分與優化 &#8212; 統計建模技法</title>
+    <title>Lab: 數值微分與優化 &#8212; 統計建模技法</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -39,8 +39,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="6. 機率分佈" href="probability-distribution.html" />
-    <link rel="prev" title="4. 邏輯斯迴歸" href="logistic-regression.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="math-prerequisite.html">
    1. 先備數學知識
@@ -84,7 +82,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-tensor.html">
-   3. Lab I: 線性代數
+   3. Lab: 張量與線性代數
   </a>
  </li>
  <li class="toctree-l1">
@@ -92,8 +90,8 @@
    4. 邏輯斯迴歸
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="lab-tf-diff-opt.html">
    5. Lab: 數值微分與優化
   </a>
  </li>
@@ -108,8 +106,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lab-torch-mle.html">
-   8. Lab: 最大概似估計
+  <a class="reference internal" href="lab-tf-mle.html">
+   8. Lab III: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1">
@@ -128,24 +126,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="mixture-modeling.html">
-   12. 混合建模
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="lab-pyro.html">
-   13. Lab:
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     pyro
-    </span>
-   </code>
-   簡介
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-example.html">
-   14. Lab:
+   12. Lab:
    <code class="docutils literal notranslate">
     <span class="pre">
      tensoflow
@@ -238,39 +220,39 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id1">
-   5.1. 數值微分
+   數值微分
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
-     5.1.1. 可獲得梯度張量之輸入
+     可獲得梯度張量之輸入
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id3">
-     5.1.2. 數值微分之執行
+     數值微分之執行
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id4">
-     5.1.3. 可獲得梯度張量之進階控制
+     可獲得梯度張量之進階控制
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id5">
-   5.2. 數值優化
+   數值優化
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id6">
-     5.2.1. 手動撰寫優化算則
+     手動撰寫優化算則
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#torch-optim">
-     5.2.2. 使用
+     使用
      <code class="docutils literal notranslate">
       <span class="pre">
        torch.optim
@@ -281,24 +263,24 @@
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#lbfgs">
-     5.2.3. 使用LBFGS法進行優化
+     使用LBFGS法進行優化
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id7">
-     5.2.4. 計算黑塞矩陣
+     計算黑塞矩陣
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id8">
-   5.3. 實徵範例與練習
+   實徵範例與練習
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id9">
-     5.3.1. 練習
+     練習
     </a>
    </li>
   </ul>
@@ -314,7 +296,7 @@
               <div>
                 
   <div class="section" id="lab">
-<h1><span class="section-number">5. </span>Lab: 數值微分與優化<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
+<h1>Lab: 數值微分與優化<a class="headerlink" href="#lab" title="Permalink to this headline">¶</a></h1>
 <p>在此 lab 中，我們將介紹</p>
 <ol class="simple">
 <li><p>如何使用 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 進行數值微分。</p></li>
@@ -329,9 +311,9 @@
 </div>
 </div>
 <div class="section" id="id1">
-<h2><span class="section-number">5.1. </span>數值微分<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>數值微分<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3><span class="section-number">5.1.1. </span>可獲得梯度張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>可獲得梯度張量之輸入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>而在統計模型中，模型之參數常需透過一優化（optimization）方法獲得，而許多的優化方法皆仰賴目標函數（objective function）的一階導數（first-order derivative），或稱梯度（gradient），因此，如何獲得目標函數對於模型參數的梯度，即為一重要的工作。</p>
 <p>在 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 中，張量不僅用於儲存資料，其亦用於儲存模型之參數。然而，誠如先前所述，我們很可能會需要用到對應於該參數之梯度訊息，因此，為了追朔該參數的歷史建立計算圖（computation graph），輸入該參數張量時需要加入 <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 此指令：</p>
 <div class="cell docutils container">
@@ -371,7 +353,7 @@ tensor z:
 <p>我們可以看到，無論是 <code class="docutils literal notranslate"><span class="pre">y</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">z</span></code>，其都具有 <code class="docutils literal notranslate"><span class="pre">grad_fn</span></code> 的標記。要特別注意的是，<code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code> 僅適用於資料類型為浮點數之張量。</p>
 </div>
 <div class="section" id="id3">
-<h3><span class="section-number">5.1.2. </span>數值微分之執行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>數值微分之執行<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>針對已追朔之運算過程，想要獲得與該運算有關的梯度時，可以使用 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code>此方法。在前一小節的例子中，<span class="math notranslate nohighlight">\(z = \sum_{i=1}^3 (2x_{i} - 4)^2\)</span>，若想要獲得 <span class="math notranslate nohighlight">\(\frac{\partial z}{\partial x}\)</span> 在當下 <span class="math notranslate nohighlight">\(x\)</span> 的數值的話，可使用以下的程式碼：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -473,7 +455,7 @@ dz/dy:  tensor([-4.,  0.,  4.])
 <p>不過要特別注意的是，如果計算圖沒有重新建立，連續進行兩次 <code class="docutils literal notranslate"><span class="pre">.backward()</span></code> 會引發錯誤的訊息。</p>
 </div>
 <div class="section" id="id4">
-<h3><span class="section-number">5.1.3. </span>可獲得梯度張量之進階控制<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>可獲得梯度張量之進階控制<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>一個張量是否有被追朔以計算梯度，除了直接列印外，亦可透過 <code class="docutils literal notranslate"><span class="pre">.requires_grad</span></code> 此屬性來觀看</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -538,9 +520,9 @@ False
 </div>
 </div>
 <div class="section" id="id5">
-<h2><span class="section-number">5.2. </span>數值優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2>數值優化<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
-<h3><span class="section-number">5.2.1. </span>手動撰寫優化算則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>手動撰寫優化算則<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>前一小節所使用的範例，其計算過程可以寫為</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -684,7 +666,7 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 </div>
 </div>
 <div class="section" id="torch-optim">
-<h3><span class="section-number">5.2.2. </span>使用<code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>進行優化<a class="headerlink" href="#torch-optim" title="Permalink to this headline">¶</a></h3>
+<h3>使用<code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>進行優化<a class="headerlink" href="#torch-optim" title="Permalink to this headline">¶</a></h3>
 <p>由於 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 已內建了進行優化的方法，因此，在絕大多數的情況下，可直接利用 <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code> 的類型來求得函數的最小值。</p>
 <p><code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 為進行梯度下降法之物件，由於 <code class="docutils literal notranslate"><span class="pre">torch</span></code> 主要用於進行深度學習，在該領域種主要使用的是隨機梯度下降（stochastic gradient descent）或是迷你批次梯度下降（mini-batch gradient descent）來強化優化的效能，因此，<code class="docutils literal notranslate"><span class="pre">torch</span></code> 使用 <code class="docutils literal notranslate"><span class="pre">SGD</span></code> 一詞。事實上，除了計算一階導數時資料量的差異外，<code class="docutils literal notranslate"><span class="pre">SGD</span></code> 與傳統的梯度下降並無差異。</p>
 <p><code class="docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code> 可透過以下的程式碼來使用：</p>
@@ -744,7 +726,7 @@ iter 10, z = 0.000, x = tensor([2.0000, 2.0000, 2.0000])
 <p>讀者可自行深入了解這些方法。</p>
 </div>
 <div class="section" id="lbfgs">
-<h3><span class="section-number">5.2.3. </span>使用LBFGS法進行優化<a class="headerlink" href="#lbfgs" title="Permalink to this headline">¶</a></h3>
+<h3>使用LBFGS法進行優化<a class="headerlink" href="#lbfgs" title="Permalink to this headline">¶</a></h3>
 <p>在使用 <code class="docutils literal notranslate"><span class="pre">torch.optim.LBFGS</span></code> 時，其物件的設計，與其它的優化器有不少的差別。<code class="docutils literal notranslate"><span class="pre">torch.optim.LBFGS</span></code> 容許使用者直接指定最多得迭代次數、收斂標準、以及線搜尋的方法，然而，其在執行時，需要定義一個closure，其內部需執行梯度之計算，以及對於函數值之評估。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -777,7 +759,7 @@ descent!!!
 </div>
 </div>
 <div class="section" id="id7">
-<h3><span class="section-number">5.2.4. </span>計算黑塞矩陣<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>計算黑塞矩陣<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">torch.autograd.functional</span></code> 中有 <code class="docutils literal notranslate"><span class="pre">hessian</span></code> 此函數，其可用於計算純量函數之黑塞矩陣，這意味著研究者可以自行撰寫牛頓法之算則。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -804,9 +786,9 @@ descent!!!
 </div>
 </div>
 <div class="section" id="id8">
-<h2><span class="section-number">5.3. </span>實徵範例與練習<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<h2>實徵範例與練習<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id9">
-<h3><span class="section-number">5.3.1. </span>練習<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>練習<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># set seed</span>
@@ -883,8 +865,6 @@ descent!!!
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="logistic-regression.html" title="previous page"><span class="section-number">4. </span>邏輯斯迴歸</a>
-    <a class='right-next' id="next-link" href="probability-distribution.html" title="next page"><span class="section-number">6. </span>機率分佈</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
