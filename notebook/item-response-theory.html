@@ -405,7 +405,7 @@ p(x_1,x_2,...,x_I|\eta) &amp;= \mathbb{P}(x_1,x_2,...,x_I|\eta) \\
 \[
 \mathbb{P}(x_i = j | \eta) = \frac{\exp(\sum_{k=0}^j (\eta - \alpha_{ik}))}{\sum_{l=0}^{C_i-1}\exp(\sum_{k=0}^l (\eta - \alpha_{ik}))}.
 \]</div>
-<p>這裡，我們將 <span class="math notranslate nohighlight">\(\eta - \beta_{i0}\)</span> 設為 0。</p>
+<p>這裡，我們將 <span class="math notranslate nohighlight">\(\eta - \alpha_{i0}\)</span> 設為 0。</p>
 </div>
 <div class="section" id="id9">
 <h3><span class="section-number">11.2.3. </span>多向度試題反應模型<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
@@ -436,7 +436,7 @@ x_{ni} \log \pi_i(\eta_n) + (1- x_{ni}) \log (1-\pi_i(\eta_n))
 <p>邊際最大概似法（marginal maximum likelihood method，簡稱MML法）僅使用 <span class="math notranslate nohighlight">\(x\)</span> 的邊際分配來建立概似函數。令 <span class="math notranslate nohighlight">\(p(\eta; \theta)\)</span> 表示潛在能力的機率分佈，其常被假定為多元常態分配，MML考慮以下之估計準則</p>
 <div class="math notranslate nohighlight">
 \[
-\ell_{\text{marginal}}(\theta; mathcal{X}) = \sum_{n=1}^N \log p(x_n; \theta)
+\ell_{\text{marginal}}(\theta; \mathcal{X}) = \sum_{n=1}^N \log p(x_n; \theta)
 \]</div>
 <p>這裡，</p>
 <div class="math notranslate nohighlight">
