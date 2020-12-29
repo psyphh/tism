@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="10. 因素分析" href="factor-analysis.html" />
-    <link rel="prev" title="8. Lab III: 最大概似估計法" href="lab-tf-mle.html" />
+    <link rel="prev" title="8. Lab: 最大概似估計法" href="lab-tf-mle.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -109,7 +109,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="lab-tf-mle.html">
-   8. Lab III: 最大概似估計法
+   8. Lab: 最大概似估計法
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -283,11 +283,6 @@
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
-   9.4. 練習
-  </a>
  </li>
 </ul>
 
@@ -552,48 +547,6 @@ x_{+} = \tau_{+} + \epsilon_{+}.
 \end{split}\]</div>
 </div>
 </div>
-<div class="section" id="id10">
-<h2><span class="section-number">9.4. </span>練習<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p>請使用以下之資料，估計單一因素模型之參數。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.distributions</span> <span class="kn">import</span> <span class="n">Normal</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">246437</span><span class="p">)</span>
-<span class="n">n_sample</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">nu_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-<span class="n">psi_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">.</span><span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">36</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">36</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-<span class="n">ld_true</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="o">.</span><span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-<span class="n">model_eta</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">model_epsilon</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">psi_true</span><span class="o">.</span><span class="n">sqrt</span><span class="p">())</span>
-
-<span class="k">def</span> <span class="nf">generate_x</span><span class="p">(</span><span class="n">n_sample</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">[(</span><span class="n">nu_true</span> <span class="o">+</span> <span class="n">ld_true</span> <span class="o">*</span> <span class="n">model_eta</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span> <span class="o">+</span> <span class="n">model_epsilon</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">generate_x</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)</span>
-
-<span class="n">sample_mean</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">sample_moment2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">t</span><span class="p">()</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_sample</span>
-<span class="n">sample_cov</span> <span class="o">=</span> <span class="n">sample_moment2</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">ger</span><span class="p">(</span><span class="n">sample_mean</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML mean by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sample_mean</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ML covariance by formula: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sample_cov</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>ML mean by formula: 
- tensor([ 0.9831, -1.0247,  1.0047, -0.9972], dtype=torch.float64)
-ML covariance by formula: 
- tensor([[1.0050, 0.4758, 0.3851, 0.4956],
-        [0.4758, 1.0186, 0.5120, 0.6349],
-        [0.3851, 0.5120, 1.0174, 0.4803],
-        [0.4956, 0.6349, 0.4803, 1.0005]], dtype=torch.float64)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -624,7 +577,7 @@ ML covariance by formula:
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="lab-tf-mle.html" title="previous page"><span class="section-number">8. </span>Lab III: 最大概似估計法</a>
+    <a class='left-prev' id="prev-link" href="lab-tf-mle.html" title="previous page"><span class="section-number">8. </span>Lab: 最大概似估計法</a>
     <a class='right-next' id="next-link" href="factor-analysis.html" title="next page"><span class="section-number">10. </span>因素分析</a>
 
     </div>
