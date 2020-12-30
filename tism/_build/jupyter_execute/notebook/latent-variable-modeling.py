@@ -276,28 +276,3 @@ $$
 \frac{\left (\sum_{i=1}^I\lambda_i \right)^2 }{ \left (\sum_{i=1}^I\lambda_i \right)^2 + \sum_{i=1}^I \psi_i^2}
 \end{aligned}
 $$
-
-## 練習
-請使用以下之資料，估計單一因素模型之參數。
-
-import torch
-from torch.distributions import Normal
-torch.manual_seed(246437)
-n_sample = 1000
-nu_true = torch.tensor([[1],[-1],[1],[-1]], dtype=torch.float64)
-psi_true = torch.tensor([[.64], [.36], [.64], [.36]], dtype=torch.float64)
-ld_true = torch.tensor([[.6], [.8], [.6], [.8]], dtype=torch.float64)
-model_eta = Normal(loc = 0, scale = 1)
-model_epsilon = Normal(loc = 0, scale = psi_true.sqrt())
-
-def generate_x(n_sample):
-    x = [(nu_true + ld_true * model_eta.sample() + model_epsilon.sample()).t() for i in range(n_sample)]
-    return torch.cat(x, dim = 0)
-
-x = generate_x(n_sample)
-
-sample_mean = torch.mean(x, dim = 0)
-sample_moment2 = (x.t() @ x) / n_sample
-sample_cov = sample_moment2 - torch.ger(sample_mean, sample_mean)
-print("ML mean by formula: \n", sample_mean)
-print("ML covariance by formula: \n", sample_cov)

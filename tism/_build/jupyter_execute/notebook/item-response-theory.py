@@ -122,7 +122,7 @@ $$
 $$
 \mathbb{P}(x_i = j | \eta) = \frac{\exp(\sum_{k=0}^j (\eta - \alpha_{ik}))}{\sum_{l=0}^{C_i-1}\exp(\sum_{k=0}^l (\eta - \alpha_{ik}))}.
 $$
-這裡，我們將 $\eta - \beta_{i0}$ 設為 0。
+這裡，我們將 $\eta - \alpha_{i0}$ 設為 0。
 
 ### 多向度試題反應模型
 前述的試題反應模型，皆可採用某種方式拓展為多向度模型，以3PL為例，其IRF可以寫為
@@ -149,7 +149,7 @@ $$
 邊際最大概似法（marginal maximum likelihood method，簡稱MML法）僅使用 $x$ 的邊際分配來建立概似函數。令 $p(\eta; \theta)$ 表示潛在能力的機率分佈，其常被假定為多元常態分配，MML考慮以下之估計準則
 
 $$
-\ell_{\text{marginal}}(\theta; mathcal{X}) = \sum_{n=1}^N \log p(x_n; \theta)
+\ell_{\text{marginal}}(\theta; \mathcal{X}) = \sum_{n=1}^N \log p(x_n; \theta)
 $$
 
 這裡，
@@ -211,4 +211,3 @@ $$
 \widehat{\theta}^{(t + 1)} =
 \widehat{\theta}^{(t)} + \frac{1}{t} d^{(t)}
 $$
-

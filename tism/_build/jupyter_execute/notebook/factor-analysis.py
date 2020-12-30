@@ -255,4 +255,3 @@ $$
 $$
 
 這裡，$\Sigma(\theta) = \Lambda \Phi \Lambda^T + \Psi$ 即為因素分析之共變結構。
-
