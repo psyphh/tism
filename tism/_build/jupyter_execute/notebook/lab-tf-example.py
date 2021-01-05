@@ -351,3 +351,163 @@ print(tEnd - tStart)
 print(np.around(two_pl_model.trainable_variables[0].numpy(), decimals=2))
 print(np.around(two_pl_model.trainable_variables[1].numpy(), decimals=2))
 
+## Grade Response Model
+
+def create_cd(n_category, dtype):
+    c1 = tf.linalg.diag(
+        tf.fill([n_category - 1],
+                tf.constant([1], dtype = dtype)),
+        k = 0, num_rows= n_category - 1, num_cols= n_category)
+    c2 = tf.linalg.diag(
+        tf.fill([n_category - 1],
+            tf.constant([1], dtype = dtype)),
+        k = 1, num_rows= n_category - 1, num_cols= n_category)
+    c = c1 - c2
+    d = tf.squeeze(tf.linalg.diag(
+        tf.constant([1], dtype = dtype),
+        k = n_category - 1, num_rows= 1, num_cols= n_category))
+    return c, d
+
+def grm_irf(eta, intercept, loading, c, d):
+    tau = tf.expand_dims(eta @ tf.transpose(loading), axis = 2) + intercept
+    probs = tf.math.sigmoid(tau) @ c + d
+    return probs
+
+def generate_grm_data(n_sample, n_factor, n_item,
+                      nu, ld, rho,
+                      dtype = tf.float64):
+    if (n_item % n_factor) != 0:
+        n_item = n_factor * (n_item // n_factor)
+    item_per_factor = (n_item // n_factor)
+    n_category = len(nu) + 1
+    intercept = tf.tile(tf.constant([nu], dtype = dtype),
+                        multiples = [n_item, 1])
+    loading = np.zeros((n_item, n_factor))
+    for i in range(n_factor):
+        for j in range(i * item_per_factor,
+                       (i + 1) * item_per_factor):
+            loading[j, i] = ld
+    loading = tf.constant(loading, dtype = dtype)
+    if rho is None:
+        cor = tf.eye(n_factor, dtype = dtype)
+    else:
+        unit = tf.ones((n_factor, 1), dtype = dtype)
+        identity = tf.eye(n_factor, dtype = dtype)
+        cor = rho * (unit @ tf.transpose(unit)) + (1 - rho) * identity
+    dist_eta = tfd.MultivariateNormalTriL(
+        loc = tf.zeros(n_factor, dtype = dtype),
+        scale_tril = tf.linalg.cholesky(cor))
+    eta = dist_eta.sample(n_sample)
+    c, d = create_cd(n_category, dtype)
+    probs = grm_irf(eta, intercept, loading, c, d)
+    x = tfd.Categorical(probs=probs, dtype=dtype).sample()
+    return x
+
+n_sample = 10000
+n_factor = 5
+n_item = 15
+n_category = 3
+nu = [-.5, .5]
+ld = .7
+rho = 0
+dtype = tf.float64
+x = generate_grm_data(n_sample, n_factor, n_item,
+                      nu, ld, rho, dtype = dtype)
+
+class GRM(tf.Module):
+    def __init__(self, n_item,
+                 n_factor, n_category,
+                 dtype = tf.float64):
+        super().__init__()
+        self.n_item = n_item
+        self.n_factor = n_factor
+        self.n_category = n_category
+        self.dtype = dtype
+        self.intercept = tf.Variable(
+            tf.tile(tf.sort(tf.random.uniform((1, self.n_category - 1),
+                  minval = -1, maxval = 1,
+                  dtype = self.dtype)), multiples = [self.n_item, 1]), name = "intercept")
+        self.loading = tf.Variable(
+            tf.random.uniform((self.n_item, self.n_factor), dtype = self.dtype),
+            name = "loading")
+    def __call__(self, x):
+        n_sample = len(x)
+        c, d = create_cd(self.n_category, self.dtype)
+        joint_prob = tfd.JointDistributionSequential([
+            tfd.Independent(
+                tfd.Normal(
+                    loc = tf.zeros((n_sample, n_factor), dtype=self.dtype),
+                    scale = 1.0),
+                reinterpreted_batch_ndims=1),
+            lambda eta: tfd.Independent(
+                tfd.Categorical(
+                    probs = grm_irf(eta, self.intercept, self.loading, c, d),
+                        dtype = self.dtype),
+                reinterpreted_batch_ndims=1)])
+        joint_prob._to_track=self
+        return joint_prob
+
+grm = GRM(n_item, n_factor, n_category)
+joint_prob = grm(x)
+
+def target_log_prob_fn(*eta):
+    return joint_prob.log_prob(eta + (x,))
+
+hmc=tfp.mcmc.HamiltonianMonteCarlo(
+    target_log_prob_fn = target_log_prob_fn,
+    step_size = .015,
+    num_leapfrog_steps=3)
+current_state = joint_prob.sample()[:-1]
+kernel_results = hmc.bootstrap_results(current_state)
+
+def one_e_step(current_state, kernel_results):
+    next_state, next_kernel_results = hmc.one_step(
+        current_state=current_state,
+        previous_kernel_results=kernel_results)
+    return next_state, next_kernel_results
+
+optimizer=tf.optimizers.RMSprop(learning_rate=.01)
+
+def one_m_step(current_state):
+    with tf.GradientTape() as tape:
+        loss_value = -tf.reduce_mean(
+            target_log_prob_fn(*current_state))
+    gradients = tape.gradient(loss_value, grm.trainable_variables)
+    optimizer.apply_gradients(zip(gradients, grm.trainable_variables))
+    return loss_value
+
+import time
+num_warmup_start = 1
+num_warmup_iter = 1
+num_iters = 1
+num_accepted = 0
+loss_history = np.zeros([num_iters])
+tStart = time.time()
+# Run warm-up stage.
+for t in range(num_warmup_start):
+    current_state, kernel_results = one_e_step(
+        current_state, kernel_results)
+    num_accepted += kernel_results.is_accepted.numpy().prod()
+    if t % 500 == 0:
+        print("Warm-Up Iteration: {:>3} Acceptance Rate: {:.3f}".format(
+            t, num_accepted / (t + 1)))
+num_accepted = 0  # reset acceptance rate counter
+
+# Run training.
+for t in range(num_iters):
+    for _ in range(num_warmup_iter):
+        current_state, kernel_results = one_e_step(current_state, kernel_results)
+    loss_value = one_m_step(current_state)
+    num_accepted += kernel_results.is_accepted.numpy().prod()
+    loss_history[t] = loss_value.numpy()
+    if t % 50 == 0:
+        print("Iteration: {:>4} Acceptance Rate: {:.3f} Loss: {:.3f}".format(
+            t, num_accepted / (t + 1), loss_history[t]))
+tEnd = time.time()
+
+print(tEnd - tStart)
+print(np.around(grm.trainable_variables[0].numpy(), decimals=2))
+print(np.around(grm.trainable_variables[1].numpy(), decimals=2))
+
+
+
