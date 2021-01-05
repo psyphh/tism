@@ -421,11 +421,11 @@ weight [[-0.99697044]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 215 Iterations
-intercept 0.038359231456371566
-weight [[-0.99361795]
- [ 2.00713225]
- [-0.0315113 ]]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 226 Iterations
+intercept 0.018624852750212684
+weight [[-1.01441119]
+ [ 2.07139214]
+ [-0.02560208]]
 </pre></div>
 </div>
 </div>
@@ -488,9 +488,9 @@ weight [[-0.99361795]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;tf.Tensor: shape=(12,), dtype=float64, numpy=
-array([-0.00753584, -0.00187876, -0.00568033,  0.00640062, -0.02027605,
-        0.00150894,  0.0221699 ,  0.02965379,  0.01331654, -0.02272707,
-       -0.01132167, -0.02347031])&gt;
+array([-0.00297178,  0.0023064 , -0.00543589,  0.01030335,  0.01620562,
+        0.00354845,  0.0173241 ,  0.01119512,  0.00894522, -0.00163948,
+        0.01154066, -0.00952854])&gt;
 </pre></div>
 </div>
 </div>
@@ -552,23 +552,23 @@ array([-0.00753584, -0.00187876, -0.00568033,  0.00640062, -0.02027605,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 112 Iterations
-intercept [-0.00753584 -0.00187876 -0.00568033  0.00640062 -0.02027605  0.00150894
-  0.0221699   0.02965379  0.01331654 -0.02272707 -0.01132167 -0.02347031]
-loading [[ 0.31055331  0.61526413 -0.13135377  0.06137542]
- [ 0.33408213  0.61058939 -0.11385572  0.07724464]
- [ 0.31761933  0.60357108 -0.11599456  0.05329567]
- [ 0.12770225 -0.13202705 -0.16211331  0.66349195]
- [ 0.11347517 -0.14448353 -0.16478664  0.64915067]
- [ 0.1132218  -0.13675867 -0.16407347  0.64705477]
- [ 0.24230104 -0.0420092   0.65659548  0.10148097]
- [ 0.25207928 -0.02581754  0.64480493  0.11331565]
- [ 0.25448579 -0.03213921  0.64685363  0.10958368]
- [-0.57544496  0.30693552  0.19453592  0.20522389]
- [-0.5692919   0.31433119  0.19352999  0.20114726]
- [-0.5487563   0.30090974  0.17519249  0.20209436]]
-uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
- 0.49749027 0.49267242 0.51261474 0.4969636  0.50349664 0.5473236 ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 94 Iterations
+intercept [-0.00297178  0.0023064  -0.00543589  0.01030335  0.01620562  0.00354845
+  0.0173241   0.01119512  0.00894522 -0.00163948  0.01154066 -0.00952854]
+loading [[ 0.32201697  0.01642084 -0.04100319  0.63066625]
+ [ 0.32674537  0.017146   -0.02945871  0.59252605]
+ [ 0.31397258  0.01467024 -0.02726598  0.60138549]
+ [-0.35925704 -0.16868686  0.54328278  0.23228625]
+ [-0.36713426 -0.14299242  0.53827701  0.23144005]
+ [-0.36943135 -0.15992695  0.55381386  0.21350927]
+ [ 0.49919328 -0.01116984  0.41326406 -0.24805683]
+ [ 0.50933655 -0.01500938  0.42080456 -0.26146489]
+ [ 0.48115747 -0.01353824  0.4401694  -0.257501  ]
+ [-0.07177533  0.68385012  0.12889856  0.04274879]
+ [-0.0726081   0.67029127  0.12940358  0.03346163]
+ [-0.06331207  0.69502703  0.13793051  0.04287903]]
+uniqueness [0.49196496 0.51461259 0.52890638 0.51286385 0.51396283 0.51203993
+ 0.52058576 0.50785139 0.51175418 0.505354   0.54437636 0.51580434]
 </pre></div>
 </div>
 </div>
@@ -726,10 +726,10 @@ uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Warm-Up Iteration:   0 Acceptance Rate: 1.000
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Warm-Up Iteration:   0 Acceptance Rate: 0.000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 28.280
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 28.959
 </pre></div>
 </div>
 </div>
@@ -743,36 +743,57 @@ uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>2.686702251434326
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>2.3993680477142334
 [0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03
  0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03]
-[[ 0.1   0.38  0.71  0.34  0.82]
- [ 0.6   0.18  0.33  0.78  0.04]
- [ 0.63  0.63  0.13  0.31  0.71]
- [ 0.24  0.46  0.32  0.33  0.52]
- [ 0.69  0.04  0.41  0.66  0.05]
- [ 0.36  0.24  0.09  0.29  0.88]
- [ 0.83  0.44  0.64  0.25  0.43]
- [ 0.69  0.5   0.49  0.26  0.28]
- [ 0.37  0.11  0.21  0.66  0.78]
- [ 0.63  0.24  0.7   0.84  0.14]
- [ 0.83  0.76  0.65  0.07  0.6 ]
- [ 0.71  0.78  0.15  0.85  0.88]
- [ 0.04  0.11  0.05  0.72  0.88]
- [ 0.11  0.44  0.24  0.46  0.41]
- [ 0.09  0.28  0.8   0.88  0.92]
- [ 0.13  0.87  0.79  0.06  0.03]
- [ 0.22  0.97  0.92  0.3   0.15]
- [ 0.3   0.4   0.27  0.71  0.56]
- [ 0.05  0.26  0.07  0.65  0.05]
- [ 0.65  0.4   0.42 -0.01  0.23]
- [ 0.78  0.29  0.47  0.64  0.62]
- [ 0.06  0.58  0.7   0.21  0.1 ]
- [ 0.13  0.52  0.03 -0.02  0.72]
- [ 0.94  0.63  0.16  0.09  0.95]
- [ 0.04  0.47  0.62  0.66  0.13]]
+[[ 0.88  0.92  0.64  0.26  0.06]
+ [ 0.1   0.46  0.04  0.45  0.7 ]
+ [ 0.15  0.53  0.61  0.22  0.18]
+ [ 0.01  0.33  0.41  0.74  0.78]
+ [ 0.64  0.68  0.04  0.21  0.14]
+ [-0.01 -0.    0.38  0.68  0.18]
+ [ 0.79  0.65  0.72  0.31  0.39]
+ [ 0.5   0.32  0.61  0.54  0.84]
+ [ 0.78  0.19  0.02  0.53  0.64]
+ [ 0.72  0.58  0.49  0.96  0.28]
+ [ 0.81  0.16  0.62  0.61  0.95]
+ [ 0.33  0.61  0.67  0.89  0.24]
+ [ 0.73  0.16  0.18  0.64 -0.02]
+ [ 0.74  0.84  0.09  0.96  0.91]
+ [ 0.65  0.04  0.32  0.95  0.74]
+ [ 0.58  0.25  0.48  0.81  0.46]
+ [ 0.54  0.65  0.92 -0.   -0.01]
+ [ 0.38  0.47  0.89  0.26  0.2 ]
+ [ 0.76  0.82  0.24  0.68  0.24]
+ [ 0.02  0.78  0.87  0.39  0.06]
+ [ 0.63  0.05  0.42  0.36  0.3 ]
+ [ 0.84  0.59  0.11  0.03  0.45]
+ [ 0.84  0.57  0.96  0.23  0.04]
+ [ 0.15  0.21  0.37  0.89  0.92]
+ [ 0.92  0.74  0.35  0.55  0.5 ]]
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">loss_history</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span><span class="n">loss_history</span> <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Loss Value&#39;</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gradient Descent History&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Text(0, 0.5, &#39;Loss Value&#39;),
+ Text(0.5, 0, &#39;epoch&#39;),
+ Text(0.5, 1.0, &#39;Gradient Descent History&#39;)]
+</pre></div>
+</div>
+<img alt="../_images/lab-tf-example_21_1.png" src="../_images/lab-tf-example_21_1.png" />
 </div>
 </div>
 </div>
@@ -966,9 +987,7 @@ uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Warm-Up Iteration:   0 Acceptance Rate: 1.000
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 29.825
+Iteration:    0 Acceptance Rate: 0.000 Loss: 27.297
 </pre></div>
 </div>
 </div>
@@ -978,46 +997,64 @@ uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tEnd</span> <span class="o">-</span> <span class="n">tStart</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
-
-
-
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.48525071144104004
-[[-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]
- [-0.62 -0.38]]
-[[0.76 0.92 0.11 0.27 0.08]
- [0.85 0.13 0.85 0.31 0.09]
- [0.26 0.39 0.24 0.64 0.07]
- [0.12 0.16 0.18 0.68 0.42]
- [0.33 0.01 0.72 0.43 0.46]
- [0.46 0.31 0.82 0.77 0.54]
- [0.31 0.67 0.37 0.55 0.67]
- [0.77 0.39 0.33 0.66 0.19]
- [0.37 0.35 0.77 0.52 0.83]
- [0.33 0.77 0.81 0.77 0.26]
- [0.22 0.67 0.55 0.53 0.85]
- [0.66 0.56 0.45 0.3  0.36]
- [0.24 0.52 0.11 0.78 0.59]
- [0.55 0.94 0.8  0.38 0.76]
- [0.84 0.95 0.4  0.38 0.42]]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.30606818199157715
+[[-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]
+ [-0.83 -0.21]]
+[[0.25 0.3  0.62 0.57 0.88]
+ [0.38 0.35 0.11 0.5  0.52]
+ [0.22 0.79 0.19 0.46 0.76]
+ [0.44 0.85 0.73 0.53 0.46]
+ [0.05 0.07 0.85 0.93 0.63]
+ [0.29 0.05 0.7  0.86 0.72]
+ [0.55 0.11 0.64 0.58 0.43]
+ [0.96 0.59 0.2  0.82 0.28]
+ [0.25 0.83 0.62 0.02 0.36]
+ [0.88 0.65 0.25 0.41 0.24]
+ [0.41 0.35 0.1  0.68 0.33]
+ [0.83 0.7  0.6  0.64 0.67]
+ [0.43 0.59 0.86 0.11 0.6 ]
+ [0.05 0.59 0.52 0.76 0.24]
+ [0.53 0.69 0.87 0.9  0.73]]
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">loss_history</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span><span class="n">loss_history</span> <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Loss Value&#39;</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gradient Descent History&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Text(0, 0.5, &#39;Loss Value&#39;),
+ Text(0.5, 0, &#39;epoch&#39;),
+ Text(0.5, 1.0, &#39;Gradient Descent History&#39;)]
+</pre></div>
+</div>
+<img alt="../_images/lab-tf-example_31_1.png" src="../_images/lab-tf-example_31_1.png" />
 </div>
 </div>
 </div>

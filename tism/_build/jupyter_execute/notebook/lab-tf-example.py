@@ -351,6 +351,14 @@ print(tEnd - tStart)
 print(np.around(two_pl_model.trainable_variables[0].numpy(), decimals=2))
 print(np.around(two_pl_model.trainable_variables[1].numpy(), decimals=2))
 
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+fig = plt.figure(figsize=(10, 5), dpi=200)
+ax = plt.axes()
+ax.plot(list(range(1, len(loss_history) + 1, 1)),loss_history )
+ax.set(xlabel='epoch', ylabel='Loss Value',
+       title='Gradient Descent History')
+
 ## Grade Response Model
 
 def create_cd(n_category, dtype):
@@ -510,4 +518,10 @@ print(np.around(grm.trainable_variables[0].numpy(), decimals=2))
 print(np.around(grm.trainable_variables[1].numpy(), decimals=2))
 
 
-
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+fig = plt.figure(figsize=(10, 5), dpi=200)
+ax = plt.axes()
+ax.plot(list(range(1, len(loss_history) + 1, 1)),loss_history )
+ax.set(xlabel='epoch', ylabel='Loss Value',
+       title='Gradient Descent History')
