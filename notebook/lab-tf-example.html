@@ -239,6 +239,11 @@
    12.4. Two-Parameter Logistic Model
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#grade-response-model">
+   12.5. Grade Response Model
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -416,11 +421,11 @@ weight [[-0.99697044]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 223 Iterations
-intercept 0.011936806177072327
-weight [[-1.00133317]
- [ 2.0589222 ]
- [-0.01941797]]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 215 Iterations
+intercept 0.038359231456371566
+weight [[-0.99361795]
+ [ 2.00713225]
+ [-0.0315113 ]]
 </pre></div>
 </div>
 </div>
@@ -483,9 +488,9 @@ weight [[-1.00133317]
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;tf.Tensor: shape=(12,), dtype=float64, numpy=
-array([ 0.00343511,  0.0166835 ,  0.00284154, -0.01364124, -0.00726106,
-       -0.00469717, -0.00541921, -0.00322062, -0.01027134,  0.00633108,
-       -0.0056489 ,  0.00152787])&gt;
+array([-0.00753584, -0.00187876, -0.00568033,  0.00640062, -0.02027605,
+        0.00150894,  0.0221699 ,  0.02965379,  0.01331654, -0.02272707,
+       -0.01132167, -0.02347031])&gt;
 </pre></div>
 </div>
 </div>
@@ -547,23 +552,23 @@ array([ 0.00343511,  0.0166835 ,  0.00284154, -0.01364124, -0.00726106,
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 87 Iterations
-intercept [ 0.00343511  0.0166835   0.00284154 -0.01364124 -0.00726106 -0.00469717
- -0.00541921 -0.00322062 -0.01027134  0.00633108 -0.0056489   0.00152787]
-loading [[-0.3163115   0.24608562  0.57006433  0.11838843]
- [-0.30609838  0.25914996  0.5704158   0.10445836]
- [-0.30637316  0.25353794  0.56839974  0.10321714]
- [-0.00376105  0.43304882 -0.27491284  0.49293747]
- [-0.02158875  0.43540135 -0.27077229  0.50221957]
- [-0.01878338  0.41350519 -0.2821826   0.48072824]
- [ 0.5596768  -0.13087792  0.28152635  0.31084393]
- [ 0.5561231  -0.1247309   0.2942011   0.28848283]
- [ 0.55705324 -0.10635318  0.29155856  0.28075088]
- [ 0.30831429  0.47959949  0.01832773 -0.40595923]
- [ 0.30386881  0.48241347  0.00285826 -0.40398778]
- [ 0.29840084  0.49477727  0.00367119 -0.39599352]]
-uniqueness [0.48861319 0.49787007 0.5024369  0.51395688 0.49177801 0.50958583
- 0.49657012 0.50390343 0.51764367 0.51560176 0.52277458 0.4906166 ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SGD Optimizer Converges After 112 Iterations
+intercept [-0.00753584 -0.00187876 -0.00568033  0.00640062 -0.02027605  0.00150894
+  0.0221699   0.02965379  0.01331654 -0.02272707 -0.01132167 -0.02347031]
+loading [[ 0.31055331  0.61526413 -0.13135377  0.06137542]
+ [ 0.33408213  0.61058939 -0.11385572  0.07724464]
+ [ 0.31761933  0.60357108 -0.11599456  0.05329567]
+ [ 0.12770225 -0.13202705 -0.16211331  0.66349195]
+ [ 0.11347517 -0.14448353 -0.16478664  0.64915067]
+ [ 0.1132218  -0.13675867 -0.16407347  0.64705477]
+ [ 0.24230104 -0.0420092   0.65659548  0.10148097]
+ [ 0.25207928 -0.02581754  0.64480493  0.11331565]
+ [ 0.25448579 -0.03213921  0.64685363  0.10958368]
+ [-0.57544496  0.30693552  0.19453592  0.20522389]
+ [-0.5692919   0.31433119  0.19352999  0.20114726]
+ [-0.5487563   0.30090974  0.17519249  0.20209436]]
+uniqueness [0.50749634 0.48467768 0.52422564 0.50956861 0.50447733 0.53200612
+ 0.49749027 0.49267242 0.51261474 0.4969636  0.50349664 0.5473236 ]
 </pre></div>
 </div>
 </div>
@@ -724,7 +729,7 @@ uniqueness [0.48861319 0.49787007 0.5024369  0.51395688 0.49177801 0.50958583
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Warm-Up Iteration:   0 Acceptance Rate: 1.000
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 29.043
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 28.280
 </pre></div>
 </div>
 </div>
@@ -738,34 +743,279 @@ uniqueness [0.48861319 0.49787007 0.5024369  0.51395688 0.49177801 0.50958583
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>2.245245933532715
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>2.686702251434326
 [0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03
  0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03 0.03]
-[[ 0.48  0.48  0.83  0.12  0.37]
- [ 0.03  0.37  0.32  0.49  0.51]
- [ 0.73  0.2   0.58  0.11  0.78]
- [ 0.79  0.57  0.1   0.04  0.23]
- [ 0.91  0.62  0.19  0.71  0.09]
- [ 0.34  0.59  0.87  0.29  0.75]
- [ 0.8   0.94  0.53  0.43  0.86]
- [ 0.16  0.3   0.55  0.88  0.9 ]
- [ 0.47  0.47  0.72  0.83  0.84]
- [ 0.63  0.15  0.49  0.82  0.35]
- [ 0.34  0.65  0.84  0.57  0.86]
- [ 0.94  0.36  0.82  0.27  0.61]
- [ 0.77  0.69  0.46  0.05  0.2 ]
- [ 0.84  0.34  0.38  0.66  0.41]
- [ 0.35  0.31  0.47  0.44  0.63]
- [ 0.53  0.19  0.63  0.05  0.54]
- [ 0.79  0.64  0.91  0.47  0.84]
- [ 0.05  0.6   0.15  0.12  0.72]
- [ 0.21  0.87  0.44  0.15  0.5 ]
- [ 0.17 -0.01  0.44  0.5   0.49]
- [ 0.25  0.65  0.6   0.43  0.89]
- [ 0.31  0.81  0.85  0.03  0.85]
- [ 0.8   0.05  0.96  0.49 -0.  ]
- [ 0.22  0.48  0.27  0.41  0.61]
- [ 0.69  0.45  0.94  0.73  0.24]]
+[[ 0.1   0.38  0.71  0.34  0.82]
+ [ 0.6   0.18  0.33  0.78  0.04]
+ [ 0.63  0.63  0.13  0.31  0.71]
+ [ 0.24  0.46  0.32  0.33  0.52]
+ [ 0.69  0.04  0.41  0.66  0.05]
+ [ 0.36  0.24  0.09  0.29  0.88]
+ [ 0.83  0.44  0.64  0.25  0.43]
+ [ 0.69  0.5   0.49  0.26  0.28]
+ [ 0.37  0.11  0.21  0.66  0.78]
+ [ 0.63  0.24  0.7   0.84  0.14]
+ [ 0.83  0.76  0.65  0.07  0.6 ]
+ [ 0.71  0.78  0.15  0.85  0.88]
+ [ 0.04  0.11  0.05  0.72  0.88]
+ [ 0.11  0.44  0.24  0.46  0.41]
+ [ 0.09  0.28  0.8   0.88  0.92]
+ [ 0.13  0.87  0.79  0.06  0.03]
+ [ 0.22  0.97  0.92  0.3   0.15]
+ [ 0.3   0.4   0.27  0.71  0.56]
+ [ 0.05  0.26  0.07  0.65  0.05]
+ [ 0.65  0.4   0.42 -0.01  0.23]
+ [ 0.78  0.29  0.47  0.64  0.62]
+ [ 0.06  0.58  0.7   0.21  0.1 ]
+ [ 0.13  0.52  0.03 -0.02  0.72]
+ [ 0.94  0.63  0.16  0.09  0.95]
+ [ 0.04  0.47  0.62  0.66  0.13]]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="grade-response-model">
+<h2><span class="section-number">12.5. </span>Grade Response Model<a class="headerlink" href="#grade-response-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_cd</span><span class="p">(</span><span class="n">n_category</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)),</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span> <span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="o">=</span> <span class="n">n_category</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)),</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span> <span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="o">=</span> <span class="n">n_category</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">c2</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">),</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_rows</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_cols</span><span class="o">=</span> <span class="n">n_category</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span>
+
+<span class="k">def</span> <span class="nf">grm_irf</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">loading</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">eta</span> <span class="o">@</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">loading</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">@</span> <span class="n">c</span> <span class="o">+</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">probs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">generate_grm_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">,</span> <span class="n">n_item</span><span class="p">,</span>
+                      <span class="n">nu</span><span class="p">,</span> <span class="n">ld</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span>
+                      <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">%</span> <span class="n">n_factor</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n_item</span> <span class="o">=</span> <span class="n">n_factor</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
+    <span class="n">item_per_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_item</span> <span class="o">//</span> <span class="n">n_factor</span><span class="p">)</span>
+    <span class="n">n_category</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nu</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="n">nu</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">),</span>
+                        <span class="n">multiples</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_item</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">loading</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_item</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_factor</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">,</span>
+                       <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">item_per_factor</span><span class="p">):</span>
+            <span class="n">loading</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ld</span>
+    <span class="n">loading</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">loading</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rho</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cor</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_factor</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_factor</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="n">cor</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="n">unit</span> <span class="o">@</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">identity</span>
+    <span class="n">dist_eta</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">MultivariateNormalTriL</span><span class="p">(</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_factor</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">),</span>
+        <span class="n">scale_tril</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cor</span><span class="p">))</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">dist_eta</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_sample</span><span class="p">)</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">create_cd</span><span class="p">(</span><span class="n">n_category</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">grm_irf</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">loading</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_sample</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">n_factor</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">n_item</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">n_category</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">nu</span> <span class="o">=</span> <span class="p">[</span><span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">ld</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">generate_grm_data</span><span class="p">(</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">,</span> <span class="n">n_item</span><span class="p">,</span>
+                      <span class="n">nu</span><span class="p">,</span> <span class="n">ld</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GRM</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_item</span><span class="p">,</span>
+                 <span class="n">n_factor</span><span class="p">,</span> <span class="n">n_category</span><span class="p">,</span>
+                 <span class="n">dtype</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_item</span> <span class="o">=</span> <span class="n">n_item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_factor</span> <span class="o">=</span> <span class="n">n_factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_category</span> <span class="o">=</span> <span class="n">n_category</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_category</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                  <span class="n">minval</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxval</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)),</span> <span class="n">multiples</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">n_item</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;intercept&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loading</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_factor</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;loading&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">n_sample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">create_cd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_category</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">joint_prob</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">JointDistributionSequential</span><span class="p">([</span>
+            <span class="n">tfd</span><span class="o">.</span><span class="n">Independent</span><span class="p">(</span>
+                <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
+                    <span class="n">loc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_sample</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+                    <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">),</span>
+                <span class="n">reinterpreted_batch_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="k">lambda</span> <span class="n">eta</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Independent</span><span class="p">(</span>
+                <span class="n">tfd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+                    <span class="n">probs</span> <span class="o">=</span> <span class="n">grm_irf</span><span class="p">(</span><span class="n">eta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loading</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">),</span>
+                        <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+                <span class="n">reinterpreted_batch_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
+        <span class="n">joint_prob</span><span class="o">.</span><span class="n">_to_track</span><span class="o">=</span><span class="bp">self</span>
+        <span class="k">return</span> <span class="n">joint_prob</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grm</span> <span class="o">=</span> <span class="n">GRM</span><span class="p">(</span><span class="n">n_item</span><span class="p">,</span> <span class="n">n_factor</span><span class="p">,</span> <span class="n">n_category</span><span class="p">)</span>
+<span class="n">joint_prob</span> <span class="o">=</span> <span class="n">grm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_log_prob_fn</span><span class="p">(</span><span class="o">*</span><span class="n">eta</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">joint_prob</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">eta</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+
+<span class="n">hmc</span><span class="o">=</span><span class="n">tfp</span><span class="o">.</span><span class="n">mcmc</span><span class="o">.</span><span class="n">HamiltonianMonteCarlo</span><span class="p">(</span>
+    <span class="n">target_log_prob_fn</span> <span class="o">=</span> <span class="n">target_log_prob_fn</span><span class="p">,</span>
+    <span class="n">step_size</span> <span class="o">=</span> <span class="o">.</span><span class="mi">015</span><span class="p">,</span>
+    <span class="n">num_leapfrog_steps</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">current_state</span> <span class="o">=</span> <span class="n">joint_prob</span><span class="o">.</span><span class="n">sample</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">kernel_results</span> <span class="o">=</span> <span class="n">hmc</span><span class="o">.</span><span class="n">bootstrap_results</span><span class="p">(</span><span class="n">current_state</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">one_e_step</span><span class="p">(</span><span class="n">current_state</span><span class="p">,</span> <span class="n">kernel_results</span><span class="p">):</span>
+    <span class="n">next_state</span><span class="p">,</span> <span class="n">next_kernel_results</span> <span class="o">=</span> <span class="n">hmc</span><span class="o">.</span><span class="n">one_step</span><span class="p">(</span>
+        <span class="n">current_state</span><span class="o">=</span><span class="n">current_state</span><span class="p">,</span>
+        <span class="n">previous_kernel_results</span><span class="o">=</span><span class="n">kernel_results</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">next_kernel_results</span>
+
+<span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=.</span><span class="mi">01</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">one_m_step</span><span class="p">(</span><span class="n">current_state</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="n">loss_value</span> <span class="o">=</span> <span class="o">-</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+            <span class="n">target_log_prob_fn</span><span class="p">(</span><span class="o">*</span><span class="n">current_state</span><span class="p">))</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss_value</span><span class="p">,</span> <span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">loss_value</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">num_warmup_start</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_warmup_iter</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_iters</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_accepted</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">loss_history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">num_iters</span><span class="p">])</span>
+<span class="n">tStart</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c1"># Run warm-up stage.</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_warmup_start</span><span class="p">):</span>
+    <span class="n">current_state</span><span class="p">,</span> <span class="n">kernel_results</span> <span class="o">=</span> <span class="n">one_e_step</span><span class="p">(</span>
+        <span class="n">current_state</span><span class="p">,</span> <span class="n">kernel_results</span><span class="p">)</span>
+    <span class="n">num_accepted</span> <span class="o">+=</span> <span class="n">kernel_results</span><span class="o">.</span><span class="n">is_accepted</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warm-Up Iteration: </span><span class="si">{:&gt;3}</span><span class="s2"> Acceptance Rate: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">t</span><span class="p">,</span> <span class="n">num_accepted</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">num_accepted</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># reset acceptance rate counter</span>
+
+<span class="c1"># Run training.</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iters</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_warmup_iter</span><span class="p">):</span>
+        <span class="n">current_state</span><span class="p">,</span> <span class="n">kernel_results</span> <span class="o">=</span> <span class="n">one_e_step</span><span class="p">(</span><span class="n">current_state</span><span class="p">,</span> <span class="n">kernel_results</span><span class="p">)</span>
+    <span class="n">loss_value</span> <span class="o">=</span> <span class="n">one_m_step</span><span class="p">(</span><span class="n">current_state</span><span class="p">)</span>
+    <span class="n">num_accepted</span> <span class="o">+=</span> <span class="n">kernel_results</span><span class="o">.</span><span class="n">is_accepted</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+    <span class="n">loss_history</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_value</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iteration: </span><span class="si">{:&gt;4}</span><span class="s2"> Acceptance Rate: </span><span class="si">{:.3f}</span><span class="s2"> Loss: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">t</span><span class="p">,</span> <span class="n">num_accepted</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loss_history</span><span class="p">[</span><span class="n">t</span><span class="p">]))</span>
+<span class="n">tEnd</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Warm-Up Iteration:   0 Acceptance Rate: 1.000
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Iteration:    0 Acceptance Rate: 1.000 Loss: 29.825
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tEnd</span> <span class="o">-</span> <span class="n">tStart</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">grm</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+
+
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.48525071144104004
+[[-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]
+ [-0.62 -0.38]]
+[[0.76 0.92 0.11 0.27 0.08]
+ [0.85 0.13 0.85 0.31 0.09]
+ [0.26 0.39 0.24 0.64 0.07]
+ [0.12 0.16 0.18 0.68 0.42]
+ [0.33 0.01 0.72 0.43 0.46]
+ [0.46 0.31 0.82 0.77 0.54]
+ [0.31 0.67 0.37 0.55 0.67]
+ [0.77 0.39 0.33 0.66 0.19]
+ [0.37 0.35 0.77 0.52 0.83]
+ [0.33 0.77 0.81 0.77 0.26]
+ [0.22 0.67 0.55 0.53 0.85]
+ [0.66 0.56 0.45 0.3  0.36]
+ [0.24 0.52 0.11 0.78 0.59]
+ [0.55 0.94 0.8  0.38 0.76]
+ [0.84 0.95 0.4  0.38 0.42]]
 </pre></div>
 </div>
 </div>
